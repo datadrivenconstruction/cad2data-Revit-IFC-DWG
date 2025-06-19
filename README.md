@@ -19,10 +19,12 @@ Supports the following formats:
 - AutoCAD (`.dwg`)
 - MicroStation (`.dgn`)
 
-- 🧾 Exports full metadata to `.xlsx`
-- 🧱 Exports polygonal geometry from Revit and IFC to `.dae` (Collada) 
-- 🖥️ Works offline — no Autodesk® license or API needed
-- 🧩 Easily extendable with Python or AI post-processing
+- 🧾 Exports full metadata to `.xlsx` (as a matrix - project elements in the rows, all properties of all elements in the columns)
+- 🧱 Exports polygonal geometry from Revit and IFC into an open geometric format `.dae` (Collada) 
+- 🖥️ Works offline — no Autodesk® license, no API, no plugins needed
+- 🧩 Easily extendable with Python or AI post-processing 
+(see Pipeline with LLM [CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT]([https://n8n.io](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM))
+
 
 ---
 
@@ -32,9 +34,13 @@ Supports the following formats:
 
 Make sure you have **Node.js** installed ([Download](https://nodejs.org/en/download)):
 
-```bash (cmd)
+```bash & cmd
 npx install -g n8n
 n8n start
+```
+or
+``` bash & cmd
+npx n8n
 ```
 
 Or use the desktop version from: [n8n.io/download](https://n8n.io/download)
@@ -43,12 +49,12 @@ Or use the desktop version from: [n8n.io/download](https://n8n.io/download)
 
 ### 2. Download Converters
 
-| Format     | Converter         | Download |
-|------------|-------------------|----------|
-| Revit      | `RvtExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| IFC        | `IfcExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| AutoCAD DWG| `DwgExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| DGN        | `DgnExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
+| Format                | Converter         | Download |
+|-----------------------|-------------------|----------|
+| Revit (.rvt)          | `RvtExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
+| IFC                   | `IfcExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
+| AutoCAD (.dwg)        | `DwgExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
+| MicroStation (.dgn)   | `DgnExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
 
 
 ---
@@ -101,8 +107,8 @@ source_file:       C:\Projects\Bridge.dgn
 
 ## 📄 Output
 
-- `MyModel.xlsx` — full metadata (element IDs, parameters, categories)
-- `MyModel.dae` — polygonal geometry for viewing or reuse (for Revit (.rvt) and IFC)
+- `MyModel.xlsx` — full metadata (element IDs, parameters, categories as a matrix - project elements in the rows, all properties of all elements in the columns))
+- `MyModel.dae` — polygonal geometry of each element with a unique native ID that was used in the CAD (BIM) project  for viewing or reuse (for Revit (.rvt) and IFC)
 
 ---
 
@@ -111,8 +117,6 @@ source_file:       C:\Projects\Bridge.dgn
 - [`n8n`](https://n8n.io)
 - [`DataDrivenConstruction.io`](https://datadrivenconstruction.io)
 - Offline `.exe` converter (no Autodesk® tools)
-
----
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
