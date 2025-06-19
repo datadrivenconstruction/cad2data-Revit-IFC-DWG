@@ -49,6 +49,8 @@ Or use the desktop version from: [n8n.io/download](https://n8n.io/download)
 
 ### 2. Download Converters
 
+Either use the converters that are in the repository or download the always fresh ones directly from the site
+
 | Format                | Converter         | Download |
 |-----------------------|-------------------|----------|
 | Revit (.rvt)          | `RvtExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
