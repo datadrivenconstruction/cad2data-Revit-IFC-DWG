@@ -76,9 +76,9 @@ Example for Revit:
 
 ```mermaid
 graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Set Paths]
-    B --> C[🧰 Execute Revit Converter]
-    C --> D[📂 Output XLSX + DAE files]
+    A[🟢 Manual Trigger] --> B[🛠 Set Paths for converter and project]
+    B --> C[🧰 Execute Pipeline]
+    C --> D[📂 Output XLSX + DAE files (only for Revit and IFC projects]
 ```
 
 ---
