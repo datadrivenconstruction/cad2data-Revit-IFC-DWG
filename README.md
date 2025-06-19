@@ -102,7 +102,7 @@ source_file:       C:\Projects\Bridge.dgn
 ## 📄 Output
 
 - `MyModel.xlsx` — full metadata (element IDs, parameters, categories)
-- `MyModel.dae` — polygonal geometry for viewing or reuse
+- `MyModel.dae` — polygonal geometry for viewing or reuse (for Revit (.rvt) and IFC)
 
 ---
 
