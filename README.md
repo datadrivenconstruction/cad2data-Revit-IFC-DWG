@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.png" alt="DDC Logo" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-2.png" alt="DDC Logo" width="100%"/>
 </p>
 
 # 🔁 Revit (.rvt), AutoCAD (.dwg), IFC and MicroStation (.dgn) to Excel + Geometry Converter (n8n Minimal Pipeline)
