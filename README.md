@@ -63,7 +63,7 @@ Either use the converters that are in the repository or download the always fres
 
 ## ⚙️ Quick Setup
 
-1. [⬇ Download workflow JSON](./Revit_Conversation_with_n8n_simple_with_comments.json)
+1. [⬇ Download workflow JSON](./n8n_Revit_IFC_DWG_Conversation_simple.json)
 
 2. Open **n8n**, click **Import from file**, and select the JSON above.
 
@@ -108,7 +108,7 @@ source_file:       C:\Projects\Bridge.dgn
 
 For advanced users who want **full control over export settings**, use the extended pipeline:
 
-👉 [All_Settings_Revit_Conversation_with_n8n_simple.json](./All_Settings_Revit_Conversation_with_n8n_simple.json)
+👉 [All_Settings_Revit_Conversation_with_n8n_simple.json](./n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json)
 
 This version includes detailed options inside the **Set** node:
 - `Export mode`: choose between `basic`, `standard`, or `complete`
