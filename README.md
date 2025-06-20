@@ -104,6 +104,24 @@ path_to_converter: C:\Converters\DgnExporter.exe
 source_file:       C:\Projects\Bridge.dgn
 ```
 
+## 🧰 Advanced Revit Conversion Pipeline
+
+For advanced users who want **full control over export settings**, use the extended pipeline:
+
+👉 [All_Settings_Revit_Conversation_with_n8n_simple.json](./All_Settings_Revit_Conversation_with_n8n_simple.json)
+
+This version includes detailed options inside the **Set** node:
+- `Export mode`: choose between `basic`, `standard`, or `complete`
+- Add BoundingBox geometry with `bbox`
+- Export Revit schedules with `schedule`
+- Export all sheets to PDF with `sheets2pdf`
+- Disable `.xlsx` or `.dae` output with `-no-xlsx` or `-no-collada`
+
+🔧 This pipeline gives you full flexibility to tailor exports to your needs.
+
+
+
+
 ---
 
 ## 📄 Output
