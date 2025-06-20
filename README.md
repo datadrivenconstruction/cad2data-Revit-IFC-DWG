@@ -124,13 +124,6 @@ This version includes detailed options inside the **Set** node:
 
 ---
 
-## 📄 Output
-
-- `MyModel.xlsx` — full metadata (element IDs, parameters, categories as a matrix - project elements in the rows, all properties of all elements in the columns))
-- `MyModel.dae` — polygonal geometry of each element with a unique native ID that was used in the CAD (BIM) project  for viewing or reuse (for Revit (.rvt) and IFC)
-
----
-
 
 ## 🤖 Looking for More Automation?
 
