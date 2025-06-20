@@ -131,6 +131,27 @@ This version includes detailed options inside the **Set** node:
 
 ---
 
+
+## 🤖 Looking for More Automation?
+
+If you need **more advanced processing**, such as:
+
+- 🔍 Attribute filtering and classification  
+- 🧠 AI-powered decision-making (e.g. Excel + ChatGPT logic)  
+- 📚 Custom rules and automation for specific element types  
+- 🛠️ Integration with other project data sources  
+
+Check out the full-featured LLM-powered pipeline:
+
+👉 [**CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT**](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)
+
+This version includes prebuilt AI post-processing nodes, classification logic, and examples for automating **element matching**, **naming cleanup**, and **code generation** for construction projects.
+
+No Autodesk® API or cloud dependency — just Python, n8n and local tools 🖥️.
+
+
+---
+
 ## 🧠 Powered by
 
 - [`n8n`](https://n8n.io)
