@@ -1,0 +1,106 @@
+{
+  "name": "Revit_Conversation_with_n8n_simple",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        840,
+        -400
+      ],
+      "id": "b558adfd-ddc1-4c68-b4d0-0d2c37742fb8",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "executeOnce": "=",
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        -400
+      ],
+      "id": "044591de-4e2a-4928-9d43-1b9410102950",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_revit_converter",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "revit_file",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        -400
+      ],
+      "id": "19e70242-b7bd-4cdc-a755-689a6752110e",
+      "name": "Set"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "79c4670d-7c5c-4a3d-8602-1b5673c97cd6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+  },
+  "id": "eVNIDONEUR6DIZRP",
+  "tags": []
+}
