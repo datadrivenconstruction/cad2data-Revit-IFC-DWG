@@ -1,0 +1,137 @@
+{
+  "name": "All_Settings_Revit_Conversation_with_n8n_simple",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        520,
+        20
+      ],
+      "id": "bcee7236-4936-4882-a70a-4626332ab8eb",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "executeOnce": "=",
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\" {{ $json['(optional) Export mode (basic, standard, complete, custom) '] }} {{ $json['(optional) Add the BoundingBox geometry of each element in XLSX '] }} {{ $json['(optional) Export all Schedules '] }} {{ $json['(optional) Export all Sheets to PDF'] }} {{ $json['(optional) Disable export to ']['xlsx format'] }} {{ $json['(optional) Disable export to ']['dae format '] }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        900,
+        20
+      ],
+      "id": "5e63b020-1717-49c9-9e2a-9ff40716e29b",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_revit_converter",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "revit_file",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            },
+            {
+              "id": "c3939399-e855-44a7-bb47-83dbb1e85e4f",
+              "name": "(optional) Export mode (basic, standard, complete, custom) ",
+              "value": "basic",
+              "type": "string"
+            },
+            {
+              "id": "748a7f80-f0cb-4147-bb22-6f88818c5a63",
+              "name": "(optional) Add the BoundingBox geometry of each element in XLSX ",
+              "value": "bbox",
+              "type": "string"
+            },
+            {
+              "id": "75f4016f-f04e-48ae-aae6-c231a5cc69aa",
+              "name": "(optional) Export all Schedules ",
+              "value": "schedule",
+              "type": "string"
+            },
+            {
+              "id": "bfbbccdb-e781-47fd-8e84-107f1ef57460",
+              "name": "(optional) Export all Sheets to PDF",
+              "value": "sheets2pdf",
+              "type": "string"
+            },
+            {
+              "id": "acc49689-ab70-4620-87ca-309ed90c0acd",
+              "name": "(optional) Disable export to .xlsx format",
+              "value": "-no-xlsx",
+              "type": "string"
+            },
+            {
+              "id": "bcbb4a29-c290-4ca4-b71b-1df755a14458",
+              "name": "(optional) Disable export to .dae format ",
+              "value": "-no-collada",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        20
+      ],
+      "id": "4647d5c0-9118-4550-9e73-f1399a5d5f58",
+      "name": "Set the conversion variables"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set the conversion variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set the conversion variables": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bb4dae28-9927-4c79-b55a-8bc794336fd3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+  },
+  "id": "eVNIDONEUR6DIZRP",
+  "tags": []
+}
