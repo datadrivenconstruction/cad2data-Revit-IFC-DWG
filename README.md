@@ -177,7 +177,7 @@ graph TD;
 
 For AI-powered processing and advanced automation:
 
-👉 **[Full LLM Pipeline](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
+🤖 **[Full LLM Pipeline](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
 
 Features ChatGPT integration, element classification, and code generation.
 
@@ -190,6 +190,7 @@ We welcome contributions! Please feel free to:
 - 💡 Suggest features
 - 🔧 Submit pull requests
 - 📖 Improve documentation
+
 
 ## Support
 
@@ -212,8 +213,13 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
 ---
 
 <p align="center">
-  <b>Transform your CAD/BIM data workflow today!</b><br>
+  <b>Unlock the Power <br />of Data in Construction</b>
+    <br><br>
   <a href="https://datadrivenconstruction.io">
     <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
   </a>
+  <br>
+  🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
+
+    <br><br>
 </p>
