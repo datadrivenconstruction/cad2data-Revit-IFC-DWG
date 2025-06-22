@@ -71,7 +71,7 @@ graph TD;
     C --> D[📂 Output XLSX + DAE files. Geometry only for Revit and IFC projects]
 ```
 
-## 🎨 Available Workflows
+## ⚡️ Available Workflows
 
 ### 1. Basic Conversion
 **File**: `n8n_Revit_IFC_DWG_Conversation_simple.json`
@@ -85,6 +85,10 @@ graph TD;
 
 - Simple file conversion to Excel + geometry
 - Minimal configuration required
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-2-1.png" alt="QTO Report Sample" width="100%"/>
+</p>
 
 ### 2. Advanced Settings
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
@@ -128,10 +132,8 @@ graph TD;
 - Professional HTML reports
 - Volume calculations by wall type
 
-## 📈 Sample Output
-
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.png" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
 **Generated Reports Include:**
@@ -162,19 +164,7 @@ For AI-powered processing and advanced automation:
 
 Features ChatGPT integration, element classification, and code generation.
 
-## 📁 Repository Structure
 
-```
-├── workflows/
-│   ├── n8n_Revit_IFC_DWG_Conversation_simple.json
-│   ├── n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json
-│   └── n8n_Wall_QTO_Pipeline.json
-├── converters/
-│   └── [Download from cadbimconverter.com]
-├── examples/
-│   └── sample_outputs/
-└── README.md
-```
 
 ## 🤝 Contributing
 
@@ -188,7 +178,8 @@ We welcome contributions! Please feel free to:
 
 - 🌐 **Website**: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
 - 💬 **Issues**: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
-- 📧 **Email**: Contact through website
+- 📧 **Email**: info@datadrivenconstruction.io
+- 
 
 ## 📄 License
 
