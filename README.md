@@ -62,14 +62,6 @@ path_to_converter: "C:\\Converters\\RvtExporter.exe"
 source_file: "C:\\Projects\\Sample.rvt"
 ```
 
-## 🔁 Workflow Overview
-
-```mermaid
-graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Set variables]
-    B --> C[🧰 Execute Pipeline]
-    C --> D[📂 Output XLSX + DAE files. Geometry only for Revit and IFC projects]
-```
 
 ## ⚡️ Available Workflows
 
