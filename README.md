@@ -111,9 +111,9 @@ graph TD;
     C --> D[🧰 Execute Pipeline]
     D --> E{Export Options}
     E -->|Standard| F[📊 XLSX + DAE]
-    E -->|+BBox| G[📊 XLSX + DAE + BBox]
-    E -->|+Schedules| H[📊 XLSX + DAE + Schedules]
-    E -->|+PDF| I[📊 XLSX + DAE + PDF]
+    E -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
+    E -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
+    E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 
 - Full control over export parameters
