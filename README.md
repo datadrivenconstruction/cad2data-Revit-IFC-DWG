@@ -143,6 +143,12 @@ graph TD;
 - Professional HTML reports
 - Volume calculations by wall type
 
+**Generated Reports Include:**
+- 📊 Summary statistics (total elements, volumes, averages)
+- 📋 Detailed breakdown by element type
+- 🎨 Interactive HTML dashboard with progress bars
+- 📱 Responsive design for all devices
+
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Setup File Paths]
@@ -165,11 +171,6 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
-**Generated Reports Include:**
-- 📊 Summary statistics (total elements, volumes, averages)
-- 📋 Detailed breakdown by element type
-- 🎨 Interactive HTML dashboard with progress bars
-- 📱 Responsive design for all devices
 
 
 
