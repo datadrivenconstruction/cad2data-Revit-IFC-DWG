@@ -1,0 +1,510 @@
+{
+  "name": "CAD-BIM Quantity TekeOff HTML Report Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        580
+      ],
+      "id": "fe089e9a-bb16-440b-900d-21c5cf782286",
+      "name": "Start - Click to begin"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_revit_converter",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "revit_file",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1580,
+        580
+      ],
+      "id": "e56f9ca7-214a-4c90-a6fa-657d6c875e26",
+      "name": "Setup - Define file paths"
+    },
+    {
+      "parameters": {
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        580
+      ],
+      "id": "5493ccd6-3126-4a7a-a2fa-ca286a69935b",
+      "name": "Extract - Run Revit converter",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $node[\"Extract - Run Revit converter\"].json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "433af16e-b5b4-4b02-989b-7c140afa52b7",
+      "name": "Check - Did extraction succeed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1180,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Setup - Define file paths\"].json[\"revit_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -980,
+        580
+      ],
+      "id": "de432702-44fb-4cf0-90f0-78fb50206721",
+      "name": "Success - Create Excel filename"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-message-id",
+              "name": "error_message",
+              "value": "=Extraction failed: {{ $node[\"Extract - Run Revit converter\"].json.error || \"Unknown error\" }}",
+              "type": "string"
+            },
+            {
+              "id": "error-code-id",
+              "name": "error_code",
+              "value": "={{ $node[\"Extract - Run Revit converter\"].json.code || -1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "419aaa9e-7edc-43b4-a666-2700de939884",
+      "name": "Error - Show what went wrong",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -980,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "id": "673bbba9-1537-4852-8d4e-b67c4991253c",
+      "name": "Extract - Read Excel file from disk",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        -780,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c4b05b5b-6d0b-4ab8-89fb-a54fe86899d9",
+      "name": "Extract - Parse Excel to data",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[\"Category : String\"] }}",
+              "value2": "OST_Walls"
+            }
+          ]
+        }
+      },
+      "id": "5d2bdce5-75d2-40a2-b10b-fd443a982118",
+      "name": "Transform - Filter only OST_Walls",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "wall-type-name",
+              "name": "type_name",
+              "value": "={{ $json[\"Type Name : String\"] || \"Unknown Type\" }}",
+              "type": "string"
+            },
+            {
+              "id": "wall-volume",
+              "name": "volume",
+              "value": "={{ parseFloat($json[\"Volume : Double\"]) || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "processed-date",
+              "name": "processed_date",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -180,
+        580
+      ],
+      "id": "5c2ac481-8340-4221-afdb-a3c7ca520abb",
+      "name": "Transform - Clean wall data"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Group walls by Type Name and sum Volume\n// Using only built-in JavaScript functions\n\n// Get all wall elements\nconst allWalls = $input.all().map(item => item.json);\n\n// Group by type_name using reduce\nconst grouped = allWalls.reduce((acc, wall) => {\n  const typeName = wall.type_name;\n  if (!acc[typeName]) {\n    acc[typeName] = [];\n  }\n  acc[typeName].push(wall);\n  return acc;\n}, {});\n\n// Create grouping results\nconst groupedResults = Object.keys(grouped).map(typeName => {\n  const walls = grouped[typeName];\n  const totalVolume = walls.reduce((sum, wall) => sum + (wall.volume || 0), 0);\n  const count = walls.length;\n  \n  return {\n    type_name: typeName,\n    wall_count: count,\n    total_volume: Math.round(totalVolume * 1000) / 1000, // round to 3 decimal places\n    average_volume: count > 0 ? Math.round((totalVolume / count) * 1000) / 1000 : 0,\n    processed_date: new Date().toISOString()\n  };\n});\n\n// Sort by total volume descending\nconst sortedResults = groupedResults.sort((a, b) => b.total_volume - a.total_volume);\n\nreturn sortedResults.map(item => ({ json: item }));"
+      },
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        40,
+        580
+      ],
+      "id": "74b0b328-820d-4f85-bc8a-c6bb6d983d97",
+      "name": "Transform - Group by Type Name & sum Volume"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate HTML report from grouped wall data\nconst groupedData = $input.all().map(item => item.json);\n\n// Create summary statistics\nconst totalWallTypes = groupedData.length;\nconst totalWalls = groupedData.reduce((sum, item) => sum + item.wall_count, 0);\nconst totalVolume = groupedData.reduce((sum, item) => sum + item.total_volume, 0);\nconst avgVolumePerWall = totalWalls > 0 ? Math.round((totalVolume / totalWalls) * 1000) / 1000 : 0;\n\nconst sourceFile = $node[\"Setup - Define file paths\"].json[\"revit_file\"];\nconst processedDate = new Date().toLocaleString();\n\n// Generate wall type cards HTML\nconst wallTypeCards = groupedData.map((wallType, index) => {\n  const percentage = totalVolume > 0 ? (wallType.total_volume / totalVolume) * 100 : 0;\n  return `\n    <div class=\"wall-type-card\" style=\"animation-delay: ${index * 0.1}s;\">\n      <div class=\"wall-type-header\">\n        <div class=\"wall-type-name\">${wallType.type_name}</div>\n        <div class=\"wall-count\">${wallType.wall_count} walls</div>\n      </div>\n      <div class=\"wall-metrics\">\n        <div class=\"metric\">\n          <div class=\"metric-label\">Total Volume</div>\n          <div class=\"metric-value\">${wallType.total_volume.toFixed(3)} m³</div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-label\">Average Volume</div>\n          <div class=\"metric-value\">${wallType.average_volume.toFixed(3)} m³</div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-label\">Percentage</div>\n          <div class=\"metric-value\">${percentage.toFixed(1)}%</div>\n        </div>\n      </div>\n      <div class=\"volume-bar\">\n        <div class=\"volume-fill\" style=\"width: ${percentage}%;\"></div>\n      </div>\n    </div>`;\n}).join('');\n\n// Generate complete HTML\nconst htmlContent = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Quantity Take Off Report</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            padding: 20px;\n        }\n\n        .container {\n            max-width: 1000px;\n            margin: 0 auto;\n            background: rgba(255, 255, 255, 0.95);\n            border-radius: 20px;\n            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);\n            overflow: hidden;\n            backdrop-filter: blur(10px);\n        }\n\n        .header {\n            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);\n            color: white;\n            padding: 30px;\n            text-align: center;\n        }\n\n        .header h1 {\n            font-size: 2.2rem;\n            margin-bottom: 8px;\n        }\n\n        .header p {\n            font-size: 1rem;\n            opacity: 0.9;\n        }\n\n        .summary-cards {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 15px;\n            padding: 30px;\n            background: #f8f9fa;\n        }\n\n        .summary-card {\n            background: white;\n            padding: 20px;\n            border-radius: 12px;\n            text-align: center;\n            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);\n            transition: transform 0.3s ease;\n            border-left: 4px solid;\n        }\n\n        .summary-card:hover {\n            transform: translateY(-3px);\n        }\n\n        .summary-card.types { border-left-color: #e74c3c; }\n        .summary-card.walls { border-left-color: #3498db; }\n        .summary-card.volume { border-left-color: #2ecc71; }\n        .summary-card.average { border-left-color: #f39c12; }\n\n        .summary-card h3 {\n            color: #2c3e50;\n            font-size: 0.8rem;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n            margin-bottom: 8px;\n        }\n\n        .summary-card .value {\n            font-size: 1.8rem;\n            font-weight: bold;\n            color: #2c3e50;\n            margin-bottom: 4px;\n        }\n\n        .summary-card .unit {\n            color: #7f8c8d;\n            font-size: 0.8rem;\n        }\n\n        .content {\n            padding: 30px;\n        }\n\n        .section-title {\n            font-size: 1.5rem;\n            color: #2c3e50;\n            margin-bottom: 20px;\n            text-align: center;\n            position: relative;\n        }\n\n        .section-title::after {\n            content: '';\n            position: absolute;\n            bottom: -8px;\n            left: 50%;\n            transform: translateX(-50%);\n            width: 60px;\n            height: 3px;\n            background: linear-gradient(135deg, #3498db, #e74c3c);\n            border-radius: 2px;\n        }\n\n        .wall-types-grid {\n            display: grid;\n            gap: 15px;\n            margin-top: 20px;\n        }\n\n        .wall-type-card {\n            background: white;\n            border-radius: 12px;\n            padding: 20px;\n            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);\n            transition: all 0.3s ease;\n            border-left: 4px solid #3498db;\n        }\n\n        .wall-type-card:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);\n        }\n\n        .wall-type-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 15px;\n        }\n\n        .wall-type-name {\n            font-size: 1.1rem;\n            font-weight: bold;\n            color: #2c3e50;\n        }\n\n        .wall-count {\n            background: linear-gradient(135deg, #3498db, #2980b9);\n            color: white;\n            padding: 6px 12px;\n            border-radius: 15px;\n            font-size: 0.8rem;\n            font-weight: bold;\n        }\n\n        .wall-metrics {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));\n            gap: 10px;\n        }\n\n        .metric {\n            text-align: center;\n            padding: 12px;\n            background: #f8f9fa;\n            border-radius: 8px;\n        }\n\n        .metric-label {\n            font-size: 0.7rem;\n            color: #6c757d;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n            margin-bottom: 4px;\n        }\n\n        .metric-value {\n            font-size: 1rem;\n            font-weight: bold;\n            color: #2c3e50;\n        }\n\n        .volume-bar {\n            width: 100%;\n            height: 6px;\n            background: #e9ecef;\n            border-radius: 3px;\n            margin-top: 12px;\n            overflow: hidden;\n        }\n\n        .volume-fill {\n            height: 100%;\n            background: linear-gradient(90deg, #3498db, #2ecc71);\n            border-radius: 3px;\n            transition: width 0.8s ease;\n        }\n\n        .footer {\n            background: #2c3e50;\n            color: white;\n            padding: 20px;\n            text-align: center;\n            font-size: 0.9rem;\n        }\n\n        .footer-info {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));\n            gap: 15px;\n            margin-bottom: 15px;\n        }\n\n        .footer-item strong {\n            display: block;\n            margin-bottom: 4px;\n            color: #3498db;\n        }\n\n        @media (max-width: 768px) {\n            .header h1 { font-size: 1.8rem; }\n            .summary-cards { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); padding: 20px; }\n            .content { padding: 20px; }\n            .wall-type-header { flex-direction: column; align-items: flex-start; gap: 8px; }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>📊 Quantity Take Off Report</h1>\n            <p>Wall analysis and volume calculations from Revit data</p>\n        </div>\n\n        <div class=\"summary-cards\">\n            <div class=\"summary-card types\">\n                <h3>Wall Types</h3>\n                <div class=\"value\">${totalWallTypes}</div>\n                <div class=\"unit\">Different Types</div>\n            </div>\n            <div class=\"summary-card walls\">\n                <h3>Total Walls</h3>\n                <div class=\"value\">${totalWalls}</div>\n                <div class=\"unit\">Wall Elements</div>\n            </div>\n            <div class=\"summary-card volume\">\n                <h3>Total Volume</h3>\n                <div class=\"value\">${totalVolume.toFixed(3)}</div>\n                <div class=\"unit\">m³</div>\n            </div>\n            <div class=\"summary-card average\">\n                <h3>Average Volume</h3>\n                <div class=\"value\">${avgVolumePerWall.toFixed(3)}</div>\n                <div class=\"unit\">m³ per wall</div>\n            </div>\n        </div>\n\n        <div class=\"content\">\n            <h2 class=\"section-title\">Wall Types Breakdown</h2>\n            <div class=\"wall-types-grid\">\n                ${wallTypeCards}\n            </div>\n        </div>\n\n        <div class=\"footer\">\n            <div class=\"footer-info\">\n                <div class=\"footer-item\">\n                    <strong>Source File:</strong>\n                    ${sourceFile.split('\\\\').pop()}\n                </div>\n                <div class=\"footer-item\">\n                    <strong>Processed Date:</strong>\n                    ${processedDate}\n                </div>\n                <div class=\"footer-item\">\n                    <strong>Generated By:</strong>\n                    n8n Workflow Pipeline\n                </div>\n            </div>\n            <p style=\"margin-top: 15px; opacity: 0.7;\">\n                Data extracted from Revit and processed through automated ETL pipeline.\n            </p>\n        </div>\n    </div>\n</body>\n</html>`;\n\n// Create filename based on source file\nconst sourceBasename = sourceFile.replace(/\\.[^/.]+$/, \"\"); // Remove extension\nconst outputFilename = sourceBasename + \"_quantity_takeoff_report.html\";\n\n// Create proper binary data structure for n8n writeBinaryFile node\nconst binaryData = {\n  data: Buffer.from(htmlContent, 'utf8'),\n  mimeType: 'text/html',\n  fileName: outputFilename.split('\\\\').pop() // Get just filename without path\n};\n\n// Return data with proper binary structure\nreturn [{\n  json: {\n    filename: outputFilename,\n    summary: {\n      total_wall_types: totalWallTypes,\n      total_walls: totalWalls,\n      total_volume: Math.round(totalVolume * 1000) / 1000,\n      average_volume_per_wall: avgVolumePerWall,\n      processed_at: new Date().toISOString(),\n      source_file: sourceFile\n    },\n    grouped_data: groupedData,\n    message: `Generated HTML report for ${totalWallTypes} wall types (${totalWalls} total walls)`,\n    htmlContent: htmlContent\n  },\n  binary: {\n    data: binaryData\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        240,
+        580
+      ],
+      "id": "1ab073ee-de46-4224-a4b1-cee2e92dfe20",
+      "name": "Transform - Generate HTML Report"
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.filename }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        460,
+        580
+      ],
+      "id": "a33f33de-dc6d-4fe7-bf27-86156906827b",
+      "name": "Load - Save HTML Report"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "success-message",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "final-message",
+              "name": "final_message",
+              "value": "={{ $node[\"Transform - Generate HTML Report\"].json.message }}. File saved as: {{ $node[\"Transform - Generate HTML Report\"].json.filename }}",
+              "type": "string"
+            },
+            {
+              "id": "summary-data",
+              "name": "summary",
+              "value": "={{ $node[\"Transform - Generate HTML Report\"].json.summary }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        660,
+        580
+      ],
+      "id": "feb89705-054c-446a-940b-60ba849fcdfe",
+      "name": "Success - Final results"
+    },
+    {
+      "parameters": {
+        "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run Revit converter (RVT → Excel)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
+        "height": 520,
+        "width": 1400,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1840,
+        240
+      ],
+      "id": "d7749dcd-349f-455c-aeb6-3cbfeccaf26b",
+      "name": "Extract Phase Note"
+    },
+    {
+      "parameters": {
+        "content": "## 🔷 TRANSFORM Phase\n\n**T**ransform raw data:\n1. Filter ONLY records with 'Category : String' = 'OST_Walls'\n2. Clean data: extract ID, Type Name, Volume\n3. Group by 'Type Name : String'\n4. Sum 'Volume : Double' for each group\n5. Calculate statistics per group",
+        "height": 520,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        240
+      ],
+      "id": "eaa62f9b-20cf-4aa6-afd9-c51dab8d3dd4",
+      "name": "Transform Phase Note"
+    },
+    {
+      "parameters": {
+        "content": "## 🔷 LOAD Phase\n\n**L**oad processed data as HTML report:\n1. Generate beautiful HTML report with embedded CSS\n2. Include summary statistics cards\n3. Display grouped data with visual progress bars\n4. Save as HTML file for easy viewing\n5. Results include:\n   - Interactive dashboard design\n   - Summary statistics\n   - Grouped data by Type Name\n   - Visual volume comparisons\n   - Professional styling",
+        "height": 520,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        400,
+        240
+      ],
+      "id": "fb894369-4cb2-42a2-abf8-e0c61ba8493c",
+      "name": "Load Phase Note"
+    },
+    {
+      "parameters": {
+        "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
+        "height": 720,
+        "width": 2800,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1860,
+        60
+      ],
+      "id": "bd19674e-a352-48fc-8c06-88ad296e000f",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Start - Click to begin": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "Start - Click to begin": {
+      "main": [
+        [
+          {
+            "node": "Setup - Define file paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup - Define file paths": {
+      "main": [
+        [
+          {
+            "node": "Extract - Run Revit converter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Run Revit converter": {
+      "main": [
+        [
+          {
+            "node": "Check - Did extraction succeed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Did extraction succeed?": {
+      "main": [
+        [
+          {
+            "node": "Error - Show what went wrong",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Success - Create Excel filename",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success - Create Excel filename": {
+      "main": [
+        [
+          {
+            "node": "Extract - Read Excel file from disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Read Excel file from disk": {
+      "main": [
+        [
+          {
+            "node": "Extract - Parse Excel to data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Parse Excel to data": {
+      "main": [
+        [
+          {
+            "node": "Transform - Filter only OST_Walls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform - Filter only OST_Walls": {
+      "main": [
+        [
+          {
+            "node": "Transform - Clean wall data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform - Clean wall data": {
+      "main": [
+        [
+          {
+            "node": "Transform - Group by Type Name & sum Volume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform - Group by Type Name & sum Volume": {
+      "main": [
+        [
+          {
+            "node": "Transform - Generate HTML Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform - Generate HTML Report": {
+      "main": [
+        [
+          {
+            "node": "Load - Save HTML Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f166c01d-5ae5-418e-af24-d11c81839f53",
+  "meta": {
+    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+  },
+  "id": "Hta5FU7DD54QKxUK",
+  "tags": []
+}
