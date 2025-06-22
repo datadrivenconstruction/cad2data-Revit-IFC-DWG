@@ -173,7 +173,7 @@ graph TD;
 
 
 
-## 🚀 Next Level Automation
+## Next Level Automation
 
 For AI-powered processing and advanced automation:
 
@@ -183,7 +183,7 @@ Features ChatGPT integration, element classification, and code generation.
 
 
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please feel free to:
 - 🐛 Report bugs
@@ -191,12 +191,12 @@ We welcome contributions! Please feel free to:
 - 🔧 Submit pull requests
 - 📖 Improve documentation
 
-## 📞 Support
+## Support
 
 - 🌐 **Website**: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
 - 💬 **Issues**: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
 - 📧 **Email**: info@datadrivenconstruction.io
-- 
+  
 
 ## Consulting & Industry Training
 
