@@ -145,9 +145,8 @@ graph TD;
 
 **Generated Reports Include:**
 - 📊 Summary statistics (total elements, volumes, averages)
-- 📋 Detailed breakdown by element type
-- 🎨 Interactive HTML dashboard with progress bars
-- 📱 Responsive design for all devices
+- 📋 Detailed breakdown by element type - "Type Name"
+- 🎨 Interactive HTML dashboard
 
 ```mermaid
 graph TD;
