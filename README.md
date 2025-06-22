@@ -200,11 +200,11 @@ We welcome contributions! Please feel free to:
 
 ## Consulting & Industry Training
 
-We work with leading construction companies, engineering consultancies, and technology firms around the world — helping them integrate open data principles, automate CAD/BIM processing, and build robust ETL pipelines.
+We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
 
-Our team provides hands-on workshops, strategic guidance, and prototype development tailored to real-world project workflows.
+Our team provides hands-on workshops, strategic advice and prototyping with real-world project workflows in mind.
 
-Over the past years, we have actively supported organizations seeking practical solutions for digital transformation and interoperability. Many approached us both before and after the release of our book, looking to implement the open and automation-driven methods we promote. Today, these approaches are being applied across planning, design, and construction workflows globally.
+Over the last few years we have actively supported organisations seeking practical solutions for digital transformation and interoperability. Many have enquired about solving data quality problems - wanting to implement the open and automated methods we advocate. Today, these approaches are used in all planning, design and construction workflows around the world.
 
 For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
 
