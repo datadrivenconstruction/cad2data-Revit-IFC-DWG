@@ -68,6 +68,9 @@ source_file: "C:\\Projects\\Sample.rvt"
 ### 1. Basic Conversion
 **File**: `n8n_Revit_IFC_DWG_Conversation_simple.json`
 
+- Simple file conversion to Excel + geometry (for Revit and IFC)
+- Minimal configuration required
+
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
@@ -92,8 +95,7 @@ path_to_converter: C:\Converters\DgnExporter.exe
 source_file:       C:\Projects\Bridge.dgn
 ```
 
-- Simple file conversion to Excel + geometry
-- Minimal configuration required
+
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
