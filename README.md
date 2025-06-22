@@ -104,7 +104,7 @@ source_file:       C:\Projects\Bridge.dgn
 - Minimal configuration required
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-2-1.png" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ### 2. Advanced Settings
