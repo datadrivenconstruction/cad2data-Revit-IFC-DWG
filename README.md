@@ -63,9 +63,9 @@ source_file: "C:\\Projects\\Sample.rvt"
 ```
 
 
-## ⚡️ Available Workflows
+# ⚡️ Available Workflows
 
-### 1. Basic Conversion
+## 1. Basic Conversion
 **File**: `n8n_Revit_IFC_DWG_Conversation_simple.json`
 
 - Simple file conversion to Excel + geometry (for Revit and IFC)
@@ -101,19 +101,19 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
-### 2. Advanced Settings
+## 2. Advanced Settings
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 - Full control over export parameters
 - Custom export modes: `basic`, `standard`, `complete`
 - Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
 
-### Export Modes
+#### Export Modes
 - **Basic**: Essential geometry and properties
 - **Standard**: Includes materials and parameters
 - **Complete**: Full model data with relationships
 
-### Optional Outputs
+#### Optional Outputs
 - `bbox`: Include bounding box geometry
 - `schedule`: Export Revit schedules
 - `sheets2pdf`: Convert sheets to PDF
