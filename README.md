@@ -213,7 +213,7 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
 
 ---
 
-<p align="center">
+<p align="left">
   <b>Unlock the Power of Data in Construction</b>
     <br><br>
   <a href="https://datadrivenconstruction.io">
