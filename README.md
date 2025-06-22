@@ -124,7 +124,8 @@ graph TD;
 
 - Full control over export parameters
 - Custom export modes: `basic`, `standard`, `complete`
-- Optional features: BoundingBox, schedules, PDF export
+- Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
+
 
 ### 3. Quantity Takeoff Generator
 **File**: `n8n_Wall_QTO_Pipeline.json`
