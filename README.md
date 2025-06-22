@@ -107,7 +107,7 @@ source_file:       C:\Projects\Bridge.dgn
 - Full control over export parameters
 - Custom export modes: `basic`, `standard`, `complete`
 - Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
-- 
+  
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
