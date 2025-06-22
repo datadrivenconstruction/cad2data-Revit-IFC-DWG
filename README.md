@@ -1,86 +1,66 @@
+# 🏗️ CAD/BIM to Excel + Geometry Converter Pipeline
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.png" alt="DDC Logo" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
-# 🔁 Revit (.rvt), AutoCAD (.dwg), IFC and MicroStation (.dgn) to Excel + Geometry Converter (n8n Minimal Pipeline) + QT
+**Transform your CAD/BIM files into structured data and 3D geometry without Autodesk® licenses or APIs**
 
-**Revit (.rvt), AutoCAD (.dwg), IFC, MicroStation (.dgn)  → Excel + DAE (for .rvt, .ifc) — no Autodesk® tools or APIs**
+[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
 
-> ✅ Lightweight & local workflow powered by [n8n](https://n8n.io) + [DataDrivenConstruction Converters](https://cadbimconverter.com)
+## 🎯 Overview
 
----
+This automated pipeline converts CAD/BIM files into structured Excel data and 3D geometry using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
 
-## 🛠 Features
+## 🚀 Supported Formats
 
-Supports the following formats:
-- Revit (`.rvt`)
-- IFC (`.ifc`)
-- AutoCAD (`.dwg`)
-- MicroStation (`.dgn`)
+| Format | File Extension | Converter | Output |
+|--------|----------------|-----------|--------|
+| **Revit** | `.rvt` | RvtExporter.exe | Excel + DAE geometry |
+| **IFC** | `.ifc` | IfcExporter.exe | Excel + DAE geometry |
+| **AutoCAD** | `.dwg` | DwgExporter.exe | Excel data |
+| **MicroStation** | `.dgn` | DgnExporter.exe | Excel data |
 
-- 🧾 Exports full metadata to `.xlsx` (as a matrix - project elements in the rows, all properties of all elements in the columns)
-- 🧱 Exports polygonal geometry from Revit and IFC into an open geometric format `.dae` (Collada) 
-- 🖥️ Works offline — no Autodesk® license, no API, no plugins needed
-- 🧩 Easily extendable with Python or AI post-processing 
-(see Pipeline with LLM [CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT]([https://n8n.io](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM))
+## ✨ Key Features
 
+- 🔄 **Automated Conversion**: One-click conversion from CAD/BIM to Excel
+- 📊 **Structured Data**: All elements and properties exported as Excel matrix
+- 🧱 **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format)
+- 🖥️ **Offline Processing**: No internet, APIs, or Autodesk licenses required
+- 📈 **Quantity Takeoffs**: Built-in QTO report generation for walls
+- 🔧 **Extensible**: Easy to customize with Python or AI post-processing
 
----
+## 🛠️ Quick Start
 
-## 📦 Installation Guide
+### Prerequisites
+- [Node.js](https://nodejs.org/) installed
+- [n8n](https://n8n.io/download) workflow platform
+- DDC Converters ([Download](https://cadbimconverter.com/convertors/))
 
-### 1. Install `n8n` on Windows
+### Installation
 
-Make sure you have **Node.js** installed ([Download](https://nodejs.org/en/download)):
+1. **Install n8n**
+   ```bash
+   npx n8n
+   ```
 
-```bash & cmd
-npx install -g n8n
-n8n start
+2. **Download Converters**
+   - Place converter executables in a dedicated folder (e.g., `C:\Converters\`)
+
+3. **Import Workflow**
+   - Download workflow JSON from this repository
+   - In n8n: **Import from file** → Select JSON
+   - Configure file paths in the **Set** node
+
+### Configuration Example
+
+```javascript
+// Basic conversion setup
+path_to_converter: "C:\\Converters\\RvtExporter.exe"
+source_file: "C:\\Projects\\Sample.rvt"
 ```
-or
-``` bash & cmd
-npx n8n
-```
-
-Or use the desktop version from: [n8n.io/download](https://n8n.io/download)
-
----
-
-### 2. Download Converters
-
-Either use the converters that are in the repository or download the always fresh ones directly from the site
-
-| Format                | Converter         | Download |
-|-----------------------|-------------------|----------|
-| Revit (.rvt)          | `RvtExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| IFC                   | `IfcExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| AutoCAD (.dwg)        | `DwgExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-| MicroStation (.dgn)   | `DgnExporter.exe` | [Download](https://cadbimconverter.com/convertors/) |
-
-
----
-
-## ⚙️ Quick Setup
-
-1. [⬇ Download workflow JSON](./n8n_Revit_IFC_DWG_Conversation_simple.json)
-
-2. Open **n8n**, click **Import from file**, and select the JSON above.
-
-3. Edit variables in the **Set** node based on the format:
-Example for Revit:
-- `path_to_converter`: `C:\Converters\RvtExporter.exe`
-- `source_file`: `C:\Projects\Model.rvt`
-
----
-
-**Conversion of CAD (BIM) data into structured formats**
-```
-n8n_Revit_IFC_DWG_Conversation_simple.json
-n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json
-n8n_Revit_IFC_DWG_Conversation_simple_with_comments.json
-```
-
 
 ## 🔁 Workflow Overview
 
@@ -90,185 +70,135 @@ graph TD;
     B --> C[🧰 Execute Pipeline]
     C --> D[📂 Output XLSX + DAE files. Geometry only for Revit and IFC projects]
 ```
----
 
-## 📂 Example Variables
+## 🎨 Available Workflows
 
-```text
-# Revit
-path_to_converter: C:\Converters\RvtExporter.exe
-source_file:       C:\Projects\Model.rvt
+### 1. Basic Conversion
+**File**: `n8n_Revit_IFC_DWG_Conversation_simple.json`
 
-# IFC
-path_to_converter: C:\Converters\IfcExporter.exe
-source_file:       C:\Projects\Model.ifc
-
-# DWG
-path_to_converter: C:\Converters\DwgExporter.exe
-source_file:       C:\Projects\Plan.dwg
-
-# DGN
-path_to_converter: C:\Converters\DgnExporter.exe
-source_file:       C:\Projects\Bridge.dgn
-```
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-2-1.png" alt="DDC Logo" width="100%"/>
-</p>
-
-# Revit Wall Quantity Takeoff Generator
-
-
-
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.png" alt="DDC Logo" width="100%"/>
-</p>
-
-# 📊 Revit Wall Quantity Takeoff → HTML Report (ETL Workflow)
-
-This **n8n automated pipeline** extracts wall data from Revit `.rvt` files and generates a professional, interactive **HTML quantity takeoff report** — entirely offline.
-
-> ✅ No Autodesk® Revit® API required  
-> ✅ Converts `.rvt` to `.xlsx` and generates a visual summary  
-> ✅ Based on ETL best practices (Extract → Transform → Load)
-
----
-
-## 🔁 ETL Overview
-
-| Phase      | Tasks |
-|------------|-------|
-| 🔷 **Extract**   | Convert Revit → Excel, parse spreadsheet |
-| 🔷 **Transform** | Filter `OST_Walls`, clean and group data, compute volume metrics |
-| 🔷 **Load**      | Generate HTML dashboard with CSS styling and save it locally |
-
----
-
-## 📊 Workflow Diagram (ASCII)
-
-```text
-Start
-  │
-  ▼
-Setup - Define file paths
-  │
-  ▼
-Run Revit Converter (.exe)
-  │
-  ├──▶ ❌ If error → Show error message
-  │
-  ▼
-Create Excel filename
-  │
-  ▼
-Read Excel file
-  │
-  ▼
-Parse Excel → JSON
-  │
-  ▼
-Filter by Category = "OST_Walls"
-  │
-  ▼
-Clean wall data (extract Type & Volume)
-  │
-  ▼
-Group by Type Name & sum Volumes
-  │
-  ▼
-Generate styled HTML report
-  │
-  ▼
-Save report as .html file
-  │
-  ▼
-✅ Final success output (summary & file path)
-
-
-## 🎯 Purpose
-Converts Revit (.rvt) files into comprehensive wall analysis reports with volume calculations, grouped by wall types.
-
-## 📋 What it does
-1. **Extract** - Runs Revit converter to export data to Excel
-2. **Transform** - Filters wall elements, cleans data, and groups by type
-3. **Load** - Generates beautiful HTML dashboard with summary statistics
-
-## 📊 Output
-- Interactive HTML report with:
-  - Summary cards (total types, walls, volume, averages)
-  - Detailed breakdown by wall type
-  - Visual progress bars and metrics
-  - Professional styling and responsive design
-
-## 🔧 Requirements
-- n8n workflow automation platform
-- DDC Revit Converter (RvtExporter.exe)
-- Revit files (.rvt format)
-
-## 📁 File Structure
-```
-Input:  [project_name].rvt
-Output: [project_name]_quantity_takeoff_report.html
+```mermaid
+graph TD;
+    A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
+    B --> C[🧰 Execute Converter]
+    C --> D[📂 Output XLSX + DAE]
 ```
 
-## 🚀 Usage
-1. Set file paths in "Setup" node
-2. Run workflow manually
-3. Open generated HTML report in browser
+- Simple file conversion to Excel + geometry
+- Minimal configuration required
+
+### 2. Advanced Settings
+**File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
+
+```mermaid
+graph TD;
+    A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
+    B --> C[⚙️ Configure Export Mode]
+    C --> D[🧰 Execute Pipeline]
+    D --> E{Export Options}
+    E -->|Standard| F[📊 XLSX + DAE]
+    E -->|+BBox| G[📊 XLSX + DAE + BBox]
+    E -->|+Schedules| H[📊 XLSX + DAE + Schedules]
+    E -->|+PDF| I[📊 XLSX + DAE + PDF]
+```
+
+- Full control over export parameters
+- Custom export modes: `basic`, `standard`, `complete`
+- Optional features: BoundingBox, schedules, PDF export
+
+### 3. Quantity Takeoff Generator
+**File**: `n8n_Wall_QTO_Pipeline.json`
+
+```mermaid
+graph TD;
+    A[🟢 Manual Trigger] --> B[🛠 Setup File Paths]
+    B --> C[🔄 Run Revit Converter]
+    C --> D{Conversion Success?}
+    D -->|❌ Error| E[Show Error Message]
+    D -->|✅ Success| F[📖 Read Excel File]
+    F --> G[🔍 Parse to JSON]
+    G --> H[🏗️ Filter OST_Walls]
+    H --> I[🧹 Clean Wall Data]
+    I --> J[📊 Group by Type & Sum Volume]
+    J --> K[🎨 Generate HTML Report]
+    K --> L[💾 Save Report File]
+    L --> M[✅ Success Summary]
+```
+
+- Automated wall quantity analysis
+- Professional HTML reports
+- Volume calculations by wall type
+
+## 📈 Sample Output
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="DDC Logo" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
+**Generated Reports Include:**
+- 📊 Summary statistics (total elements, volumes, averages)
+- 📋 Detailed breakdown by element type
+- 🎨 Interactive HTML dashboard with progress bars
+- 📱 Responsive design for all devices
 
+## 🔧 Advanced Features
 
+### Export Modes
+- **Basic**: Essential geometry and properties
+- **Standard**: Includes materials and parameters
+- **Complete**: Full model data with relationships
 
-## 🧰 Advanced Revit Conversion Pipeline
+### Optional Outputs
+- `bbox`: Include bounding box geometry
+- `schedule`: Export Revit schedules
+- `sheets2pdf`: Convert sheets to PDF
+- `-no-xlsx`: Skip Excel export
+- `-no-collada`: Skip geometry export
 
-For advanced users who want **full control over export settings**, use the extended pipeline:
+## 🚀 Next Level Automation
 
-👉 [All_Settings_Revit_Conversation_with_n8n_simple.json](./n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json)
+For AI-powered processing and advanced automation:
 
-This version includes detailed options inside the **Set** node:
-- `Export mode`: choose between `basic`, `standard`, or `complete`
-- Add BoundingBox geometry with `bbox`
-- Export Revit schedules with `schedule`
-- Export all sheets to PDF with `sheets2pdf`
-- Disable `.xlsx` or `.dae` output with `-no-xlsx` or `-no-collada`
+👉 **[Full LLM Pipeline](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
 
-🔧 This pipeline gives you full flexibility to tailor exports to your needs.
+Features ChatGPT integration, element classification, and code generation.
 
+## 📁 Repository Structure
 
+```
+├── workflows/
+│   ├── n8n_Revit_IFC_DWG_Conversation_simple.json
+│   ├── n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json
+│   └── n8n_Wall_QTO_Pipeline.json
+├── converters/
+│   └── [Download from cadbimconverter.com]
+├── examples/
+│   └── sample_outputs/
+└── README.md
+```
 
+## 🤝 Contributing
+
+We welcome contributions! Please feel free to:
+- 🐛 Report bugs
+- 💡 Suggest features
+- 🔧 Submit pull requests
+- 📖 Improve documentation
+
+## 📞 Support
+
+- 🌐 **Website**: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
+- 💬 **Issues**: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
+- 📧 **Email**: Contact through website
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-
-## 🤖 Looking for More Automation?
-
-If you need **more advanced processing**, such as:
-
-- 🔍 Attribute filtering and classification  
-- 🧠 AI-powered decision-making (e.g. Excel + ChatGPT logic)  
-- 📚 Custom rules and automation for specific element types  
-- 🛠️ Integration with other project data sources  
-
-Check out the full-featured LLM-powered pipeline:
-
-👉 [**CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT**](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)
-
-This version includes prebuilt AI post-processing nodes, classification logic, and examples for automating **element matching**, **naming cleanup**, and **code generation** for construction projects.
-
-No Autodesk® API or cloud dependency — just Python, n8n and local tools 🖥️.
-
-
----
-
-## 🧠 Powered by
-
-- [`n8n`](https://n8n.io)
-- [`DataDrivenConstruction.io`](https://datadrivenconstruction.io)
-- Offline `.exe` converter (no Autodesk® tools)
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
+  <b>Transform your CAD/BIM data workflow today!</b><br>
+  <a href="https://datadrivenconstruction.io">
+    <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
+  </a>
 </p>
