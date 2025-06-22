@@ -82,6 +82,23 @@ graph TD;
     B --> C[🧰 Execute Converter]
     C --> D[📂 Output XLSX + DAE]
 ```
+📂 Example Variables
+```# Revit
+path_to_converter: C:\Converters\RvtExporter.exe
+source_file:       C:\Projects\Model.rvt
+
+# IFC
+path_to_converter: C:\Converters\IfcExporter.exe
+source_file:       C:\Projects\Model.ifc
+
+# DWG
+path_to_converter: C:\Converters\DwgExporter.exe
+source_file:       C:\Projects\Plan.dwg
+
+# DGN
+path_to_converter: C:\Converters\DgnExporter.exe
+source_file:       C:\Projects\Bridge.dgn
+```
 
 - Simple file conversion to Excel + geometry
 - Minimal configuration required
