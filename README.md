@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_pipeline_withCADandBIM.jpg" alt="DDC Logo" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.png" alt="DDC Logo" width="100%"/>
 </p>
 
 # 🔁 Revit (.rvt), AutoCAD (.dwg), IFC and MicroStation (.dgn) to Excel + Geometry Converter (n8n Minimal Pipeline)
@@ -103,6 +103,53 @@ source_file:       C:\Projects\Plan.dwg
 path_to_converter: C:\Converters\DgnExporter.exe
 source_file:       C:\Projects\Bridge.dgn
 ```
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-2-1.png" alt="DDC Logo" width="100%"/>
+</p>
+
+# Revit Wall Quantity Takeoff Generator
+
+
+
+**Automated ETL pipeline that extracts wall data from Revit files and generates professional HTML quantity takeoff reports.**
+
+## 🎯 Purpose
+Converts Revit (.rvt) files into comprehensive wall analysis reports with volume calculations, grouped by wall types.
+
+## 📋 What it does
+1. **Extract** - Runs Revit converter to export data to Excel
+2. **Transform** - Filters wall elements, cleans data, and groups by type
+3. **Load** - Generates beautiful HTML dashboard with summary statistics
+
+## 📊 Output
+- Interactive HTML report with:
+  - Summary cards (total types, walls, volume, averages)
+  - Detailed breakdown by wall type
+  - Visual progress bars and metrics
+  - Professional styling and responsive design
+
+## 🔧 Requirements
+- n8n workflow automation platform
+- DDC Revit Converter (RvtExporter.exe)
+- Revit files (.rvt format)
+
+## 📁 File Structure
+```
+Input:  [project_name].rvt
+Output: [project_name]_quantity_takeoff_report.html
+```
+
+## 🚀 Usage
+1. Set file paths in "Setup" node
+2. Run workflow manually
+3. Open generated HTML report in browser
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="DDC Logo" width="100%"/>
+</p>
+
+
+
 
 ## 🧰 Advanced Revit Conversion Pipeline
 
