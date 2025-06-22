@@ -107,7 +107,20 @@ source_file:       C:\Projects\Bridge.dgn
 - Full control over export parameters
 - Custom export modes: `basic`, `standard`, `complete`
 - Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
+
+### Export Modes
+- **Basic**: Essential geometry and properties
+- **Standard**: Includes materials and parameters
+- **Complete**: Full model data with relationships
+
+### Optional Outputs
+- `bbox`: Include bounding box geometry
+- `schedule`: Export Revit schedules
+- `sheets2pdf`: Convert sheets to PDF
+- `-no-xlsx`: Skip Excel export
+- `-no-collada`: Skip geometry export
   
+
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
@@ -158,19 +171,7 @@ graph TD;
 - 🎨 Interactive HTML dashboard with progress bars
 - 📱 Responsive design for all devices
 
-## 🔧 Advanced Features
 
-### Export Modes
-- **Basic**: Essential geometry and properties
-- **Standard**: Includes materials and parameters
-- **Complete**: Full model data with relationships
-
-### Optional Outputs
-- `bbox`: Include bounding box geometry
-- `schedule`: Export Revit schedules
-- `sheets2pdf`: Convert sheets to PDF
-- `-no-xlsx`: Skip Excel export
-- `-no-collada`: Skip geometry export
 
 ## 🚀 Next Level Automation
 
