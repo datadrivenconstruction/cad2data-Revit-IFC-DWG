@@ -124,8 +124,11 @@ graph TD;
 
 
 ### 3. ETL - Revit to HTML Quantity Takeoff Generator
-
 **File**: `n8n_Wall_QTO_Pipeline.json`
+
+- Automated wall quantity analysis
+- Professional HTML reports
+- Volume calculations by wall type
 
 ```mermaid
 graph TD;
@@ -143,9 +146,7 @@ graph TD;
     L --> M[✅ Success Summary]
 ```
 
-- Automated wall quantity analysis
-- Professional HTML reports
-- Volume calculations by wall type
+
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="100%"/>
