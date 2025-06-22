@@ -104,6 +104,10 @@ source_file:       C:\Projects\Bridge.dgn
 ### 2. Advanced Settings
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
+- Full control over export parameters
+- Custom export modes: `basic`, `standard`, `complete`
+- Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
+- 
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
@@ -116,9 +120,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 
-- Full control over export parameters
-- Custom export modes: `basic`, `standard`, `complete`
-- Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
+
 
 
 ### 3. Quantity Takeoff Generator
