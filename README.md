@@ -198,9 +198,16 @@ We welcome contributions! Please feel free to:
 - 📧 **Email**: info@datadrivenconstruction.io
 - 
 
-## 📄 License
+## Consulting & Industry Training
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+We work with leading construction companies, engineering consultancies, and technology firms around the world — helping them integrate open data principles, automate CAD/BIM processing, and build robust ETL pipelines.
+
+Our team provides hands-on workshops, strategic guidance, and prototype development tailored to real-world project workflows.
+
+Over the past years, we have actively supported organizations seeking practical solutions for digital transformation and interoperability. Many approached us both before and after the release of our book, looking to implement the open and automation-driven methods we promote. Today, these approaches are being applied across planning, design, and construction workflows globally.
+
+For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
+
 
 ---
 
