@@ -3,7 +3,7 @@
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.png" alt="DDC Logo" width="100%"/>
 </p>
 
-# 🔁 Revit (.rvt), AutoCAD (.dwg), IFC and MicroStation (.dgn) to Excel + Geometry Converter (n8n Minimal Pipeline)
+# 🔁 Revit (.rvt), AutoCAD (.dwg), IFC and MicroStation (.dgn) to Excel + Geometry Converter (n8n Minimal Pipeline) + QT
 
 **Revit (.rvt), AutoCAD (.dwg), IFC, MicroStation (.dgn)  → Excel + DAE (for .rvt, .ifc) — no Autodesk® tools or APIs**
 
@@ -74,6 +74,14 @@ Example for Revit:
 
 ---
 
+**Conversion of CAD (BIM) data into structured formats**
+```
+n8n_Revit_IFC_DWG_Conversation_simple.json
+n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json
+n8n_Revit_IFC_DWG_Conversation_simple_with_comments.json
+```
+
+
 ## 🔁 Workflow Overview
 
 ```mermaid
@@ -111,7 +119,70 @@ source_file:       C:\Projects\Bridge.dgn
 
 
 
-**Automated ETL pipeline that extracts wall data from Revit files and generates professional HTML quantity takeoff reports.**
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.png" alt="DDC Logo" width="100%"/>
+</p>
+
+# 📊 Revit Wall Quantity Takeoff → HTML Report (ETL Workflow)
+
+This **n8n automated pipeline** extracts wall data from Revit `.rvt` files and generates a professional, interactive **HTML quantity takeoff report** — entirely offline.
+
+> ✅ No Autodesk® Revit® API required  
+> ✅ Converts `.rvt` to `.xlsx` and generates a visual summary  
+> ✅ Based on ETL best practices (Extract → Transform → Load)
+
+---
+
+## 🔁 ETL Overview
+
+| Phase      | Tasks |
+|------------|-------|
+| 🔷 **Extract**   | Convert Revit → Excel, parse spreadsheet |
+| 🔷 **Transform** | Filter `OST_Walls`, clean and group data, compute volume metrics |
+| 🔷 **Load**      | Generate HTML dashboard with CSS styling and save it locally |
+
+---
+
+## 📊 Workflow Diagram (ASCII)
+
+```text
+Start
+  │
+  ▼
+Setup - Define file paths
+  │
+  ▼
+Run Revit Converter (.exe)
+  │
+  ├──▶ ❌ If error → Show error message
+  │
+  ▼
+Create Excel filename
+  │
+  ▼
+Read Excel file
+  │
+  ▼
+Parse Excel → JSON
+  │
+  ▼
+Filter by Category = "OST_Walls"
+  │
+  ▼
+Clean wall data (extract Type & Volume)
+  │
+  ▼
+Group by Type Name & sum Volumes
+  │
+  ▼
+Generate styled HTML report
+  │
+  ▼
+Save report as .html file
+  │
+  ▼
+✅ Final success output (summary & file path)
+
 
 ## 🎯 Purpose
 Converts Revit (.rvt) files into comprehensive wall analysis reports with volume calculations, grouped by wall types.
