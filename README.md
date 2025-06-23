@@ -166,7 +166,7 @@ graph TD;
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="70%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
 
