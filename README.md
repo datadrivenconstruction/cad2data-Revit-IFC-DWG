@@ -100,7 +100,7 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
-## 2. Advanced Settings
+## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Shedules, +PDF Drawings)
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 - Full control over export parameters
