@@ -185,10 +185,10 @@ Features ChatGPT integration, element classification, and code generation.
 ## Contributing
 
 We welcome contributions! Please feel free to:
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🔧 Submit pull requests
-- 📖 Improve documentation
+- Report bugs
+- Suggest features
+- Submit pull requests
+- Improve documentation
 
 
 ## Support
