@@ -217,7 +217,7 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
     <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
   </a>
   <br>
-   <b>Unlock the Power of Data in Construction</b>
+   <b>   Unlock the Power of Data in Construction</b>
    <br>
-  🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
+     🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
