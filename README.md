@@ -97,7 +97,7 @@ source_file:       C:\Projects\Bridge.dgn
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="70%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
@@ -132,7 +132,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 
