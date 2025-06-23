@@ -1,20 +1,19 @@
 # 🏗️ CAD/BIM Converter to Excel + Geometry + Pipeline QTO
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-7.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
-**Transform your CAD/BIM files into structured data and 3D geometry without Autodesk® licenses or APIs**
-
+**Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
 
-## 🎯 Overview
+## Overview
 
-This automated pipeline converts CAD/BIM files into structured Excel data and 3D geometry using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
+This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files into structured Excel data and 3D geometry (DAE) using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
 
-## 🚀 Supported Formats
+## Supported Formats
 
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
@@ -23,16 +22,16 @@ This automated pipeline converts CAD/BIM files into structured Excel data and 3D
 | **AutoCAD** | `.dwg` | DwgExporter.exe | Excel data |
 | **MicroStation** | `.dgn` | DgnExporter.exe | Excel data |
 
-## ✨ Key Features
+## Key Features
 
 - 🔄 **Automated Conversion**: One-click conversion from CAD/BIM to Excel
-- 📊 **Structured Data**: All elements and properties exported as Excel matrix
-- 🧱 **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format)
-- 🖥️ **Offline Processing**: No internet, APIs, or Autodesk licenses required
+- 📊 **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
+- 🧱 **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
+- 🖥️ **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
 - 📈 **Quantity Takeoffs**: Built-in QTO report generation for walls
 - 🔧 **Extensible**: Easy to customize with Python or AI post-processing
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) installed
@@ -101,7 +100,7 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
 </p>
 
-## 2. Advanced Settings
+## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Shedules, +PDF Drawings)
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 - Full control over export parameters
@@ -186,10 +185,10 @@ Features ChatGPT integration, element classification, and code generation.
 ## Contributing
 
 We welcome contributions! Please feel free to:
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🔧 Submit pull requests
-- 📖 Improve documentation
+- Report bugs
+- Suggest features
+- Submit pull requests
+- Improve documentation
 
 
 ## Support
@@ -213,13 +212,12 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
 ---
 
 <p align="left">
-  <b>Unlock the Power of Data in Construction</b>
-    <br><br>
+ 
   <a href="https://datadrivenconstruction.io">
     <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
   </a>
   <br>
-  🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
-
-
+   <b>   Unlock the Power of Data in Construction</b>
+   <br>
+     🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
