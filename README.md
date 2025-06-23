@@ -1,7 +1,7 @@
 # 🏗️ CAD/BIM Converter to Excel + Geometry + Pipeline QTO
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-7.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
 **Transform your CAD/BIM files into structured data and 3D geometry without Autodesk® licenses or APIs**
