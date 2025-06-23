@@ -1,4 +1,4 @@
-# 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Shedules, +PDF Drawings) + Pipeline QTO Takeoff 
+# 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO Takeoff 
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.jpg" alt="Pipeline Overview" width="100%"/>
@@ -100,7 +100,7 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="70%"/>
 </p>
 
-## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Shedules, +PDF Drawings)
+## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 - Full control over export parameters
