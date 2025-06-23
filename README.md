@@ -131,7 +131,9 @@ graph TD;
     E -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
-
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-5.jpg" alt="QTO Report Sample" width="70%"/>
+</p>
 
 
 
