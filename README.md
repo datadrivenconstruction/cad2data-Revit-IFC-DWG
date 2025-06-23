@@ -9,11 +9,11 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
 
-## 🎯 Overview
+## Overview
 
 This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files into structured Excel data and 3D geometry (DAE) using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
 
-## 🚀 Supported Formats
+## Supported Formats
 
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
@@ -22,7 +22,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 | **AutoCAD** | `.dwg` | DwgExporter.exe | Excel data |
 | **MicroStation** | `.dgn` | DgnExporter.exe | Excel data |
 
-## ✨ Key Features
+## Key Features
 
 - 🔄 **Automated Conversion**: One-click conversion from CAD/BIM to Excel
 - 📊 **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
@@ -31,7 +31,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 - 📈 **Quantity Takeoffs**: Built-in QTO report generation for walls
 - 🔧 **Extensible**: Easy to customize with Python or AI post-processing
 
-## 🛠️ Quick Start
+## Quick Start
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) installed
