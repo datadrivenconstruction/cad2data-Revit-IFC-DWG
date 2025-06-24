@@ -135,9 +135,34 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
+## 3. ETL - Revit to HTML Quantity Takeoff Generator
+**File**: `n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
+
+This straightforward **n8n pipeline** generates an Excel filename (XLSX) automatically after converting a Revit file, making it ready for immediate use in various tasks.
+
+###  Pipeline Steps:
+
+1. **Manual Start:** Trigger the workflow.
+2. **Setup Paths:** Define paths to Revit converter and source RVT file.
+3. **Conversion:** Convert RVT to XLSX.
+4. **Check Result:** Verify conversion success.
+5. **Generate XLSX Name:** Automatically create the Excel filename.
+6. **Load Excel File:** Read and parse the Excel file into structured data.
+
+You can also feed this JSON into Cloud, DeepSeq, or ChatGPT, and the LLM will generate the code automatically. All that's left to do is import the generated code into n8n.
+
+### Usage:
+- Import JSON into n8n.
+- Customize for your tasks.
+- Automate similar ETL tasks easily.
 
 
-### 3. ETL - Revit to HTML Quantity Takeoff Generator
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-7.jpg" alt="QTO Report Sample" width="100%"/>
+</p>
+
+
+## 4. ETL - Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 - Automated wall quantity analysis
