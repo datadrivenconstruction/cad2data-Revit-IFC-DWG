@@ -73,8 +73,8 @@ source_file: "C:\\Projects\\Sample.rvt"
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
-    B --> C[🧰 Execute Converter]
-    C --> D[📂 Output XLSX + DAE]
+    B --> C[🧰 Execute Pipeline]
+    C --> D[📂 Output XLSX (+DAE for Revit and IFC]
 ```
 📂 Example Variables
 ```# Revit
@@ -97,7 +97,7 @@ source_file:       C:\Projects\Bridge.dgn
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.png" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
@@ -132,7 +132,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TekeOff_HTML_Report_Generator-3.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
@@ -193,7 +193,7 @@ graph TD;
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-3.png" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TekeOff_HTML_Report_Generator-1.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 
