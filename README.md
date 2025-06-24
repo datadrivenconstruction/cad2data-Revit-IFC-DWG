@@ -162,7 +162,7 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 </p>
 
 
-## 4. ETL - Revit to HTML Quantity Takeoff Generator
+## 4. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 - Automated wall quantity analysis
