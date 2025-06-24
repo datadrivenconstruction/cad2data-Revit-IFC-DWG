@@ -1,0 +1,299 @@
+{
+  "name": "n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1780,
+        580
+      ],
+      "id": "fe089e9a-bb16-440b-900d-21c5cf782286",
+      "name": "Start - Click to begin"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_revit_converter",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "revit_file",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1580,
+        580
+      ],
+      "id": "e56f9ca7-214a-4c90-a6fa-657d6c875e26",
+      "name": "Setup - Define file paths"
+    },
+    {
+      "parameters": {
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1380,
+        580
+      ],
+      "id": "5493ccd6-3126-4a7a-a2fa-ca286a69935b",
+      "name": "Extract - Run Revit converter",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $node[\"Extract - Run Revit converter\"].json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "433af16e-b5b4-4b02-989b-7c140afa52b7",
+      "name": "Check - Did extraction succeed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1180,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Setup - Define file paths\"].json[\"revit_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -980,
+        660
+      ],
+      "id": "de432702-44fb-4cf0-90f0-78fb50206721",
+      "name": "Success - Create Excel filename"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-message-id",
+              "name": "error_message",
+              "value": "=Extraction failed: {{ $node[\"Extract - Run Revit converter\"].json.error || \"Unknown error\" }}",
+              "type": "string"
+            },
+            {
+              "id": "error-code-id",
+              "name": "error_code",
+              "value": "={{ $node[\"Extract - Run Revit converter\"].json.code || -1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "419aaa9e-7edc-43b4-a666-2700de939884",
+      "name": "Error - Show what went wrong",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -980,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "id": "673bbba9-1537-4852-8d4e-b67c4991253c",
+      "name": "Extract - Read Excel file from disk",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        -780,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c4b05b5b-6d0b-4ab8-89fb-a54fe86899d9",
+      "name": "Extract - Parse Excel to data",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run Revit converter (RVT → Excel)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
+        "height": 600,
+        "width": 1400,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1840,
+        240
+      ],
+      "id": "d7749dcd-349f-455c-aeb6-3cbfeccaf26b",
+      "name": "Extract Phase Note"
+    },
+    {
+      "parameters": {
+        "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
+        "height": 840,
+        "width": 1460,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1860,
+        20
+      ],
+      "id": "bd19674e-a352-48fc-8c06-88ad296e000f",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Start - Click to begin": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "Start - Click to begin": {
+      "main": [
+        [
+          {
+            "node": "Setup - Define file paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup - Define file paths": {
+      "main": [
+        [
+          {
+            "node": "Extract - Run Revit converter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Run Revit converter": {
+      "main": [
+        [
+          {
+            "node": "Check - Did extraction succeed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Did extraction succeed?": {
+      "main": [
+        [
+          {
+            "node": "Error - Show what went wrong",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Success - Create Excel filename",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Success - Create Excel filename": {
+      "main": [
+        [
+          {
+            "node": "Extract - Read Excel file from disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Read Excel file from disk": {
+      "main": [
+        [
+          {
+            "node": "Extract - Parse Excel to data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Parse Excel to data": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b1f48600-0aa2-460d-8fd0-141b5287c971",
+  "meta": {
+    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+  },
+  "id": "Hta5FU7DD54QKxUK",
+  "tags": []
+}
