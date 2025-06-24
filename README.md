@@ -135,7 +135,7 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-6.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-## 3. ETL - Revit to HTML Quantity Takeoff Generator
+## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
 **File**: `n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 This straightforward **n8n pipeline** generates an Excel filename (XLSX) automatically after converting a Revit file, making it ready for immediate use in various tasks.
@@ -149,7 +149,7 @@ This straightforward **n8n pipeline** generates an Excel filename (XLSX) automat
 5. **Generate XLSX Name:** Automatically create the Excel filename.
 6. **Load Excel File:** Read and parse the Excel file into structured data.
 
-You can also feed this JSON into Cloud, DeepSeq, or ChatGPT, and the LLM will generate the code automatically. All that's left to do is import the generated code into n8n.
+You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will generate the code automatically. All that's left to do is import the generated code into n8n.
 
 ### Usage:
 - Import JSON into n8n.
