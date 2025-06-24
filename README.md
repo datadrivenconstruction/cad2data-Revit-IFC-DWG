@@ -132,7 +132,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TekeOff_HTML_Report_Generator-3.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
@@ -158,7 +158,7 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-7.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TekeOff_HTML_Report_Generator-3.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 
