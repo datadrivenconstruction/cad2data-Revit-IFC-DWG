@@ -132,7 +132,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-2.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
