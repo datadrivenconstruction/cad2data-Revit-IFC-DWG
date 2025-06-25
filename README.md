@@ -199,7 +199,7 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
-<br>
+
 ## ⚡️  4. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
@@ -281,8 +281,8 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
   <a href="https://datadrivenconstruction.io">
     <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
   </a>
-  <br>
+
    <b>   Unlock the Power of Data in Construction</b>
-   <br>
+   
      🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
