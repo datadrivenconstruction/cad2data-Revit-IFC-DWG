@@ -74,7 +74,7 @@ source_file: "C:\\Projects\\Sample.rvt"
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
     B --> C[🧰 Execute Pipeline]
-    C --> D[📂 Output XLSX / +DAE for Revit and IFC]
+    C --> D[📂 Output XLSX DataFrame / +DAE for Revit and IFC]
 ```
 📂 Example Variables
 ```# Revit
