@@ -76,7 +76,7 @@ graph TD;
     B --> C[🧰 Execute Pipeline]
     C --> D[📂 Output XLSX DataFrame / +DAE for Revit and IFC]
 ```
-📂 Example Variables
+Example Variables
 ```# Revit
 path_to_converter: C:\Converters\RvtExporter.exe
 source_file:       C:\Projects\Model.rvt
@@ -127,9 +127,9 @@ From **automated QTO reports** to **quality checks and IFC parsing**,
 ---
 
 ### 📚 Learn More:
-- 🧰 [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
-- 📐 [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
-- 📦 [025: Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
+- [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
+- [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
+- [025: Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
   
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-11.jpg" alt="QTO Report Sample" width="100%"/>
@@ -141,8 +141,8 @@ Popularized by tools like pandas in Python, it represents data in a simple table
 From financial modeling to BIM quantity take-offs, from AI training sets to engineering reports, the DataFrame has become the universal language of data-driven workflows. Its flexibility, readability, and compatibility with ETL pipelines make it the foundation of almost every modern automation task.
 
 
-
-
+</br>
+</br>
 ## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
@@ -177,7 +177,8 @@ graph TD;
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-2.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
-
+</br>
+</br>
 ## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
 **File**: `n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
@@ -204,7 +205,8 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-
+</br>
+</br>
 ## 4. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
