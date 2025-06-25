@@ -98,7 +98,7 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-### 🔄 From CAD/BIM to DataFrame: Structuring the Future of Construction Data
+### From CAD/BIM to DataFrame: Structuring the Future of Construction Data
 
 Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — are often complex, closed, and difficult to work with. That's why we convert them into one of the most universal and powerful formats in modern data processing: the **DataFrame**.
 
@@ -205,9 +205,9 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 - Volume calculations by wall type
 
 **Generated Reports Include:**
-- 📊 Summary statistics (total elements, volumes, averages)
-- 📋 Detailed breakdown by element type - "Type Name"
-- 🎨 Interactive HTML dashboard
+- Summary statistics (total elements, volumes, averages)
+- Detailed breakdown by element type - "Type Name"
+- is Interactive HTML dashboard
 
 ```mermaid
 graph TD;
