@@ -240,7 +240,7 @@ After transforming and enriching your Excel data, you can effortlessly push the 
 -  Maintain consistency and accuracy across your BIM projects
 -  Automate data synchronization workflows between Excel and Revit
 
-> **Simplify your BIM workflow:** Excel ➡️ Transform ➡️ Excel ➡️ Revit.
+> **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 
