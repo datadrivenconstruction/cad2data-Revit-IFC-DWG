@@ -1,4 +1,4 @@
-# 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO Takeoff 
+# 🏗️ CAD/BIM Converter to Excel DataFrame + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO Takeoff 
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.jpg" alt="Pipeline Overview" width="100%"/>
