@@ -1,8 +1,8 @@
-# 🏗️ CAD/BIM Converter to Excel DataFrame + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO 
-
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-14.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
+
+# 🏗️ CAD/BIM Converter to Excel DataFrame + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO 
 
 **Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
@@ -24,12 +24,12 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 
 ## Key Features
 
-- 🔄 **Automated Conversion**: One-click conversion from CAD/BIM to Excel
-- 📊 **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
-- 🧱 **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
-- 🖥️ **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
-- 📈 **Quantity Takeoffs**: Built-in QTO report generation for walls
-- 🔧 **Extensible**: Easy to customize with Python or AI post-processing
+-  **Automated Conversion**: One-click conversion from CAD/BIM to Excel
+-  **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
+-  **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
+- 🖥 **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
+-  **Quantity Takeoffs**: Built-in QTO report generation for walls
+-  **Extensible**: Easy to customize with Python or AI post-processing
 
 ## Quick Start
 
@@ -109,7 +109,7 @@ A **DataFrame** is a tabular structure that organizes data into rows and columns
 
 ---
 
-### 📈 Why DataFrames Matter
+### Why DataFrames Matter
 
 -  Clear, structured format (rows = records, columns = properties)
 -  Easily processed in ETL pipelines
@@ -121,7 +121,7 @@ From **automated QTO reports** to **quality checks and IFC parsing**,
 
 ---
 
-### 📚 Learn More:
+### Learn More:
 - [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
 - [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
 - [025: Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
