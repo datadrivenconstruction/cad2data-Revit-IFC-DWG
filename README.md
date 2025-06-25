@@ -109,8 +109,8 @@ A **DataFrame** is a tabular structure that organizes data into rows and columns
 
 In the world of automation, analytics, and digital construction, **structured data** is the foundation — and DataFrames make it usable, transparent, and scalable.
 
-> “If data is the new oil, the DataFrame is the refinery.”  
-> — *DataDrivenConstruction.io, [Post #049](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)*
+> “Data processing is what probably one third of the world’s computing is done in every company. The data processing and data of most companies are in DataFrame, in table format”  
+> – Jensen Huang, CEO of Nvidia (“NVIDIA CEO Jensen Huang Keynote at COMPUTEX 2024,” June 2, 2024), [Post #049](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)*
 
 ---
 
@@ -130,6 +130,7 @@ From **automated QTO reports** to **quality checks and IFC parsing**,
 - 🧰 [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
 - 📐 [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
 - 📦 [025: Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
+  
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-11.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
