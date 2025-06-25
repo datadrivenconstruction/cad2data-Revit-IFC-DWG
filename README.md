@@ -62,9 +62,9 @@ source_file: "C:\\Projects\\Sample.rvt"
 ```
 
 
-# ⚡️ Available Workflows
+# Available Workflows
 
-## 1. Basic Conversion
+## ⚡️  1. Basic Conversion
 **File**: `n8n_Revit_IFC_DWG_Conversation_simple.json`
 
 - Simple file conversion to Excel + geometry (for Revit and IFC)
@@ -98,7 +98,7 @@ source_file:       C:\Projects\Bridge.dgn
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-### 🔄 From CAD/BIM to DataFrame: Structuring the Future of Construction Data
+### From CAD/BIM to DataFrame: Structuring the Future of Construction Data
 
 Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — are often complex, closed, and difficult to work with.  
 That's why we convert them into one of the most universal and powerful formats in modern data processing: the **DataFrame**.
@@ -139,7 +139,7 @@ Popularized by tools like pandas in Python, it represents data in a simple table
 From financial modeling to BIM quantity take-offs, from AI training sets to engineering reports, the DataFrame has become the universal language of data-driven workflows. Its flexibility, readability, and compatibility with ETL pipelines make it the foundation of almost every modern automation task.
 
 
-## 2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
+## ⚡️  2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
 **File**: `n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 - Full control over export parameters
@@ -174,7 +174,7 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-2.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-## 3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
+## ⚡️  3. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
 **File**: `n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 This straightforward **n8n pipeline** generates an Excel filename (XLSX) automatically after converting a Revit file, making it ready for immediate use in various tasks.
@@ -199,8 +199,8 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
-
-## 4. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
+<br>
+## ⚡️  4. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 - Automated wall quantity analysis
