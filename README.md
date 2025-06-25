@@ -233,7 +233,6 @@ graph TD;
 
 
 
-##
 ## Next Level Automation
 
 For AI-powered processing and advanced automation:
