@@ -100,12 +100,9 @@ source_file:       C:\Projects\Bridge.dgn
 
 ### From CAD/BIM to DataFrame: Structuring the Future of Construction Data
 
-Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — are often complex, closed, and difficult to work with.  
-That's why we convert them into one of the most universal and powerful formats in modern data processing: the **DataFrame**.
+Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — are often complex, closed, and difficult to work with. That's why we convert them into one of the most universal and powerful formats in modern data processing: the **DataFrame**.
 
-A **DataFrame** is a tabular structure that organizes data into rows and columns — just like a spreadsheet, but designed for automation, analytics, and AI.
-
-In the world of automation, analytics, and digital construction, **structured data** is the foundation — and DataFrames make it usable, transparent, and scalable.
+A **DataFrame** is a tabular structure that organizes data into rows and columns — just like a spreadsheet, but designed for automation, analytics, and AI. In the world of automation, analytics, and digital construction, **structured data** is the foundation — and DataFrames make it usable, transparent, and scalable.
 
 > “Data processing is what probably one third of the world’s computing is done in every company. The data processing and data of most companies are in DataFrame, in table format”  
 > – Jensen Huang, CEO of Nvidia (“NVIDIA CEO Jensen Huang Keynote at COMPUTEX 2024,” June 2, 2024), [Post #049](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)*
