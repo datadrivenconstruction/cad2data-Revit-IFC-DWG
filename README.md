@@ -227,6 +227,22 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
+https://github.com/datadrivenconstruction/ImportExcelToRevit
+
+---
+
+## 🔄 Re-import Data into Revit
+
+After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
+
+**Key Benefits:**
+-  Quickly update model data without manual re-entry
+-  Maintain consistency and accuracy across your BIM projects
+-  Automate data synchronization workflows between Excel and Revit
+
+> **Simplify your BIM workflow:** Excel ➡️ Transform ➡️ Excel ➡️ Revit.
+
+![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 
 
 ## Next Level Automation
