@@ -27,7 +27,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 -  **Automated Conversion**: One-click conversion from CAD/BIM to Excel
 -  **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
 -  **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
-- 🖥 **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
+-  **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
 -  **Quantity Takeoffs**: Built-in QTO report generation for walls
 -  **Extensible**: Easy to customize with Python or AI post-processing
 
