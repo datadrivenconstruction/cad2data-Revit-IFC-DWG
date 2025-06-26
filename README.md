@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-14.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="" alt="Pipeline Overview" width="100%"/>
 </p>
 
 # 🏗️ CAD/BIM Converter to Excel DataFrame + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO 
