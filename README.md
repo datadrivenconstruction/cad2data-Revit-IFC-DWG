@@ -13,6 +13,13 @@
 
 This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files into structured Excel data and 3D geometry (DAE) using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
 
+## 📺 Video Tutorial
+
+Watch the full tutorial on how to use this repository to automate data extraction from Revit/IFC/DWG using n8n:
+
+👉 [Watch on YouTube](https://www.youtube.com/watch?v=PMTZNRFjD6c)
+
+
 ## Supported Formats
 
 | Format | File Extension | Converter | Output |
