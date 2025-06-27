@@ -78,6 +78,8 @@ path_to_converter: "C:\\Converters\\RvtExporter.exe"
 source_file: "C:\\Projects\\Sample.rvt"
 ```
 
+📺 Video Tutorial: 👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
+
 
 # Available Workflows
 
