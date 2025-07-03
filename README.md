@@ -2,7 +2,7 @@
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-13.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
-# 🏗️ CAD/BIM Converter to Excel DataFrame + Geometry (+BBOX, +Schedules, +PDF Drawings) + Pipeline QTO 
+# 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Schedules, +PDF Drawings) with Pipeline for QTO and Validation
 
 **Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
