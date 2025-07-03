@@ -187,7 +187,7 @@ graph TD;
 </p>
 
 ## ⚡️  3. CAD-BIM Multi-Format Validation Pipeline
-**File**: `n8n_Validation_CAD_BIM_Revit_IFC_DWG.json`
+**File**: `n8n_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
 Automated data quality validation for CAD/BIM files with comprehensive reporting. Validates extracted data against predefined rules and generates color-coded Excel reports.
 
@@ -241,7 +241,7 @@ graph TD;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Validation_CAD_BIM_screenshot.jpg" alt="Validation Pipeline" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-validation-revit-ifc-autocad.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
 ## ⚡️  4. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
