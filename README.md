@@ -230,7 +230,7 @@ validation_rules_path: "C:\\Validation\\DDC_Revit_IFC_Validation_Table.xlsx"
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Setup File Paths]
     B --> C{File Exists?}
-    C -->|No| D[🔄 Convert to Excel]
+    C -->|No| D[🔄 Convert to Structured data]
     C -->|Yes| E[📊 Load Project Data]
     D --> E
     E --> F[📋 Load Validation Rules]
@@ -289,11 +289,11 @@ graph TD;
     C --> D{Conversion Success?}
     D -->|❌ Error| E[Show Error Message]
     D -->|✅ Success| F[📖 Read Excel File]
-    F --> G[🔍 Parse to JSON]
+    F --> G[🔍 Parse to DataTable]
     G --> H[🏗️ Filter OST_Walls]
     H --> I[🧹 Clean Wall Data]
     I --> J[📊 Group by Type & Sum Volume]
-    J --> K[🎨 Generate HTML Report]
+    J --> K[🎨 Generate QTO HTML Report]
     K --> L[💾 Save Report File]
     L --> M[✅ Success Summary]
 ```
