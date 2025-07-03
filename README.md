@@ -2,7 +2,7 @@
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM-Revit-IFC-AutoCAD-1.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
-# 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Schedules, +PDF Drawings) with Pipeline for QTO and Validation
+# 🏗️ CAD & BIM Data Pipeline: Generate Dashboards, Validations, and Quantity Reports in n8n (with ChatGPT and other LLMs)
 
 **Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
