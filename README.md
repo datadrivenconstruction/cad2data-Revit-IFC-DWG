@@ -267,7 +267,7 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## ⚡️  5. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
