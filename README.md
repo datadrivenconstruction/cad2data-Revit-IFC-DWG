@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-13.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM-Revit-IFC-AutoCAD.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
 # 🏗️ CAD/BIM Converter to Excel + Geometry (+BBOX, +Schedules, +PDF Drawings) with Pipeline for QTO and Validation
