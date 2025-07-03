@@ -1,0 +1,624 @@
+{
+  "name": "Multi-CAD-BIM Format Validator (IFC/DWG/RVT/DGN)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        280
+      ],
+      "id": "9e796d85-0dc1-4fcc-a2f6-9fda61f09c19",
+      "name": "Start - Click to begin"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_converter",
+              "value": "C:\\CAD_BIM_Pipeline\\Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO-main\\DDC_Converter_Revit\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "project_file",
+              "value": "C:\\CAD_BIM_Pipeline\\Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        280
+      ],
+      "id": "254f3116-df33-433b-9bb9-6cd2bd97a50c",
+      "name": "Setup - Define file paths"
+    },
+    {
+      "parameters": {
+        "content": "## 🚀 START WORKFLOW\n\nClick \"Execute Workflow\" button to begin the validation process",
+        "height": 540,
+        "width": 190,
+        "color": 4
+      },
+      "id": "52fe4d66-b319-4d86-8f0f-473ceff44e23",
+      "name": "Sticky Note - Start",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ SETTINGS\n\n**Update file paths here:**\n- `path_to_converter` - path to converter\n- `project_file` - path to your project file (IFC/DWG/RVT)",
+        "height": 660,
+        "width": 220,
+        "color": 4
+      },
+      "id": "19516b7d-0b75-40a5-9890-8e5a2c24407d",
+      "name": "Sticky Note - Settings",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "id": "cfe4a060-ce2b-408e-af06-d25252a6abe9",
+      "name": "Read Project Excel File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "validation-rules-path-id",
+              "name": "validation_rules_path",
+              "value": "C:\\Users\\Artem\\Desktop\\n8n\\CAD Validation\\DDC_Revit_IFC_Validation_Table.xlsx",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ca4524df-e385-4c41-bdd2-6b3e6f5082f6",
+      "name": "Set Validation Rules Path",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1740,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 📋 VALIDATION RULES\n\n**Specify the path to rules file:**\n`validation_rules_path`\n\nThis file contains validation criteria",
+        "height": 660,
+        "width": 280,
+        "color": 4
+      },
+      "id": "a3782417-579b-4d32-8ccd-790ad6689cff",
+      "name": "Sticky Note - Validation Rules",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"validation_rules_path\"] }}"
+      },
+      "id": "a42264fb-3d54-4698-bb79-821dde45d073",
+      "name": "Read Validation Rules File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f9e2a0e5-536e-4667-bb2a-e05898c77e63",
+      "name": "Merge Excel Files",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2200,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import micropip\nawait micropip.install(\"openpyxl\")\nfrom io import BytesIO\nimport pandas as pd\nimport datetime\nimport base64\nimport os\nfrom openpyxl import load_workbook\nfrom openpyxl.styles import Alignment, PatternFill\n\n# Get the uploaded Excel files\ninput_data = _input.all()\n\n# Get project Excel data (from Read Project Excel File node)\nproject_binary = input_data[0][\"binary\"]\nproject_b64_excel = project_binary[\"data\"][\"data\"]\nproject_excel_bytes = BytesIO(base64.b64decode(project_b64_excel))\n\n# Get validation rules Excel data (from Read Validation Rules File node)\nvalidation_binary = input_data[1][\"binary\"]\nvalidation_b64_excel = validation_binary[\"data\"][\"data\"]\nvalidation_excel_bytes = BytesIO(base64.b64decode(validation_b64_excel))\n\n# Get the validation rules path from the previous node to determine output directory\nvalidation_rules_path = input_data[1][\"json\"][\"validation_rules_path\"]\noutput_directory = os.path.dirname(validation_rules_path)\nprint(f\"Output directory: {output_directory}\")\n\n# Load project data\ndf = pd.read_excel(project_excel_bytes)\nprint(f\"Loaded {len(df)} rows from project file\")\n\n# Handle duplicate columns\nduplicate_cols = df.columns[df.columns.duplicated(keep=False)].unique().tolist()\nif duplicate_cols:\n    print(f\"WARNING: Duplicate columns found: {duplicate_cols}\")\n\n# Clean column names\ncolumn_mapping = {col: col.split(' : ')[0] if ':' in col else col for col in df.columns}\ncleaned_columns = list(column_mapping.values())\n\n# Load and prepare workbook\nwb = load_workbook(validation_excel_bytes)\nws = wb.active\n\n# Unmerge cells in columns D-G\nfor mr in list(ws.merged_cells.ranges):\n    if any(col in range(mr.min_col, mr.max_col + 1) for col in [4, 5, 6, 7]):\n        print(f\"Unmerging: {mr}\")\n        ws.unmerge_cells(str(mr))\n\n# Get category column\ncategory_col = ws['B2'].value\nprint(f\"Category column: {category_col}\")\n\n# Find category column in data\nif category_col not in df.columns:\n    for orig, cleaned in column_mapping.items():\n        if cleaned == category_col:\n            category_col = orig\n            break\n    if category_col not in df.columns:\n        raise ValueError(f\"Category column '{category_col}' not found\")\n\nprint(f\"Data type: {df[category_col].dtype}, Unique values: {df[category_col].nunique()}\")\n\n# Read validation rules from the Excel\nvalidation_excel_bytes.seek(0)  # Reset the stream\ndf_excel = pd.read_excel(validation_excel_bytes)\nvalid_mask = df_excel.iloc[1:, 1].notna() & df_excel.iloc[1:, 2].notna()\nvalidation_data = pd.DataFrame({\n    'row': df_excel.index[1:][valid_mask] + 2,\n    'group': df_excel.iloc[1:, 1][valid_mask].values,\n    'param': df_excel.iloc[1:, 2][valid_mask].values\n})\n\n# Define fills\nred_fill = PatternFill(start_color='FFCCCC', end_color='FFCCCC', fill_type='solid')\ngreen_fill = PatternFill(start_color='CCFFCC', end_color='CCFFCC', fill_type='solid')\n\nprint(f\"Processing {len(validation_data)} rules...\")\n\n# Helper function\ndef get_best_column(df, param, group_df):\n    matches = [i for i, col in enumerate(df.columns) if cleaned_columns[i] == param]\n    \n    if not matches:\n        return param if param in df.columns else None\n    \n    if len(matches) == 1:\n        return df.columns[matches[0]]\n    \n    print(f\"  Found {len(matches)} columns named '{param}'\")\n    best_idx, best_count = matches[0], -1\n    \n    for idx in matches:\n        col = df.columns[idx]\n        if col in group_df.columns:\n            count = group_df[col].notna().sum()\n            print(f\"    Column {idx}: {count} values\")\n            if count > best_count:\n                best_idx, best_count = idx, count\n    \n    return df.columns[best_idx]\n\n# Process validation rules\nfor _, row in validation_data.iterrows():\n    r, grp, prm = row['row'], str(row['group']).strip(), str(row['param']).strip()\n    \n    try:\n        # Filter by category\n        cat_df = df[df[category_col] == grp]\n        \n        # Try alternative matching if no exact match\n        if len(cat_df) == 0 and ':' in grp:\n            cat_df = df[df[category_col].astype(str).str.contains(grp, na=False, regex=False)]\n        \n        total = len(cat_df)\n        \n        # Get column and calculate metrics\n        col = get_best_column(df, prm, cat_df)\n        \n        if col and col in cat_df.columns:\n            valid_df = cat_df[cat_df[col].notna() & ~cat_df[col].isin([0, 0.0, \"0\", \"0.0\", \"0,0\"])]\n            filled = len(valid_df)\n            fill_pct = filled / total if total > 0 else 0\n            unique_cnt = valid_df[col].nunique()\n            unique_vals = valid_df[col].unique()[:10]\n            unique_str = \", \".join(map(str, unique_vals))\n            if len(unique_vals) > 10:\n                unique_str += f\"... ({valid_df[col].nunique()} total)\"\n        else:\n            filled = fill_pct = unique_cnt = 0\n            unique_str = \"\"\n        \n        # Write to Excel\n        ws[f'D{r}'] = total\n        ws[f'D{r}'].alignment = Alignment(horizontal='center')\n        \n        ws[f'E{r}'].value = fill_pct\n        ws[f'E{r}'].number_format = '0.00%'\n        ws[f'E{r}'].alignment = Alignment(horizontal='center')\n        ws[f'E{r}'].fill = green_fill if fill_pct > 0 else red_fill\n        \n        ws[f'F{r}'] = unique_cnt\n        ws[f'F{r}'].alignment = Alignment(horizontal='center')\n        \n        ws[f'G{r}'] = unique_str\n        ws[f'G{r}'].alignment = Alignment(horizontal='left')\n        \n    except Exception as e:\n        print(f\"  ERROR: {type(e).__name__}: {str(e)}\")\n        ws[f'D{r}'] = 0\n        ws[f'E{r}'].value = 0\n        ws[f'E{r}'].fill = red_fill\n        ws[f'F{r}'] = 0\n        ws[f'G{r}'] = f\"ERROR: {str(e)}\"\n\n# Save to bytes & return to n8n\nwith BytesIO() as out_stream:\n    wb.save(out_stream)\n    out_stream.seek(0)\n    result_b64 = base64.b64encode(out_stream.read()).decode()\n\noutput_timestamped = f\"DDC_Revit_IFC_Validation__{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx\"\n\n# Use the same directory as the validation rules file\nfull_output_path = os.path.join(output_directory, output_timestamped)\n\nreturn [{\n    \"json\": {\n        \"filename\": output_timestamped,\n        \"full_path\": full_output_path\n    },\n    \"binary\": {\n        \"data\": {\n            \"data\":          result_b64,\n            \"fileName\":      output_timestamped,\n            \"fileExtension\": \"xlsx\",\n            \"mimeType\":      \"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\"\n        }\n    }\n}]\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        320
+      ],
+      "id": "ecdc6345-30e4-4996-90ec-421d3e55f656",
+      "name": "Validate - Enhanced"
+    },
+    {
+      "parameters": {
+        "content": "## 🤖 AUTOMATED VALIDATION\n\nProcessing includes:\n- Project data analysis\n- Rules-based checking\n- Report creation with color coding\n\n🟩 Green = data present\n🟥 Red = data missing",
+        "height": 540,
+        "width": 600,
+        "color": 2
+      },
+      "id": "3198ff96-23c1-4ecc-8052-9b8373e04ba7",
+      "name": "Sticky Note - Validation",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 🔄 CONVERSION\n\nAutomatic conversion Project files → Excel\n\nIf file already exists, conversion is skipped",
+        "height": 540,
+        "width": 1120
+      },
+      "id": "212ce2df-1e1b-4a2a-ac29-f196fe98edff",
+      "name": "Sticky Note - Conversion",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        500,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 📂 SAVE & OPEN\n\n✅ Report saved automatically\n✅ Excel opens for viewing\n\nFilename includes date and time",
+        "height": 540,
+        "width": 420,
+        "color": 6
+      },
+      "id": "2f8361ac-63df-4c73-8102-9dfebf009ee3",
+      "name": "Sticky Note - Save & Open",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.full_path }}",
+        "options": {}
+      },
+      "id": "c43e7e56-560d-44fa-b788-f576f3e20a2f",
+      "name": "Save Validation Report1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=start \"\" \"{{ $json.full_path }}\""
+      },
+      "id": "842c3768-b04b-4ea8-81fb-431c67ed74f1",
+      "name": "Open Excel Report1",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $json[\"project_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        280
+      ],
+      "id": "195ebea8-2bdf-423f-b03c-6916cbae9f62",
+      "name": "Create - Excel filename"
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        740,
+        280
+      ],
+      "id": "7aee16b1-4b06-473a-a407-6439dc1e5c78",
+      "name": "Check - Does Excel file exist?",
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "e7fb1577-e753-43f5-9f5a-4d5285aeb96e",
+              "leftValue": "={{ $binary.data ? true : false }}",
+              "rightValue": "={{ true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "39594243-f11e-4e4c-83cc-a5ce3d90da94",
+      "name": "If - File exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        900,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=\"{{$json[\"path_to_converter\"]}}\" \"{{$json[\"project_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        420
+      ],
+      "id": "02db6f4c-9f5a-4237-b761-07b4503ad446",
+      "name": "Extract - Run converter",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "status-id",
+              "name": "status",
+              "value": "File already exists - skipping conversion",
+              "type": "string"
+            },
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        200
+      ],
+      "id": "81a9747b-de29-4401-b88e-5f250f3408e3",
+      "name": "Info - Skip conversion"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $node[\"Extract - Run converter\"].json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ca809749-cc33-4af1-851c-afd6a335b6ee",
+      "name": "Check - Did extraction succeed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-message-id",
+              "name": "error_message",
+              "value": "=Extraction failed: {{ $node[\"Extract - Run converter\"].json.error || \"Unknown error\" }}",
+              "type": "string"
+            },
+            {
+              "id": "error-code-id",
+              "name": "error_code",
+              "value": "={{ $node[\"Extract - Run converter\"].json.code || -1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3207f06b-5018-4043-903e-329c08230131",
+      "name": "Error - Show what went wrong",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1480,
+        400
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ae440142-a75c-46af-b8b6-990be0051680",
+      "name": "Merge - Continue workflow",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1480,
+        220
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start - Click to begin": {
+      "main": [
+        [
+          {
+            "node": "Setup - Define file paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup - Define file paths": {
+      "main": [
+        [
+          {
+            "node": "Create - Excel filename",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Project Excel File": {
+      "main": [
+        [
+          {
+            "node": "Merge Excel Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Validation Rules Path": {
+      "main": [
+        [
+          {
+            "node": "Read Validation Rules File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Validation Rules File": {
+      "main": [
+        [
+          {
+            "node": "Merge Excel Files",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Excel Files": {
+      "main": [
+        [
+          {
+            "node": "Validate - Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate - Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Save Validation Report1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Validation Report1": {
+      "main": [
+        [
+          {
+            "node": "Open Excel Report1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create - Excel filename": {
+      "main": [
+        [
+          {
+            "node": "Check - Does Excel file exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Does Excel file exist?": {
+      "main": [
+        [
+          {
+            "node": "If - File exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - File exists?": {
+      "main": [
+        [
+          {
+            "node": "Info - Skip conversion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract - Run converter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Run converter": {
+      "main": [
+        [
+          {
+            "node": "Check - Did extraction succeed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info - Skip conversion": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Did extraction succeed?": {
+      "main": [
+        [
+          {
+            "node": "Error - Show what went wrong",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge - Continue workflow",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge - Continue workflow": {
+      "main": [
+        [
+          {
+            "node": "Read Project Excel File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Validation Rules Path",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "875e26b4-98e8-4011-b454-2eb508e45d9a",
+  "meta": {
+    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+  },
+  "id": "ZaNTcAFO18APN2yA",
+  "tags": []
+}
