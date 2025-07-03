@@ -304,7 +304,6 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-https://github.com/datadrivenconstruction/ImportExcelToRevit
 
 ---
 
@@ -318,6 +317,7 @@ After transforming and enriching your Excel data, you can effortlessly push the 
 -  Automate data synchronization workflows between Excel and Revit
 
 > **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
+https://github.com/datadrivenconstruction/ImportExcelToRevit
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 
@@ -326,7 +326,7 @@ After transforming and enriching your Excel data, you can effortlessly push the 
 
 For AI-powered processing and advanced automation:
 
-🤖 **[Full LLM Pipeline](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
+🤖 **[CAD-(BIM)-to-Code Automation Pipeline with LLM (ChatGPT)](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
 
 Features ChatGPT integration, element classification, and code generation.
 
