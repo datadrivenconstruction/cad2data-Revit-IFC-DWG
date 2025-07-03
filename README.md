@@ -34,8 +34,8 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
-| **Revit (2015-2024)** | `.rvt` | RvtExporter.exe | Excel + DAE geometry |
-| **IFC 2x3** | `.ifc` | IfcExporter.exe | Excel + DAE geometry |
+| **Revit (2015-2025)** | `.rvt` | RvtExporter.exe | Excel + DAE geometry |
+| **IFC2x3, IFC4x1, IFC4x4, IFC4x, IFC4.3** | `.ifc` | IfcExporter.exe | Excel + DAE geometry |
 | **AutoCAD 1983-2025** | `.dwg` | DwgExporter.exe | Excel data |
 | **MicroStation v7-v8** | `.dgn` | DgnExporter.exe | Excel data |
 
