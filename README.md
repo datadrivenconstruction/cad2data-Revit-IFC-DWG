@@ -71,15 +71,17 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
    - Click **Import from File**
    - Select the `.json` file from the repo
    - Update file paths in the **Set** nodes
+     
+5. **▶️ Run the Workflow**
+     You're ready!  
+     Just click **Execute Workflow** in n8n to start converting your CAD files.
    
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
 
-5. **▶️ Run the Workflow**
-You're ready!  
-Just click **Execute Workflow** in n8n to start converting your CAD files.
+
 
 
 📺 Video Tutorial: 👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
