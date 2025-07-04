@@ -62,7 +62,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
    ```
    This will automatically download and open n8n in your browser.
 
-3. **Download this repository**  
+3. **Download this repository from GitHub**  
    - Click the green “Code” button → “Download ZIP”
    - Unzip the folder
 
