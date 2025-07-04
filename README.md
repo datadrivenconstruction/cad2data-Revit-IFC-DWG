@@ -114,7 +114,7 @@ source_file:       C:\Projects\Bridge.dgn
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ### From CAD/BIM to DataFrame: Structuring the Future of Construction Data
@@ -183,7 +183,7 @@ graph TD;
     E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-2.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## ⚡️  3. CAD-BIM Multi-Format Validation Pipeline
@@ -241,7 +241,7 @@ graph TD;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-validation-revit-ifc-autocad.jpg" alt="Validation Pipeline" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
 ## ⚡️  4. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
@@ -267,7 +267,7 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 ## ⚡️  5. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
@@ -301,7 +301,7 @@ graph TD;
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
 
