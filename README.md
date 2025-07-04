@@ -73,7 +73,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
    - Update file paths in the **Set** nodes
      
 5. **▶️ Run the Workflow**
-     You're ready!  
+     - You're ready!  
      Just click **Execute Workflow** in n8n to start converting your CAD files.
    
 <p align="center">
