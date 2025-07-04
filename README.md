@@ -50,38 +50,37 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 
 ## Quick Start
 
-### Prerequisites. What You Need  
-- ✅ Install [Node.js](https://nodejs.org/)  
-- ✅ Download or clone this repo  
+### ✅ Prerequisites. What You Need
 
-That’s it — everything else is ready:  
-- 🧩 n8n will load and start automatically when you run “npx n8n” in the command line  
-- 🔧 Converters for Revit, IFC, DWG, DGN are already included in repo
+1. **Install Node.js**  
+   Download from [nodejs.org](https://nodejs.org/) and install it.
 
-Just start in n8n the new project, import json file (n8n pipeline) and run your workflow)
-
-
-### Installation
-
-1. **Install n8n**
+2. **Start n8n**  
+   Open Command Prompt and run:
    ```bash
    npx n8n
    ```
+   This will automatically download and open n8n in your browser.
 
-2. **Download Converters**
-   - Place converter executables in a dedicated folder (e.g., `C:\Converters\`)
+3. **Download this repository**  
+   - Click the green “Code” button → “Download ZIP”
+   - Unzip the folder
 
-3. **Import Workflow**
-   - Download workflow JSON from this repository
-   - In n8n: **Import from file** → Select JSON
-   - Configure file paths in the **Set** node
+4. **Import the workflow into n8n**
+   - Open n8n in your browser (`http://localhost:5678`)
+   - Click **Import from File**
+   - Select the `.json` file from the repo
+   - Update file paths in the **Set** nodes
 
-### Configuration Example
+---
 
-```javascript
-// Basic conversion setup
-path_to_converter: "C:\\Converters\\RvtExporter.exe"
-source_file: "C:\\Projects\\Sample.rvt"
+## ▶️ Run the Workflow
+
+You're ready!  
+Just click **Execute Workflow** in n8n to start converting your CAD files.
+
+
+
 ```
 
 📺 Video Tutorial: 👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
