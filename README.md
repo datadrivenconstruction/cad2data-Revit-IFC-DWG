@@ -50,10 +50,16 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 
 ## Quick Start
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) installed
-- [n8n](https://n8n.io/download) workflow platform
-- DDC Converters ([Download](https://cadbimconverter.com/convertors/))
+### Prerequisites. What You Need  
+- ✅ Install [Node.js](https://nodejs.org/)  
+- ✅ Download or clone this repo  
+
+That’s it — everything else is ready:  
+- 🧩 n8n will load and start automatically when you run “npx n8n” in the command line  
+- 🔧 Converters for Revit, IFC, DWG, DGN are already included in repo
+
+Just start in n8n the new project, import json file (n8n pipeline) and run your workflow)
+
 
 ### Installation
 
