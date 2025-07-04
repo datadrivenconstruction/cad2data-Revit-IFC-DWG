@@ -74,7 +74,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
      
 5. **▶️ Run the Workflow**
      - You're ready!  
-     Just click **Execute Workflow** in n8n to start converting your CAD files.
+     Just click **Execute Workflow** in n8n to start process your CAD-BIM files
    
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
