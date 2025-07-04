@@ -161,9 +161,9 @@ A DataFrame is the most widely used data structure in modern data processing and
 - Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
 
 #### Export Modes
-- **Basic**: Essential geometry and properties
-- **Standard**: Includes materials and parameters
-- **Complete**: Full model data with relationships
+- **Basic** (Fast): Essential geometry and properties (309 Revit Categories)
+- **Standard** (Moderate): Includes materials and parameters (724 Revit Categories) 
+- **Complete** (Slow): Full model data with relationships (All 1209 Revit Categories) 
 
 #### Optional Outputs
 - `bbox`: Include bounding box geometry
