@@ -246,6 +246,38 @@ graph TD;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
+## 🛠 Troubleshooting `Module 'os' is blocked`
+### ❗ Issue  
+In n8n versions **1.98.0–1.101.x**, the Python Code node (Pyodide) completely blocks the `os` module, causing this error:
+```ModuleNotFoundError: Module 'os' is blocked```
+
+his also affects libraries like `pandas`, `openpyxl`, `bs4`, `pathlib`, and `email` that import `os` internally.
+
+---
+
+### ✅ Quick Fixes
+
+- **Upgrade to n8n ≥ 1.102.0** (e.g., 1.102.1 or Docker `:next` image):  
+  - `import os` works again (only `os.system` remains blocked).  
+  - Using npm:  
+    ```bash
+    npm install -g n8n@1.102.1
+    # or
+    npx n8n@1.102.1
+    ```  
+  - Using Docker: set  
+    ```yaml
+    image: n8nio/n8n:next
+    ```  
+    then run:  
+    ```bash
+    docker-compose pull && docker-compose up -d
+    ```
+
+
+
+
+
 ## ⚡️  4. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
