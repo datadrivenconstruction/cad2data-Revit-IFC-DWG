@@ -123,11 +123,11 @@ source_file:       C:\Projects\Bridge.dgn
 If you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:
 
 ```text
-"DDC Exporter XXXXXXX\datadrivenlibs\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\datadrivenlibs\RvtExporter.exe"
 ```
 instead of:
 ```text
-"DDC Exporter XXXXXXX\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\RvtExporter.exe"
 ```
 
 <p align="center">
