@@ -118,6 +118,17 @@ source_file:       C:\Projects\Plan.dwg
 path_to_converter: C:\Converters\DgnExporter.exe
 source_file:       C:\Projects\Bridge.dgn
 ```
+### 🧩 Converter Path Tip
+
+If you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:
+
+```text
+"DDC Exporter XXXXXXX\datadrivenlibs\RvtExporter.exe"
+```
+instead of:
+```text
+"DDC Exporter XXXXXXX\RvtExporter.exe"
+```
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="QTO Report Sample" width="100%"/>
