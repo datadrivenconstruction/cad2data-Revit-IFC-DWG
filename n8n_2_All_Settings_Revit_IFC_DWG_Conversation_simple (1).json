@@ -1,0 +1,257 @@
+{
+  "name": "n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Revit File Converter",
+        "formDescription": "Configure your Revit file conversion settings",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Path to Revit Converter (RvtExporter.exe)",
+              "fieldType": "string",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Revit File Path",
+              "fieldType": "string",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Export Mode",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "basic"
+                  },
+                  {
+                    "option": "standard"
+                  },
+                  {
+                    "option": "complete"
+                  },
+                  {
+                    "option": "custom"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Conversion Options",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "bbox"
+                  },
+                  {
+                    "option": "schedule"
+                  },
+                  {
+                    "option": "sheets2pdf"
+                  },
+                  {
+                    "option": "-no-xlsx"
+                  },
+                  {
+                    "option": "-no-collada"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        1000
+      ],
+      "id": "6a0ca44e-78f3-4517-9670-183fc2766f10",
+      "name": "Form UI",
+      "webhookId": "simple-revit-converter-form"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        500,
+        580
+      ],
+      "id": "68fa20c2-1a79-497e-a29a-684171fbb25b",
+      "name": "Manual Trigger (Optional)"
+    },
+    {
+      "parameters": {
+        "content": "\n\n## ⚠️ Troubleshooting\n\n### Browser Popup Issues\nIf the form doesn't open:\n1. Look for a popup blocker icon in your browser's address bar\n2. Click it and select \"Always allow popups from this site\"\n3. Refresh the page and try again\n\n### Executable Path Issues\nIf conversion fails, ensure you're using the correct path:\n\n✅ **Correct path:**\n```\nC:\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe\n```\n\n❌ **Incorrect path:**\n```\nC:\\Community\\DDC_Converter_Revit\\RvtExporter.ex",
+        "height": 540,
+        "width": 540,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        420,
+        1180
+      ],
+      "typeVersion": 1,
+      "id": "8725e307-63d8-41d2-83f8-f491d1e69b4f",
+      "name": "Instructions"
+    },
+    {
+      "parameters": {
+        "executeOnce": "=",
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\" {{ $json['(optional) Export mode (basic, standard, complete, custom) '] }} {{ $json['(optional) Add the BoundingBox geometry of each element in XLSX '] }} {{ $json['(optional) Export all Schedules '] }} {{ $json['(optional) Export all Sheets to PDF'] }} {{ $json['(optional) Disable export to ']['xlsx format'] }} {{ $json['(optional) Disable export to ']['dae format '] }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        760
+      ],
+      "id": "1171e4c9-3433-473d-8bfd-b5d369e942e3",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_revit_converter",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "revit_file",
+              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            },
+            {
+              "id": "c3939399-e855-44a7-bb47-83dbb1e85e4f",
+              "name": "(optional) Export mode (basic, standard, complete, custom) ",
+              "value": "basic",
+              "type": "string"
+            },
+            {
+              "id": "748a7f80-f0cb-4147-bb22-6f88818c5a63",
+              "name": "(optional) Add the BoundingBox geometry of each element in XLSX ",
+              "value": "bbox",
+              "type": "string"
+            },
+            {
+              "id": "75f4016f-f04e-48ae-aae6-c231a5cc69aa",
+              "name": "(optional) Export all Schedules ",
+              "value": "schedule",
+              "type": "string"
+            },
+            {
+              "id": "bfbbccdb-e781-47fd-8e84-107f1ef57460",
+              "name": "(optional) Export all Sheets to PDF",
+              "value": "sheets2pdf",
+              "type": "string"
+            },
+            {
+              "id": "acc49689-ab70-4620-87ca-309ed90c0acd",
+              "name": "(optional) Disable export to .xlsx format",
+              "value": "-no-xlsx",
+              "type": "string"
+            },
+            {
+              "id": "bcbb4a29-c290-4ca4-b71b-1df755a14458",
+              "name": "(optional) Disable export to .dae format ",
+              "value": "-no-collada",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        580
+      ],
+      "id": "ac562c06-f69d-4a06-977d-e4c6d5161b83",
+      "name": "Set the conversion variables"
+    },
+    {
+      "parameters": {
+        "content": "### Option 1: Form UI (Recommended)\n- Click **\"Form UI\"** to open the web form\n- Fill in your converter path and Revit file path\n- Select export mode and options\n- **⚠️ Browser Popup Notice**: If your browser blocks the popup window, click the popup blocker icon in the address bar and select \"Always allow popups from this site\"",
+        "height": 360,
+        "width": 540,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        800
+      ],
+      "id": "fc0fc9cc-e4da-4e17-8501-3c2952c1c097",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "### Option 1: Manual Variables (Optional)\n- Click **\"Manual Trigger\"** to use pre-configured variables\n- Modify the variables in the **\"Set Variables\"** node as needed\n\n## 🔧 Configuration\n- Update the **RvtExporter.exe** path in the form or variables\n- Ensure the path points to the executable inside the **`datadrivenlibs`** folder",
+        "height": 420,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        360
+      ],
+      "id": "80f31def-9fa4-4b70-94b9-49d35c24fc6d",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Form UI": {
+      "main": [
+        []
+      ]
+    },
+    "Manual Trigger (Optional)": {
+      "main": [
+        [
+          {
+            "node": "Set the conversion variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set the conversion variables": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "157b130a-1a72-434f-be04-c77c831f84db",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+  },
+  "id": "eig7vcDtXaL54pbU",
+  "tags": []
+}
