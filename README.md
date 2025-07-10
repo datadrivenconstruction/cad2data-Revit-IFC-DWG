@@ -261,31 +261,24 @@ graph TD;
 ### ❗ Issue  
 In n8n versions **1.98.0–1.101.x**, the Python Code node (Pyodide) completely blocks the `os` module, causing this error:
 ```ModuleNotFoundError: Module 'os' is blocked```
-
 his also affects libraries like `pandas`, `openpyxl`, `bs4`, `pathlib`, and `email` that import `os` internally.
-
 ---
 
-### ✅ Quick Fixes
+### ✅ Solution  
+To avoid this error, **use n8n version 1.97** where the `os` module is not blocked.  
+You can launch it with the following command:
 
-- **Upgrade to n8n ≥ 1.102.0** (e.g., 1.102.1 or Docker `:next` image):  
-  - `import os` works again (only `os.system` remains blocked).  
-  - Using npm:  
-    ```bash
-    npm install -g n8n@1.102.1
-    # or
-    npx n8n@1.102.1
-    ```  
-  - Using Docker: set  
-    ```yaml
-    image: n8nio/n8n:next
-    ```  
-    then run:  
-    ```bash
-    docker-compose pull && docker-compose up -d
-    ```
-
-
+```bash
+npx n8n@1.97
+```
+or
+```bash
+npm install n8n@1.97
+```
+Then run n8n as usual:
+```
+npx n8n
+```
 
 
 
