@@ -259,10 +259,8 @@ graph TD;
 
 ## 🛠 Troubleshooting `Module 'os' is blocked`
 ### ❗ Issue  
-In n8n versions **1.98.0–1.101.x**, the Python Code node (Pyodide) completely blocks the `os` module, causing this error:
-```ModuleNotFoundError: Module 'os' is blocked```
-his also affects libraries like `pandas`, `openpyxl`, `bs4`, `pathlib`, and `email` that import `os` internally.
----
+In n8n versions **1.98.0–1.101.x**, the Python Code node (Pyodide) completely blocks the `os` module, causing this error: 
+```ModuleNotFoundError: Module 'os' is blocked``` his also affects libraries like `pandas`, `openpyxl`, `bs4`, `pathlib`, and `email` that import `os` internally. ---
 
 ### ✅ Solution  
 To avoid this error, **use n8n version 1.97** where the `os` module is not blocked.  
