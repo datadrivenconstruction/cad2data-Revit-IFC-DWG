@@ -1,15 +1,15 @@
 {
-  "name": "Revit_Conversation_with_n8n_simple",
+  "name": "My workflow 12",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        840,
-        -400
+        0,
+        0
       ],
-      "id": "b558adfd-ddc1-4c68-b4d0-0d2c37742fb8",
+      "id": "ad8ac98f-ffb4-4227-a512-591f1315c7c5",
       "name": "When clicking ‘Test workflow’"
     },
     {
@@ -20,10 +20,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1220,
-        -400
+        380,
+        0
       ],
-      "id": "044591de-4e2a-4928-9d43-1b9410102950",
+      "id": "a1dcdd31-1e1e-4bfd-8dbc-05eab6ccaabb",
       "name": "Execute Command"
     },
     {
@@ -49,11 +49,26 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1040,
-        -400
+        200,
+        0
       ],
-      "id": "19e70242-b7bd-4cdc-a755-689a6752110e",
+      "id": "6868b718-4577-4867-b585-af3e23fa8d7f",
       "name": "Set"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\RvtExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\RvtExporter.exe\"\n```",
+        "height": 300,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        200
+      ],
+      "id": "3333a15d-2e12-434f-bb6a-35463d0d566a",
+      "name": "Sticky Note"
     }
   ],
   "pinData": {
@@ -85,22 +100,15 @@
           }
         ]
       ]
-    },
-    "Execute Command": {
-      "main": [
-        []
-      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "79c4670d-7c5c-4a3d-8602-1b5673c97cd6",
+  "versionId": "",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "eVNIDONEUR6DIZRP",
   "tags": []
 }
