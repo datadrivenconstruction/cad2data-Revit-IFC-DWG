@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 12",
+  "name": "n8n_1_Revit_IFC_DWG_Conversation_simple",
   "nodes": [
     {
       "parameters": {},
@@ -9,7 +9,7 @@
         0,
         0
       ],
-      "id": "ad8ac98f-ffb4-4227-a512-591f1315c7c5",
+      "id": "f594659a-c07e-432a-8217-432c58eeba11",
       "name": "When clicking ‘Test workflow’"
     },
     {
@@ -23,7 +23,7 @@
         380,
         0
       ],
-      "id": "a1dcdd31-1e1e-4bfd-8dbc-05eab6ccaabb",
+      "id": "c4443ade-03e1-4b6e-b166-513b732265fd",
       "name": "Execute Command"
     },
     {
@@ -52,7 +52,7 @@
         200,
         0
       ],
-      "id": "6868b718-4577-4867-b585-af3e23fa8d7f",
+      "id": "58f2db40-3d61-4d14-b973-1a64141970d9",
       "name": "Set"
     },
     {
@@ -67,8 +67,23 @@
         -20,
         200
       ],
-      "id": "3333a15d-2e12-434f-bb6a-35463d0d566a",
+      "id": "de100384-c9f0-48e2-9004-ebe013605cdf",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). Your support helps us improve and continue developing open solutions for the community!**\n",
+        "height": 100,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -180
+      ],
+      "id": "ee47a66f-7c6c-45d2-92ac-82fbdbc86d13",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {
@@ -106,9 +121,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "",
+  "versionId": "fb4f87b9-0d16-4544-b176-832aa5e259f6",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
+  "id": "wav1VslkXItU7wW5",
   "tags": []
 }

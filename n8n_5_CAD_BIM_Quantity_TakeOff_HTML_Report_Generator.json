@@ -1,15 +1,15 @@
 {
-  "name": "CAD-BIM Quantity TekeOff HTML Report Generator",
+  "name": "n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1780,
-        580
+        80,
+        520
       ],
-      "id": "fe089e9a-bb16-440b-900d-21c5cf782286",
+      "id": "241c49ea-fb93-4ea3-bb98-289975166859",
       "name": "Start - Click to begin"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1580,
-        580
+        280,
+        520
       ],
-      "id": "e56f9ca7-214a-4c90-a6fa-657d6c875e26",
+      "id": "81794b30-2b07-43e2-9201-98387ff78bbc",
       "name": "Setup - Define file paths"
     },
     {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1380,
-        580
+        480,
+        520
       ],
-      "id": "5493ccd6-3126-4a7a-a2fa-ca286a69935b",
+      "id": "db1ff87a-1d29-4067-879d-b1a23f76fc72",
       "name": "Extract - Run Revit converter",
       "continueOnFail": true
     },
@@ -79,13 +79,13 @@
         },
         "options": {}
       },
-      "id": "433af16e-b5b4-4b02-989b-7c140afa52b7",
+      "id": "6c41c7e7-0ead-4b02-af0e-45fb8995ac91",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -1180,
-        580
+        680,
+        520
       ]
     },
     {
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -980,
-        580
+        880,
+        520
       ],
-      "id": "de432702-44fb-4cf0-90f0-78fb50206721",
+      "id": "4783457b-8851-4429-98cb-c0c9a0e6b98d",
       "name": "Success - Create Excel filename"
     },
     {
@@ -131,39 +131,39 @@
         },
         "options": {}
       },
-      "id": "419aaa9e-7edc-43b4-a666-2700de939884",
+      "id": "724dfad0-6d77-48f0-ba8e-486f3e710099",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -980,
-        380
+        880,
+        320
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "673bbba9-1537-4852-8d4e-b67c4991253c",
+      "id": "cd9e9985-f8d1-475e-b6ec-54525947cc23",
       "name": "Extract - Read Excel file from disk",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        -780,
-        580
+        1080,
+        520
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "c4b05b5b-6d0b-4ab8-89fb-a54fe86899d9",
+      "id": "93c12394-8d47-471e-8606-634acf41042e",
       "name": "Extract - Parse Excel to data",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 1,
       "position": [
-        -580,
-        580
+        1280,
+        520
       ]
     },
     {
@@ -177,13 +177,13 @@
           ]
         }
       },
-      "id": "5d2bdce5-75d2-40a2-b10b-fd443a982118",
+      "id": "30ed9ddb-7c2a-470e-8505-8680e0ed9780",
       "name": "Transform - Filter only OST_Walls",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        -380,
-        580
+        1480,
+        520
       ]
     },
     {
@@ -215,10 +215,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -180,
-        580
+        1680,
+        520
       ],
-      "id": "5c2ac481-8340-4221-afdb-a3c7ca520abb",
+      "id": "096b4891-d6b5-4dba-8a96-a4bd1a2eeb90",
       "name": "Transform - Clean wall data"
     },
     {
@@ -228,10 +228,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        40,
-        580
+        1900,
+        520
       ],
-      "id": "74b0b328-820d-4f85-bc8a-c6bb6d983d97",
+      "id": "dfb5c233-2e8f-4980-8a15-e9da36ee6c31",
       "name": "Transform - Group by Type Name & sum Volume"
     },
     {
@@ -241,10 +241,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        240,
-        580
+        2100,
+        520
       ],
-      "id": "1ab073ee-de46-4224-a4b1-cee2e92dfe20",
+      "id": "4c2636a3-f71f-4fbd-a881-1523a5fcd40e",
       "name": "Transform - Generate HTML Report"
     },
     {
@@ -255,10 +255,10 @@
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        460,
-        580
+        2320,
+        520
       ],
-      "id": "a33f33de-dc6d-4fe7-bf27-86156906827b",
+      "id": "80ed9e3c-21f8-4908-88cf-d464993b8b38",
       "name": "Load - Save HTML Report"
     },
     {
@@ -290,10 +290,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        660,
-        580
+        2520,
+        520
       ],
-      "id": "feb89705-054c-446a-940b-60ba849fcdfe",
+      "id": "68024437-1241-47ee-b551-1009bc2d631f",
       "name": "Success - Final results"
     },
     {
@@ -306,10 +306,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1840,
-        240
+        20,
+        180
       ],
-      "id": "d7749dcd-349f-455c-aeb6-3cbfeccaf26b",
+      "id": "d1a53a9c-d128-4e16-97c6-308abf9c05ea",
       "name": "Extract Phase Note"
     },
     {
@@ -322,10 +322,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -420,
-        240
+        1440,
+        180
       ],
-      "id": "eaa62f9b-20cf-4aa6-afd9-c51dab8d3dd4",
+      "id": "0c0ddc99-7c02-4836-86b6-dad4adcdd88b",
       "name": "Transform Phase Note"
     },
     {
@@ -337,10 +337,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        400,
-        240
+        2260,
+        180
       ],
-      "id": "fb894369-4cb2-42a2-abf8-e0c61ba8493c",
+      "id": "3dd47ba4-dca3-4e00-a175-9ee5de83fcc5",
       "name": "Load Phase Note"
     },
     {
@@ -353,11 +353,26 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1860,
-        60
+        0,
+        0
       ],
-      "id": "bd19674e-a352-48fc-8c06-88ad296e000f",
+      "id": "0b90ffc0-62f6-48d5-9b4d-a2131cdb97d4",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). Your support helps us improve and continue developing open solutions for the community!**\n",
+        "height": 100,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2440,
+        -120
+      ],
+      "id": "abf18860-0b8c-4a20-8af7-6a062f640b07",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {
@@ -501,10 +516,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "f166c01d-5ae5-418e-af24-d11c81839f53",
+  "versionId": "9fc5c896-9c6d-4067-93b1-23872933d6cf",
   "meta": {
-    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "Hta5FU7DD54QKxUK",
+  "id": "R9yA7ZYb8c3wYbym",
   "tags": []
 }

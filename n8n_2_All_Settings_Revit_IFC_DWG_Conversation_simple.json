@@ -68,10 +68,10 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        640,
-        1000
+        220,
+        640
       ],
-      "id": "6a0ca44e-78f3-4517-9670-183fc2766f10",
+      "id": "4b82a293-4601-4fe2-a967-6584f6d0fa2c",
       "name": "Form UI",
       "webhookId": "simple-revit-converter-form"
     },
@@ -80,10 +80,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        500,
-        580
+        80,
+        220
       ],
-      "id": "68fa20c2-1a79-497e-a29a-684171fbb25b",
+      "id": "5ca79042-b12d-440f-b5d0-95764bdadd93",
       "name": "Manual Trigger (Optional)"
     },
     {
@@ -95,11 +95,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        420,
-        1180
+        0,
+        820
       ],
       "typeVersion": 1,
-      "id": "8725e307-63d8-41d2-83f8-f491d1e69b4f",
+      "id": "363474f1-3f18-4777-b043-a114d397810f",
       "name": "Instructions"
     },
     {
@@ -110,10 +110,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1060,
-        760
+        640,
+        400
       ],
-      "id": "1171e4c9-3433-473d-8bfd-b5d369e942e3",
+      "id": "98548c87-95e9-42da-ac4d-e51576790bbd",
       "name": "Execute Command"
     },
     {
@@ -175,10 +175,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        740,
-        580
+        320,
+        220
       ],
-      "id": "ac562c06-f69d-4a06-977d-e4c6d5161b83",
+      "id": "a65666b6-fd9d-493d-af71-cde4026c4cfa",
       "name": "Set the conversion variables"
     },
     {
@@ -191,10 +191,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        420,
-        800
+        0,
+        440
       ],
-      "id": "fc0fc9cc-e4da-4e17-8501-3c2952c1c097",
+      "id": "b0d1d864-e0b4-40f0-917f-f242dc4d3e22",
       "name": "Sticky Note1"
     },
     {
@@ -206,20 +206,30 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        420,
-        360
+        0,
+        0
       ],
-      "id": "80f31def-9fa4-4b70-94b9-49d35c24fc6d",
+      "id": "1dce16f6-3f75-4e83-b13e-3e487eb90903",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). Your support helps us improve and continue developing open solutions for the community!**\n",
+        "height": 100,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -120
+      ],
+      "id": "9e319bee-67b8-4006-b736-16d3d6080897",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
   "connections": {
-    "Form UI": {
-      "main": [
-        []
-      ]
-    },
     "Manual Trigger (Optional)": {
       "main": [
         [
@@ -247,11 +257,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "157b130a-1a72-434f-be04-c77c831f84db",
+  "versionId": "075abc5f-42e6-4bcf-b9c4-70cda239f65c",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "eig7vcDtXaL54pbU",
+  "id": "Hg6dClNKLx174ZDL",
   "tags": []
 }

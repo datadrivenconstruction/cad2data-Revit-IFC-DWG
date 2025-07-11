@@ -1,15 +1,15 @@
 {
-  "name": "n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX",
+  "name": "n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1780,
-        580
+        80,
+        560
       ],
-      "id": "fe089e9a-bb16-440b-900d-21c5cf782286",
+      "id": "548e3592-e44d-4b6b-a023-e7534fbae7fe",
       "name": "Start - Click to begin"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1580,
-        580
+        280,
+        560
       ],
-      "id": "e56f9ca7-214a-4c90-a6fa-657d6c875e26",
+      "id": "67175767-a817-434a-bd96-493ccc847faa",
       "name": "Setup - Define file paths"
     },
     {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1380,
-        580
+        480,
+        560
       ],
-      "id": "5493ccd6-3126-4a7a-a2fa-ca286a69935b",
+      "id": "a27bde68-2ba1-468d-9352-99c1ed13124c",
       "name": "Extract - Run Revit converter",
       "continueOnFail": true
     },
@@ -79,13 +79,13 @@
         },
         "options": {}
       },
-      "id": "433af16e-b5b4-4b02-989b-7c140afa52b7",
+      "id": "aee057dd-33e4-43e3-8aaf-3e206da617c7",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -1180,
-        580
+        680,
+        560
       ]
     },
     {
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -980,
-        660
+        880,
+        640
       ],
-      "id": "de432702-44fb-4cf0-90f0-78fb50206721",
+      "id": "6e81b2e9-0531-4c8a-ae92-c57927741d03",
       "name": "Success - Create Excel filename"
     },
     {
@@ -131,39 +131,39 @@
         },
         "options": {}
       },
-      "id": "419aaa9e-7edc-43b4-a666-2700de939884",
+      "id": "16638ef5-11c8-4eef-9225-a1c12f23b37a",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -980,
-        480
+        880,
+        460
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "673bbba9-1537-4852-8d4e-b67c4991253c",
+      "id": "6ee3f92b-0420-4696-8f6d-35f1f449dfa2",
       "name": "Extract - Read Excel file from disk",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        -780,
-        580
+        1080,
+        560
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "c4b05b5b-6d0b-4ab8-89fb-a54fe86899d9",
+      "id": "aa4a88dc-878a-4d4d-8b2d-ad6125239e3b",
       "name": "Extract - Parse Excel to data",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 1,
       "position": [
-        -580,
-        580
+        1280,
+        560
       ]
     },
     {
@@ -176,10 +176,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1840,
-        240
+        20,
+        220
       ],
-      "id": "d7749dcd-349f-455c-aeb6-3cbfeccaf26b",
+      "id": "2211a64a-aece-45df-94cb-0be45c67e7bb",
       "name": "Extract Phase Note"
     },
     {
@@ -192,11 +192,26 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1860,
-        20
+        0,
+        0
       ],
-      "id": "bd19674e-a352-48fc-8c06-88ad296e000f",
+      "id": "4ec3734e-0f00-4a23-872b-0724e8288762",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). Your support helps us improve and continue developing open solutions for the community!**\n",
+        "height": 100,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -120
+      ],
+      "id": "a90851f7-3416-4849-90ee-24f80ad9bfef",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {
@@ -279,21 +294,16 @@
           }
         ]
       ]
-    },
-    "Extract - Parse Excel to data": {
-      "main": [
-        []
-      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "b1f48600-0aa2-460d-8fd0-141b5287c971",
+  "versionId": "e6f5a96f-67f8-4f8d-8aed-35a800c580fd",
   "meta": {
-    "instanceId": "5ba872643a08525d217680a9bbff49bd9855bd3fe8ccba4458b363643e613bee"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "Hta5FU7DD54QKxUK",
+  "id": "obOTfxI8uwHtPe96",
   "tags": []
 }
