@@ -147,8 +147,7 @@ Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — ar
 -  Fully compatible with **Python**, **pandas**, **n8n**, and LLMs
 -  Ideal for dashboards, analytics, validation, and reporting
 
-From **automated QTO reports** to **quality checks and IFC parsing**,  
-**DataFrames are the universal interface** between raw CAD-BIM data and intelligent workflows.
+From **automated QTO reports** to **quality checks and IFC parsing**, **DataFrames are the universal interface** between raw CAD-BIM data and intelligent workflows.
 
  
 <p align="center">
