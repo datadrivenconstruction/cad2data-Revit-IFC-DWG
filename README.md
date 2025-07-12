@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM-Revit-IFC-AutoCAD-1.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
 # 🏗️ CAD & BIM Data Pipeline: Generate Dashboards, Validations, and Quantity Reports in n8n (with ChatGPT and other LLMs)
