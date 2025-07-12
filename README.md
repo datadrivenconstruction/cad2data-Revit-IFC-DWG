@@ -98,7 +98,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
     B --> C[🧰 Execute Pipeline]
-    C --> D[📂 Output XLSX DataFrame / +DAE for Revit and IFC]
+    C --> D[📂 Output XSLX database of elements + DAE geometry + Schedules + PDF Drawings]
 ```
 Example Variables
 ```# Revit
@@ -185,13 +185,12 @@ A DataFrame is the most widely used data structure in modern data processing and
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
-    B --> C[⚙️ Configure Export Mode]
-    C --> D[🧰 Execute Pipeline]
-    D --> E{Export Options}
-    E -->|Standard| F[📊 XLSX + DAE]
-    E -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
-    E -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
-    E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
+    B --> C[🧰 Execute Pipeline]
+    C --> D{Export Options}
+    D -->|Standard| F[📊 XLSX + DAE]
+    D -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
+    D -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
+    D -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
