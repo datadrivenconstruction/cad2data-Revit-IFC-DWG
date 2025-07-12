@@ -102,19 +102,19 @@ graph TD;
 ```
 Example Variables
 ```# Revit
-path_to_converter: C:\Converters\RvtExporter.exe
+path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
 source_file:       C:\Projects\Model.rvt
 
 # IFC
-path_to_converter: C:\Converters\IfcExporter.exe
+path_to_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
 source_file:       C:\Projects\Model.ifc
 
 # DWG
-path_to_converter: C:\Converters\DwgExporter.exe
+path_to_converter: C:\Converters\datadrivenlibs\DwgExporter.exe
 source_file:       C:\Projects\Plan.dwg
 
 # DGN
-path_to_converter: C:\Converters\DgnExporter.exe
+path_to_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
 source_file:       C:\Projects\Bridge.dgn
 ```
 ### 🧩 Converter Path Tip
