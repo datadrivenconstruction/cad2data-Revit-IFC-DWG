@@ -102,16 +102,16 @@ graph TD;
 ```
 Example Variables
 ```# Revit
-path_to_revit_ifc_dwg_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
-source_file:       C:\Projects\Model.rvt
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\RvtExporter.exe
+source_file:                      C:\Projects\Model.rvt
 
 # IFC
-path_to_revit_ifc_dwg_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
-revit_ifc_dwg_file:       C:\Projects\Model.ifc
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\IfcExporter.exe
+revit_ifc_dwg_file:               C:\Projects\Model.ifc
 
 # DWG
-path_to_revit_ifc_dwg_converter: C:\Converters\datadrivenlibs\DwgExporter.exe
-revit_ifc_dwg_file:       C:\Projects\Plan.dwg
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\DwgExporter.exe
+revit_ifc_dwg_file:               C:\Projects\Plan.dwg
 
 # DGN
 path_to_revit_ifc_dwg_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
