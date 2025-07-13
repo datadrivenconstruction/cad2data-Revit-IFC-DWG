@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM-Revit-IFC-AutoCAD-1.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
-# 🏗️ CAD & BIM Data Pipeline: Generate Dashboards, Validations, and Quantity Reports in n8n (with ChatGPT and other LLMs)
+# 🏗️ CAD & BIM Data Pipeline: Generate Dashboards, Graphs, Documents, Validations, and Quantity Reports in n8n (with ChatGPT and other LLMs)
 
 **Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
@@ -34,18 +34,17 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
-| **Revit (2015-2025)** | `.rvt` | RvtExporter.exe | Excel + DAE geometry |
-| **IFC2x3, IFC4x1, IFC4x4, IFC4x, IFC4.3** | `.ifc` | IfcExporter.exe | Excel + DAE geometry |
-| **AutoCAD 1983-2025** | `.dwg` | DwgExporter.exe | Excel data |
-| **MicroStation v7-v8** | `.dgn` | DgnExporter.exe | Excel data |
+| **Revit (2015-2025)** | `.rvt` | RvtExporter.exe | XSLX database of elements + DAE geometry + Schedules + PDF Drawings |
+| **IFC2x3, IFC4x1, IFC4x4, IFC4x, IFC4.3** | `.ifc` | IfcExporter.exe | XSLX database of elements + DAE geometry |
+| **AutoCAD 1983-2025** | `.dwg` | DwgExporter.exe | XSLX database of elements + PDF Drawings |
+| **MicroStation v7-v8** | `.dgn` | DgnExporter.exe | XSLX database of elements |
 
 ## Key Features
 
--  **Automated Conversion**: One-click conversion from CAD/BIM to Excel
+-  **Automated Conversion**: One-click conversion from CAD/BIM to Excel (element database with all properties and parameters) 
 -  **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
 -  **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
 -  **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
--  **Quantity Takeoffs**: Built-in QTO report generation for walls
 -  **Extensible**: Easy to customize with Python or AI post-processing
 
 ## Quick Start
@@ -99,35 +98,35 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
     B --> C[🧰 Execute Pipeline]
-    C --> D[📂 Output XLSX DataFrame / +DAE for Revit and IFC]
+    C --> D[📂 Output XSLX database of elements + DAE geometry + Schedules + PDF Drawings]
 ```
 Example Variables
 ```# Revit
-path_to_converter: C:\Converters\RvtExporter.exe
-source_file:       C:\Projects\Model.rvt
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\RvtExporter.exe
+source_file:                      C:\Projects\Model.rvt
 
 # IFC
-path_to_converter: C:\Converters\IfcExporter.exe
-source_file:       C:\Projects\Model.ifc
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\IfcExporter.exe
+revit_ifc_dwg_file:               C:\Projects\Model.ifc
 
 # DWG
-path_to_converter: C:\Converters\DwgExporter.exe
-source_file:       C:\Projects\Plan.dwg
+path_to_revit_ifc_dwg_converter:  C:\Converters\datadrivenlibs\DwgExporter.exe
+revit_ifc_dwg_file:               C:\Projects\Plan.dwg
 
 # DGN
-path_to_converter: C:\Converters\DgnExporter.exe
-source_file:       C:\Projects\Bridge.dgn
+path_to_revit_ifc_dwg_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
+revit_ifc_dwg_file:       C:\Projects\Bridge.dgn
 ```
 ### 🧩 Converter Path Tip
 
 If you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:
 
 ```text
-"DDC_Exporter_XXXXXXX\datadrivenlibs\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\datadrivenlibs\XxxExporter.exe"
 ```
 instead of:
 ```text
-"DDC_Exporter_XXXXXXX\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\XxxExporter.exe"
 ```
 
 <p align="center">
@@ -148,15 +147,14 @@ Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — ar
 -  Fully compatible with **Python**, **pandas**, **n8n**, and LLMs
 -  Ideal for dashboards, analytics, validation, and reporting
 
-From **automated QTO reports** to **quality checks and IFC parsing**,  
-**DataFrames are the universal interface** between raw CAD-BIM data and intelligent workflows.
+From **automated QTO reports** to **quality checks and IFC parsing**, **DataFrames are the universal interface** between raw CAD-BIM data and intelligent workflows.
 
  
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-11.jpg" alt="QTO Report Sample" width="100%"/>
 </p>
 
-A DataFrame is the most widely used data structure in modern data processing and automation. Popularized by tools like pandas in Python (is downloaded 12 million times a day), it represents data in a simple table format — rows and columns — making it easy to filter, group, analyze, and visualize. From financial modeling to CAD-BIM quantity take-offs, from AI training sets to engineering reports, the DataFrame has become the universal language of data-driven workflows. Its flexibility, readability, and compatibility with ETL pipelines make it the foundation of almost every modern automation task.
+A DataFrame is the most widely used data structure in modern data processing and automation. Popularized by tools like pandas in Python (is downloaded 12 million times a day), it represents data in a simple table format — rows and columns — making it easy to filter, group, analyze, and visualize. DataFrame has become the universal language of data-driven workflows. Its flexibility, readability, and compatibility with ETL pipelines make it the foundation of almost every modern automation task.
 ### Learn More:
 - [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
 - [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
@@ -187,13 +185,12 @@ A DataFrame is the most widely used data structure in modern data processing and
 ```mermaid
 graph TD;
     A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
-    B --> C[⚙️ Configure Export Mode]
-    C --> D[🧰 Execute Pipeline]
-    D --> E{Export Options}
-    E -->|Standard| F[📊 XLSX + DAE]
-    E -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
-    E -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
-    E -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
+    B --> C[🧰 Execute Pipeline]
+    C --> D{Export Options}
+    D -->|Standard| F[📊 XLSX + DAE]
+    D -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
+    D -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
+    D -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
 ```
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
