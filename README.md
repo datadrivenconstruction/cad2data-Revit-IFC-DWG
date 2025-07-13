@@ -122,11 +122,11 @@ revit_ifc_dwg_file:       C:\Projects\Bridge.dgn
 If you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:
 
 ```text
-"DDC_Exporter_XXXXXXX\datadrivenlibs\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\**datadrivenlibs**\XxxExporter.exe"
 ```
 instead of:
 ```text
-"DDC_Exporter_XXXXXXX\RvtExporter.exe"
+"DDC_Exporter_XXXXXXX\XxxExporter.exe"
 ```
 
 <p align="center">
