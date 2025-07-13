@@ -15,7 +15,7 @@
     {
       "parameters": {
         "executeOnce": "=",
-        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\""
+        "command": "=\"{{$json[\"path_to_revit_ifc_dwg_converter\"]}}\" \"{{$json[\"revit_ifc_dwg_file\"]}}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -32,14 +32,14 @@
           "assignments": [
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_revit_converter",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "name": "path_to_revit_ifc_dwg_converter",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
-              "name": "revit_file",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "name": "revit_ifc_dwg_file",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
           ]
@@ -57,7 +57,7 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\RvtExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\RvtExporter.exe\"\n```",
+        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\XxxExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\XxxExporter.exe\"\n```",
         "height": 300,
         "width": 560
       },
