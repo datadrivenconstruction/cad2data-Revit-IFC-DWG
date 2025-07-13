@@ -15,7 +15,7 @@
     {
       "parameters": {
         "executeOnce": "=",
-        "command": "=\"{{$json[\"path_to_revit_ifc_dwg_converter\"]}}\" \"{{$json[\"revit_ifc_dwg_file\"]}}\""
+        "command": "=\"{{$json[\"path_to_converter\"]}}\" \"{{$json[\"path_project_file\"]}}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -32,13 +32,13 @@
           "assignments": [
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_revit_ifc_dwg_converter",
+              "name": "path_to_converter",
               "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
-              "name": "revit_ifc_dwg_file",
+              "name": "path_project_file",
               "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
@@ -121,7 +121,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fb4f87b9-0d16-4544-b176-832aa5e259f6",
+  "versionId": "3ca4a940-6c91-412d-aeba-4111f3e07e3e",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
