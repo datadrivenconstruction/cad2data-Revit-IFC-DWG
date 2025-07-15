@@ -17,15 +17,15 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="560">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="560"; height="315">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
-     <h4> 🚀 n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </h4>
-      <p>
+     <b> n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </b>
+      <br>
         Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
         <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
-      </p>
+      </br>
     </td>
   </tr>
 </table>
@@ -34,15 +34,15 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="560">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="560"; height="315">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
-     <h4> 📺 CAD-BIM Data Pipeline Tutorial </h4>
-      <p>
+     <b> CAD-BIM Data Pipeline Tutorial </b>
+      <br>
         Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics. Perfect for engineers, BIM managers, and anyone ready to turn raw project files into real insights — no coding required.<br>
         <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
-      </p>
+      </br>
     </td>
   </tr>
 </table>
