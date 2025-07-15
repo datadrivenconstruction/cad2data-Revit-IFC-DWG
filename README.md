@@ -16,14 +16,15 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 <table style="border: none; border-collapse: collapse;">
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="Watch on YouTube" width="560">
+      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="560">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
-     <h4> 📺 Video Tutorial </h4>
+     <h4> 🚀 n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </h4>
       <p>
-        Watch the full tutorial on how to use this repository to automate data processing from <strong>CAD formats</strong> using <code>n8n</code>. Transform your <code>construction data chaos into organized, actionable insights</code> — without writing a single line of code:  👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
+        Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
+        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
       </p>
     </td>
   </tr>
@@ -32,19 +33,20 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 <table style="border: none; border-collapse: collapse;">
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="560">
+      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="560">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
-     <h4> 🚀 n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </h4>
+     <h4> 📺 CAD-BIM Data Pipeline Tutorial </h4>
       <p>
-        New! Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
-        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
+        Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics. Perfect for engineers, BIM managers, and anyone ready to turn raw project files into real insights — no coding required.<br>
+        <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
       </p>
     </td>
   </tr>
 </table>
+
 
 
 
