@@ -23,11 +23,29 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
     <td style="border: none; vertical-align: top;">
      <h4> 📺 Video Tutorial </h4>
       <p>
-        Watch the full tutorial on how to use this repository to automate data processing from <strong>CAD formats</strong> using <code>n8n</code>. Transform your <code>construction data chaos into organized, actionable insighst</code> — without writing a single line of code:  👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
+        Watch the full tutorial on how to use this repository to automate data processing from <strong>CAD formats</strong> using <code>n8n</code>. Transform your <code>construction data chaos into organized, actionable insights</code> — without writing a single line of code:  👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
       </p>
     </td>
   </tr>
 </table>
+
+<table style="border: none; border-collapse: collapse;">
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
+        <img src="https://img.youtube.com/vi/HUbEPo-yfeA/0.jpg" alt="n8n Quick Start" width="560">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <h4> 🚀 n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </h4>
+      <p>
+        New! Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
+        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
+      </p>
+    </td>
+  </tr>
+</table>
+
 
 
 ## Supported Formats
