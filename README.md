@@ -28,9 +28,6 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
       </br>
     </td>
   </tr>
-</table>
-
-<table style="border: none; border-collapse: collapse;">
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
