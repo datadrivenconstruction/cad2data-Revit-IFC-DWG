@@ -17,7 +17,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-10.png" alt="Watch on YouTube" width="560">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="Watch on YouTube" width="560">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
@@ -33,7 +33,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
-        <img src="https://img.youtube.com/vi/HUbEPo-yfeA/0.jpg" alt="n8n Quick Start" width="560">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="560">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
