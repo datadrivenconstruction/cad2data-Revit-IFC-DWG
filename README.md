@@ -95,12 +95,22 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
 </p>
-
-
-
-
-
-📺 Video Tutorial: 👉 <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch on YouTube</a>
+<table style="border: none; border-collapse: collapse;">
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="460"; height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </b>
+      <br>
+        Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
+        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
+      </br>
+    </td>
+  </tr>
+</table>
 
 
 # Available Workflows
@@ -291,7 +301,22 @@ Then run n8n as usual:
 ```
 npx n8n
 ```
-
+<table>
+<tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="760"; height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> CAD-BIM Data Pipeline Tutorial </b>
+      <br>
+        Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics. Perfect for engineers, BIM managers, and anyone ready to turn raw project files into real insights — no coding required.<br>
+        <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
+      </br>
+    </td>
+  </tr>
+</table>
 
 
 ## ⚡️  4. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
