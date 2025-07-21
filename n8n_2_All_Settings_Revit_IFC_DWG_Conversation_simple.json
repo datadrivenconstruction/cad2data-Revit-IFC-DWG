@@ -1,5 +1,5 @@
 {
-  "name": "n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple",
+  "name": "My workflow 6",
   "nodes": [
     {
       "parameters": {
@@ -68,10 +68,10 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        220,
-        640
+        224,
+        768
       ],
-      "id": "4b82a293-4601-4fe2-a967-6584f6d0fa2c",
+      "id": "eee1c094-2e63-4777-bc50-0f7802a25911",
       "name": "Form UI",
       "webhookId": "simple-revit-converter-form"
     },
@@ -81,9 +81,9 @@
       "typeVersion": 1,
       "position": [
         80,
-        220
+        352
       ],
-      "id": "5ca79042-b12d-440f-b5d0-95764bdadd93",
+      "id": "f8300b0b-58bd-43cf-8df7-9e37fe509f61",
       "name": "Manual Trigger (Optional)"
     },
     {
@@ -96,24 +96,24 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         0,
-        820
+        944
       ],
       "typeVersion": 1,
-      "id": "363474f1-3f18-4777-b043-a114d397810f",
+      "id": "a6fe4bcf-88bb-45fe-8f7d-92b9bb741bbe",
       "name": "Instructions"
     },
     {
       "parameters": {
         "executeOnce": "=",
-        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\" {{ $json['(optional) Export mode (basic, standard, complete, custom) '] }} {{ $json['(optional) Add the BoundingBox geometry of each element in XLSX '] }} {{ $json['(optional) Export all Schedules '] }} {{ $json['(optional) Export all Sheets to PDF'] }} {{ $json['(optional) Disable export to ']['xlsx format'] }} {{ $json['(optional) Disable export to ']['dae format '] }}"
+        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\" {{ (() => {\n    if ($json['(optional) output_folder'] != null) {\n        const folder = $json['(optional) output_folder'];\n        const file = $json['revit_file'].split(\"\\\\\").slice(-1)[0];\n        const xlsx = folder + \"\\\\\" + file.replace(/\\.rvt$/i, '_rvt.xlsx');\n        const dae  = folder + \"\\\\\" + file.replace(/\\.rvt$/i, '_rvt.dae');\n        return '\"' + xlsx + '\"' + \" \" + '\"' + dae + '\"';\n    }\n    return \"\";\n})() }} {{ $json['(optional) Export mode (basic, standard, complete, custom) '] }} {{ $json['(optional) Add the BoundingBox geometry of each element in XLSX '] }} {{ $json['(optional) Export all Schedules '] }} {{ $json['(optional) Export all Sheets to PDF'] }} {{ $json['(optional) Disable export to ']['xlsx format'] }} {{ $json['(optional) Disable export to ']['dae format '] }} \n\n\n\n"
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        640,
-        400
+        704,
+        528
       ],
-      "id": "98548c87-95e9-42da-ac4d-e51576790bbd",
+      "id": "6e76a943-1eab-475a-9e2c-954c11c299cc",
       "name": "Execute Command"
     },
     {
@@ -123,13 +123,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_revit_converter",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "value": "C:\\out\\packages\\community\\RvtConverter\\datadrivenlibs\\RvtExporter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\Users\\ars\\source\\repos\\nobimconverter\\sample_files\\sample.rvt",
               "type": "string"
             },
             {
@@ -167,6 +167,12 @@
               "name": "(optional) Disable export to .dae format ",
               "value": "-no-collada",
               "type": "string"
+            },
+            {
+              "id": "b513c17c-a174-44cf-b935-36b3855624ba",
+              "name": "(optional) output_folder",
+              "value": "C:\\Users\\ars\\source\\repos\\DataDrivenConstruction\\test\\sample_files\\test",
+              "type": "string"
             }
           ]
         },
@@ -176,9 +182,9 @@
       "typeVersion": 3.4,
       "position": [
         320,
-        220
+        352
       ],
-      "id": "a65666b6-fd9d-493d-af71-cde4026c4cfa",
+      "id": "7039874d-c2c1-4fcd-94cf-da5ee1df4da6",
       "name": "Set the conversion variables"
     },
     {
@@ -192,9 +198,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        440
+        560
       ],
-      "id": "b0d1d864-e0b4-40f0-917f-f242dc4d3e22",
+      "id": "5ad55e0d-eca8-4b6f-bde5-99a2d7224899",
       "name": "Sticky Note1"
     },
     {
@@ -207,9 +213,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        0
+        128
       ],
-      "id": "1dce16f6-3f75-4e83-b13e-3e487eb90903",
+      "id": "64db75fa-31b4-4be0-b324-be4eb7321647",
       "name": "Sticky Note"
     },
     {
@@ -222,9 +228,9 @@
       "typeVersion": 1,
       "position": [
         0,
-        -120
+        0
       ],
-      "id": "9e319bee-67b8-4006-b736-16d3d6080897",
+      "id": "e3367dc2-cf8d-4561-8219-e10dcf114c0c",
       "name": "Sticky Note2"
     }
   ],
@@ -251,16 +257,21 @@
           }
         ]
       ]
+    },
+    "Execute Command": {
+      "main": [
+        []
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "075abc5f-42e6-4bcf-b9c4-70cda239f65c",
+  "versionId": "ffb36fd2-8fd1-4f2f-9b02-fb8e796dacd6",
   "meta": {
-    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+    "instanceId": "4606903ea35d7d8134a268a05a1d0a85b26c459f46c2bbc2d02181e8fe1cdaaa"
   },
-  "id": "Hg6dClNKLx174ZDL",
+  "id": "2j4eAd0FpJjinfPh",
   "tags": []
 }
