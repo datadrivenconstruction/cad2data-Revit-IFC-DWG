@@ -45,14 +45,14 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
       <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/cad-bim-validation-n8n.png" alt="Automated CAD/BIM Validation" width="460" height="315">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315">
       </a>
     </td>
     <td style="border: none; vertical-align: top;">
      <b> ⚡️Automated CAD/BIM Data Validation with n8n | The End of Manual BIM Checks </b>
       <br>
         Discover how to fully automate <strong>CAD/BIM data validation</strong> workflows using the free, open-source <code>n8n</code> platform. Skip manual checking — run fast, repeatable compliance tests for EIR, BIM Execution Plans, IDS, and more. Ideal for project teams looking to save hours (or days) every week.<br>
-        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank"><img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315"></a>
+        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">Watch Automated Validation Tutorial on YouTube</a>
       </br>
     </td>
   </tr>
@@ -258,12 +258,23 @@ Automated data quality validation for CAD/BIM files with comprehensive reporting
 4. **Generates** timestamped validation report
 5. **Opens** report automatically for review
 
-### Validation Report Includes:
-- **Element counts** by category
-- **Fill rates** (percentage of non-empty values)
-- **Unique value counts** per parameter
-- **Color coding**: 🟩 Green = data present, 🟥 Red = data missing
-- **Sample values** for quick data inspection
+<table style="border: none; border-collapse: collapse;">
+ 
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> ⚡️Automated CAD/BIM Data Validation with n8n | The End of Manual BIM Checks </b>
+      <br>
+        Discover how to fully automate <strong>CAD/BIM data validation</strong> workflows using the free, open-source <code>n8n</code> platform. Skip manual checking — run fast, repeatable compliance tests for EIR, BIM Execution Plans, IDS, and more. Ideal for project teams looking to save hours (or days) every week.<br>
+        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">Watch Automated Validation Tutorial on YouTube</a>
+      </br>
+    </td>
+  </tr>
+</table>
 
 ### Configuration:
 ```javascript
