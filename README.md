@@ -94,7 +94,7 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
    This will automatically download and open n8n in your browser.
 
 3. **Download this repository from GitHub**  
-   - Click the green “Code” button → “Download ZIP”
+   - Click the green "Code" button → "Download ZIP"
    - Unzip the folder
 
 4. **Import the workflow into n8n**
@@ -138,10 +138,10 @@ This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files 
 - Minimal configuration required
 
 ```mermaid
-graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Set Basic Variables]
-    B --> C[🧰 Execute Pipeline]
-    C --> D[📂 Output XSLX database of elements + DAE geometry + Schedules + PDF Drawings]
+graph LR;
+    A[🟢 Manual<br/>Trigger] --> B[🛠 Set Basic<br/>Variables]
+    B --> C[🧰 Execute<br/>Pipeline]
+    C --> D[📂 Output XSLX<br/>+ DAE + PDF]
 ```
 Example Variables
 ```# Revit
@@ -226,14 +226,14 @@ A DataFrame is the most widely used data structure in modern data processing and
   
 
 ```mermaid
-graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Set Advanced Variables]
-    B --> C[🧰 Execute Pipeline]
-    C --> D{Export Options}
+graph LR;
+    A[🟢 Manual<br/>Trigger] --> B[🛠 Set Advanced<br/>Variables]
+    B --> C[🧰 Execute<br/>Pipeline]
+    C --> D{Export<br/>Options}
     D -->|Standard| F[📊 XLSX + DAE]
-    D -->|+BBox of Elements| G[📊 XLSX + DAE + BBox]
-    D -->|+Revit Schedules in Excel| H[📊 XLSX + DAE + Schedules]
-    D -->|+Drawings PDF| I[📊 XLSX + DAE + PDF]
+    D -->|+BBox| G[📊 XLSX + DAE<br/>+ BBox]
+    D -->|+Schedules| H[📊 XLSX + DAE<br/>+ Schedules]
+    D -->|+PDF| I[📊 XLSX + DAE<br/>+ PDF]
 ```
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
@@ -291,17 +291,17 @@ validation_rules_path: "C:\\Validation\\DDC_Revit_IFC_Validation_Table.xlsx"
 - **Progress tracking**: Monitor data quality improvements over time
 
 ```mermaid
-graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Setup File Paths]
-    B --> C{File Exists?}
-    C -->|No| D[🔄 Convert to Structured data]
-    C -->|Yes| E[📊 Load Project Data]
+graph LR;
+    A[🟢 Manual<br/>Trigger] --> B[🛠 Setup<br/>Paths]
+    B --> C{File<br/>Exists?}
+    C -->|No| D[🔄 Convert to<br/>Structured]
+    C -->|Yes| E[📊 Load<br/>Data]
     D --> E
-    E --> F[📋 Load Validation Rules]
-    F --> G[🔍 Validate Data]
-    G --> H[📈 Calculate Metrics]
-    H --> I[🎨 Generate Color Report]
-    I --> J[💾 Save & Open Report]
+    E --> F[📋 Load<br/>Rules]
+    F --> G[🔍 Validate<br/>Data]
+    G --> H[📈 Calculate<br/>Metrics]
+    H --> I[🎨 Generate<br/>Report]
+    I --> J[💾 Save &<br/>Open]
 ```
 
 <p align="center">
@@ -378,19 +378,19 @@ You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will 
 - is Interactive HTML dashboard
 
 ```mermaid
-graph TD;
-    A[🟢 Manual Trigger] --> B[🛠 Setup File Paths]
-    B --> C[🔄 Run Revit Converter]
-    C --> D{Conversion Success?}
-    D -->|❌ Error| E[Show Error Message]
-    D -->|✅ Success| F[📖 Read Excel File]
-    F --> G[🔍 Parse to DataTable]
-    G --> H[🏗️ Filter OST_Walls]
-    H --> I[🧹 Clean Wall Data]
-    I --> J[📊 Group by Type & Sum Volume]
-    J --> K[🎨 Generate QTO HTML Report]
-    K --> L[💾 Save Report File]
-    L --> M[✅ Success Summary]
+graph LR;
+    A[🟢 Manual<br/>Trigger] --> B[🛠 Setup<br/>Paths]
+    B --> C[🔄 Run<br/>Converter]
+    C --> D{Success?}
+    D -->|❌| E[Error<br/>Message]
+    D -->|✅| F[📖 Read<br/>Excel]
+    F --> G[🔍 Parse<br/>Data]
+    G --> H[🏗️ Filter<br/>Walls]
+    H --> I[🧹 Clean<br/>Data]
+    I --> J[📊 Group &<br/>Sum]
+    J --> K[🎨 Generate<br/>HTML]
+    K --> L[💾 Save<br/>Report]
+    L --> M[✅ Success]
 ```
 
 
