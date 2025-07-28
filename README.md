@@ -1,468 +1,223 @@
+# CAD & BIM Data Pipeline: Generate Dashboards, Graphs, Documents, Validations, and Quantity Reports in n8n
+
+Convert CAD/BIM files (`.rvt`, `.dwg`, `.ifc`, `.dgn`) to structured Excel data and 3D geometry (DAE) using n8n workflow automation. No Autodesk licenses or APIs required.
+
+[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/blob/main/LICENSE)
+[![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
+
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
-# 🏗️ CAD & BIM Data Pipeline: Generate Dashboards, Graphs, Documents, Validations, and Quantity Reports in n8n (with ChatGPT and other LLMs)
-
-**Convert your CAD/BIM files to structured data and 3D geometry without Autodesk® licences or APIs, for free and in open tools**
-[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
-
 ## Overview
 
-This automated pipeline converts CAD/BIM (`.rvt`, `.dwg`, `.ifc`, `.dgn`) files into structured Excel data and 3D geometry (DAE) using n8n workflow automation. Perfect for quantity takeoffs, data analysis, and downstream processing without requiring expensive licenses.
+This pipeline automates conversion of CAD/BIM files to Excel for quantity takeoffs, data analysis, and further processing. It supports offline operation and extensibility with Python or AI tools.
 
-<table style="border: none; border-collapse: collapse;">
-  <tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="460" height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </b>
-      <br>
-        Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
-        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
-      </br>
-    </td>
-  </tr>
-  <tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="760" height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> CAD-BIM Data Pipeline Tutorial </b>
-      <br>
-        Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics. Perfect for engineers, BIM managers, and anyone ready to turn raw project files into real insights — no coding required.<br>
-        <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
-      </br>
-    </td>
-  </tr>
-  <tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> ⚡️Automated CAD/BIM Data Validation with n8n | The End of Manual BIM Checks </b>
-      <br>
-        Discover how to fully automate <strong>CAD/BIM data validation</strong> workflows using the free, open-source <code>n8n</code> platform. Skip manual checking — run fast, repeatable compliance tests for EIR, BIM Execution Plans, IDS, and more. Ideal for project teams looking to save hours (or days) every week.<br>
-        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">Watch Automated Validation Tutorial on YouTube</a>
-      </br>
-    </td>
-  </tr>
-</table>
+### Tutorial Videos
 
-
-
-
+| Video | Description |
+|-------|-------------|
+| [n8n Quick Start](https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC) | Step-by-step guide to installing n8n, building pipelines, and using LLMs for automation. |
+| [CAD-BIM Data Pipeline](https://www.youtube.com/watch?v=PMTZNRFjD6c) | Walkthrough of CAD/BIM data processing, conversion, validation, and analytics in n8n. |
+| [Automated CAD/BIM Validation](https://www.youtube.com/watch?v=p84AmP2dcvg) | Guide to automating validation workflows for compliance with EIR, BIM Execution Plans, and IDS. |
 
 ## Supported Formats
 
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
-| **Revit (2015-2025)** | `.rvt` | RvtExporter.exe | XSLX database of elements + DAE geometry + Schedules + PDF Drawings |
-| **IFC2x3, IFC4x1, IFC4x4, IFC4x, IFC4.3** | `.ifc` | IfcExporter.exe | XSLX database of elements + DAE geometry |
-| **AutoCAD 1983-2025** | `.dwg` | DwgExporter.exe | XSLX database of elements + PDF Drawings |
-| **MicroStation v7-v8** | `.dgn` | DgnExporter.exe | XSLX database of elements |
+| Revit (2015-2025) | `.rvt` | RvtExporter.exe | XLSX database + DAE geometry + Schedules + PDF Drawings |
+| IFC (2x3, 4x1, 4x4, 4x, 4.3) | `.ifc` | IfcExporter.exe | XLSX database + DAE geometry |
+| AutoCAD (1983-2025) | `.dwg` | DwgExporter.exe | XLSX database + PDF Drawings |
+| MicroStation (v7-v8) | `.dgn` | DgnExporter.exe | XLSX database |
 
 ## Key Features
 
--  **Automated Conversion**: One-click conversion from CAD/BIM to Excel (element database with all properties and parameters) 
--  **Structured Data**: All elements and properties exported as Excel matrix DataFrame - project elements with native ID in the rows, all properties of all elements in the columns
--  **3D Geometry**: Polygonal geometry export for Revit/IFC (DAE format) with the native ID, which is also in DataFrame XLSX. In this way you get full project meta-information with geometry of each element
--  **Offline Processing**: No internet, APIs, plugins or Autodesk® licenses required
--  **Extensible**: Easy to customize with Python or AI post-processing
+- Automated conversion to Excel (elements as rows, properties as columns).
+- Export of 3D polygonal geometry (DAE) with element IDs matching the XLSX data.
+- Offline processing without internet, APIs, or licenses.
+- Extensible for custom post-processing.
 
 ## Quick Start
 
-### ✅ Prerequisites. What You Need
+### Prerequisites
 
-1. **Install Node.js**  
-   Download from [nodejs.org](https://nodejs.org/) and install it.
-
-2. **Start n8n**  
-   Open Command Prompt and run:
-   ```bash
+1. Install Node.js from [nodejs.org](https://nodejs.org/).
+2. Start n8n in Command Prompt:
+   ```
    npx n8n
    ```
-   This will automatically download and open n8n in your browser.
+   Access at `http://localhost:5678`.
+3. Download this repository from [GitHub](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO) as ZIP and unzip.
+4. Import workflow:
+   - In n8n, select **Import from File**.
+   - Choose the `.json` file.
+   - Update file paths in **Set** nodes.
+5. Execute the workflow.
 
-3. **Download this repository from GitHub**  
-   - Click the green "Code" button → "Download ZIP"
-   - Unzip the folder
-
-4. **Import the workflow into n8n**
-   - Open n8n in your browser (`http://localhost:5678`)
-   - Click **Import from File**
-   - Select the `.json` file from the repo
-   - Update file paths in the **Set** nodes
-     
-5. **▶️ Run the Workflow**
-     - You're ready!  
-     Just click **Execute Workflow** in n8n to start process your CAD-BIM files
-   
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Installation Overview" width="100%"/>
 </p>
-<table style="border: none; border-collapse: collapse;">
-  <tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="460"; height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </b>
-      <br>
-        Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
-        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
-      </br>
-    </td>
-  </tr>
-</table>
-<p></p>
-<p></p>
 
-# Available Workflows
+## Available Workflows
 
-## ⚡️  1. Basic Conversion
+### 1. Basic Conversion
 **File**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
 
-- Simple file conversion to Excel + geometry (for Revit and IFC)
-- Minimal configuration required
+Converts files to XLSX and DAE (for Revit/IFC).
 
 ```mermaid
 graph LR;
-    A[🟢 Manual<br/>Trigger] --> B[🛠 Set Basic<br/>Variables]
-    B --> C[🧰 Execute<br/>Pipeline]
-    C --> D[📂 Output XSLX<br/>+ DAE + PDF]
+    A[Manual Trigger] --> B[Set Variables];
+    B --> C[Execute Pipeline];
+    C --> D[Output XLSX + DAE + PDF];
 ```
-Example Variables
-```# Revit
-path_to_converter:    C:\Converters\datadrivenlibs\RvtExporter.exe
-path_project_file:    C:\Projects\Model.rvt
+
+Example variables:
+```
+# Revit
+path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+path_project_file: C:\Projects\Model.rvt
 
 # IFC
-path_to_converter:    C:\Converters\datadrivenlibs\IfcExporter.exe
-path_project_file:    C:\Projects\Model.ifc
+path_to_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
+path_project_file: C:\Projects\Model.ifc
 
 # DWG
-path_to_converter:    C:\Converters\datadrivenlibs\DwgExporter.exe
-path_project_file:    C:\Projects\Plan.dwg
+path_to_converter: C:\Converters\datadrivenlibs\DwgExporter.exe
+path_project_file: C:\Projects\Plan.dwg
 
 # DGN
-path_to_converter:    C:\Converters\datadrivenlibs\DgnExporter.exe
-path_project_file:    C:\Projects\Bridge.dgn
+path_to_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
+path_project_file: C:\Projects\Bridge.dgn
 ```
-### 🧩 Converter Path Tip
 
-If you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:
-
-```text
-"DDC_Exporter_XXXXXXX\datadrivenlibs\XxxExporter.exe"
-```
-instead of:
-```text
-"DDC_Exporter_XXXXXXX\XxxExporter.exe"
-```
+**Converter Path Note**: Use the executable inside `datadrivenlibs` folder, e.g., `DDC_Exporter_XXXXXXX\datadrivenlibs\XxxExporter.exe`.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
 </p>
 
-### From CAD/BIM to DataFrame (column based data): the Future of Construction Data
-
-Various CAD and BIM formats — such as `.rvt`, `.ifc`, `.dwg`, or `.dgn` — are often complex, closed, and difficult to work with. That's why we convert them into one of the most universal and powerful formats in modern data processing: the **DataFrame**. A **DataFrame** is a tabular structure that organizes data into rows and columns — just like a spreadsheet, but designed for automation, analytics, and AI. In the world of automation, analytics, and digital construction, **structured data** is the foundation — and DataFrames make it usable, transparent, and scalable.
-
-> "Data processing is what probably one third of the world's computing is done in every company. The data processing and data of most companies are in DataFrame, in table format"  
-> – Jensen Huang, CEO of Nvidia ("NVIDIA CEO Jensen Huang Keynote at COMPUTEX 2024," June 2, 2024), [Post #049](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)*
-
-
-### Why DataFrames Matter
--  Clear, structured format (rows = records-elements, columns = properties-parameters)
--  Easily processed in ETL pipelines
--  Fully compatible with **Python**, **pandas**, **n8n**, and LLMs
--  Ideal for dashboards, analytics, validation, and reporting
-
-From **automated QTO reports** to **quality checks and IFC parsing**, **DataFrames are the universal interface** between raw CAD-BIM data and intelligent workflows.
-
- 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-11.jpg" alt="QTO Report Sample" width="100%"/>
-</p>
-
-A DataFrame is the most widely used data structure in modern data processing and automation. Popularized by tools like pandas in Python (is downloaded 12 million times a day), it represents data in a simple table format — rows and columns — making it easy to filter, group, analyze, and visualize. DataFrame has become the universal language of data-driven workflows. Its flexibility, readability, and compatibility with ETL pipelines make it the foundation of almost every modern automation task.
-### Learn More:
-- [048: Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)  
-- [049: DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)  
-- [025: Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
-  
-
-
-## ⚡️  2. CAD-BIM data conversion with advanced settings (+BBOX, +Schedules, +PDF Drawings)
+### 2. Conversion with Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
-- Full control over export parameters
-- Custom export modes: `basic`, `standard`, `complete`
-- Optional features: +BoundingBox, +Revit Schedules, +PDF export for Drawings
-
-#### Export Modes
-- **Basic** (Fast): Essential geometry and properties (**309** Revit Categories)
-- **Standard** (Moderate): Includes materials and parameters (**724** Revit Categories) 
-- **Complete** (Slow): Full model data with relationships (**All 1209** Revit Categories) 
-
-#### Optional Outputs
-- `bbox`: Include bounding box geometry
-- `schedule`: Export Revit schedules
-- `sheets2pdf`: Convert sheets to PDF
-- `-no-xlsx`: Skip Excel export
-- `-no-collada`: Skip geometry export
-  
+Supports custom modes: basic (309 categories), standard (724 categories), complete (all 1209 categories). Options: bounding box, Revit schedules, PDF export.
 
 ```mermaid
 graph LR;
-    A[🟢 Manual<br/>Trigger] --> B[🛠 Set Advanced<br/>Variables]
-    B --> C[🧰 Execute<br/>Pipeline]
-    C --> D{Export<br/>Options}
-    D -->|Standard| F[📊 XLSX + DAE]
-    D -->|+BBox| G[📊 XLSX + DAE<br/>+ BBox]
-    D -->|+Schedules| H[📊 XLSX + DAE<br/>+ Schedules]
-    D -->|+PDF| I[📊 XLSX + DAE<br/>+ PDF]
+    A[Manual Trigger] --> B[Set Variables];
+    B --> C[Execute Pipeline];
+    C --> D{Export Options};
+    D -->|Standard| F[XLSX + DAE];
+    D -->|+BBox| G[XLSX + DAE + BBox];
+    D -->|+Schedules| H[XLSX + DAE + Schedules];
+    D -->|+PDF| I[XLSX + DAE + PDF];
 ```
+
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
-## ⚡️  3. CAD-BIM Multi-Format Validation Pipeline
-**File**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
+### 3. Multi-Format Validation Pipeline
+**Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
-Automated data quality validation for CAD/BIM files with comprehensive reporting. Validates extracted data against predefined rules and generates color-coded Excel reports.
+Validates data against rules, generates color-coded XLSX reports with metrics.
 
-### Key Features:
-- **Multi-format support**: Works with Revit, IFC, and DWG files
-- **Rule-based validation**: Check data completeness against validation criteria
-- **Automated reporting**: Color-coded Excel reports with fill rates
-- **Data quality metrics**: Track unique values, fill percentages, and data patterns
-- **Batch processing**: Validate multiple parameters across different element categories
-
-### How It Works:
-1. **Converts** CAD/BIM file to Excel (if not already converted)
-2. **Loads** validation rules from Excel template
-3. **Analyzes** data completeness for each parameter
-4. **Generates** timestamped validation report
-5. **Opens** report automatically for review
-
-<table style="border: none; border-collapse: collapse;">
- 
-  <tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> ⚡️Automated CAD/BIM Data Validation with n8n | The End of Manual BIM Checks </b>
-      <br>
-        Discover how to fully automate <strong>CAD/BIM data validation</strong> workflows using the free, open-source <code>n8n</code> platform. Skip manual checking — run fast, repeatable compliance tests for EIR, BIM Execution Plans, IDS, and more. Ideal for project teams looking to save hours (or days) every week.<br>
-        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">Watch Automated Validation Tutorial on YouTube</a>
-      </br>
-    </td>
-  </tr>
-</table>
-
-### Configuration:
-```javascript
-// Setup paths
+Configuration:
+```
 path_to_converter: "C:\\Converters\\RvtExporter.exe"
-project_file: "C:\\Projects\\Model.rvt"  // Works with .rvt, .ifc, .dwg
+project_file: "C:\\Projects\\Model.rvt"
 validation_rules_path: "C:\\Validation\\DDC_Revit_IFC_Validation_Table.xlsx"
 ```
 
-### Use Cases:
-- **Pre-export QA**: Ensure model data completeness before deliverables
-- **Standards compliance**: Verify BIM models meet project requirements
-- **Data auditing**: Identify missing or incomplete information
-- **Progress tracking**: Monitor data quality improvements over time
-
 ```mermaid
 graph LR;
-    A[🟢 Manual<br/>Trigger] --> B[🛠 Setup<br/>Paths]
-    B --> C{File<br/>Exists?}
-    C -->|No| D[🔄 Convert to<br/>Structured]
-    C -->|Yes| E[📊 Load<br/>Data]
-    D --> E
-    E --> F[📋 Load<br/>Rules]
-    F --> G[🔍 Validate<br/>Data]
-    G --> H[📈 Calculate<br/>Metrics]
-    H --> I[🎨 Generate<br/>Report]
-    I --> J[💾 Save &<br/>Open]
+    A[Manual Trigger] --> B[Setup Paths];
+    B --> C{File Exists?};
+    C -->|No| D[Convert to Structured];
+    C -->|Yes| E[Load Data];
+    D --> E;
+    E --> F[Load Rules];
+    F --> G[Validate Data];
+    G --> H[Calculate Metrics];
+    H --> I[Generate Report];
+    I --> J[Save & Open];
 ```
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
-## 🛠 Troubleshooting `Module 'os' is blocked`
-### ❗ Issue  
-In n8n versions **1.98.0–1.101.x**, the Python Code node (Pyodide) completely blocks the `os` module, causing this error: 
-```ModuleNotFoundError: Module 'os' is blocked``` his also affects libraries like `pandas`, `openpyxl`, `bs4`, `pathlib`, and `email` that import `os` internally. ---
-
-### ✅ Solution  
-To avoid this error, **use latest n8n version** where the `os` module is not blocked.  
-You can launch it with the following command:
-
-```bash
-npx n8n@latest
-```
-
-<table>
-<tr>
-    <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
-        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="760"; height="315">
-      </a>
-    </td>
-    <td style="border: none; vertical-align: top;">
-     <b> CAD-BIM Data Pipeline Tutorial </b>
-      <br>
-        Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics. Perfect for engineers, BIM managers, and anyone ready to turn raw project files into real insights — no coding required.<br>
-        <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
-      </br>
-    </td>
-  </tr>
-</table>
-
-
-## ⚡️  4. Simple ETL Pipeline ready for use in LLM chats as a basis for use cases
+### 4. Simple ETL Pipeline for LLM Use Cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
-This straightforward **n8n pipeline** generates an Excel filename (XLSX) automatically after converting a Revit file, making it ready for immediate use in various tasks.
-
-###  Pipeline Steps:
-
-1. **Manual Start:** Trigger the workflow.
-2. **Setup Paths:** Define paths to Revit converter and source RVT file.
-3. **Conversion:** Convert RVT to XLSX.
-4. **Check Result:** Verify conversion success.
-5. **Generate XLSX Name:** Automatically create the Excel filename.
-6. **Load Excel File:** Read and parse the Excel file into structured data.
-
-You can also feed this JSON into Claude, DeepSeek, or ChatGPT, and the LLM will generate the code automatically. All that's left to do is import the generated code into n8n.
-
-### Usage:
-- Import JSON into n8n.
-- Customize for your tasks.
-- Automate similar ETL tasks easily.
-
+Converts Revit file, generates XLSX filename, parses data. Import JSON into n8n and customize.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="ETL Pipeline" width="100%"/>
 </p>
 
-## ⚡️  5. ETL Example from LLM (created in Claude) - Revit to HTML Quantity Takeoff Generator
+### 5. Revit to HTML Quantity Takeoff Generator
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
-- Automated wall quantity analysis
-- Professional HTML reports
-- Volume calculations by wall type
-
-**Generated Reports Include:**
-- Summary statistics (total elements, volumes, averages)
-- Detailed breakdown by element type - "Type Name"
-- is Interactive HTML dashboard
+Analyzes walls, calculates volumes by type, generates interactive HTML reports.
 
 ```mermaid
 graph LR;
-    A[🟢 Manual<br/>Trigger] --> B[🛠 Setup<br/>Paths]
-    B --> C[🔄 Run<br/>Converter]
-    C --> D{Success?}
-    D -->|❌| E[Error<br/>Message]
-    D -->|✅| F[📖 Read<br/>Excel]
-    F --> G[🔍 Parse<br/>Data]
-    G --> H[🏗️ Filter<br/>Walls]
-    H --> I[🧹 Clean<br/>Data]
-    I --> J[📊 Group &<br/>Sum]
-    J --> K[🎨 Generate<br/>HTML]
-    K --> L[💾 Save<br/>Report]
-    L --> M[✅ Success]
+    A[Manual Trigger] --> B[Setup Paths];
+    B --> C[Run Converter];
+    C --> D{Success?};
+    D -->|No| E[Error Message];
+    D -->|Yes| F[Read Excel];
+    F --> G[Parse Data];
+    G --> H[Filter Walls];
+    H --> I[Clean Data];
+    I --> J[Group & Sum];
+    J --> K[Generate HTML];
+    K --> L[Save Report];
+    L --> M[Success];
 ```
 
-
-
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Report Sample" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Generator" width="100%"/>
 </p>
 
+## Troubleshooting
 
----
+### Module 'os' Blocked Error
+In n8n versions 1.98.0–1.101.x, the `os` module is blocked, affecting libraries like pandas. Solution: Use the latest version with `npx n8n@latest`.
 
-## 🔄 Re-import Data into Revit
+## Re-import Data into Revit
 
-After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
-
-**Key Benefits:**
--  Quickly update model data without manual re-entry
--  Maintain consistency and accuracy across your BIM projects
--  Automate data synchronization workflows between Excel and Revit
-
-> **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
-https://github.com/datadrivenconstruction/ImportExcelToRevit
-
-![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
-
+Use [ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit) to import modified XLSX back into Revit.
 
 ## Next Level Automation
 
-For AI-powered processing and advanced automation:
-
-🤖 **[CAD-(BIM)-to-Code Automation Pipeline with LLM (ChatGPT)](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
-
-Features ChatGPT integration, element classification, and code generation.
-
-
+For AI integration: [CAD-(BIM)-to-Code Automation Pipeline with LLM](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT).
 
 ## Contributing
 
-We welcome contributions! Please feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
-- Improve documentation
-
+Report bugs, suggest features, or submit pull requests via [GitHub](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO).
 
 ## Support
 
-- 🌐 **Website**: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
-- 💬 **Issues**: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
-- 📧 **Email**: info@datadrivenconstruction.io
-  
+- Website: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
+- Issues: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
+- Email: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io)
 
-## Consulting & Industry Training
+## Consulting & Training
 
-We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
+Contact us for workshops on data management, automation, and ETL pipelines in construction. Visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
 
-Our team provides hands-on workshops, strategic advice and prototyping with real-world project workflows in mind.
+## Why DataFrames?
 
-Over the last few years we have actively supported organisations seeking practical solutions for digital transformation and interoperability. Many have enquired about solving data quality problems - wanting to implement the open and automated methods we advocate. Today, these approaches are used in all planning, design and construction workflows around the world.
+CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprietary. Converting them into **DataFrames**—tabular structures with rows (elements) and columns (properties)—enables efficient data processing. Popularized by Python’s pandas library, DataFrames are widely used for their compatibility with automation, analytics, and AI tools. They simplify tasks like filtering, grouping, and visualization, making them ideal for dashboards, quantity takeoffs, and validation.
 
-For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
-
-
----
-
-<p align="left">
- 
-  <a href="https://datadrivenconstruction.io">
-    <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
-  </a>
-  <br>
-   <b>   Unlock the Power of Data in Construction</b>
-   <br>
-     🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/06/n8n-pipeline-11.jpg" alt="DataFrame Example" width="100%"/>
 </p>
+
+**Learn More:**
+- [Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)
+- [DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)
+- [Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
