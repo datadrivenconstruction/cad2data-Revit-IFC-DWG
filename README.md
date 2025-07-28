@@ -240,6 +240,10 @@ graph LR;
     G --> H[Save & Open Report];
 ```
 
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-Project-Batch-Conversion-Report.png" alt="Advanced Conversion" width="100%"/>
+</p>
+
 ### ⚡️ 4. Multi-Format Validation
 **Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
