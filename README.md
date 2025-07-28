@@ -96,8 +96,9 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
      - You're ready. Just click **Execute Workflow** in n8n to start process your CAD-BIM files
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
+  <br></br>
 </p>
-  <br>  </br>
+
 # n8n Workflows for working with CAD/BIM data
 
 ### ⚡️ 1. Basic Conversion
