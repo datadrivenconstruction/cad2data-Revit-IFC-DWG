@@ -2,9 +2,7 @@
 
 ### Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows
 
-**Automate your CAD/BIM data extraction and transformation using [n8n](https://n8n.io)** — with no vendor lock-in, no Autodesk licenses, and full control of your project insights.
-
----
+**Automate your CAD/BIM data extraction and transformation using [n8n](https://n8n.io)** — with no vendor lock-in, no Autodesk® licenses, and full control of your project insights.
 
 [![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white)](https://n8n.io)
 [![MIT License](https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue)](LICENSE)
