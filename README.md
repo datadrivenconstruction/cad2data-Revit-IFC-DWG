@@ -1,4 +1,7 @@
-<h1 align="center">🏗️ CAD & BIM Data Pipeline</h1>
+<a href="https://n8n.io">
+    <img src="[https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white](https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-3.png)" alt="Convert Revit / DWG / IFC / DGN to Excel">
+  </a>
+
 <h3 align="center">Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows</h3>
 
 <p align="center">
@@ -25,7 +28,7 @@
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-github-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
 ## Tutorial Videos
