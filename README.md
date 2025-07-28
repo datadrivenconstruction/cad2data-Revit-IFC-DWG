@@ -326,27 +326,6 @@ graph LR;
 ### Module 'os' Blocked Error
 In n8n versions 1.98.0–1.101.x, the `os` module is blocked, affecting libraries like pandas. Solution: Use the latest version with `npx n8n@latest`.
 
-## Re-import Data into Revit
-
-Use [ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit) to import modified XLSX back into Revit.
-
-## Next Level Automation
-
-For AI integration: [CAD-(BIM)-to-Code Automation Pipeline with LLM](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT).
-
-## Contributing
-
-Report bugs, suggest features, or submit pull requests via [GitHub](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO).
-
-## Support
-
-- Website: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
-- Issues: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
-- Email: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io)
-
-## Consulting & Training
-
-Contact us for workshops on data management, automation, and ETL pipelines in construction. Visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
 
 ## Why DataFrames?
 
@@ -360,3 +339,65 @@ CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprieta
 - [Python Pandas – An Indispensable Tool](https://datadrivenconstruction.io/2025/06/048-python-pandas-an-indispensable-tool-for-working-with-data/)
 - [DataFrame – Universal Tabular Data Format](https://datadrivenconstruction.io/2025/06/049-dataframe-universal-tabular-data-format/)
 - [Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
+
+
+## 🔄 Re-import Data into Revit
+
+After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
+
+> **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
+https://github.com/datadrivenconstruction/ImportExcelToRevit
+
+![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
+
+
+## Next Level Automation
+
+For AI-powered processing and advanced automation:
+
+🤖 **[CAD-(BIM)-to-Code Automation Pipeline with LLM (ChatGPT)](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
+
+Features ChatGPT integration, element classification, and code generation.
+
+
+
+## Contributing
+
+We welcome contributions! Please feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
+- Improve documentation
+
+
+## Support
+
+- 🌐 **Website**: [DataDrivenConstruction.io](https://datadrivenconstruction.io)
+- 💬 **Issues**: [GitHub Issues](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/issues)
+- 📧 **Email**: info@datadrivenconstruction.io
+  
+
+## Consulting & Industry Training
+
+We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
+
+Our team provides hands-on workshops, strategic advice and prototyping with real-world project workflows in mind.
+
+Over the last few years we have actively supported organisations seeking practical solutions for digital transformation and interoperability. Many have enquired about solving data quality problems - wanting to implement the open and automated methods we advocate. Today, these approaches are used in all planning, design and construction workflows around the world.
+
+For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
+
+
+---
+
+<p align="left">
+ 
+  <a href="https://datadrivenconstruction.io">
+    <img src="https://datadrivenconstruction.io/wp-content/uploads/2023/07/DataDrivenConstruction-1-1.png" alt="DDC Logo" width="200"/>
+  </a>
+  <br>
+   <b>   Unlock the Power of Data in Construction</b>
+   <br>
+     🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
+</p>
+
