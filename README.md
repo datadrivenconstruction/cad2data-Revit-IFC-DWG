@@ -1,11 +1,19 @@
-# CAD & BIM Data Pipeline
-### Generate Dashboards, Graphs, Documents, Validations, and Quantity Reports in n8n
+# 🏗️ CAD & BIM Data Pipeline
 
-Convert CAD/BIM files (`.rvt`, `.dwg`, `.ifc`, `.dgn`) to structured Excel data and 3D geometry (DAE) using n8n workflow automation. No Autodesk licenses or APIs required.
+### Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows
 
-[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a)](https://n8n.io)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO/blob/main/LICENSE)
-[![DataDrivenConstruction](https://img.shields.io/badge/by-DataDrivenConstruction-orange)](https://datadrivenconstruction.io)
+**Automate your CAD/BIM data extraction and transformation using [n8n](https://n8n.io)** — with no vendor lock-in, no Autodesk licenses, and full control of your project insights.
+
+---
+
+[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white)](https://n8n.io)
+[![MIT License](https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue)](LICENSE)
+[![Made by DataDrivenConstruction](https://img.shields.io/badge/made%20by-DataDrivenConstruction.io-orange)](https://datadrivenconstruction.io)
+[![Works with Revit, IFC, DWG, DGN](https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white)](#)
+[![Outputs Excel, DAE, HTML](https://img.shields.io/badge/output-.xlsx%20.dae%20.html-green?logo=microsoft-excel&logoColor=white)](#)
+[![Automation Ready](https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions)](#)
+[![Community Support](https://img.shields.io/badge/telegram-n8n__pipelines-blue?logo=telegram)](https://t.me/n8n_pipelines)
+
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
