@@ -83,19 +83,21 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 
 ### Prerequisites
 
-1. Install Node.js from [nodejs.org](https://nodejs.org/).
-2. Start n8n in Command Prompt:
+1. **Install Node.js** from [nodejs.org](https://nodejs.org/).
+2. **Start n8n** in Command Prompt:
    ```
    npx n8n
    ```
    Access at `http://localhost:5678`.
-3. Clone this repository:
-   ```
-   git clone https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO.git
-   ```
-   Alternatively, download as ZIP and unzip.
-4. Ensure read/write permissions for input/output folders.
-
+3. **Download this repository from GitHub**  
+   - Click the green "Code" button → "Download ZIP"
+   - Unzip the folder
+4. **Run the Workflow**
+     - You're ready. Just click **Execute Workflow** in n8n to start process your CAD-BIM files
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
+</p>
+  <br>  </br>
 # n8n Workflows for working with CAD/BIM data
 
 ### ⚡️ 1. Basic Conversion
