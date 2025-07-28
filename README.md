@@ -12,11 +12,52 @@ Convert CAD/BIM files (`.rvt`, `.dwg`, `.ifc`, `.dgn`) to structured Excel data 
 
 ## Tutorial Videos
 
-| Video | Description |
-|-------|-------------|
-| [n8n Quick Start](https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC) | Step-by-step guide to installing n8n, building pipelines, and using LLMs for automation. |
-| [CAD-BIM Data Pipeline](https://www.youtube.com/watch?v=PMTZNRFjD6c) | Walkthrough of CAD/BIM data processing, conversion, validation, and analytics in n8n. |
-| [Automated CAD/BIM Validation](https://www.youtube.com/watch?v=p84AmP2dcvg) | Guide to automating validation workflows for compliance with EIR, BIM Execution Plans, and IDS. |
+<table style="border: none; border-collapse: collapse;">
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.png" alt="n8n Quick Start" width="460" height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> n8n Quick Start: Easy Installation & Pipeline Creation (Templates and LLM) </b>
+      <br>
+        Step-by-step beginner tutorial on setting up <strong>n8n</strong> from scratch, building your first automation pipeline, and using LLMs (like ChatGPT/Claude) to generate automations.<br>
+        <a href="https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC" target="_blank">Watch n8n Quick Start on YouTube</a>
+      </br>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-BIM-n8n-pipeline.png" alt="CAD-BIM n8n Pipeline" width="760" height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> CAD-BIM Data Pipeline Tutorial </b>
+      <br>
+        Full hands-on walkthrough: automate complex <strong>CAD-BIM data processing</strong> workflows in <code>n8n</code>, including conversion, validation, and actionable analytics.<br>
+        <a href="https://www.youtube.com/watch?v=PMTZNRFjD6c" target="_blank">Watch CAD-BIM Pipeline Tutorial on YouTube</a>
+      </br>
+    </td>
+  </tr>
+  <tr>
+    <td style="border: none; padding-right: 12px; vertical-align: top;">
+      <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">
+        <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-how-to-install.jpg" alt="Automated CAD/BIM Validation" width="460" height="315">
+      </a>
+    </td>
+    <td style="border: none; vertical-align: top;">
+     <b> ⚡️Automated CAD/BIM Data Validation with n8n | The End of Manual BIM Checks </b>
+      <br>
+        Discover how to fully automate <strong>CAD/BIM data validation</strong> workflows using the free, open-source <code>n8n</code> platform.Ideal for project teams looking to save hours (or days) every week.<br>
+        <a href="https://www.youtube.com/watch?v=p84AmP2dcvg" target="_blank">Watch Automated Validation Tutorial on YouTube</a>
+      </br>
+    </td>
+  </tr>
+</table>
+
+
 
 ## Overview
 
