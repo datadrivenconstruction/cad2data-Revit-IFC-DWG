@@ -1,16 +1,27 @@
-# 🏗️ CAD & BIM Data Pipeline
+<h1 align="center">🏗️ CAD & BIM Data Pipeline</h1>
+<h3 align="center">Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows</h3>
 
-### Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows
+<p align="center">
+  Automate your CAD/BIM data extraction and transformation using <a href="https://n8n.io">n8n</a> — with no vendor lock-in, no Autodesk licenses, and full control of your project insights.
+</p>
 
-**Automate your CAD/BIM data extraction and transformation using [n8n](https://n8n.io)** — with no vendor lock-in, no Autodesk® licenses, and full control of your project insights.
-
-[![n8n](https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white)](https://n8n.io)
-[![MIT License](https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue)](LICENSE)
-[![Made by DataDrivenConstruction](https://img.shields.io/badge/made%20by-DataDrivenConstruction.io-orange)](https://datadrivenconstruction.io)
-[![Works with Revit, IFC, DWG, DGN](https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white)](#)
-[![Outputs Excel, DAE, HTML](https://img.shields.io/badge/output-.xlsx%20.dae%20.html-green?logo=microsoft-excel&logoColor=white)](#)
-[![Automation Ready](https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions)](#)
-[![Community Support](https://img.shields.io/badge/telegram-n8n__pipelines-blue?logo=telegram)](https://t.me/n8n_pipelines)
+<p align="center">
+  <a href="https://n8n.io">
+    <img src="https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white" alt="n8n">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue" alt="MIT License">
+  </a>
+  <a href="https://datadrivenconstruction.io">
+    <img src="https://img.shields.io/badge/made%20by-DataDrivenConstruction.io-orange" alt="DataDrivenConstruction">
+  </a>
+  <img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats">
+  <img src="https://img.shields.io/badge/output-.xlsx%20.dae%20.html-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
+  <img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL">
+  <a href="https://t.me/n8n_pipelines">
+    <img src="https://img.shields.io/badge/telegram-n8n__pipelines-blue?logo=telegram" alt="Telegram Community">
+  </a>
+</p>
 
 
 <p align="center">
