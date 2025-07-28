@@ -10,17 +10,17 @@ Convert CAD/BIM files (`.rvt`, `.dwg`, `.ifc`, `.dgn`) to structured Excel data 
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
-## Overview
-
-This pipeline automates conversion of CAD/BIM files to Excel for quantity takeoffs, data analysis, and further processing. It supports offline operation and extensibility with Python or AI tools.
-
-### Tutorial Videos
+## Tutorial Videos
 
 | Video | Description |
 |-------|-------------|
 | [n8n Quick Start](https://youtu.be/HUbEPo-yfeA?si=Gjbj2glKgU3q-XZC) | Step-by-step guide to installing n8n, building pipelines, and using LLMs for automation. |
 | [CAD-BIM Data Pipeline](https://www.youtube.com/watch?v=PMTZNRFjD6c) | Walkthrough of CAD/BIM data processing, conversion, validation, and analytics in n8n. |
 | [Automated CAD/BIM Validation](https://www.youtube.com/watch?v=p84AmP2dcvg) | Guide to automating validation workflows for compliance with EIR, BIM Execution Plans, and IDS. |
+
+## Overview
+
+This pipeline automates the conversion of CAD/BIM files to Excel for quantity takeoffs, data analysis, and further processing. It supports offline operation and extensibility with Python or AI tools.
 
 ## Supported Formats
 
@@ -48,23 +48,46 @@ This pipeline automates conversion of CAD/BIM files to Excel for quantity takeof
    npx n8n
    ```
    Access at `http://localhost:5678`.
-3. Download this repository from [GitHub](https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO) as ZIP and unzip.
-4. Import workflow:
-   - In n8n, select **Import from File**.
-   - Choose the `.json` file.
-   - Update file paths in **Set** nodes.
-5. Execute the workflow.
-
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Installation Overview" width="100%"/>
-</p>
+3. Clone this repository:
+   ```
+   git clone https://github.com/datadrivenconstruction/Revit-IFC-DWG-DGN-Converter-in-n8n-with-QTO.git
+   ```
+   Alternatively, download as ZIP and unzip.
+4. Ensure read/write permissions for input/output folders.
 
 ## Available Workflows
 
 ### 1. Basic Conversion
 **File**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
 
-Converts files to XLSX and DAE (for Revit/IFC).
+Converts CAD/BIM files (`.rvt`, `.ifc`, `.dwg`, `.dgn`) to Excel (XLSX) and Collada (DAE) for Revit/IFC files. Minimal configuration for quick setup.
+
+#### Installation
+1. Import `n8n_1_Revit_IFC_DWG_Conversation_simple.json` into n8n via **Workflows > Import from File**.
+2. Update **Set Variables** node:
+   ```
+   # Revit
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   path_project_file: C:\Projects\Model.rvt
+
+   # IFC
+   path_to_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
+   path_project_file: C:\Projects\Model.ifc
+
+   # DWG
+   path_to_converter: C:\Converters\datadrivenlibs\DwgExporter.exe
+   path_project_file: C:\Projects\Plan.dwg
+
+   # DGN
+   path_to_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
+   path_project_file: C:\Projects\Bridge.dgn
+   ```
+3. Ensure the converter is in the `datadrivenlibs` folder, e.g., `C:\Converters\datadrivenlibs\XxxExporter.exe`.
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Check the output folder for XLSX, DAE, and PDF files.
+3. Monitor logs for conversion status.
 
 ```mermaid
 graph LR;
@@ -73,27 +96,6 @@ graph LR;
     C --> D[Output XLSX + DAE + PDF];
 ```
 
-Example variables:
-```
-# Revit
-path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
-path_project_file: C:\Projects\Model.rvt
-
-# IFC
-path_to_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
-path_project_file: C:\Projects\Model.ifc
-
-# DWG
-path_to_converter: C:\Converters\datadrivenlibs\DwgExporter.exe
-path_project_file: C:\Projects\Plan.dwg
-
-# DGN
-path_to_converter: C:\Converters\datadrivenlibs\DgnExporter.exe
-path_project_file: C:\Projects\Bridge.dgn
-```
-
-**Converter Path Note**: Use the executable inside `datadrivenlibs` folder, e.g., `DDC_Exporter_XXXXXXX\datadrivenlibs\XxxExporter.exe`.
-
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
 </p>
@@ -101,7 +103,25 @@ path_project_file: C:\Projects\Bridge.dgn
 ### 2. Conversion with Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
-Supports custom modes: basic (309 categories), standard (724 categories), complete (all 1209 categories). Options: bounding box, Revit schedules, PDF export.
+Converts CAD/BIM files with customizable export modes (basic: 309 categories, standard: 724 categories, complete: all 1209 categories) and optional outputs like bounding box, Revit schedules, or PDF drawings.
+
+#### Installation
+1. Import `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json` into n8n via **Workflows > Import from File**.
+2. Update **Set Variables** node with converter and file paths (same as Basic Conversion).
+3. Configure export options:
+   ```
+   export_mode: basic | standard | complete
+   bbox: true | false
+   schedule: true | false
+   sheets2pdf: true | false
+   no-xlsx: true | false
+   no-collada: true | false
+   ```
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Check the output folder for XLSX, DAE, schedules, or PDF files based on settings.
+3. Monitor logs for conversion status.
 
 ```mermaid
 graph LR;
@@ -118,17 +138,62 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
-### 3. Multi-Format Validation Pipeline
+### 3. Revit Batch Conversion with Validation and Reporting
+**File**: `grok_BP_26072025_14.json`
+
+Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (DAE), validates outputs, tracks processing times, and generates an HTML report with metrics, file links, and configuration details.
+
+#### Installation
+1. Import `grok_BP_26072025_14.json` into n8n via **Workflows > Import from File**.
+2. Update **Set Configuration Parameters** node:
+   ```
+   converter_path: C:\Converters\datadrivenlibs\RvtExporter.exe
+   source_folder: C:\Sample_Projects
+   output_folder: C:\Output
+   include_subfolders: true
+   file_extension: .rvt
+   ```
+3. Ensure `RvtExporter.exe` is in `C:\Converters\datadrivenlibs\` and `.rvt` files are in the source folder.
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Monitor logs for file discovery and conversion progress.
+3. Review the HTML report (auto-opens in browser) with:
+   - Metrics (files processed, success rate, time, sizes).
+   - Success/failure tables with file links.
+4. Check the output folder for XLSX and DAE files.
+
+```mermaid
+graph LR;
+    A[Manual Trigger] --> B[Set Config];
+    B --> C[Scan Files];
+    C --> D[Batch Convert];
+    D --> E[Validate Outputs];
+    E --> F[Track Metrics];
+    F --> G[Generate HTML Report];
+    G --> H[Save & Open Report];
+```
+
+### 4. Multi-Format Validation
 **Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
-Validates data against rules, generates color-coded XLSX reports with metrics.
+Validates CAD/BIM data against predefined rules, generating color-coded Excel reports with data quality metrics.
 
-Configuration:
-```
-path_to_converter: "C:\\Converters\\RvtExporter.exe"
-project_file: "C:\\Projects\\Model.rvt"
-validation_rules_path: "C:\\Validation\\DDC_Revit_IFC_Validation_Table.xlsx"
-```
+#### Installation
+1. Import `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json` into n8n via **Workflows > Import from File**.
+2. Update **Setup Paths** node:
+   ```
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   project_file: C:\Projects\Model.rvt
+   validation_rules_path: C:\Validation\DDC_Revit_IFC_Validation_Table.xlsx
+   ```
+3. Ensure the converter and validation rules file are accessible.
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Check the output folder for the color-coded XLSX report.
+3. Review data quality metrics (fill rates, unique values, patterns).
+4. Monitor logs for validation status.
 
 ```mermaid
 graph LR;
@@ -148,19 +213,49 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
-### 4. Simple ETL Pipeline for LLM Use Cases
+### 5. Simple ETL for LLM Use Cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
-Converts Revit file, generates XLSX filename, parses data. Import JSON into n8n and customize.
+Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
+
+#### Installation
+1. Import `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json` into n8n via **Workflows > Import from File**.
+2. Update **Setup Paths** node:
+   ```
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   project_file: C:\Projects\Model.rvt
+   ```
+3. Ensure the converter is accessible.
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Check the output folder for the XLSX file.
+3. Use the parsed data for LLM tasks (e.g., feed JSON to Claude or ChatGPT).
+4. Monitor logs for conversion and parsing status.
 
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="ETL Pipeline" width="100%"/>
 </p>
 
-### 5. Revit to HTML Quantity Takeoff Generator
+### 6. Revit to HTML Quantity Takeoff
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
-Analyzes walls, calculates volumes by type, generates interactive HTML reports.
+Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
+
+#### Installation
+1. Import `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json` into n8n via **Workflows > Import from File**.
+2. Update **Setup Paths** node:
+   ```
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   project_file: C:\Projects\Model.rvt
+   ```
+3. Ensure the converter is accessible.
+
+#### Usage
+1. Run the workflow via **Manual Trigger**.
+2. Check the output folder for the HTML report.
+3. Review the report (auto-opens in browser) for wall quantities and statistics.
+4. Monitor logs for processing status.
 
 ```mermaid
 graph LR;
