@@ -6,7 +6,7 @@
 <h3 align="center">Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports </br> All in Open Workflows</h3>
 
 <p align="center">
-  Automate your CAD/BIM data extraction and transformation using <a href="https://n8n.io">n8n</a>   </br> with no vendor lock-in, no Autodesk licenses, and full control of your project insights.
+  Automate your CAD/BIM data extraction and transformation using <a href="https://n8n.io">n8n</a>   </br> with no vendor lock-in, no Autodesk® or CAD licenses, and full control of your project data
 </p>
 
 <p align="center">
