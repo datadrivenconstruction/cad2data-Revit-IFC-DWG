@@ -241,7 +241,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-Project-Batch-Conversion-Report.png" alt="Advanced Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-Project-Batch-Conversion-Report-1.png" alt="Advanced Conversion" width="100%"/>
 </p>
 
 ### ⚡️ 4. Multi-Format Validation
