@@ -1,6 +1,7 @@
-<a href="https://n8n.io">
-    <img src="[https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white](https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-3.png)" alt="Convert Revit / DWG / IFC / DGN to Excel">
-  </a>
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-3.png" alt="Pipeline Overview" width="100%"/>
+</p>
+
 
 <h3 align="center">Convert Revit / DWG / IFC / DGN to Excel, DAE, Validations, and QTO Reports — All in Open Workflows</h3>
 
