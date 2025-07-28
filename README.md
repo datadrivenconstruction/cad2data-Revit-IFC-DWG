@@ -141,7 +141,7 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
 </p>
 
-##⚡️ 2. Conversion with Advanced Settings
+### ⚡️ 2. Conversion with Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 Converts CAD/BIM files with customizable export modes (basic: 309 categories, standard: 724 categories, complete: all 1209 categories) and optional outputs like bounding box, Revit schedules, or PDF drawings.
@@ -179,7 +179,7 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
-##⚡️ 3. Revit Batch Conversion with Validation and Reporting
+### ⚡️ 3. Revit Batch Conversion with Validation and Reporting
 **File**: `grok_BP_26072025_14.json`
 
 Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (DAE), validates outputs, tracks processing times, and generates an HTML report with metrics, file links, and configuration details.
@@ -215,7 +215,7 @@ graph LR;
     G --> H[Save & Open Report];
 ```
 
-##⚡️ 4. Multi-Format Validation
+### ⚡️ 4. Multi-Format Validation
 **Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
 Validates CAD/BIM data against predefined rules, generating color-coded Excel reports with data quality metrics.
@@ -254,7 +254,7 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
-##⚡️ 5. Simple ETL for LLM Use Cases
+### ⚡️ 5. Simple ETL for LLM Use Cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
@@ -278,7 +278,7 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="ETL Pipeline" width="100%"/>
 </p>
 
-##⚡️ 6. Revit to HTML Quantity Takeoff
+### ⚡️ 6. Revit to HTML Quantity Takeoff
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
