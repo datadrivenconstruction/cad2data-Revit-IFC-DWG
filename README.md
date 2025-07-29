@@ -405,12 +405,9 @@ We welcome contributions! Please feel free to:
 
 We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
 
-Our team provides hands-on workshops, strategic advice and prototyping with real-world project workflows in mind.
+Our team provides hands-on workshops, strategic advice and prototyping with real-world project workflows in mind.Over the last few years we have actively supported organisations seeking practical solutions for digital transformation and interoperability. Many have enquired about solving data quality problems - wanting to implement the open and automated methods we advocate. Today, these approaches are used in all planning, design and construction workflows around the world.
 
-Over the last few years we have actively supported organisations seeking practical solutions for digital transformation and interoperability. Many have enquired about solving data quality problems - wanting to implement the open and automated methods we advocate. Today, these approaches are used in all planning, design and construction workflows around the world.
-
-For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://datadrivenconstruction.io).
-
+Contact us for a free consultation where we'll discuss your challenges and demonstrate how n8n automation can transform your operations. Reach out via Telegram at [@DataDrivenConstruction](https://t.me/datadrivenconstruction) or visit our website at [datadrivenconstruction.io](https://datadrivenconstruction.io) to learn more about our services and see examples of successful implementations.
 
 ---
 
@@ -422,6 +419,6 @@ For inquiries or workshop bookings, visit [DataDrivenConstruction.io](https://da
   <br>
    <b>   Unlock the Power of Data in Construction</b>
    <br>
-     🚀 Move to full-cycle data management  where only unified granular  <br /> structured data & processes remain and where  🔓 your data is yours
+     🚀 Move to full-cycle data management  where only unified <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
 
