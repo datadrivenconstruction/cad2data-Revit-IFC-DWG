@@ -20,11 +20,9 @@
     <img src="https://img.shields.io/badge/made%20by-DataDrivenConstruction.io-orange" alt="DataDrivenConstruction">
   </a>
   <img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats">  </br>
-  <img src="https://img.shields.io/badge/output-.xlsx%20.dae%20.html-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
+  <img src="https://img.shields.io/badge/output-.xlsxe%20.csve%20.dae%20.htmle%20pdf-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
   <img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL">
-  <a href="https://t.me/n8n_pipelines">
-    <img src="https://img.shields.io/badge/telegram-n8n__pipelines-blue?logo=telegram" alt="Telegram Community">
-  </a>
+
 </p>
 
 
