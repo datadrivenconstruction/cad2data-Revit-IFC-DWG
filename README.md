@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-3.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipelines-CAD-BIM-Revit-IFC-AutoCAD-scaled.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
 
@@ -161,7 +161,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Basic Conversion" width="100%"/>
 </p>
 
 ### ⚡️ 2. Conversion with Advanced Settings
@@ -199,7 +199,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Advanced Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
 ### ⚡️ 3. Revit Batch Conversion with Validation and Reporting
@@ -239,7 +239,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/CAD-Project-Batch-Conversion-Report-1.png" alt="Advanced Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/QTO-Revit-IFC-AutoCAD-report-in-n8n.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
 ### ⚡️ 4. Multi-Format Validation
@@ -278,7 +278,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Validation-in-n8n-RVT-DWG-IFC-AutoCAD-Revit.jpg" alt="Validation Pipeline" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/cad-bim-validation-in-n8n-revit-ifc-autocad.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
 ### ⚡️ 5. Simple ETL for LLM Use Cases
@@ -302,7 +302,7 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
 4. Monitor logs for conversion and parsing status.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="ETL Pipeline" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-2.jpg" alt="ETL Pipeline" width="100%"/>
 </p>
 
 ### ⚡️ 6. Revit to HTML Quantity Takeoff
@@ -342,7 +342,7 @@ graph LR;
 ```
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Generator" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator-1.jpg" alt="QTO Generator" width="100%"/>
 </p>
 
 ## Troubleshooting
