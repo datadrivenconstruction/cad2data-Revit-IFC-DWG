@@ -281,7 +281,119 @@ graph LR;
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/cad-bim-validation-in-n8n-revit-ifc-autocad.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
-### ⚡️ 5. Simple ETL for LLM Use Cases
+
+# ⚡️ 5. Construction Price Estimation Pipeline
+
+**File:** `Construction_Price_Estimation_Pipeline.json`
+
+Automates construction cost estimation for building elements extracted from CAD/BIM files (`.rvt`, `.ifc`). Processes grouped data, classifies elements using AI, searches for current market prices, calculates costs, and generates comprehensive reports with visualizations.
+
+## Key Features
+
+- **AI-Powered Classification**: Automatically classifies building elements and materials across EU, DE, and US standards
+- **Smart Price Discovery**: Searches region-specific databases (ÖKOBAUDAT for Germany, RSMeans for US) with intelligent fallbacks
+- **Comprehensive Cost Analysis**:
+  - Total project cost
+  - Cost per group/element/unit (m³, m², etc.)
+  - Top 10 most expensive groups
+  - Percentage distribution analysis
+- **Multi-Format Output**:
+  - Excel workbook with multiple sheets (Summary, Detailed Elements, Material Summary, Top 10 Groups)
+  - Professional HTML report with interactive charts (McKinsey/Accenture style)
+- **Secondary Cost Factors**: Accounts for labor (20%), transport (10%), and other indirect costs
+- **Building-Element Focus**: Filters out non-building elements (annotations, etc.) for accurate estimation
+
+## Installation
+
+1. Import `Construction_Price_Estimation_Pipeline.json` into n8n via **Workflows > Import from File**
+2. Configure API credentials:
+   - OpenAI/Anthropic for AI classification
+   - Web search tools for price discovery
+3. Update **Set Parameters** node:
+   ```
+   input_file_path: C:\Output\Project_Elements.xlsx
+   grouping_parameter: Type Name (or Category)
+   country: Germany
+   ```
+4. Ensure n8n has required nodes enabled (code execution, web search, binary file handling)
+
+## Usage
+
+1. Export your CAD/BIM model to Excel using workflows 1-4
+2. Run the Construction Price Estimation workflow
+3. Monitor the pipeline as it:
+   - Groups elements by type
+   - Classifies materials using AI
+   - Searches for current market prices
+   - Calculates total costs
+   - Generates reports
+4. Review outputs:
+   - **Excel Report**: Detailed cost breakdown across multiple sheets
+   - **HTML Report**: Interactive visualizations with charts and graphs
+   - **Cost Summary**: Total project cost with group-wise distribution
+
+## Workflow Process
+
+```mermaid
+graph LR;
+    A[CAD/BIM Excel] --> B[Group Elements];
+    B --> C[AI Classification];
+    C --> D[Price Search];
+    D --> E[Cost Calculation];
+    E --> F[Generate Reports];
+    F --> G[Excel + HTML Output];
+```
+
+## Example Output
+
+```
+Total Project Cost: €2,345,678
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Top 10 Cost Groups:
+1. Walls - Concrete:     €456,789 (19.5%)
+2. Floors - Steel Frame: €384,567 (16.4%)
+3. Windows - Triple:     €298,456 (12.7%)
+...
+
+Material Distribution:
+• Concrete: 35%
+• Steel: 28%
+• Glass: 15%
+• Wood: 12%
+• Other: 10%
+```
+
+## Best Practices
+
+- **Input Data Quality**: Ensure your BIM model includes volumetric properties (volume, area, length) for accurate unit-based pricing
+- **Regional Settings**: Select the appropriate country for region-specific pricing databases
+- **Grouping Strategy**: Choose meaningful grouping parameters (e.g., "Type Name", "Family", "Category") for clear cost breakdown
+- **Price Verification**: Review "Price not found" items and manually adjust if needed
+- **Update Frequency**: Re-run periodically to capture market price fluctuations
+
+## Supported Pricing Databases
+
+| Region | Database | Coverage |
+|--------|----------|----------|
+| Germany | ÖKOBAUDAT | Comprehensive environmental and cost data |
+| United States | RSMeans | Industry-standard construction costs |
+| Europe | EU Construction Database | Pan-European pricing averages |
+| Custom | User-defined | Import your own price lists |
+
+## Error Handling
+
+- **Missing Prices**: System notes "Price not found" and suggests rough estimates based on similar materials
+- **Classification Failures**: Falls back to generic material categories
+- **Volume Calculations**: Uses alternative measurements (area × height) when direct volume unavailable
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-pipeline-cost-estimation.jpg" alt="QTO Generator" width="100%"/>
+</p>
+
+
+
+
+### ⚡️ 6. Simple ETL for LLM Use Cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
@@ -305,7 +417,7 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-2.jpg" alt="ETL Pipeline" width="100%"/>
 </p>
 
-### ⚡️ 6. Revit to HTML Quantity Takeoff
+### ⚡️ 7. Revit to HTML Quantity Takeoff
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
