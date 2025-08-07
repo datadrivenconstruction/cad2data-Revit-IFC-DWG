@@ -294,57 +294,34 @@ graph LR;
 
 **File:** `Construction_Price_Estimation_Pipeline.json`
 
-Automates construction cost estimation for building elements extracted from CAD/BIM files (`.rvt`, `.ifc`). Processes grouped data, classifies elements using AI, searches for current market prices, calculates costs, and generates comprehensive reports with visualizations.
+Automates cost estimation for building elements from CAD/BIM files. Uses AI to classify materials, search market prices, and generate comprehensive cost reports.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="QTO Generator" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="Price Estimation" width="100%"/>
 </p>
 
-####  Key Features
+#### Key Features
+- **AI Classification**: Materials across EU/DE/US standards
+- **Smart Pricing**: Region-specific databases with fallbacks
+- **Cost Analysis**: Total costs, cost per unit, top 10 groups
+- **Multi-Format Output**: Excel workbook + HTML report with charts
 
-- **AI-Powered Classification**: Automatically classifies building elements and materials across EU, DE, and US standards
-- **Smart Price Discovery**: Searches region-specific databases (ÖKOBAUDAT for Germany, RSMeans for US) with intelligent fallbacks
-- **Comprehensive Cost Analysis**:
-  - Total project cost
-  - Cost per group/element/unit (m³, m², etc.)
-  - Top 10 most expensive groups
-  - Percentage distribution analysis
-- **Multi-Format Output**:
-  - Excel workbook with multiple sheets (Summary, Detailed Elements, Material Summary, Top 10 Groups)
-  - Professional HTML report with interactive charts (McKinsey/Accenture style)
-- **Secondary Cost Factors**: Accounts for labor (20%), transport (10%), and other indirect costs
-- **Building-Element Focus**: Filters out non-building elements (annotations, etc.) for accurate estimation
-
-####  Installation
-
-1. Import `Construction_Price_Estimation_Pipeline.json` into n8n via **Workflows > Import from File**
-2. Configure API credentials:
-   - OpenAI/Anthropic for AI classification
-   - Web search tools for price discovery
+#### Installation
+1. Import `Construction_Price_Estimation_Pipeline.json` into n8n
+2. Configure AI credentials (OpenAI/Anthropic)
 3. Update **Set Parameters** node:
    ```
    input_file_path: C:\Output\Project_Elements.xlsx
-   grouping_parameter: Type Name (or Category)
+   grouping_parameter: Type Name
    country: Germany
    ```
-4. Ensure n8n has required nodes enabled (code execution, web search, binary file handling)
 
-####  Usage
+#### Usage
+1. Export CAD/BIM model to Excel (workflows 1-4)
+2. Run the Price Estimation workflow
+3. Review outputs: Excel report, HTML visualizations
 
-1. Export your CAD/BIM model to Excel using workflows 1-4
-2. Run the Construction Price Estimation workflow
-3. Monitor the pipeline as it:
-   - Groups elements by type
-   - Classifies materials using AI
-   - Searches for current market prices
-   - Calculates total costs
-   - Generates reports
-4. Review outputs:
-   - **Excel Report**: Detailed cost breakdown across multiple sheets
-   - **HTML Report**: Interactive visualizations with charts and graphs
-   - **Cost Summary**: Total project cost with group-wise distribution
-
-####  Workflow Process
+**⏱️ Processing Time:** 5-10 seconds per element group (depends on LLM speed)
 
 ```mermaid
 graph LR;
@@ -352,46 +329,71 @@ graph LR;
     B --> C[AI Classification];
     C --> D[Price Search];
     D --> E[Cost Calculation];
+    E --> F[Reports: Excel + HTML];
+```
+
+
+
+### ⚡️ 6. Carbon Footprint CO2 Estimator
+
+**File:** `n8n_6_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json`
+
+Calculates embodied carbon emissions for building projects. Analyzes materials, applies emission factors, and generates professional sustainability reports.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Carbon_Footprint_CO2_Estimator_for_Revit-and_IFC.jpg" alt="CO2 Estimator" width="100%"/>
+</p>
+
+#### Key Features
+- **Embodied Carbon Analysis**: A1-A3 lifecycle stages
+- **Material Classification**: EU/DE/US standards with density data
+- **Emission Factors**: Industry-standard CO2e factors per material
+- **Impact Assessment**: Critical/High/Medium/Low categorization
+- **Professional Reports**: McKinsey-style HTML + Multi-sheet Excel
+
+#### Installation
+1. Import `n8n_6_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json` into n8n
+2. Configure AI credentials (OpenAI/Anthropic)
+3. Update **Setup - Define file paths** node:
+   ```
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   project_file: C:\Projects\Model.rvt
+   group_by: Type Name
+   country: Germany
+   ```
+
+#### Usage
+1. Run workflow via **Manual Trigger**
+2. Automatic conversion if needed
+3. AI analyzes materials and calculates CO2
+4. Generates reports with charts and recommendations
+
+**⏱️ Processing Time:** 5-10 seconds per element group (depends on LLM speed)
+
+#### Output Example
+```
+Total Project CO2: 2,345.67 tonnes CO2e
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Top Contributors:
+1. Concrete Walls:    456.78t (19.5%)
+2. Steel Frame:       384.56t (16.4%)
+3. Glass Windows:     298.45t (12.7%)
+
+Recommendations:
+✓ Focus on concrete optimization (-20% potential)
+✓ Consider low-carbon alternatives
+✓ Review high-impact elements (>5% each)
+```
+
+```mermaid
+graph LR;
+    A[Revit/IFC File] --> B[Convert to Excel];
+    B --> C[Group Elements];
+    C --> D[AI Material Analysis];
+    D --> E[CO2 Calculation];
     E --> F[Generate Reports];
     F --> G[Excel + HTML Output];
 ```
-
-#### Example Output
-
-```
-Total Project Cost: €2,345,678
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Top 10 Cost Groups:
-1. Walls - Concrete:     €456,789 (19.5%)
-2. Floors - Steel Frame: €384,567 (16.4%)
-3. Windows - Triple:     €298,456 (12.7%)
-...
-
-Material Distribution:
-• Concrete: 35%
-• Steel: 28%
-• Glass: 15%
-• Wood: 12%
-• Other: 10%
-```
-
-####  Best Practices
-
-- **Input Data Quality**: Ensure your BIM model includes volumetric properties (volume, area, length) for accurate unit-based pricing
-- **Regional Settings**: Select the appropriate country for region-specific pricing databases
-- **Grouping Strategy**: Choose meaningful grouping parameters (e.g., "Type Name", "Family", "Category") for clear cost breakdown
-- **Price Verification**: Review "Price not found" items and manually adjust if needed
-- **Update Frequency**: Re-run periodically to capture market price fluctuations
-
-####  Supported Pricing Databases
-
-| Region | Database | Coverage |
-|--------|----------|----------|
-| Germany | ÖKOBAUDAT | Comprehensive environmental and cost data |
-| United States | RSMeans | Industry-standard construction costs |
-| Europe | EU Construction Database | Pan-European pricing averages |
-| Custom | User-defined | Import your own price lists |
-
 
 
 
