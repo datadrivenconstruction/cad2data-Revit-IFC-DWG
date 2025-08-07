@@ -156,7 +156,7 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 Converts CAD/BIM files (`.rvt`, `.ifc`, `.dwg`, `.dgn`) to Excel (XLSX) and Collada (DAE) for Revit/IFC files. Minimal configuration for quick setup.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Basic Conversion" width="100%"/>
 </p>
 
 #### Installation
@@ -201,7 +201,7 @@ graph LR;
 Converts CAD/BIM files with customizable export modes (basic: 309 categories, standard: 724 categories, complete: all 1209 categories) and optional outputs like bounding box, Revit schedules, or PDF drawings.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Basic Conversion" width="100%"/>
 </p>
 
 #### Installation
@@ -241,7 +241,7 @@ graph LR;
 Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (DAE), validates outputs, tracks processing times, and generates an HTML report with metrics, file links, and configuration details.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/CAD-BIM-Batch-Converter-Pipeline.jpg" alt="Advanced Conversion" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/CAD-BIM-Batch-Converter-Pipeline-1.jpg" alt="Advanced Conversion" width="100%"/>
 </p>
 
 #### Installation
@@ -332,7 +332,7 @@ Automates cost estimation for building elements from CAD/BIM files. Uses AI to c
 - **Multi-Format Output**: Excel workbook + HTML report with charts
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="Price Estimation" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Validation_CAD_BIM_Revit_IFC_DWG-1.jpg" alt="Price Estimation" width="100%"/>
 </p>
 
 
@@ -375,7 +375,7 @@ Calculates embodied carbon emissions for building projects. Analyzes materials, 
 - **Professional Reports**: McKinsey-style HTML + Multi-sheet Excel
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Carbon_Footprint_CO2_Estimator_for_Revit-and_IFC.jpg" alt="CO2 Estimator" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Carbon_Footprint_CO2_Estimator_for_Revit-and_IFC-1.jpg" alt="CO2 Estimator" width="100%"/>
 </p>
 
 #### Installation
@@ -408,13 +408,13 @@ graph LR;
 
 
 
-### ⚡️ 6. Simple ETL for LLM Use Cases
+### ⚡️ 7. Simple ETL for LLM Use Cases
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Generator" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-1.jpg" alt="QTO Generator" width="100%"/>
 </p>
 
 #### Installation
@@ -435,13 +435,13 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
 
 
 
-### ⚡️ 7. Revit to HTML Quantity Takeoff
+### ⚡️ 8. Revit to HTML Quantity Takeoff
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Generator" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator-2.jpg" alt="QTO Generator" width="100%"/>
 </p>
 
 #### Installation
