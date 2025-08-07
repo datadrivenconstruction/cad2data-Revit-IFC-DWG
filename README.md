@@ -30,7 +30,7 @@
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-github-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Tutorial Videos](#tutorial-videos)
 - [Overview](#overview)
