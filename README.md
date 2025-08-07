@@ -290,15 +290,11 @@ graph LR;
 
 
 
-### ⚡️ 5. Construction Price Estimation Pipeline
+### ⚡️ 5. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
 
 **File:** `Construction_Price_Estimation_Pipeline.json`
 
 Automates cost estimation for building elements from CAD/BIM files. Uses AI to classify materials, search market prices, and generate comprehensive cost reports.
-
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="Price Estimation" width="100%"/>
-</p>
 
 #### Key Features
 - **AI Classification**: Materials across EU/DE/US standards
@@ -306,22 +302,24 @@ Automates cost estimation for building elements from CAD/BIM files. Uses AI to c
 - **Cost Analysis**: Total costs, cost per unit, top 10 groups
 - **Multi-Format Output**: Excel workbook + HTML report with charts
 
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="Price Estimation" width="100%"/>
+</p>
+
+
 #### Installation
 1. Import `Construction_Price_Estimation_Pipeline.json` into n8n
 2. Configure AI credentials (OpenAI/Anthropic)
 3. Update **Set Parameters** node:
    ```
    input_file_path: C:\Output\Project_Elements.xlsx
-   grouping_parameter: Type Name
+   grouping_parameter: Type Name )
    country: Germany
    ```
+- Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)
+- Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')
 
-#### Usage
-1. Export CAD/BIM model to Excel (workflows 1-4)
-2. Run the Price Estimation workflow
-3. Review outputs: Excel report, HTML visualizations
-
-**⏱️ Processing Time:** 5-10 seconds per element group (depends on LLM speed)
+**⏱️ Processing Time:** 5-15 seconds per element group (depends on LLM speed)
 
 ```mermaid
 graph LR;
@@ -334,15 +332,11 @@ graph LR;
 
 
 
-### ⚡️ 6. Carbon Footprint CO2 Estimator
+### ⚡️ 6. Carbon Footprint CO2 Estimator for Revit and IFC with LLM (AI)
 
 **File:** `n8n_6_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json`
 
 Calculates embodied carbon emissions for building projects. Analyzes materials, applies emission factors, and generates professional sustainability reports.
-
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Carbon_Footprint_CO2_Estimator_for_Revit-and_IFC.jpg" alt="CO2 Estimator" width="100%"/>
-</p>
 
 #### Key Features
 - **Embodied Carbon Analysis**: A1-A3 lifecycle stages
@@ -351,6 +345,10 @@ Calculates embodied carbon emissions for building projects. Analyzes materials, 
 - **Impact Assessment**: Critical/High/Medium/Low categorization
 - **Professional Reports**: McKinsey-style HTML + Multi-sheet Excel
 
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Carbon_Footprint_CO2_Estimator_for_Revit-and_IFC.jpg" alt="CO2 Estimator" width="100%"/>
+</p>
+
 #### Installation
 1. Import `n8n_6_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json` into n8n
 2. Configure AI credentials (OpenAI/Anthropic)
@@ -358,32 +356,13 @@ Calculates embodied carbon emissions for building projects. Analyzes materials, 
    ```
    path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
    project_file: C:\Projects\Model.rvt
-   group_by: Type Name
-   country: Germany
+   group_by: Type Name (Category or other)
+   country: Germany (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')
+
    ```
 
-#### Usage
-1. Run workflow via **Manual Trigger**
-2. Automatic conversion if needed
-3. AI analyzes materials and calculates CO2
-4. Generates reports with charts and recommendations
+**⏱️ Processing Time:** 5-15 seconds per element group (depends on LLM speed)
 
-**⏱️ Processing Time:** 5-10 seconds per element group (depends on LLM speed)
-
-#### Output Example
-```
-Total Project CO2: 2,345.67 tonnes CO2e
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Top Contributors:
-1. Concrete Walls:    456.78t (19.5%)
-2. Steel Frame:       384.56t (16.4%)
-3. Glass Windows:     298.45t (12.7%)
-
-Recommendations:
-✓ Focus on concrete optimization (-20% potential)
-✓ Consider low-carbon alternatives
-✓ Review high-impact elements (>5% each)
-```
 
 ```mermaid
 graph LR;
