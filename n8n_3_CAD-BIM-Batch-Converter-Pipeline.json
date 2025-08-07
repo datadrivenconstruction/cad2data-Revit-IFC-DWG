@@ -1,15 +1,140 @@
 {
-  "name": "CAD-BIM-Batch-Converter-Pipeline",
+  "name": "n8n_3_CAD-BIM-Batch-Converter-Pipeline",
   "nodes": [
+    {
+      "parameters": {
+        "content": "## 📋 Quick Start Guide\n\n**1️⃣ Configure Settings**\nEdit \"Set Configuration Parameters\":\n- `converter_path`: Path to RvtExporter.exe\n- `source_folder`: Your CAD files location\n- `output_folder`: Where to save results\n- `file_extension`: .rvt, .ifc, .dwg, or .dgn\n\n**2️⃣ Run Pipeline**\nClick \"Execute Workflow\"\n\n**3️⃣ Get Results**\n✅ Excel data files\n✅ 3D DAE models\n✅ HTML report",
+        "height": 368,
+        "width": 376
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        -928
+      ],
+      "id": "27c78f17-42df-418f-93fc-ca6b96abe673",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "## 🎓 Video Tutorials\n\n**📹 [CAD-BIM Pipeline Tutorial](https://www.youtube.com/watch?v=PMTZNRFjD6c)**\nComplete walkthrough of CAD-BIM automation\n\n**⚡ [Automated Validation](https://www.youtube.com/watch?v=p84AmP2dcvg)**\nStop manual BIM checking forever\n\n💡 **Pro tip:** Watch before first run!",
+        "height": 224,
+        "width": 380,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        -544
+      ],
+      "id": "938e4e78-60cd-40fa-9173-044c44f27dc2",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "## 💡 Pro Tips\n\n• Start small (5-10 files)\n• Test with different file types\n• Run overnight for large batches\n• Keep source files backed up\n• Close CAD applications first\n\n**Optimization:**\n• SSD = 2-3x faster\n• More RAM = stability\n• Exclude huge files initially",
+        "height": 296,
+        "width": 380,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        16
+      ],
+      "id": "3e4e66ce-72a5-450c-8d34-d481113cb94d",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "content": "## 📈 Pipeline Metrics\n\n**Tracks:**\n• Total pipeline time\n• Per-file conversion time\n• Success/failure rates\n• Input/output file sizes\n• Processing efficiency\n\n**Typical performance:**\n• Small files: 10-30 sec\n• Medium: 30-60 sec\n• Large: 1-3 min",
+        "height": 300,
+        "width": 376,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        336
+      ],
+      "id": "5570b264-a191-47e1-8b76-0f85dd3391a8",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "content": "## 🆘 Support\n\n**Resources:**\n🌐 [DataDrivenConstruction.io](https://datadrivenconstruction.io)\n📧 support@datadrivenconstruction.io\n💬 [Community Forum](https://t.me/datadrivenconstruction)\n\n**Documentation:**\n📚 [n8n Docs](https://docs.n8n.io)\n🎥 [YouTube Channel](https://youtube.com/@datadrivenconstruction)",
+        "height": 244,
+        "width": 372,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        656
+      ],
+      "id": "6c541e97-5acc-4493-a209-817ee8f676d6",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "content": "## 🎯 Use Cases\n\n**Weekly Reports**\nAutomate Monday conversions\n\n**Quality Control**\nValidate before client delivery\n\n**Archive Projects**\nConvert old files to lightweight formats\n\n**BI Integration**\nFeed Excel data to Power BI",
+        "height": 304,
+        "width": 380,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        -304
+      ],
+      "id": "0e99d687-d3fc-45e6-bc1b-3611ca546ac3",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful**, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). **Your support helps us** improve and continue developing open solutions for the community!\n",
+        "height": 100,
+        "width": 372
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4784,
+        -1040
+      ],
+      "id": "52dbc68a-6892-413d-a483-b2595ac7a618",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "content": "## 📋 Options Parameter Configuration Guide\n\n## 🎯 Overview\nThe Options parameter allows you to customize the export process with various flags and settings. Multiple options can be combined using spaces.\n\n## 🚀 Available Options\n\n### 📦 Export Modes\n| Mode   | Description |\n|------|-------------|\n| `basic`   |  Minimal export with essential data only |\n| `standard`   | Default export level with standard properties |\n| `complete`   | Full export including all available data |\n| `custom`   | Custom export using category file specification |\n\n### 🛠️ Feature Flags\n| Option | Description |\n|--------|-------------|\n| `bbox` | Add BoundingBox geometry of each element in XLSX |\n| `schedule` | Export all Schedules |\n| `sheets2pdf` | Export all Sheets to PDF format |\n| `[<output file>]` | Specify custom output file path |\n| `[<category file>]` | Text file with category names (required for custom mode) |\n\n### 🚫 Disable Options\n| Option | Description |\n|--------|-------------|\n| `-no-xlsx` | Disable export to .xlsx format |\n| `-no-collada` | Disable export to .dae format |\n\n---\n\n## 💡 Usage Examples\n\n### Example 1: **Basic Export with BoundingBox**\n```bash\nOptions: bbox basic\n```\n> Exports basic data with BoundingBox geometry included\n\n### Example 2: **Complete Export with Schedules**\n```bash\nOptions: complete schedule sheets2pdf\n```\n> Full data export including all schedules and sheets converted to PDF\n\n### Example 3: **Custom Mode with Category File**\n```bash\nOptions: custom categories.txt bbox\n```\n> Custom export using categories.txt file with BoundingBox geometry\n\n### Example 4: **Export Without Specific Formats**\n```bash\nOptions: standard -no-xlsx -no-collada\n```\n> Standard export excluding XLSX and Collada formats\n\n### Example 5: **Schedules Only Export**\n```bash\nOptions: schedule -no-collada\n```\n> Export only schedules without Collada format\n\n### Example 6: **Custom Output Path**\n```bash\nOptions: C:\\Output\\result.xlsx complete bbox\n```\n> Complete export with BoundingBox to specific output file\n\n---\n\n## ⚡ Quick Tips\n- **Combine multiple options** by separating them with spaces\n- **Order matters** - export mode should come before other options\n- **Custom mode** requires a category file to function properly\n- **Disable flags** can be used to exclude unwanted formats\n\n---\n\n## 📝 Notes\n- All options are case-sensitive\n- Invalid combinations will be ignored\n- Default behavior applies when no options are specified",
+        "height": 1940,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4384,
+        -1040
+      ],
+      "id": "bb81a207-8975-413c-aac9-bd47d469bb9c",
+      "name": "Sticky Note"
+    },
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1904,
-        1344
+        -3760,
+        -640
       ],
-      "id": "c929cdfb-d8a6-4e00-8261-52c6f0ee4d7c",
+      "id": "eafb883b-c516-4b38-b9b3-2d7b744731a4",
       "name": "Manual Trigger"
     },
     {
@@ -19,10 +144,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1728,
-        1392
+        -3584,
+        -592
       ],
-      "id": "ca9fc8ea-79a7-43d6-8089-a9794077c2ac",
+      "id": "e90eff5e-89c0-4555-a7c0-b1d72ac74ae2",
       "name": "Capture Pipeline Start Time1"
     },
     {
@@ -34,10 +159,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -1360,
-        1408
+        -3216,
+        -576
       ],
-      "id": "175ee27c-a762-435a-8548-49f95e9f8ef5",
+      "id": "56fbdde2-61d3-441a-813a-411ce49a9f27",
       "name": "Merge Pipeline Start with Config1"
     },
     {
@@ -87,10 +212,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1552,
-        1504
+        -3408,
+        -480
       ],
-      "id": "1ac66346-8849-4d14-b636-fecb14a52c68",
+      "id": "7fd7e5cc-fbfc-44cc-843e-3611b5a156a3",
       "name": "Set Configuration Parameters1"
     },
     {
@@ -100,10 +225,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1200,
-        1520
+        -3056,
+        -464
       ],
-      "id": "10dc36d1-8a5f-4d98-9522-c2b22a22f52b",
+      "id": "16ba0c4e-9582-4b90-a0e0-e22bb74f6b8e",
       "name": "Find CAD Files1"
     },
     {
@@ -115,10 +240,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -1040,
-        1408
+        -2896,
+        -576
       ],
-      "id": "c26b2404-1316-42eb-bd41-4920cd4be663",
+      "id": "9b995ffe-41bf-44de-abb0-b3a62341d476",
       "name": "Merge Config with Search Results1"
     },
     {
@@ -128,10 +253,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -880,
-        1408
+        -2736,
+        -576
       ],
-      "id": "5334e67b-c1b5-4358-aeff-c768fa1b3113",
+      "id": "f8719149-f1b2-4683-a27d-c1e728264126",
       "name": "Process File List1"
     },
     {
@@ -160,10 +285,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -720,
-        1408
+        -2576,
+        -576
       ],
-      "id": "fd7cb56a-909d-4682-b65b-850ff7b21af1",
+      "id": "ece36aa8-a1a1-49d8-b4b9-c9a0b98c38cc",
       "name": "Check if Files Exist1"
     },
     {
@@ -174,10 +299,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -528,
-        1392
+        -2384,
+        -592
       ],
-      "id": "ff373a08-875d-4af4-9ab8-d86f1c6167f9",
+      "id": "92201f1a-9752-4c42-80ff-0fec2b37014d",
       "name": "Split Files for Processing1"
     },
     {
@@ -188,10 +313,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -352,
-        1488
+        -2208,
+        -496
       ],
-      "id": "7bb498ac-dc80-4231-b15e-d037585e24fa",
+      "id": "fc748649-cf47-45ad-95bc-89236ded1192",
       "name": "Create Output Directory1"
     },
     {
@@ -203,10 +328,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -192,
-        1408
+        -2048,
+        -576
       ],
-      "id": "8aebb326-cbc6-4162-87ba-1e49651530a8",
+      "id": "4016011a-0f33-4c61-8d34-7247d54a394e",
       "name": "Merge File Data1"
     },
     {
@@ -216,10 +341,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -16,
-        1408
+        -1872,
+        -576
       ],
-      "id": "5219addc-9280-4fe4-bea8-ae23fe1af57f",
+      "id": "97724e33-e9e4-4358-88ee-3c64eed3cae0",
       "name": "Capture Start Time1"
     },
     {
@@ -229,10 +354,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1,
       "position": [
-        144,
-        1408
+        -1712,
+        -576
       ],
-      "id": "cc1d0ee3-5ff2-4e3a-9fa1-9e4c2d65f126",
+      "id": "db22f455-bd7f-4173-b63d-f3b5e8247e71",
       "name": "Small Delay",
       "webhookId": "5a1cb608-ec3e-4832-a289-f6a52ef8bc7a"
     },
@@ -244,10 +369,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        304,
-        1520
+        -1552,
+        -464
       ],
-      "id": "4c6df4d3-b9de-4bef-b1e0-bfbad217fa5d",
+      "id": "c2b1d913-0e6e-4260-878a-1c13b7e65dbb",
       "name": "Execute Conversion1",
       "continueOnFail": true
     },
@@ -258,10 +383,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        464,
-        1520
+        -1392,
+        -464
       ],
-      "id": "d9ea2c1a-9a5e-409d-a476-209c0d680f7c",
+      "id": "604e6815-a938-4bf5-8b9b-62043e64c254",
       "name": "Calculate Conversion Time1"
     },
     {
@@ -273,10 +398,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        624,
-        1408
+        -1232,
+        -576
       ],
-      "id": "2196822a-c33a-4dff-8e34-6df35f39220c",
+      "id": "539ef311-3361-480e-be5d-466ef736fd68",
       "name": "Merge Data Before Verification1"
     },
     {
@@ -287,10 +412,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        784,
-        1408
+        -1072,
+        -576
       ],
-      "id": "f0d5a8bd-a685-4d36-a8a4-41ab5dd963c0",
+      "id": "67dd963e-50d4-4f6a-8c1a-f5246726c273",
       "name": "Verify Output Files and Get Sizes1"
     },
     {
@@ -300,10 +425,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        944,
-        1408
+        -912,
+        -576
       ],
-      "id": "b6a74d5c-5d3b-45a1-a441-9aba11edd237",
+      "id": "0b82bec8-99dd-44dc-a308-58f353140eb0",
       "name": "Complete File Verification1"
     },
     {
@@ -313,10 +438,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1104,
-        1408
+        -752,
+        -576
       ],
-      "id": "ef7449da-fd1f-4bb4-bd91-5f7567b30859",
+      "id": "f9392af5-c779-426f-a939-9c7e6d8375ec",
       "name": "Generate HTML Report1"
     },
     {
@@ -326,10 +451,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1264,
-        1408
+        -592,
+        -576
       ],
-      "id": "c7def3b6-84d5-4e17-b960-f748fb96b2ba",
+      "id": "9f7d9a09-2f75-44d9-9c42-e8cbc770ae35",
       "name": "Prepare Binary Data1"
     },
     {
@@ -341,10 +466,10 @@
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        1424,
-        1408
+        -432,
+        -576
       ],
-      "id": "b843e346-af6f-49f0-9fce-9bb664e07ab5",
+      "id": "3134fafa-1db7-4c60-b138-71eb5538e39f",
       "name": "Save HTML File1"
     },
     {
@@ -354,10 +479,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1584,
-        1408
+        -272,
+        -576
       ],
-      "id": "fd094fd4-ef3e-4ca3-aa1f-5f2bae372dcd",
+      "id": "5940c5a0-c271-4db8-9ff1-9bcb284ecebb",
       "name": "Verify and Prepare Path1"
     },
     {
@@ -367,10 +492,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1744,
-        1408
+        -112,
+        -576
       ],
-      "id": "0c82842d-4452-4f5c-86a4-8b7b4c0d40ea",
+      "id": "af226cfc-4c2b-41fd-89b6-c5e059ee93ff",
       "name": "Open HTML Report1"
     },
     {
@@ -381,10 +506,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1904,
-        1408
+        48,
+        -576
       ],
-      "id": "958260df-2b7a-45c5-ba33-86483a318905",
+      "id": "045b996a-8b9e-47d7-bd9e-bd59af5f3cdd",
       "name": "Final Completion Notice1"
     },
     {
@@ -410,10 +535,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -528,
-        1616
+        -2384,
+        -368
       ],
-      "id": "2d770bf1-e185-4fb1-8b72-f53c2ebb7f88",
+      "id": "49909319-0488-4936-bedb-8dc9b660b472",
       "name": "No Files Found Response1"
     },
     {
@@ -426,10 +551,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1968,
-        944
+        -3824,
+        -1040
       ],
-      "id": "fabdea9e-1583-4c94-b26d-f03289597aef",
+      "id": "6207b494-660b-4f59-ade3-b6815c44f602",
       "name": "Sticky Note7"
     },
     {
@@ -442,10 +567,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1424,
-        944
+        -3280,
+        -1040
       ],
-      "id": "559fb87e-eeeb-4a5d-8741-7d8f648d0eab",
+      "id": "4b1cfbf5-d265-48b2-8f36-fee4b4d72f3d",
       "name": "Sticky Note9"
     },
     {
@@ -458,10 +583,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -384,
-        944
+        -2240,
+        -1040
       ],
-      "id": "4720567f-1b4b-4639-a0f8-47b47a984f65",
+      "id": "7828a70b-0b64-41db-9efb-5e1cd61e0310",
       "name": "Sticky Note10"
     },
     {
@@ -474,10 +599,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -48,
-        944
+        -1904,
+        -1040
       ],
-      "id": "89e9a430-c075-40f4-ac58-a9ec0e18e405",
+      "id": "ce18cdb7-2562-400d-968f-ae5b582669bf",
       "name": "Sticky Note11"
     },
     {
@@ -490,10 +615,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        768,
-        944
+        -1088,
+        -1040
       ],
-      "id": "724427fa-be68-4ee8-9e87-0158ed749f7e",
+      "id": "64a89a89-909a-4163-a260-df3d39ca697a",
       "name": "Sticky Note15"
     },
     {
@@ -505,10 +630,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1072,
-        944
+        -784,
+        -1040
       ],
-      "id": "4bc04523-ff0b-4e74-8b7b-033f19080755",
+      "id": "a8d83995-64ac-4bdb-9cf9-12360c8b8b6d",
       "name": "Sticky Note16"
     },
     {
@@ -520,123 +645,11 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1552,
-        944
+        -304,
+        -1040
       ],
-      "id": "54e8b141-4d52-4f8a-80b3-9acedfe0b885",
+      "id": "93f24e1b-bbb7-4aed-a898-83bb82d99ed5",
       "name": "Sticky Note17"
-    },
-    {
-      "parameters": {
-        "content": "## 🚀 CAD/BIM Batch Conversion Pipeline\n\n**What this pipeline does:**\n- 🔍 **Finds** all CAD files in your folder (and subfolders)\n- 🔄 **Converts** all CAD/BIM data to Excel (DataFrame) + 3D formats\n- ✅ **Validates** conversion success\n- 📊 **Generates** detailed HTML report\n- 🎯 **Opens** report automatically\n\n**Supported formats:**\n`.rvt` `.ifc` `.dwg` `.dgn`",
-        "height": 1184,
-        "width": 4060,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -1984,
-        624
-      ],
-      "id": "dd45bd79-b11c-43dd-bca1-8b297217b066",
-      "name": "Sticky Note21"
-    },
-    {
-      "parameters": {
-        "content": "## 📋 Quick Start Guide\n\n**1️⃣ Configure Settings**\nEdit \"Set Configuration Parameters\":\n- `converter_path`: Path to RvtExporter.exe\n- `source_folder`: Your CAD files location\n- `output_folder`: Where to save results\n- `file_extension`: .rvt, .ifc, .dwg, or .dgn\n\n**2️⃣ Run Pipeline**\nClick \"Execute Workflow\"\n\n**3️⃣ Get Results**\n✅ Excel data files\n✅ 3D DAE models\n✅ HTML report",
-        "height": 368,
-        "width": 360,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -2912,
-        752
-      ],
-      "id": "7ffb62fe-c91c-48af-9502-d731d1cc98f3",
-      "name": "Sticky Note23"
-    },
-    {
-      "parameters": {
-        "content": "## 🎓 Video Tutorials\n\n**📹 [CAD-BIM Pipeline Tutorial](https://www.youtube.com/watch?v=PMTZNRFjD6c)**\nComplete walkthrough of CAD-BIM automation\n\n**⚡ [Automated Validation](https://www.youtube.com/watch?v=p84AmP2dcvg)**\nStop manual BIM checking forever\n\n💡 **Pro tip:** Watch before first run!",
-        "height": 304,
-        "width": 380,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        368,
-        1840
-      ],
-      "id": "ffc6609a-2fed-4353-93ea-d819e0e62d40",
-      "name": "Sticky Note25"
-    },
-    {
-      "parameters": {
-        "content": "## 💡 Pro Tips\n\n• Start small (5-10 files)\n• Test with different file types\n• Run overnight for large batches\n• Keep source files backed up\n• Close CAD applications first\n\n**Optimization:**\n• SSD = 2-3x faster\n• More RAM = stability\n• Exclude huge files initially",
-        "height": 296,
-        "width": 300,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        784,
-        1840
-      ],
-      "id": "620ae311-d09f-4bbe-8917-7a6fb0cdff55",
-      "name": "Sticky Note26"
-    },
-    {
-      "parameters": {
-        "content": "## 📈 Pipeline Metrics\n\n**Tracks:**\n• Total pipeline time\n• Per-file conversion time\n• Success/failure rates\n• Input/output file sizes\n• Processing efficiency\n\n**Typical performance:**\n• Small files: 10-30 sec\n• Medium: 30-60 sec\n• Large: 1-3 min",
-        "height": 300,
-        "width": 280,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1488,
-        1840
-      ],
-      "id": "d809f26b-c753-49e7-8934-d18a9eb5c325",
-      "name": "Sticky Note27"
-    },
-    {
-      "parameters": {
-        "content": "## 🆘 Support\n\n**Resources:**\n🌐 [DataDrivenConstruction.io](https://datadrivenconstruction.io)\n📧 support@datadrivenconstruction.io\n💬 [Community Forum](https://t.me/datadrivenconstruction)\n\n**Documentation:**\n📚 [n8n Docs](https://docs.n8n.io)\n🎥 [YouTube Channel](https://youtube.com/@datadrivenconstruction)",
-        "height": 292,
-        "width": 340,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1120,
-        1840
-      ],
-      "id": "8ab0b1cd-a5bb-41ab-a23e-88c411a7cc5b",
-      "name": "Sticky Note28"
-    },
-    {
-      "parameters": {
-        "content": "## 🎯 Use Cases\n\n**Weekly Reports**\nAutomate Monday conversions\n\n**Quality Control**\nValidate before client delivery\n\n**Archive Projects**\nConvert old files to lightweight formats\n\n**BI Integration**\nFeed Excel data to Power BI",
-        "height": 304,
-        "width": 300,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1792,
-        1840
-      ],
-      "id": "a826c279-b2fe-424d-b5c0-ab90303366ae",
-      "name": "Sticky Note29"
     },
     {
       "parameters": {
@@ -648,26 +661,11 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1952,
-        1824
+        -3824,
+        -1376
       ],
-      "id": "18d5bcc2-3855-4fd0-94f4-67a3af07c406",
+      "id": "7ec3763d-9f4f-48ff-9372-5589db180dcf",
       "name": "Sticky Note30"
-    },
-    {
-      "parameters": {
-        "content": "⭐ **If you find our tools helpful**, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). **Your support helps us** improve and continue developing open solutions for the community!\n",
-        "height": 100,
-        "width": 356
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -2912,
-        624
-      ],
-      "id": "b09d7ef3-06cf-45ff-bdf1-c6c53c49aa8c",
-      "name": "Sticky Note31"
     },
     {
       "parameters": {
@@ -680,27 +678,11 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1904,
-        1504
+        -3760,
+        -480
       ],
-      "id": "f32a5006-24bd-4d9e-b282-f7bd3e601b5a",
+      "id": "417ece92-933d-41f6-b19c-8cb530be9940",
       "name": "Schedule Trigger1"
-    },
-    {
-      "parameters": {
-        "content": "# 📋 Options Parameter Configuration Guide\n\n## 🎯 Overview\nThe Options parameter allows you to customize the export process with various flags and settings. Multiple options can be combined using spaces.\n\n## 🚀 Available Options\n\n### 📦 Export Modes\n| Mode   | Description |\n|------|-------------|\n| `basic`   |  Minimal export with essential data only |\n| `standard`   | Default export level with standard properties |\n| `complete`   | Full export including all available data |\n| `custom`   | Custom export using category file specification |\n\n### 🛠️ Feature Flags\n| Option | Description |\n|--------|-------------|\n| `bbox` | Add BoundingBox geometry of each element in XLSX |\n| `schedule` | Export all Schedules |\n| `sheets2pdf` | Export all Sheets to PDF format |\n| `[<output file>]` | Specify custom output file path |\n| `[<category file>]` | Text file with category names (required for custom mode) |\n\n### 🚫 Disable Options\n| Option | Description |\n|--------|-------------|\n| `-no-xlsx` | Disable export to .xlsx format |\n| `-no-collada` | Disable export to .dae format |\n\n---\n\n## 💡 Usage Examples\n\n### Example 1: **Basic Export with BoundingBox**\n```bash\nOptions: bbox basic\n```\n> Exports basic data with BoundingBox geometry included\n\n### Example 2: **Complete Export with Schedules**\n```bash\nOptions: complete schedule sheets2pdf\n```\n> Full data export including all schedules and sheets converted to PDF\n\n### Example 3: **Custom Mode with Category File**\n```bash\nOptions: custom categories.txt bbox\n```\n> Custom export using categories.txt file with BoundingBox geometry\n\n### Example 4: **Export Without Specific Formats**\n```bash\nOptions: standard -no-xlsx -no-collada\n```\n> Standard export excluding XLSX and Collada formats\n\n### Example 5: **Schedules Only Export**\n```bash\nOptions: schedule -no-collada\n```\n> Export only schedules without Collada format\n\n### Example 6: **Custom Output Path**\n```bash\nOptions: C:\\Output\\result.xlsx complete bbox\n```\n> Complete export with BoundingBox to specific output file\n\n---\n\n## ⚡ Quick Tips\n- **Combine multiple options** by separating them with spaces\n- **Order matters** - export mode should come before other options\n- **Custom mode** requires a category file to function properly\n- **Disable flags** can be used to exclude unwanted formats\n\n---\n\n## 📝 Notes\n- All options are case-sensitive\n- Invalid combinations will be ignored\n- Default behavior applies when no options are specified",
-        "height": 2004,
-        "width": 520,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -2528,
-        624
-      ],
-      "id": "d58fbe54-86cc-495d-9815-4f6686497764",
-      "name": "Sticky Note"
     }
   ],
   "pinData": {},
@@ -988,15 +970,12 @@
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "saveManualExecutions": true,
-    "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": -1
+    "executionOrder": "v1"
   },
-  "versionId": "97b6bb49-4969-4c55-a813-8fe5da81fcf9",
+  "versionId": "4ee19470-d9b9-4139-a0c6-7cdc80583fa4",
   "meta": {
-    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
   },
-  "id": "FYFQhblt4gILLSpe",
+  "id": "IJjORMVCyD8FvxyF",
   "tags": []
 }
