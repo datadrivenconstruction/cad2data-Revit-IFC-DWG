@@ -47,7 +47,7 @@
   - [⚡️ 7. Simple ETL for LLM Use Cases](#️-6-simple-etl-for-llm-use-cases)
   - [⚡️ 8. Revit to HTML Quantity Takeoff](#️-7-revit-to-html-quantity-takeoff)
 - [Troubleshooting](#troubleshooting)
-- [Why DataFrames?](#why-dataframes)
+- [What is DataFrames?](#why-dataframes)
 - [Re-import Data into Revit](#️-re-import-data-into-revit)
 - [Next Level Automation](#next-level-automation)
 - [Contributing](#contributing)
@@ -483,7 +483,7 @@ graph LR;
 In n8n versions 1.98.0–1.101.x, the `os` module is blocked, affecting libraries like pandas. Solution: Use the latest version with `npx n8n@latest`.
 
 
-## Why DataFrames?
+## What is DataFrames?
 
 CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprietary. Converting them into **DataFrames**—tabular structures with rows (elements) and columns (properties)—enables efficient data processing. Popularized by Python’s pandas library, DataFrames are widely used for their compatibility with automation, analytics, and AI tools. They simplify tasks like filtering, grouping, and visualization, making them ideal for dashboards, quantity takeoffs, and validation.
 
@@ -497,7 +497,7 @@ CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprieta
 - [Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
 
 
-## 🔄 Re-import Data into Revit
+## Re-import Data into Revit
 
 After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
 
