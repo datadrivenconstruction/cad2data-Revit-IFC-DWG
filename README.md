@@ -30,6 +30,32 @@
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-github-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
 </p>
 
+## 📚 Table of Contents
+
+- [Tutorial Videos](#tutorial-videos)
+- [Overview](#overview)
+- [Supported Formats](#supported-formats)
+- [Key Features](#key-features)
+- [Quick Start](#quick-start)
+- [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
+  - [⚡️ 1. Basic Conversion](#️-1-basic-conversion)
+  - [⚡️ 2. Conversion with Advanced Settings](#️-2-conversion-with-advanced-settings)
+  - [⚡️ 3. Revit Batch Conversion with Validation and Reporting](#️-3-revit-batch-conversion-with-validation-and-reporting)
+  - [⚡️ 4. Multi-Format Validation](#️-4-multi-format-validation)
+  - [⚡️ 5. Construction Price Estimation Pipeline](#️-5-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
+  - [⚡️ 6. Carbon Footprint CO2 Estimator](#️-6-carbon-footprint-co2-estimator-for-revit-and-ifc-with-llm-ai)
+  - [⚡️ 7. Simple ETL for LLM Use Cases](#️-6-simple-etl-for-llm-use-cases)
+  - [⚡️ 8. Revit to HTML Quantity Takeoff](#️-7-revit-to-html-quantity-takeoff)
+- [Troubleshooting](#troubleshooting)
+- [Why DataFrames?](#why-dataframes)
+- [Re-import Data into Revit](#️-re-import-data-into-revit)
+- [Next Level Automation](#next-level-automation)
+- [Contributing](#contributing)
+- [🆘 Support](#support)
+- [🎓 Consulting & Industry Training](#consulting--industry-training)
+
+
+
 ## Tutorial Videos
 
 <table style="border: none; border-collapse: collapse;">
@@ -78,28 +104,6 @@
 </table>
 
 
-## 📚 Table of Contents
-
-- [Overview](#overview)
-- [Supported Formats](#supported-formats)
-- [Key Features](#key-features)
-- [Quick Start](#quick-start)
-- [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
-  - [⚡️ 1. Basic Conversion](#️-1-basic-conversion)
-  - [⚡️ 2. Conversion with Advanced Settings](#️-2-conversion-with-advanced-settings)
-  - [⚡️ 3. Revit Batch Conversion with Validation and Reporting](#️-3-revit-batch-conversion-with-validation-and-reporting)
-  - [⚡️ 4. Multi-Format Validation](#️-4-multi-format-validation)
-  - [⚡️ 5. Construction Price Estimation Pipeline](#️-5-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
-  - [⚡️ 6. Carbon Footprint CO2 Estimator](#️-6-carbon-footprint-co2-estimator-for-revit-and-ifc-with-llm-ai)
-  - [⚡️ 7. Simple ETL for LLM Use Cases](#️-6-simple-etl-for-llm-use-cases)
-  - [⚡️ 8. Revit to HTML Quantity Takeoff](#️-7-revit-to-html-quantity-takeoff)
-- [🛠️ Troubleshooting](#troubleshooting)
-- [Why DataFrames?](#why-dataframes)
-- [Re-import Data into Revit](#️-re-import-data-into-revit)
-- [Next Level Automation](#next-level-automation)
-- [Contributing](#contributing)
-- [🆘 Support](#support)
-- [🎓 Consulting & Industry Training](#consulting--industry-training)
 
 
 
