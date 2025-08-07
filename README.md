@@ -300,7 +300,7 @@ Automates construction cost estimation for building elements extracted from CAD/
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="QTO Generator" width="100%"/>
 </p>
 
-## Key Features
+####  Key Features
 
 - **AI-Powered Classification**: Automatically classifies building elements and materials across EU, DE, and US standards
 - **Smart Price Discovery**: Searches region-specific databases (ÖKOBAUDAT for Germany, RSMeans for US) with intelligent fallbacks
@@ -315,7 +315,7 @@ Automates construction cost estimation for building elements extracted from CAD/
 - **Secondary Cost Factors**: Accounts for labor (20%), transport (10%), and other indirect costs
 - **Building-Element Focus**: Filters out non-building elements (annotations, etc.) for accurate estimation
 
-## Installation
+####  Installation
 
 1. Import `Construction_Price_Estimation_Pipeline.json` into n8n via **Workflows > Import from File**
 2. Configure API credentials:
@@ -329,7 +329,7 @@ Automates construction cost estimation for building elements extracted from CAD/
    ```
 4. Ensure n8n has required nodes enabled (code execution, web search, binary file handling)
 
-## Usage
+####  Usage
 
 1. Export your CAD/BIM model to Excel using workflows 1-4
 2. Run the Construction Price Estimation workflow
@@ -344,7 +344,7 @@ Automates construction cost estimation for building elements extracted from CAD/
    - **HTML Report**: Interactive visualizations with charts and graphs
    - **Cost Summary**: Total project cost with group-wise distribution
 
-## Workflow Process
+####  Workflow Process
 
 ```mermaid
 graph LR;
@@ -356,7 +356,7 @@ graph LR;
     F --> G[Excel + HTML Output];
 ```
 
-## Example Output
+#### Example Output
 
 ```
 Total Project Cost: €2,345,678
@@ -375,7 +375,7 @@ Material Distribution:
 • Other: 10%
 ```
 
-## Best Practices
+####  Best Practices
 
 - **Input Data Quality**: Ensure your BIM model includes volumetric properties (volume, area, length) for accurate unit-based pricing
 - **Regional Settings**: Select the appropriate country for region-specific pricing databases
@@ -383,7 +383,7 @@ Material Distribution:
 - **Price Verification**: Review "Price not found" items and manually adjust if needed
 - **Update Frequency**: Re-run periodically to capture market price fluctuations
 
-## Supported Pricing Databases
+####  Supported Pricing Databases
 
 | Region | Database | Coverage |
 |--------|----------|----------|
@@ -392,11 +392,6 @@ Material Distribution:
 | Europe | EU Construction Database | Pan-European pricing averages |
 | Custom | User-defined | Import your own price lists |
 
-## Error Handling
-
-- **Missing Prices**: System notes "Price not found" and suggests rough estimates based on similar materials
-- **Classification Failures**: Falls back to generic material categories
-- **Volume Calculations**: Uses alternative measurements (area × height) when direct volume unavailable
 
 
 
