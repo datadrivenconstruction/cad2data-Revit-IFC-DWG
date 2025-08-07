@@ -277,13 +277,13 @@ graph LR;
 
 
 
-### ⚡️ 4. Multi-Format Validation
+### ⚡️ 4. Multi-Format CAD (BIM) Validation
 **Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
 Validates CAD/BIM data against predefined rules, generating color-coded Excel reports with data quality metrics.
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Validation_CAD_BIM_Revit_IFC_DWG.jpg" alt="Validation Pipeline" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Validation_CAD_BIM_Revit_IFC_DWG-1.jpg" alt="Validation Pipeline" width="100%"/>
 </p>
 
 #### Installation
@@ -332,7 +332,7 @@ Automates cost estimation for building elements from CAD/BIM files. Uses AI to c
 - **Multi-Format Output**: Excel workbook + HTML report with charts
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Validation_CAD_BIM_Revit_IFC_DWG-1.jpg" alt="Price Estimation" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC-1.jpg" alt="Price Estimation" width="100%"/>
 </p>
 
 
