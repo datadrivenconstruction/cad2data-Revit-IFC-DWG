@@ -2,29 +2,46 @@
   "name": "n8n_1_Revit_IFC_DWG_Conversation_simple",
   "nodes": [
     {
+      "parameters": {
+        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\XxxExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\XxxExporter.exe\"\n```",
+        "height": 300,
+        "width": 560,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        416,
+        208
+      ],
+      "id": "3f632c49-6fb0-4c45-bd67-b3f8933712ab",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful**, please **consider starring** our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
+        "height": 132,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -160
+      ],
+      "id": "adb2ce19-cf06-4079-87c4-1f44398c05cd",
+      "name": "Sticky Note1"
+    },
+    {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        448,
+        16
       ],
-      "id": "f594659a-c07e-432a-8217-432c58eeba11",
-      "name": "When clicking ‘Test workflow’"
-    },
-    {
-      "parameters": {
-        "executeOnce": "=",
-        "command": "=\"{{$json[\"path_to_converter\"]}}\" \"{{$json[\"path_project_file\"]}}\""
-      },
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        380,
-        0
-      ],
-      "id": "c4443ade-03e1-4b6e-b166-513b732265fd",
-      "name": "Execute Command"
+      "id": "188775d3-2203-4ccf-9b6c-ee48cf878d0f",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
@@ -49,67 +66,51 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        200,
-        0
+        640,
+        16
       ],
-      "id": "58f2db40-3d61-4d14-b973-1a64141970d9",
-      "name": "Set"
+      "id": "16c2aaf1-401c-4795-b68a-02f5084c50b7",
+      "name": "Set path to file and converter"
     },
     {
       "parameters": {
-        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\XxxExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\XxxExporter.exe\"\n```",
-        "height": 300,
-        "width": 560
+        "executeOnce": "=",
+        "command": "=\"{{$json[\"path_to_converter\"]}}\" \"{{$json[\"path_project_file\"]}}\""
       },
-      "type": "n8n-nodes-base.stickyNote",
+      "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -20,
-        200
+        816,
+        16
       ],
-      "id": "de100384-c9f0-48e2-9004-ebe013605cdf",
-      "name": "Sticky Note"
-    },
-    {
-      "parameters": {
-        "content": "⭐ **If you find our tools helpful, please consider starring our repository on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). Your support helps us improve and continue developing open solutions for the community!**\n",
-        "height": 100,
-        "width": 340
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -20,
-        -180
-      ],
-      "id": "ee47a66f-7c6c-45d2-92ac-82fbdbc86d13",
-      "name": "Sticky Note1"
+      "id": "856927ff-9457-4c2a-8401-0a44740dd86d",
+      "name": "Converting the project into a structured form"
     }
   ],
   "pinData": {
-    "When clicking ‘Test workflow’": [
+    "When clicking ‘Execute workflow’": [
       {
         "json": {}
       }
     ]
   },
   "connections": {
-    "When clicking ‘Test workflow’": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "Set",
+            "node": "Set path to file and converter",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Set": {
+    "Set path to file and converter": {
       "main": [
         [
           {
-            "node": "Execute Command",
+            "node": "Converting the project into a structured form",
             "type": "main",
             "index": 0
           }
@@ -121,10 +122,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3ca4a940-6c91-412d-aeba-4111f3e07e3e",
+  "versionId": "e264bc7e-c54b-4474-9c3c-a5d71174b1b7",
   "meta": {
-    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
   },
-  "id": "wav1VslkXItU7wW5",
+  "id": "FZW7bcaK0xSBYnrK",
   "tags": []
 }

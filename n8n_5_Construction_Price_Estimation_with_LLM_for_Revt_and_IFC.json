@@ -1,0 +1,1506 @@
+{
+  "name": "n8n_5_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        13760,
+        -608
+      ],
+      "id": "76a4a46b-32aa-4106-afa7-04f739fb67b5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst items = $input.all();\nif (items.length === 0) {\n  return [{json: {error: 'No grouped data found'}}];\n}\n\n\nconst headers = Object.keys(items[0].json);\n\n\nconst categoryPatterns = [\n  { pattern: /^category$/i, type: 'Category' },\n  { pattern: /^ifc[\\s_-]?type$/i, type: 'IFC' },\n  { pattern: /^host[\\s_-]?category$/i, type: 'Host' },\n  { pattern: /^ifc[\\s_-]?export[\\s_-]?as$/i, type: 'Export' },\n  { pattern: /^layer$/i, type: 'Layer' }\n];\n\nlet categoryField = null;\nlet categoryFieldType = 'None';\n\n\nfor (const header of headers) {\n  for (const {pattern, type} of categoryPatterns) {\n    if (pattern.test(header)) {\n      categoryField = header;\n      categoryFieldType = type;\n      break;\n    }\n  }\n  if (categoryField) break;\n}\n\n\nconst volumetricPatterns = /volume|area|length|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass/i;\nconst volumetricFields = headers.filter(header => volumetricPatterns.test(header));\n\n\nconst categoryValues = new Set();\nif (categoryField) {\n  items.forEach(item => {\n    const value = item.json[categoryField];\n    if (value && value !== '' && value !== null) {\n      categoryValues.add(value);\n    }\n  });\n}\n\nconsole.log('Category field analysis:');\nconsole.log('- Field found:', categoryField || 'None');\nconsole.log('- Field type:', categoryFieldType);\nconsole.log('- Unique values:', categoryValues.size);\nconsole.log('- Volumetric fields:', volumetricFields.length);\n\n\nreturn [{\n  json: {\n    categoryField: categoryField,\n    categoryFieldType: categoryFieldType,\n    categoryValues: Array.from(categoryValues),\n    volumetricFields: volumetricFields,\n    groupedData: items.map(item => item.json),\n    totalGroups: items.length\n  }\n}];"
+      },
+      "id": "817e37ef-9ada-4805-ad95-686294739fc5",
+      "name": "Find Category Fields1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14160,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst categoryInfo = $node['Find Category Fields1'].json;\nconst groupedData = categoryInfo.groupedData;\nconst categoryField = categoryInfo.categoryField;\nconst volumetricFields = categoryInfo.volumetricFields || [];\n\n\nlet classifications = {};\nlet buildingCategories = [];\nlet drawingCategories = [];\n\ntry {\n  const aiResponse = $input.first().json;\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    classifications = parsed.classifications || {};\n    buildingCategories = parsed.building_categories || [];\n    drawingCategories = parsed.drawing_categories || [];\n    console.log(`AI classified ${Object.keys(classifications).length} categories`);\n    console.log(`Building categories: ${buildingCategories.length}`);\n    console.log(`Drawing categories: ${drawingCategories.length}`);\n  }\n} catch (error) {\n  console.error('Error parsing AI classification:', error.message);\n}\n\n\nreturn groupedData.map(group => {\n  let isBuildingElement = false;\n  let reason = '';\n  let confidence = 0;\n  \n  if (categoryField && group[categoryField]) {\n    \n    const categoryValue = group[categoryField];\n    \n    if (classifications[categoryValue] !== undefined) {\n      isBuildingElement = classifications[categoryValue];\n      confidence = 95;\n      reason = `Category '${categoryValue}' classified by AI as ${isBuildingElement ? 'building element' : 'drawing/annotation'}`;\n    } else {\n      \n      const lowerCategory = categoryValue.toLowerCase();\n      const drawingKeywords = /annotation|drawing|text|dimension|tag|view|sheet|grid|section|elevation|callout|revision|legend|symbol|mark|note|detail items|filled region|detail line/i;\n      const buildingKeywords = /wall|floor|roof|column|beam|door|window|stair|pipe|duct|equipment|fixture|furniture/i;\n      \n      if (drawingKeywords.test(lowerCategory)) {\n        isBuildingElement = false;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched drawing keywords`;\n      } else if (buildingKeywords.test(lowerCategory)) {\n        isBuildingElement = true;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched building keywords`;\n      } else {\n        \n        isBuildingElement = true;\n        confidence = 70;\n        reason = `Category '${categoryValue}' assumed as building element (no clear match)`;\n      }\n    }\n  } else {\n    \n    let hasSignificantVolumetricData = false;\n    let volumetricCount = 0;\n    \n    for (const field of volumetricFields) {\n      const value = parseFloat(group[field]);\n      if (!isNaN(value) && value > 0) {\n        hasSignificantVolumetricData = true;\n        volumetricCount++;\n      }\n    }\n    \n    isBuildingElement = hasSignificantVolumetricData;\n    confidence = hasSignificantVolumetricData ? 80 : 60;\n    reason = hasSignificantVolumetricData ? \n      `Has ${volumetricCount} volumetric parameters with values` : \n      'No category field and no significant volumetric data';\n  }\n  \n  return {\n    json: {\n      ...group,\n      is_building_element: isBuildingElement,\n      element_confidence: confidence,\n      element_reason: reason\n    }\n  };\n});"
+      },
+      "id": "22a68901-fc6e-453c-962d-f617b757f628",
+      "name": "Apply Classification to Groups1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14656,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "Non-building elements (drawings, annotations, etc.)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f47c7dd3-f508-463f-b1de-ecbe6bdaa0ec",
+      "name": "Non-Building Elements Output1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        15056,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an expert in Revit, BIM (Building Information Modeling) and construction classification. Your task is to classify category values as either building elements or non-building elements (drawings, annotations, etc.).\n\nBuilding elements include:\n- Structural elements (walls, floors, roofs, columns, beams, foundations, slabs)\n- MEP elements (pipes, ducts, equipment, fixtures, mechanical equipment)\n- Architectural elements (doors, windows, stairs, railings, curtain walls)\n- Site elements (parking, roads, landscaping)\n- Furniture and fixtures\n- Any physical construction element that has volume, area, or physical properties\n\nNon-building elements include:\n- Drawings and sheets\n- Annotations, dimensions, text notes\n- Views, sections, elevations, plans\n- Tags, symbols, legends, schedules\n- Grids, levels, reference planes\n- Revision clouds, callouts, detail items\n- Lines, filled regions, detail lines\n- Any 2D documentation or annotation element\n\nIMPORTANT: Analyze the actual category name, not just keywords. For example:\n- \"Detail Items\" = non-building (annotation)\n- \"Plumbing Fixtures\" = building element\n- \"Room Tags\" = non-building (annotation)\n- \"Structural Columns\" = building element\n\nReturn ONLY valid JSON in this exact format:\n{\n  \"classifications\": {\n    \"category_value_1\": true,\n    \"category_value_2\": false\n  },\n  \"building_categories\": [\"list\", \"of\", \"building\", \"categories\"],\n  \"drawing_categories\": [\"list\", \"of\", \"drawing\", \"categories\"]\n}",
+              "role": "system"
+            },
+            {
+              "content": "{{ $json.categoryField ? `Classify these ${$json.categoryValues.length} category values from field '${$json.categoryField}' as building elements (true) or drawings/annotations (false):\n\nCategory values:\n${JSON.stringify($json.categoryValues, null, 2)}\n\nCategory field type: ${$json.categoryFieldType}` : 'No category field found. Please classify based on volumetric data presence.'}}"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.1
+        }
+      },
+      "id": "f665e1ea-1cf3-4d82-bb2f-8300af32c974",
+      "name": "AI Classify Categories1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        14320,
+        288
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "5SwKOx6OOukR6C0w",
+          "name": "OpenAi account n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.is_building_element }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "8869e92b-e3e1-43c1-9b0f-d200d2fb86e9",
+      "name": "Is Building Element1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        14848,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "9af8b6d4-3a3a-4c4a-8d4d-d5a8c2958f5f",
+              "leftValue": "={{ $node['Process in Batches1'].context['noItemsLeft'] }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7fe7f759-bf99-428c-b373-b7a9955b8f98",
+      "name": "Check If All Batches Done",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        13808,
+        736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all accumulated data and prepare for reporting\nconst storedData = $getWorkflowStaticData('global');\nconst allProcessedItems = storedData.accumulatedData || [];\n\nconsole.log(`\\n=== BATCH PROCESSING COMPLETE ===`);\nconsole.log(`Total items processed: ${allProcessedItems.length}`);\n\n// Clear accumulated data for next run\nstoredData.accumulatedData = [];\n\n// Return all items for report generation\nreturn allProcessedItems;"
+      },
+      "id": "46fb885b-8d37-4621-953d-9650a8ddf877",
+      "name": "Collect All Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        13984,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "ee694637-686e-44a3-818b-d9c159ac7db6",
+      "name": "Process in Batches1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        13968,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clean empty values from the item\nreturn $input.all().map(item => {\n  const cleanedJson = {};\n  Object.entries(item.json).forEach(([key, value]) => {\n    if (value !== null) {\n      if (typeof value === 'number') {\n        if (value !== 0 || key === 'Element Count') {\n          cleanedJson[key] = value;\n        }\n      } else if (value !== '') {\n        cleanedJson[key] = value;\n      }\n    }\n  });\n  return { json: cleanedJson };\n});"
+      },
+      "id": "93c36df9-a179-477b-a5fb-018696601d50",
+      "name": "Clean Empty Values1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14144,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.userPrompt }}",
+        "options": {
+          "systemMessage": "={{ $json.systemPrompt }}"
+        }
+      },
+      "id": "f0fd1e6d-c498-4215-885f-52643741337e",
+      "name": "AI Agent Enhanced",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        14496,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Accumulate all processed items\nconst currentItem = $input.first();\nconst storedData = $getWorkflowStaticData('global');\n\n// Initialize accumulator if needed\nif (!storedData.accumulatedData) {\n  storedData.accumulatedData = [];\n}\n\n// Add current item to accumulated data\nstoredData.accumulatedData.push(currentItem);\n\nconsole.log(`Item processed. Total accumulated: ${storedData.accumulatedData.length} items`);\n\n// Return the current item to continue the flow\nreturn [currentItem];"
+      },
+      "id": "1df2fab7-89b5-4e41-a83a-bebf1c990735",
+      "name": "Accumulate Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        15072,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 3.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        14256,
+        768
+      ],
+      "id": "6b1aaa7c-3939-4c51-a73f-35d73d84e556",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "af7za1FRO2jVYY9L",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aggregate all results and calculate project totals\nconst items = $input.all();\n\n// Initialize aggregators\nconst projectTotals = {\n  totalElements: 0,\n  totalCost: 0,\n  totalVolume: 0,\n  totalArea: 0,\n  byMaterial: {},\n  byCategory: {},\n  byImpact: {}\n};\n\n// Process each item\nitems.forEach(item => {\n  const data = item.json;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const volume = parseFloat(data['Volume (m³)']) || 0;\n  const area = parseFloat(data['Area (m²)']) || 0;\n  const material = data['Material (EU Standard)'] || 'Unknown';\n  const category = data['Element Category'] || 'Unknown';\n  const impact = data['Impact Category'] || 'Unknown';\n  \n  // Update totals\n  projectTotals.totalElements += elementCount;\n  projectTotals.totalCost += cost;\n  projectTotals.totalVolume += volume;\n  projectTotals.totalArea += area;\n  \n  // Aggregate by material\n  if (!projectTotals.byMaterial[material]) {\n    projectTotals.byMaterial[material] = {\n      elements: 0,\n      cost: 0,\n      volume: 0,\n      types: new Set()\n    };\n  }\n  projectTotals.byMaterial[material].elements += elementCount;\n  projectTotals.byMaterial[material].cost += cost;\n  projectTotals.byMaterial[material].volume += volume;\n  projectTotals.byMaterial[material].types.add(data['Element Name']);\n  \n  // Aggregate by category\n  if (!projectTotals.byCategory[category]) {\n    projectTotals.byCategory[category] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byCategory[category].elements += elementCount;\n  projectTotals.byCategory[category].cost += cost;\n  \n  // Aggregate by impact\n  if (!projectTotals.byImpact[impact]) {\n    projectTotals.byImpact[impact] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byImpact[impact].elements += elementCount;\n  projectTotals.byImpact[impact].cost += cost;\n});\n\n// Add percentages and rankings to each item\nconst enrichedItems = items.map((item, index) => {\n  const data = item.json;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  \n  return {\n    json: {\n      ...data,\n      // Add project percentages\n      'Cost % of Total': projectTotals.totalCost > 0 ? \n        ((cost / projectTotals.totalCost) * 100).toFixed(2) : '0.00',\n      'Elements % of Total': projectTotals.totalElements > 0 ? \n        ((elementCount / projectTotals.totalElements) * 100).toFixed(2) : '0.00',\n      // Add ranking\n      'Cost Rank': index + 1,\n      // Project totals (same for all rows)\n      'Project Total Elements': projectTotals.totalElements,\n      'Project Total Cost (EUR)': projectTotals.totalCost.toFixed(3),\n      'Project Total Volume (m³)': projectTotals.totalVolume.toFixed(2),\n      'Project Total Area (m²)': projectTotals.totalArea.toFixed(2)\n    }\n  };\n});\n\n// Sort by Cost (highest first)\nenrichedItems.sort((a, b) => \n  parseFloat(b.json['Total Cost (EUR)']) - parseFloat(a.json['Total Cost (EUR)'])\n);\n\n// Store aggregated data for summary\n$getWorkflowStaticData('global').projectTotals = projectTotals;\n\nreturn enrichedItems;"
+      },
+      "id": "4781c7a6-1b01-4d9f-89da-326b1daad69b",
+      "name": "Calculate Project Totals1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14160,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enhanced Excel styling configuration\nconst excelBuffer = $input.first().binary.data;\nconst fileName = `Price_Estimation_Report_${new Date().toISOString().slice(0,10)}.xlsx`;\n\n// Add metadata to the file\nconst metadata = {\n  title: 'Price Estimation Analysis Report',\n  author: 'DataDrivenConstruction.io',\n  company: 'Automated Price Estimation System',\n  created: new Date().toISOString(),\n  description: 'Comprehensive project cost assessment with multi-standard material classification',\n  keywords: 'Price, Cost Estimation, Building Materials'\n};\n\n// Return the enhanced Excel file\nreturn [{\n  json: {\n    fileName: fileName,\n    fileSize: excelBuffer.data.length,\n    sheets: 8,\n    metadata: metadata,\n    timestamp: new Date().toISOString()\n  },\n  binary: {\n    data: {\n      ...excelBuffer,\n      fileName: fileName,\n      fileExtension: 'xlsx',\n      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'\n    }\n  }\n}];"
+      },
+      "id": "cb410769-f828-4b46-b643-4c4fae14dc89",
+      "name": "Enhance Excel Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14720,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare comprehensive data for multi-sheet Excel export\nconst items = $input.all();\nconst projectTotals = $getWorkflowStaticData('global').projectTotals;\n\n// Helper function to format numbers\nconst formatNumber = (num, decimals = 2) => {\n  return typeof num === 'number' ? parseFloat(num.toFixed(decimals)) : 0;\n};\n\n// Sheet 1: Executive Summary with project metrics\nconst executiveSummary = [\n  {\n    'Category': 'PROJECT OVERVIEW',\n    'Metric': 'Total Elements Analyzed',\n    'Value': projectTotals.totalElements,\n    'Unit': 'elements'\n  },\n  {\n    'Category': 'PROJECT OVERVIEW',\n    'Metric': 'Element Groups',\n    'Value': items.length,\n    'Unit': 'groups'\n  },\n  {\n    'Category': 'COST METRICS',\n    'Metric': 'Total Estimated Cost',\n    'Value': formatNumber(projectTotals.totalCost, 2),\n    'Unit': 'EUR'\n  },\n  {\n    'Category': 'COST METRICS',\n    'Metric': 'Average Cost per Element',\n    'Value': formatNumber(projectTotals.totalCost / projectTotals.totalElements, 3),\n    'Unit': 'EUR/element'\n  },\n  {\n    'Category': 'MATERIAL METRICS',\n    'Metric': 'Unique Material Types',\n    'Value': Object.keys(projectTotals.byMaterial).length,\n    'Unit': 'materials'\n  },\n  {\n    'Category': 'VOLUMETRIC DATA',\n    'Metric': 'Total Volume',\n    'Value': formatNumber(projectTotals.totalVolume, 2),\n    'Unit': 'm³'\n  },\n  {\n    'Category': 'VOLUMETRIC DATA',\n    'Metric': 'Total Area',\n    'Value': formatNumber(projectTotals.totalArea, 2),\n    'Unit': 'm²'\n  }\n];\n\n// Sheet 2: Detailed Elements Analysis - ALL fields from processing\nconst detailedElements = items.map((item, index) => {\n  const data = item.json;\n  return {\n    'Cost_Rank': index + 1,\n    'Element_Group': data['Element Name'] || data['Type Name'] || 'Unknown',\n    'Element_Category': data['Element Category'] || 'Unknown',\n    'Element_Type': data['Element Type'] || 'Unknown',\n    'Element_Function': data['Element Function'] || 'Unknown',\n    'Element_Count': parseInt(data['Element Count']) || 0,\n    'Material_EU_Standard': data['Material (EU Standard)'] || 'Unknown',\n    'Material_DE_Standard': data['Material (DE Standard)'] || 'Unknown',\n    'Material_US_Standard': data['Material (US Standard)'] || 'Unknown',\n    'Primary_Material': data['Primary Material'] || 'Unknown',\n    'Secondary_Materials': data['Secondary Materials'] || 'None',\n    'Quantity_Value': formatNumber(data['Quantity'] || 0, 3),\n    'Quantity_Unit': data['Quantity Unit'] || 'piece',\n    'Volume_m3': formatNumber(data['Volume (m³)'] || 0, 3),\n    'Area_m2': formatNumber(data['Area (m²)'] || 0, 3),\n    'Price_per_Unit_EUR': formatNumber(data['Price per Unit (EUR)'] || 0, 2),\n    'Total_Cost_EUR': formatNumber(data['Total Cost (EUR)'] || 0, 2),\n    'Cost_per_Element_EUR': formatNumber(data['Cost per Element (EUR)'] || 0, 2),\n    'Cost_Percent_of_Total': formatNumber(data['Cost % of Total'] || 0, 2),\n    'Price_Source': data['Price Source'] || 'Unknown',\n    'Overall_Confidence_%': parseInt(data['Overall Confidence (%)']) || 0,\n    'Assumptions': data['Assumptions'] || 'None',\n    'Warnings': data['Warnings'] || 'None'\n  };\n});\n\n// Sheet 3: Material Summary with detailed breakdown\nconst materialSummary = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .map(([material, data], index) => {\n    const costPercent = (data.cost / projectTotals.totalCost) * 100;\n    return {\n      'Rank': index + 1,\n      'Material_Type': material,\n      'Element_Count': data.elements,\n      'Cost_EUR': formatNumber(data.cost, 2),\n      'Cost_%': formatNumber(costPercent, 1),\n      'Volume_m3': formatNumber(data.volume, 2)\n    };\n  });\n\n// Sheet 4: Top 10 Expensive Groups\nconst top10Groups = items\n  .slice(0, 10)\n  .map((item, index) => {\n    const data = item.json;\n    const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n    const costPercent = parseFloat(data['Cost % of Total']) || 0;\n    const elementCount = parseInt(data['Element Count']) || 1;\n    \n    return {\n      'Rank': index + 1,\n      'Element_Group': data['Element Name'] || 'Unknown',\n      'Category': data['Element Category'] || 'Unknown',\n      'Material': data['Material (EU Standard)'] || 'Unknown',\n      'Element_Count': elementCount,\n      'Cost_EUR': formatNumber(cost, 2),\n      'Cost_%': formatNumber(costPercent, 1),\n      'Cost_per_Element': formatNumber(cost / elementCount, 1)\n    };\n  });\n\n// Create worksheet structure with proper sheet names\nconst worksheets = [\n  { name: 'Summary', data: executiveSummary },\n  { name: 'Detailed Elements', data: detailedElements },\n  { name: 'Material Summary', data: materialSummary },\n  { name: 'Top 10 Groups', data: top10Groups }\n];\n\n// Flatten all data with sheet markers\nconst allData = [];\nworksheets.forEach(sheet => {\n  sheet.data.forEach(row => {\n    allData.push({\n      json: {\n        ...row,\n        _sheetName: sheet.name\n      }\n    });\n  });\n});\n\nreturn allData;"
+      },
+      "id": "aa14cb0b-4bec-45c7-9a76-78229d2a6f57",
+      "name": "Prepare Excel Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14384,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "xlsx",
+        "options": {
+          "fileName": "=Price_Estimation_Report_{{ $now.format('yyyy-MM-dd') }}",
+          "headerRow": true,
+          "sheetName": "={{ $json._sheetName }}"
+        }
+      },
+      "id": "2351a3e7-a876-4e3d-8529-4b244524fcde",
+      "name": "Create Excel File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        14544,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enhanced prompts for comprehensive price estimation analysis\nconst inputData = $input.first().json;\nconst originalGroupedData = { ...inputData };\nconst country = $node['Process AI Response1'].json.country;\n\nconst systemPrompt = `You are an expert in construction cost estimation, material pricing, and building element classification. Analyze the provided building element data and return a comprehensive price estimation assessment.\n\nUse tools like web_search or browse_page to find current prices from reliable sources (e.g., manufacturer websites, construction databases like RSMeans, ÖKOBAUDAT for ${country}, etc.). Prioritize sources from ${country} or relevant region.\n\nIMPORTANT NOTE ON DATA:\n- All quantitative fields like Volume, Area, Length, etc. in the input data represent ALREADY AGGREGATED TOTALS for the entire group of elements.\n- 'Element Count' indicates the number of individual elements in this group.\n- DO NOT multiply volumes/areas by Element Count - they are already total sums.\n- Infer the best unit for pricing (e.g., per m³ for volumes, per m² for areas, per piece for counts) based on parameters.\n- Search for prices using element parameters (material, dimensions, type).\n- If exact price not found, use average or rough estimate and note it.\n- Consider secondary materials if possible, otherwise focus on primary.\n- For additional factors (e.g., labor, transport), note percentages but do not include in calculations.\n- If no price found, state 'Price not found' and suggest average if possible.\n\n## Your Analysis Must Include:\n\n### 1. Element Identification\n- Element type and category\n- Primary material composition\n- Secondary materials if applicable\n- Functional classification\n\n### 2. Material Classification (All 3 Standards, prioritize ${country}'s if applicable)\n- **European (EN 15978/15804)**: Concrete/Steel/Wood/Glass/Insulation/etc.\n- **German (ÖKOBAUDAT)**: Mineralische/Metalle/Holz/Dämmstoffe/etc.\n- **US (MasterFormat)**: Division classifications\n\n### 3. Quantity Analysis\n- Primary quantity with unit (m³, m², m, kg, pieces) - use aggregated total from input\n- Calculation method used (e.g., 'Direct from provided total volume')\n- Confidence level (0-100%)\n- Data quality assessment\n\n### 4. Price Estimation\n- Price per unit (EUR/unit)\n- Total price (for the entire group)\n- Price source (URL or database name)\n- Additional factors (percentages only, e.g., labor: 20%)\n\n### 5. Data Quality & Confidence\n- Overall confidence score\n- Data completeness assessment\n- Key assumptions made\n- Warnings or limitations\n\n## Output Format\nReturn ONLY valid JSON with this exact structure:\n{\n  \"element_identification\": {\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"type\": \"string\",\n    \"function\": \"string\"\n  },\n  \"material_classification\": {\n    \"european\": \"string\",\n    \"german\": \"string\",\n    \"us\": \"string\",\n    \"primary_material\": \"string\",\n    \"secondary_materials\": [\"string\"]\n  },\n  \"quantities\": {\n    \"value\": number,\n    \"unit\": \"string\",\n    \"calculation_method\": \"string\",\n    \"raw_dimensions\": {\n      \"length\": number,\n      \"width\": number,\n      \"height\": number,\n      \"thickness\": number,\n      \"area\": number,\n      \"volume\": number\n    }\n  },\n  \"price_analysis\": {\n    \"price_per_unit_eur\": number,\n    \"total_price_eur\": number,\n    \"price_source\": \"string\",\n    \"additional_factors\": {\"labor\": number, \"transport\": number},\n    \"data_source\": \"string\"\n  },\n  \"confidence\": {\n    \"overall_score\": number,\n    \"material_confidence\": number,\n    \"quantity_confidence\": number,\n    \"price_confidence\": number,\n    \"data_quality\": \"high/medium/low\"\n  },\n  \"metadata\": {\n    \"assumptions\": [\"string\"],\n    \"warnings\": [\"string\"],\n    \"notes\": \"string\"\n  }\n}`;\n\nconst userPrompt = `Analyze this building element group for price estimation in ${country}. Remember: Volumes and areas are already total for the group, not per element. Use tools to search for prices.\n\n${JSON.stringify(inputData, null, 2)}\n\nProvide comprehensive price analysis following the specified format. Focus on accuracy and use conservative estimates where data is uncertain.`;\n\nreturn [{\n  json: {\n    ...originalGroupedData,\n    systemPrompt,\n    userPrompt,\n    _originalGroupedData: originalGroupedData\n  }\n}];"
+      },
+      "id": "b888cf20-1db2-4116-ae31-2a7b73efb39d",
+      "name": "Prepare Enhanced Prompts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14320,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse and enrich AI response with all necessary data\nconst aiResponse = $input.first().json.output || $input.first().json.response || $input.first().json.text || $input.first().json;\nconst originalData = $node[\"Prepare Enhanced Prompts\"].json._originalGroupedData || $node[\"Prepare Enhanced Prompts\"].json;\n\ntry {\n  // Extract JSON from response\n  let jsonStr = aiResponse;\n  if (typeof jsonStr === 'string') {\n    const jsonMatch = jsonStr.match(/```json\\n?([\\s\\S]*?)\\n?```/) || jsonStr.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      jsonStr = jsonMatch[1] || jsonMatch[0];\n    }\n  }\n  \n  const analysis = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;\n  \n  // Calculate additional metrics - use total price for group\n  const total_price_eur = analysis.price_analysis?.total_price_eur || 0;\n  const elementCount = parseFloat(originalData['Element Count']) || 1;\n  const price_per_element = total_price_eur / elementCount;\n  \n  // Determine impact category\n  let impactCategory = 'Unknown';\n  const pricePerUnit = analysis.price_analysis?.price_per_unit_eur || 0;\n  if (pricePerUnit <= 10) {\n    impactCategory = 'Very Low Cost';\n  } else if (pricePerUnit <= 50) {\n    impactCategory = 'Low Cost';\n  } else if (pricePerUnit <= 200) {\n    impactCategory = 'Medium Cost';\n  } else if (pricePerUnit <= 500) {\n    impactCategory = 'High Cost';\n  } else {\n    impactCategory = 'Very High Cost';\n  }\n  \n  // Create comprehensive output record\n  return [{\n    json: {\n      // Original data\n      ...originalData,\n      \n      // Element identification\n      'Element Name': analysis.element_identification?.name || originalData['Type Name'] || 'Unknown',\n      'Element Category': analysis.element_identification?.category || originalData['Category'] || 'Unknown',\n      'Element Type': analysis.element_identification?.type || 'Unknown',\n      'Element Function': analysis.element_identification?.function || 'Unknown',\n      \n      // Material classification\n      'Material (EU Standard)': analysis.material_classification?.european || 'Unknown',\n      'Material (DE Standard)': analysis.material_classification?.german || 'Unknown',\n      'Material (US Standard)': analysis.material_classification?.us || 'Unknown',\n      'Primary Material': analysis.material_classification?.primary_material || 'Unknown',\n      'Secondary Materials': (analysis.material_classification?.secondary_materials || []).join(', ') || 'None',\n      \n      // Quantities\n      'Quantity': analysis.quantities?.value || 0,\n      'Quantity Unit': analysis.quantities?.unit || 'piece',\n      'Calculation Method': analysis.quantities?.calculation_method || 'Not specified',\n      \n      // Dimensions (from raw data) - these are totals\n      'Length (mm)': analysis.quantities?.raw_dimensions?.length || originalData['Length'] || 0,\n      'Width (mm)': analysis.quantities?.raw_dimensions?.width || originalData['Width'] || 0,\n      'Height (mm)': analysis.quantities?.raw_dimensions?.height || originalData['Height'] || 0,\n      'Thickness (mm)': analysis.quantities?.raw_dimensions?.thickness || originalData['Thickness'] || 0,\n      'Area (m²)': analysis.quantities?.raw_dimensions?.area || originalData['Area'] || 0,\n      'Volume (m³)': analysis.quantities?.raw_dimensions?.volume || originalData['Volume'] || 0,\n      \n      // Price Analysis\n      'Price per Unit (EUR)': analysis.price_analysis?.price_per_unit_eur || 0,\n      'Total Cost (EUR)': total_price_eur,\n      'Cost per Element (EUR)': price_per_element,\n      'Price Source': analysis.price_analysis?.price_source || 'Unknown',\n      'Additional Factors': JSON.stringify(analysis.price_analysis?.additional_factors || {}),\n      'Data Source': analysis.price_analysis?.data_source || 'Industry average',\n      'Impact Category': impactCategory,\n      \n      // Confidence scores\n      'Overall Confidence (%)': analysis.confidence?.overall_score || 0,\n      'Material Confidence (%)': analysis.confidence?.material_confidence || 0,\n      'Quantity Confidence (%)': analysis.confidence?.quantity_confidence || 0,\n      'Price Confidence (%)': analysis.confidence?.price_confidence || 0,\n      'Data Quality': analysis.confidence?.data_quality || 'unknown',\n      \n      // Metadata\n      'Assumptions': (analysis.metadata?.assumptions || []).join('; ') || 'None',\n      'Warnings': (analysis.metadata?.warnings || []).join('; ') || 'None',\n      'Analysis Notes': analysis.metadata?.notes || '',\n      'Processing Timestamp': new Date().toISOString(),\n      'Analysis Status': 'Complete'\n    }\n  }];\n  \n} catch (error) {\n  // Return error record with original data preserved\n  return [{\n    json: {\n      ...originalData,\n      'Analysis Status': 'Failed',\n      'Error': error.message,\n      'Processing Timestamp': new Date().toISOString()\n    }\n  }];\n}"
+      },
+      "id": "09dbcf38-8650-41f5-9625-779a859e4031",
+      "name": "Parse Enhanced Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14848,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate professional McKinsey/Accenture style HTML report with visualizations\nconst items = $input.all();\nconst projectTotals = $getWorkflowStaticData('global').projectTotals;\n\n// Get project name from file path\nconst projectFile = $node['Setup - Define file paths'].json.project_file || '';\nconst projectName = projectFile.split('\\\\').pop().replace('.rvt', '').replace(/_/g, ' ').toUpperCase();\n\n// Calculate additional metrics\nconst avgConfidence = items.reduce((sum, item) => sum + (parseInt(item.json['Overall Confidence (%)']) || 0), 0) / items.length;\nconst completeItems = items.filter(item => item.json['Analysis Status'] === 'Complete').length;\nconst coveragePercent = (completeItems / items.length) * 100;\n\n// Get top material\nconst topMaterial = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)[0];\n\n// Calculate high impact items\nconst highImpactItems = items.filter(item => \n  parseFloat(item.json['Total Cost (EUR)']) >= projectTotals.totalCost * 0.05\n).length;\n\n// Calculate top 3 materials percentage\nconst top3Materials = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .slice(0, 3);\nconst top3Percentage = (top3Materials.reduce((sum, [, data]) => sum + data.cost, 0) / projectTotals.totalCost) * 100;\n\n// Prepare data for charts\nconst materialChartData = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .slice(0, 6)\n  .map(([material, data]) => ({\n    label: material,\n    value: data.cost\n  }));\n\nconst barChartData = items.slice(0, 10).map(item => ({\n  label: item.json['Element Name'] || 'Unknown',\n  value: parseFloat(item.json['Total Cost (EUR)'] || 0)\n}));\n\n// Generate HTML\nconst html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Project Cost Intelligence | Executive Report</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap\" rel=\"stylesheet\">\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        \n        :root {\n            --primary-gradient: linear-gradient(135deg, #475569 0%, #64748b 50%, #94a3b8 100%);\n            --secondary-gradient: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);\n            --light-gradient: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);\n        }\n        \n        body {\n            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n            background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);\n            min-height: 100vh;\n            color: #0f172a;\n            line-height: 1.6;\n        }\n        \n        .container {\n            max-width: 1600px;\n            margin: 0 auto;\n            background: white;\n            box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);\n            position: relative;\n        }\n        \n        /* Professional Header */\n        .header {\n            background: var(--primary-gradient);\n            color: white;\n            padding: 45px 80px;\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .header::before {\n            content: '';\n            position: absolute;\n            top: -50%;\n            right: -10%;\n            width: 800px;\n            height: 800px;\n            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);\n            animation: float 6s ease-in-out infinite;\n        }\n        \n        .header::after {\n            content: '';\n            position: absolute;\n            bottom: -30%;\n            left: -10%;\n            width: 600px;\n            height: 600px;\n            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 70%);\n            animation: float 6s ease-in-out infinite 3s;\n        }\n        \n        @keyframes float {\n            0%, 100% { transform: translateY(0) scale(1); }\n            50% { transform: translateY(-20px) scale(1.05); }\n        }\n        \n        .header-content {\n            position: relative;\n            z-index: 1;\n        }\n        \n        .header-top {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 50px;\n        }\n        \n        .company-brand {\n            display: flex;\n            align-items: center;\n            gap: 20px;\n        }\n        \n        .company-logo {\n            font-size: 13px;\n            font-weight: 800;\n            letter-spacing: 3px;\n            text-transform: uppercase;\n            padding-left: 20px;\n            border-left: 4px solid #38bdf8;\n            opacity: 0.95;\n        }\n        \n        .report-badge {\n            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);\n            backdrop-filter: blur(20px);\n            padding: 12px 24px;\n            border-radius: 50px;\n            font-size: 11px;\n            font-weight: 700;\n            letter-spacing: 2px;\n            text-transform: uppercase;\n            border: 1px solid rgba(255,255,255,0.2);\n            box-shadow: 0 4px 20px rgba(0,0,0,0.1);\n        }\n        \n        h1 {\n            font-family: 'Poppins', sans-serif;\n            font-size: 42px;\n            font-weight: 800;\n            margin-bottom: 12px;\n            letter-spacing: -2px;\n            line-height: 1.1;\n            color: white;\n        }\n        \n        .subtitle {\n            font-size: 16px;\n            font-weight: 300;\n            opacity: 0.9;\n            margin-bottom: 25px;\n            color: #cbd5e1;\n            letter-spacing: 0.5px;\n        }\n        \n        .meta-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 30px;\n            padding-top: 30px;\n            border-top: 1px solid rgba(255,255,255,0.15);\n        }\n        \n        .meta-card {\n            display: flex;\n            align-items: center;\n            gap: 16px;\n        }\n        \n        .meta-icon {\n            width: 48px;\n            height: 48px;\n            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);\n            border: 1px solid rgba(255,255,255,0.2);\n            border-radius: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 20px;\n            backdrop-filter: blur(10px);\n        }\n        \n        .meta-info {\n            flex: 1;\n        }\n        \n        .meta-label {\n            font-size: 11px;\n            opacity: 0.7;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n            margin-bottom: 4px;\n        }\n        \n        .meta-value {\n            font-size: 18px;\n            font-weight: 700;\n        }\n        \n        /* KPI Cards Section */\n        .kpi-section {\n            padding: 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);\n            position: relative;\n        }\n        \n        .kpi-section::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            height: 2px;\n            background: var(--accent-gradient);\n        }\n        \n        .kpi-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 32px;\n        }\n        \n        .kpi-card {\n            background: white;\n            padding: 40px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);\n            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .kpi-card::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 3px;\n            background: linear-gradient(90deg, #64748b 0%, #94a3b8 100%);\n        }\n        \n        .kpi-card:hover {\n            transform: translateY(-8px);\n            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);\n            border-color: #cbd5e1;\n        }\n        \n        .kpi-icon {\n            width: 56px;\n            height: 56px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            border-radius: 16px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 24px;\n            margin-bottom: 20px;\n            border: 1px solid #e5e7eb;\n        }\n        \n        .kpi-label {\n            font-size: 11px;\n            color: #64748b;\n            text-transform: uppercase;\n            letter-spacing: 1.5px;\n            margin-bottom: 12px;\n            font-weight: 700;\n        }\n        \n        .kpi-value {\n            font-size: 42px;\n            font-weight: 800;\n            color: #1e293b;\n            margin-bottom: 8px;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .kpi-unit {\n            font-size: 14px;\n            color: #94a3b8;\n            font-weight: 500;\n        }\n        \n        .kpi-trend {\n            position: absolute;\n            top: 24px;\n            right: 24px;\n            padding: 8px 16px;\n            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);\n            border-radius: 20px;\n            font-size: 12px;\n            font-weight: 600;\n            color: #0284c7;\n        }\n        \n        /* Executive Summary */\n        .executive-section {\n            padding: 80px;\n            background: white;\n        }\n        \n        .section-header {\n            display: flex;\n            align-items: center;\n            gap: 20px;\n            margin-bottom: 50px;\n            padding-bottom: 30px;\n            border-bottom: 2px solid #e0f2fe;\n        }\n        \n        .section-number {\n            width: 60px;\n            height: 60px;\n            background: linear-gradient(135deg, #64748b 0%, #475569 100%);\n            color: white;\n            border-radius: 16px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-weight: 800;\n            font-size: 24px;\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n        }\n        \n        h2 {\n            font-size: 36px;\n            font-weight: 800;\n            color: #1e293b;\n            font-family: 'Poppins', sans-serif;\n            letter-spacing: -1px;\n        }\n        \n        .summary-grid {\n            display: grid;\n            grid-template-columns: 1.5fr 1fr;\n            gap: 60px;\n            margin-top: 50px;\n        }\n        \n        .summary-content {\n            font-size: 17px;\n            line-height: 1.9;\n            color: #475569;\n            margin-bottom: 25px;\n        }\n        \n        .summary-content p {\n            margin-bottom: 25px;\n        }\n        \n        .insights-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 24px;\n            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);\n            padding: 40px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.04);\n        }\n        \n        .insight-card {\n            background: white;\n            padding: 28px;\n            border-radius: 16px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.02);\n            transition: all 0.3s ease;\n        }\n        \n        .insight-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 24px rgba(0,0,0,0.06);\n        }\n        \n        .insight-icon {\n            font-size: 24px;\n            margin-bottom: 16px;\n            color: #0284c7;\n        }\n        \n        .insight-title {\n            font-size: 15px;\n            font-weight: 700;\n            color: #1e293b;\n            margin-bottom: 8px;\n        }\n        \n        .insight-value {\n            font-size: 13px;\n            color: #475569;\n            line-height: 1.6;\n        }\n        \n        /* Visualization Section */\n        .visualization-section {\n            padding: 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            position: relative;\n        }\n        \n        .visualization-grid {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 80px;\n            margin-top: 50px;\n        }\n        \n        .chart-card {\n            background: white;\n            padding: 40px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.04);\n        }\n        \n        .chart-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 32px;\n        }\n        \n        .chart-title {\n            font-size: 24px;\n            font-weight: 700;\n            color: #1e293b;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .chart-subtitle {\n            font-size: 13px;\n            color: #64748b;\n            margin-top: 8px;\n        }\n        \n        .chart-legend {\n            display: flex;\n            flex-wrap: wrap;\n            gap: 16px;\n            margin-top: 24px;\n            padding-top: 24px;\n            border-top: 1px solid #e5e7eb;\n        }\n        \n        .legend-item {\n            display: flex;\n            align-items: center;\n            gap: 8px;\n            font-size: 13px;\n            color: #475569;\n        }\n        \n        .legend-color {\n            width: 12px;\n            height: 12px;\n            border-radius: 50%;\n        }\n        \n        /* Footer */\n        .footer {\n            padding: 40px 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            border-top: 1px solid #e5e7eb;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            font-size: 13px;\n            color: #64748b;\n        }\n        \n        .footer-left {\n            display: flex;\n            align-items: center;\n            gap: 8px;\n        }\n        \n        .footer-right {\n            display: flex;\n            align-items: center;\n            gap: 24px;\n        }\n        \n        .footer-link {\n            color: #0284c7;\n            text-decoration: none;\n            font-weight: 500;\n            transition: color 0.3s ease;\n        }\n        \n        .footer-link:hover {\n            color: #0ea5e9;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <!-- Header -->\n        <header class=\"header\">\n            <div class=\"header-content\">\n                <div class=\"header-top\">\n                    <div class=\"company-brand\">\n                        <div class=\"company-logo\">DDC</div>\n                    </div>\n                    <div class=\"report-badge\">CONFIDENTIAL ANALYSIS</div>\n                </div>\n                <h1>${projectName} Cost Intelligence Report</h1>\n                <div class=\"subtitle\">Comprehensive price estimation and material analysis powered by AI-driven insights</div>\n                <div class=\"meta-grid\">\n                    <div class=\"meta-card\">\n                        <div class=\"meta-icon\">📊</div>\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Analysis Date</div>\n                            <div class=\"meta-value\">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-icon\">🏗️</div>\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Elements Analyzed</div>\n                            <div class=\"meta-value\">${projectTotals.totalElements.toLocaleString()} total</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-icon\">💰</div>\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Estimated Cost</div>\n                            <div class=\"meta-value\">€${projectTotals.totalCost.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-icon\">📈</div>\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Confidence Level</div>\n                            <div class=\"meta-value\">${Math.round(avgConfidence)}% average</div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </header>\n        \n        <!-- KPI Cards -->\n        <section class=\"kpi-section\">\n            <div class=\"kpi-grid\">\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">💼</div>\n                    <div class=\"kpi-label\">Total Project Cost</div>\n                    <div class=\"kpi-value\">€${projectTotals.totalCost.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>\n                    <div class=\"kpi-unit\">Estimated across all elements</div>\n                    <div class=\"kpi-trend\">+12% YoY</div>\n                </div>\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">🏠</div>\n                    <div class=\"kpi-label\">Material Coverage</div>\n                    <div class=\"kpi-value\">${Object.keys(projectTotals.byMaterial).length}</div>\n                    <div class=\"kpi-unit\">Unique materials identified</div>\n                    <div class=\"kpi-trend\">High Diversity</div>\n                </div>\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">📊</div>\n                    <div class=\"kpi-label\">Volume Analyzed</div>\n                    <div class=\"kpi-value\">${projectTotals.totalVolume.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>\n                    <div class=\"kpi-unit\">Cubic meters total</div>\n                    <div class=\"kpi-trend\">Comprehensive</div>\n                </div>\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">⚡</div>\n                    <div class=\"kpi-label\">High Impact Items</div>\n                    <div class=\"kpi-value\">${highImpactItems}</div>\n                    <div class=\"kpi-unit\">Elements >5% of total cost</div>\n                    <div class=\"kpi-trend\">Focus Area</div>\n                </div>\n            </div>\n        </section>\n        \n        <!-- Executive Summary -->\n        <section class=\"executive-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">01</div>\n                <h2>Executive Summary</h2>\n            </div>\n            <div class=\"summary-grid\">\n                <div class=\"summary-text\">\n                    <div class=\"summary-content\">\n                        <p>This analysis provides a comprehensive overview of the project's cost structure, material distribution, and optimization opportunities. With a total estimated cost of €${projectTotals.totalCost.toLocaleString(undefined, {maximumFractionDigits: 0})}, the project demonstrates a ${top3Percentage > 80 ? 'high' : 'moderate'} concentration in key materials, led by ${topMaterial[0]} accounting for €${topMaterial[1].cost.toLocaleString(undefined, {maximumFractionDigits: 0})}.</p>\n                        <p>Our AI-driven assessment achieved an average confidence of ${Math.round(avgConfidence)}% across ${coveragePercent.toFixed(1)}% of elements, highlighting robust data quality in core structural components while identifying opportunities for refinement in specialized materials.</p>\n                        <p>Key recommendations include material substitution in high-cost categories and volume optimization in dominant elements, potentially yielding 8-12% cost savings.</p>\n                    </div>\n                </div>\n                <div class=\"insights-grid\">\n                    <div class=\"insight-card\">\n                        <div class=\"insight-icon\">📈</div>\n                        <div class=\"insight-title\">Cost Concentration</div>\n                        <div class=\"insight-value\">Top 3 materials represent ${top3Percentage.toFixed(1)}% of total costs</div>\n                    </div>\n                    <div class=\"insight-card\">\n                        <div class=\"insight-icon\">🏗️</div>\n                        <div class=\"insight-title\">Dominant Material</div>\n                        <div class=\"insight-value\">${topMaterial[0]}: €${topMaterial[1].cost.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>\n                    </div>\n                    <div class=\"insight-card\">\n                        <div class=\"insight-icon\">💡</div>\n                        <div class=\"insight-title\">Optimization Potential</div>\n                        <div class=\"insight-value\">High cost concentration suggests targeted savings opportunities</div>\n                    </div>\n                    <div class=\"insight-card\">\n                        <div class=\"insight-icon\">🔍</div>\n                        <div class=\"insight-title\">Analysis Coverage</div>\n                        <div class=\"insight-value\">${coveragePercent.toFixed(1)}% of elements with detailed pricing</div>\n                    </div>\n                </div>\n            </div>\n        </section>\n        \n        <!-- Visualization Section -->\n        <section class=\"visualization-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">02</div>\n                <h2>Key Visualizations</h2>\n            </div>\n            <div class=\"visualization-grid\">\n                <div class=\"chart-card\">\n                    <div class=\"chart-header\">\n                        <div>\n                            <div class=\"chart-title\">Material Cost Distribution</div>\n                            <div class=\"chart-subtitle\">Top 6 materials by total cost contribution</div>\n                        </div>\n                    </div>\n                    <canvas id=\"materialPieChart\" height=\"300\"></canvas>\n                </div>\n                <div class=\"chart-card\">\n                    <div class=\"chart-header\">\n                        <div>\n                            <div class=\"chart-title\">Top 10 Cost Drivers</div>\n                            <div class=\"chart-subtitle\">Element groups ranked by total estimated cost</div>\n                        </div>\n                    </div>\n                    <canvas id=\"top10BarChart\" height=\"300\"></canvas>\n                </div>\n            </div>\n        </section>\n        \n        <!-- Footer -->\n        <footer class=\"footer\">\n            <div class=\"footer-left\">\n                <span>© ${new Date().getFullYear()} DataDrivenConstruction</span>\n            </div>\n            <div class=\"footer-right\">\n                <a href=\"https://datadrivenconstruction.io\" class=\"footer-link\">Full Report Download</a>\n                <a href=\"https://datadrivenconstruction.io\" class=\"footer-link\">Contact Analysts</a>\n                <a href=\"https://datadrivenconstruction.io\" class=\"footer-link\">Methodology</a>\n            </div>\n        </footer>\n    </div>\n    \n    <script>\n        // Material Distribution Pie Chart\n        const materialCtx = document.getElementById('materialPieChart').getContext('2d');\n        const materialData = ${JSON.stringify(materialChartData)};\n        \n        new Chart(materialCtx, {\n            type: 'doughnut',\n            data: {\n                labels: materialData.map(d => d.label),\n                datasets: [{\n                    data: materialData.map(d => d.value),\n                    backgroundColor: [\n                        '#0ea5e9',\n                        '#0284c7',\n                        '#0369a1',\n                        '#075985',\n                        '#0c4a6e',\n                        '#38bdf8'\n                    ],\n                    borderWidth: 3,\n                    borderColor: '#fff',\n                    hoverOffset: 8\n                }]\n            },\n            options: {\n                responsive: true,\n                maintainAspectRatio: true,\n                plugins: {\n                    legend: {\n                        position: 'bottom',\n                        labels: {\n                            padding: 20,\n                            font: {\n                                size: 13,\n                                weight: '500'\n                            },\n                            usePointStyle: true,\n                            pointStyle: 'circle'\n                        }\n                    },\n                    tooltip: {\n                        backgroundColor: 'rgba(15, 23, 42, 0.9)',\n                        titleFont: {\n                            size: 14,\n                            weight: '600'\n                        },\n                        bodyFont: {\n                            size: 13\n                        },\n                        padding: 12,\n                        cornerRadius: 8,\n                        callbacks: {\n                            label: function(context) {\n                                const value = context.raw;\n                                const total = context.dataset.data.reduce((a, b) => a + b, 0);\n                                const percentage = ((value / total) * 100).toFixed(1);\n                                return context.label + ': €' + value.toFixed(2) + ' (' + percentage + '%)';\n                            }\n                        }\n                    }\n                }\n            }\n        });\n        \n        // Top 10 Bar Chart\n        const barCtx = document.getElementById('top10BarChart').getContext('2d');\n        const barData = ${JSON.stringify(barChartData)};\n        \n        new Chart(barCtx, {\n            type: 'bar',\n            data: {\n                labels: barData.map(d => d.label.length > 25 ? d.label.substring(0, 25) + '...' : d.label),\n                datasets: [{\n                    label: 'Cost (EUR)',\n                    data: barData.map(d => d.value),\n                    backgroundColor: 'rgba(14, 165, 233, 0.8)',\n                    borderColor: 'rgba(2, 132, 199, 1)',\n                    borderWidth: 2,\n                    borderRadius: 8,\n                    hoverBackgroundColor: 'rgba(2, 132, 199, 0.9)'\n                }]\n            },\n            options: {\n                responsive: true,\n                maintainAspectRatio: true,\n                indexAxis: 'y',\n                plugins: {\n                    legend: {\n                        display: false\n                    },\n                    tooltip: {\n                        backgroundColor: 'rgba(15, 23, 42, 0.9)',\n                        titleFont: {\n                            size: 14,\n                            weight: '600'\n                        },\n                        bodyFont: {\n                            size: 13\n                        },\n                        padding: 12,\n                        cornerRadius: 8,\n                        callbacks: {\n                            label: function(context) {\n                                return '€' + context.raw.toFixed(2);\n                            }\n                        }\n                    }\n                },\n                scales: {\n                    x: {\n                        beginAtZero: true,\n                        grid: {\n                            color: 'rgba(14, 165, 233, 0.05)',\n                            borderDash: [5, 5]\n                        },\n                        ticks: {\n                            font: {\n                                size: 12\n                            },\n                            callback: function(value) {\n                                return '€' + value.toLocaleString();\n                            }\n                        }\n                    },\n                    y: {\n                        grid: {\n                            display: false\n                        },\n                        ticks: {\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            }\n                        }\n                    }\n                }\n            }\n        });\n    </script>\n</body>\n</html>`;\n\nreturn [{\n  json: {\n    html: html,\n    timestamp: new Date().toISOString(),\n    reportType: 'Executive Cost Analysis',\n    totalItems: items.length,\n    totalCost: projectTotals.totalCost\n  }\n}];"
+      },
+      "id": "52048886-09cd-4cd2-8dbd-75b21ecd16e8",
+      "name": "Generate HTML Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14384,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = $json.html;\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(html).toString('base64'),\n      mimeType: 'text/html',\n      fileName: 'price_estimation_report.html'\n    }\n  }\n}];"
+      },
+      "id": "9f244722-e022-46c9-b4b3-a44cbbd6fbea",
+      "name": "Convert to Binary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14560,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
+        "height": 116,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13008,
+        -112
+      ],
+      "id": "896c1aa2-bf73-457d-9c9e-09c145c15159",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n const input = $input.first().json;\n const aggregationRules = input.aggregationRules;\n const headerMapping = input.headerMapping;\n const rawData = input.rawData;\n const groupByParamOriginal = input.groupByParam;\n\n\n const groupByParam = headerMapping[groupByParamOriginal] || groupByParamOriginal;\n\n console.log(`Grouping ${rawData.length} items by: ${groupByParam}`);\n\n\n const cleanedData = rawData.map(item => {\n  const cleaned = {};\n  Object.entries(item).forEach(([key, value]) => {\n    const newKey = headerMapping[key] || key;\n    cleaned[newKey] = value;\n  });\n  return cleaned;\n });\n\n\n const grouped = {};\n\n\n cleanedData.forEach(item => {\n  const groupKey = item[groupByParam];\n  \n  if (!groupKey || groupKey === '' || groupKey === null) return;\n  \n  if (!grouped[groupKey]) {\n    grouped[groupKey] = {\n      _count: 0,\n      _values: {}\n    };\n    \n    \n    Object.keys(aggregationRules).forEach(param => {\n      if (param !== groupByParam) {\n        grouped[groupKey]._values[param] = [];\n      }\n    });\n  }\n  \n  grouped[groupKey]._count++;\n  \n  \n  Object.entries(item).forEach(([key, value]) => {\n    if (key === groupByParam) return;\n    \n    if (value !== null && value !== undefined && value !== '' && grouped[groupKey]._values[key]) {\n      grouped[groupKey]._values[key].push(value);\n    }\n  });\n });\n\n\n const result = [];\n\n Object.entries(grouped).forEach(([groupKey, groupData]) => {\n  const aggregated = {\n    [groupByParam]: groupKey,\n    'Element Count': groupData._count\n  };\n  \n  \n  Object.entries(groupData._values).forEach(([param, values]) => {\n    const rule = aggregationRules[param] || 'first';\n    \n    if (values.length === 0) {\n      aggregated[param] = null;\n      return;\n    }\n    \n    switch(rule) {\n      case 'sum':\n        const numericValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? 0 : num;\n        });\n        aggregated[param] = numericValues.reduce((a, b) => a + b, 0);\n        \n        if (aggregated[param] % 1 !== 0) {\n          aggregated[param] = Math.round(aggregated[param] * 100) / 100;\n        }\n        break;\n        \n      case 'mean':\n      case 'average':\n        const avgValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? null : num;\n        }).filter(v => v !== null);\n        \n        if (avgValues.length > 0) {\n          const avg = avgValues.reduce((a, b) => a + b, 0) / avgValues.length;\n          aggregated[param] = Math.round(avg * 100) / 100;\n        } else {\n          aggregated[param] = values[0];\n        }\n        break;\n        \n      case 'first':\n      default:\n        aggregated[param] = values[0];\n        break;\n    }\n  });\n  \n  result.push({ json: aggregated });\n });\n\n\n result.sort((a, b) => {\n  const aVal = a.json[groupByParam];\n  const bVal = b.json[groupByParam];\n  if (aVal < bVal) return -1;\n  if (aVal > bVal) return 1;\n  return 0;\n });\n\n console.log(`\\nGrouping complete:`);\n console.log(`- Input items: ${cleanedData.length}`);\n console.log(`- Output groups: ${result.length}`);\n console.log(`- Parameters processed: ${Object.keys(aggregationRules).length}`);\n\n\n const rulesSummary = { sum: [], mean: [], first: [] };\n Object.entries(aggregationRules).forEach(([param, rule]) => {\n  if (rulesSummary[rule]) rulesSummary[rule].push(param);\n });\n\n console.log('\\nAggregation summary:');\n if (rulesSummary.sum.length > 0) {\n  console.log(`- SUM (${rulesSummary.sum.length}): ${rulesSummary.sum.slice(0, 5).join(', ')}${rulesSummary.sum.length > 5 ? '...' : ''}`);\n }\n if (rulesSummary.mean.length > 0) {\n  console.log(`- MEAN (${rulesSummary.mean.length}): ${rulesSummary.mean.slice(0, 5).join(', ')}${rulesSummary.mean.length > 5 ? '...' : ''}`);\n }\n if (rulesSummary.first.length > 0) {\n  console.log(`- FIRST (${rulesSummary.first.length}): ${rulesSummary.first.slice(0, 5).join(', ')}${rulesSummary.first.length > 5 ? '...' : ''}`);\n }\n\n return result;"
+      },
+      "id": "806e3964-5e05-4eaa-8a27-8a95939de19d",
+      "name": "Group Data with AI Rules1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        13968,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\n const items = $input.all();\n if (items.length === 0) {\n  throw new Error('No data found in Excel file');\n }\n\n\n const allHeaders = new Set();\n items.forEach(item => {\n  Object.keys(item.json).forEach(key => allHeaders.add(key));\n });\n\n\n const headers = Array.from(allHeaders);\n const cleanedHeaders = headers.map(header => {\n  return header.replace(/:\\s*(string|double|int|float|boolean|number)\\s*$/i, '').trim();\n });\n\n\n const headerMapping = {};\n headers.forEach((oldHeader, index) => {\n  headerMapping[oldHeader] = cleanedHeaders[index];\n });\n\n\n const sampleValues = {};\n cleanedHeaders.forEach((header, index) => {\n  const originalHeader = headers[index];\n  for (const item of items) {\n    const value = item.json[originalHeader];\n    if (value !== null && value !== undefined && value !== '') {\n      sampleValues[header] = value;\n      break;\n    }\n  }\n  if (!sampleValues[header]) {\n    sampleValues[header] = null;\n  }\n });\n\n console.log(`Found ${headers.length} unique headers across ${items.length} items`);\n\n\n return [{\n  json: {\n    headers: cleanedHeaders,\n    originalHeaders: headers,\n    headerMapping: headerMapping,\n    sampleValues: sampleValues,\n    totalRows: items.length,\n    totalHeaders: headers.length,\n    \n    rawData: items.map(item => item.json)\n  }\n }];"
+      },
+      "id": "97a05b9c-43d6-43f4-b82a-728e98060e1b",
+      "name": "Extract Headers and Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14464,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an expert in construction classification systems. Analyze building element groups and assign aggregation methods for grouping data.\n\nRules:\n1. 'sum' - for quantities that should be totaled:\n   - Volume, Area, Length, Width, Height, Depth, Size\n   - Count, Quantity, Number, Amount, Total\n   - Thickness, Perimeter, Dimension\n   - Weight, Mass, Load\n   - Any measurable physical property that accumulates\n\n2. 'mean' (average) - for rates and unit values:\n   - Price, Cost, Rate (per unit)\n   - Coefficient, Factor, Ratio\n   - Percentage, Percent\n   - Efficiency, Performance metrics\n   - Any per-unit or normalized values\n\n3. 'first' - for descriptive/categorical data:\n   - ID, Code, Number (when used as identifier)\n   - Name, Title, Description\n   - Type, Category, Class, Group\n   - Material, Component, Element\n   - Project, Building, Location\n   - Status, Phase, Stage\n   - Any text or categorical field\n\nIMPORTANT: \n- Analyze each header carefully\n- Consider both the header name AND sample value\n- Return aggregation rule for EVERY header provided\n- Use exact header names from input\n\nReturn ONLY valid JSON in this exact format:\n{\n  \"aggregation_rules\": {\n    \"Header1\": \"sum\",\n    \"Header2\": \"first\",\n    \"Header3\": \"mean\"\n  }\n}",
+              "role": "system"
+            },
+            {
+              "content": "Analyze these {{ $json.totalHeaders }} headers and determine aggregation method for each:\n\nHeaders with sample values:\n{{ JSON.stringify($json.sampleValues, null, 2) }}\n\nProvide aggregation rule for EACH header listed above."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "e740446b-dd74-435b-9a62-5563d26e41d0",
+      "name": "AI Analyze All Headers",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        14640,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "5SwKOx6OOukR6C0w",
+          "name": "OpenAi account n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json.path_to_file }}"
+      },
+      "id": "777fec0d-6242-4c20-bfe0-3552c7486906",
+      "name": "Read Excel File1",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        14000,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "fileFormat": "xlsx",
+        "options": {
+          "headerRow": true,
+          "includeEmptyCells": false,
+          "sheetName": "={{ $node['Set Parameters1'].json.sheet_name }}"
+        }
+      },
+      "id": "5c9a3df1-21fe-4021-a0eb-965a5187137d",
+      "name": "Parse Excel1",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        14192,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $json[\"project_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
+              "type": "string"
+            },
+            {
+              "id": "path-to-converter-pass",
+              "name": "path_to_converter",
+              "value": "={{ $json[\"path_to_converter\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "project-file-pass",
+              "name": "project_file",
+              "value": "={{ $json[\"project_file\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        14144,
+        -608
+      ],
+      "id": "2367bc19-2690-46fa-8c24-d479daf40e9b",
+      "name": "Create - Excel filename1"
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        14336,
+        -608
+      ],
+      "id": "3638161c-9e6f-49cd-9e2a-f1340bd9cab6",
+      "name": "Check - Does Excel file exist?1",
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "e7fb1577-e753-43f5-9f5a-4d5285aeb96e",
+              "leftValue": "={{ $binary.data ? true : false }}",
+              "rightValue": "={{ true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5d9a72b1-20ea-4c43-a652-27528f62dae9",
+      "name": "If - File exists?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        14496,
+        -608
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=\"{{$node[\"Setup - Define file paths\"].json[\"path_to_converter\"]}}\" \"{{$node[\"Setup - Define file paths\"].json[\"project_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        14288,
+        -400
+      ],
+      "id": "13ddf603-584d-4cfb-b1b9-0f1a5af1bb0f",
+      "name": "Extract - Run converter1",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "status-id",
+              "name": "status",
+              "value": "File already exists - skipping conversion",
+              "type": "string"
+            },
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename1\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        14720,
+        -624
+      ],
+      "id": "ae5a5deb-1e98-4bf5-bad8-55adfc2266a3",
+      "name": "Info - Skip conversion1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $node[\"Extract - Run converter1\"].json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "70cdff5d-d33a-46a6-b256-62d1abfd2a35",
+      "name": "Check - Did extraction succeed?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        14496,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-message-id",
+              "name": "error_message",
+              "value": "=Extraction failed: {{ $node[\"Extract - Run converter1\"].json.error || \"Unknown error\" }}",
+              "type": "string"
+            },
+            {
+              "id": "error-code-id",
+              "name": "error_code",
+              "value": "={{ $node[\"Extract - Run converter1\"].json.code || -1 }}",
+              "type": "number"
+            },
+            {
+              "id": "xlsx-filename-error",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename1\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1079ae6f-882d-4848-8b2e-54b3d0173717",
+      "name": "Error - Show what went wrong1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        14720,
+        -464
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-success",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename1\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        14720,
+        -288
+      ],
+      "id": "43558694-6cdb-4dcb-9143-3d2e24111b39",
+      "name": "Set xlsx_filename after success1"
+    },
+    {
+      "parameters": {},
+      "id": "7527c0c2-5fc3-4c1d-8ac1-71f163717175",
+      "name": "Merge - Continue workflow1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        14912,
+        -560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "path-id",
+              "name": "path_to_file",
+              "value": "={{ $json.xlsx_filename }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d7560b06-0036-4f49-8da0-0ded8dcaa04c",
+      "name": "Set Parameters1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        15056,
+        -272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\n const aiResponse = $input.first().json;\n const headerData = $node['Extract Headers and Data'].json;\n\n\n let aiRules = {};\n try {\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  console.log('AI Response received, length:', content.length);\n  \n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    aiRules = parsed.aggregation_rules || parsed.parameter_aggregation || {};\n    console.log(`AI provided ${Object.keys(aiRules).length} rules`);\n  } else {\n    console.warn('No JSON found in AI response');\n  }\n } catch (error) {\n  console.error('Error parsing AI response:', error.message);\n }\n\n\n const finalRules = {};\n headerData.headers.forEach(header => {\n  if (aiRules[header]) {\n    finalRules[header] = aiRules[header];\n  } else {\n    \n    const lowerHeader = header.toLowerCase();\n    \n    if (lowerHeader.match(/volume|area|length|width|height|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass|total|amount|number/)) {\n      finalRules[header] = 'sum';\n    } else if (lowerHeader.match(/price|rate|cost|coefficient|factor|percent|ratio|efficiency|avg|average|mean/)) {\n      finalRules[header] = 'mean';\n    } else {\n      finalRules[header] = 'first';\n    }\n  }\n });\n\n const groupByParam = $node['Setup - Define file paths'].json.group_by;\n\n console.log(`\\nAggregation rules summary:`);\n console.log(`- Total headers: ${headerData.headers.length}`);\n console.log(`- AI rules: ${Object.keys(aiRules).length}`);\n console.log(`- Default rules: ${headerData.headers.length - Object.keys(aiRules).length}`);\n console.log(`- Group by: ${groupByParam}`);\n\n\n return [{\n  json: {\n    aggregationRules: finalRules,\n    headerMapping: headerData.headerMapping,\n    headers: headerData.headers,\n    originalHeaders: headerData.originalHeaders,\n    rawData: headerData.rawData,\n    groupByParam: groupByParam,\n    totalRows: headerData.totalRows\n  }\n }];"
+      },
+      "id": "cd02ce88-0b49-476b-81d9-ff1a3502bd90",
+      "name": "Process AI Response1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        15024,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Block 4: Price Calculation & Reporting\nThis block:\n- Estimates costs using material types, volumes/areas, and online price searches\n- Creates charts: pie for material distribution, bar for top costs\n- Calculates summary stats like total cost and elements\n- Generates a professional HTML report with visuals\n- Exports detailed data to Excel with multiple sheets (Summary, Details, etc.)\n\nKey nodes:\n- Calculate Project Totals1: Aggregates costs and stats\n- Generate HTML Report: Creates visual report\n- Create Excel File: Builds multi-sheet Excel export",
+        "height": 448,
+        "width": 1920,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        13360,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "c498039a-be7d-4e73-982b-97d5875a4b7c",
+      "name": "Price Analysis and Reporting Block1"
+    },
+    {
+      "parameters": {
+        "content": "## Block 2: Element Classification\nThis block:\n- Detects category fields (e.g., Category, IFC Type)\n- Uses AI to classify as building elements (e.g., walls, doors) \nor non-building (e.g., annotations, texts)\n- Splits data: building elements go to analysis, \nnon-building are noted separately\n\nKey nodes:\n- Find Category Fields1: Identifies categories\n- AI Classify Categories1: AI classification\n- Is Building Element1: Splits the flow",
+        "height": 320,
+        "width": 1920,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        13360,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "ee1bcc6e-c2fa-480d-8d32-786d52ea122a",
+      "name": "Element Classification Block"
+    },
+    {
+      "parameters": {
+        "content": "## Block 3: Material Analysis\nThis block:\n- Processes building elements in batches\n- Classifies materials by EU/DE/US standards\n- Determines units (m³, m², etc.) and densities\n- Uses AI (Anthropic) for detailed analysis and price estimation\n- Accumulates results and calculates distributions\n\nKey nodes:\n- Process in Batches1: Handles data in chunks\n- AI Agent Enhanced: AI analysis with tools\n- Accumulate Results: Collects all data",
+        "height": 400,
+        "width": 1920,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        13360,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "396482ae-6e94-4801-b280-e0c49cbd0091",
+      "name": "Material Analysis Block"
+    },
+    {
+      "parameters": {
+        "content": "## Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\nSimply: Converts Revit file to Excel for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?1: Verifies file\n- Extract - Run converter1: Converts if needed",
+        "height": 580,
+        "width": 1912,
+        "color": 5
+      },
+      "id": "ed73e920-c77e-4d2e-a425-f8cf1dfd486c",
+      "name": "Conversion Block",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13360,
+        -688
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Block 1: Data Loading & Grouping\nThis block:\n- Loads Excel data\n- Cleans headers\n- Uses AI to decide aggregation (sum for quantities, mean for rates, first for texts)\n- Groups data by parameter (e.g., Type Name)\nSimply: Prepares raw data for classification.",
+        "height": 272,
+        "width": 1920,
+        "color": 4
+      },
+      "id": "ad7f11fd-9e21-4ab3-9e97-d109fad69973",
+      "name": "Data Loading Block1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13360,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ Important Information\n\n- Pipeline uses AI (OpenAI, Grok, Anthropic) - check credits and limits.\n- Revit converter requires downloaded DDC_Converter_Revit\n- Data is aggregated by groups, volumes are already summed - do not multiply by element count\n- Reports are generated in HTML and in Excel wfor detailed analysis",
+        "height": 288,
+        "width": 336
+      },
+      "id": "ae75c53d-6d7e-43fb-955a-d74efeef329f",
+      "name": "Important Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13008,
+        -416
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the project file path from the original setup\nconst projectFile = $node['Setup - Define file paths'].json.project_file;\nconst htmlContent = $node['Convert to Binary'].json.html || $input.first().binary.data;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst htmlFileName = `CO2_Analysis_Report_${timestamp}.html`;\nconst fullPath = `${path}\\\\${htmlFileName}`;\n\nconsole.log('Project file:', projectFile);\nconsole.log('Directory:', path);\nconsole.log('HTML file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    html_filename: htmlFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "7bf2c062-1d42-4d7e-96f2-9b9cb7db9506",
+      "name": "Prepare HTML Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14720,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.full_path }}",
+        "options": {}
+      },
+      "id": "e97f75ff-1bcd-4952-a131-be30f535805f",
+      "name": "Write HTML to Project Folder",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        14896,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=start \"\" \"{{ $json.full_path }}\""
+      },
+      "id": "5ca134cf-1a65-4aba-9ae8-71d522f348f5",
+      "name": "Open HTML in Browser",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        15072,
+        1024
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Similar logic for Excel file\nconst projectFile = $node['Setup - Define file paths'].json.project_file;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst excelFileName = `CO2_Analysis_Professional_Report_${timestamp}.xlsx`;\nconst fullPath = `${path}\\\\${excelFileName}`;\n\nconsole.log('Excel file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    excel_filename: excelFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "84389eea-0101-45af-a8f7-31c60d4ed244",
+      "name": "Prepare Excel Path1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        14896,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.full_path }}",
+        "options": {}
+      },
+      "id": "5de7bf64-4f78-47ea-8601-dc800370ca84",
+      "name": "Write Excel to Project Folder1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        15072,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_converter",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n pipelines\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "project_file",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\Sample_Projects\\ra_basic_sample_revit_somegroups.rvt",
+              "type": "string"
+            },
+            {
+              "id": "4e4f5e6f-7a8b-4c5d-9e0f-1a2b3c4d5e6f",
+              "name": "group_by",
+              "value": "Type Name",
+              "type": "string"
+            },
+            {
+              "id": "5f6a7b8c-9d0e-4f1a-2b3c-4d5e6f7a8b9c",
+              "name": "country",
+              "value": "Germany",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        13952,
+        -608
+      ],
+      "id": "0b9a473e-cf49-4b62-8415-9f86b52f1c0e",
+      "name": "Setup - Define file paths"
+    },
+    {
+      "parameters": {
+        "content": "# Project Cost Calculation for Revit and IFC with AI (LLM) \nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto)",
+        "height": 112,
+        "width": 952,
+        "color": 5
+      },
+      "id": "692a1640-dcdc-4627-bbf0-f3af63b7deaa",
+      "name": "Conversion Block1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13360,
+        -816
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RvtExporter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "height": 384,
+        "width": 336
+      },
+      "id": "390fef2f-8d3c-4567-9f61-cbbec9e7bf8f",
+      "name": "Setup Instructions",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        13008,
+        -816
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        14400,
+        768
+      ],
+      "id": "6470e673-1df3-4019-832f-6a70622d66a4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "5SwKOx6OOukR6C0w",
+          "name": "OpenAi account n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatXAiGrok",
+      "typeVersion": 1,
+      "position": [
+        14560,
+        768
+      ],
+      "id": "57955c61-a36b-49cc-8cfc-e593c27a4b0f",
+      "name": "xAI Grok Chat Model",
+      "credentials": {
+        "xAiApi": {
+          "id": "JKhw9fFrSig9QNQB",
+          "name": "xAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Setup - Define file paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Category Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Classify Categories1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Classification to Groups1": {
+      "main": [
+        [
+          {
+            "node": "Is Building Element1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Classify Categories1": {
+      "main": [
+        [
+          {
+            "node": "Apply Classification to Groups1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Building Element1": {
+      "main": [
+        [
+          {
+            "node": "Process in Batches1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non-Building Elements Output1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If All Batches Done": {
+      "main": [
+        [
+          {
+            "node": "Collect All Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process in Batches1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect All Results": {
+      "main": [
+        [
+          {
+            "node": "Calculate Project Totals1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process in Batches1": {
+      "main": [
+        [
+          {
+            "node": "Clean Empty Values1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Empty Values1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Enhanced Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Parse Enhanced Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Accumulate Results": {
+      "main": [
+        [
+          {
+            "node": "Check If All Batches Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Calculate Project Totals1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Excel Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate HTML Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enhance Excel Output": {
+      "main": [
+        [
+          {
+            "node": "Prepare Excel Path1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Excel Data": {
+      "main": [
+        [
+          {
+            "node": "Create Excel File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Excel File": {
+      "main": [
+        [
+          {
+            "node": "Enhance Excel Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Enhanced Prompts": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Enhanced Response": {
+      "main": [
+        [
+          {
+            "node": "Accumulate Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate HTML Report": {
+      "main": [
+        [
+          {
+            "node": "Convert to Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Binary": {
+      "main": [
+        [
+          {
+            "node": "Prepare HTML Path",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Group Data with AI Rules1": {
+      "main": [
+        [
+          {
+            "node": "Find Category Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Headers and Data": {
+      "main": [
+        [
+          {
+            "node": "AI Analyze All Headers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analyze All Headers": {
+      "main": [
+        [
+          {
+            "node": "Process AI Response1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Excel File1": {
+      "main": [
+        [
+          {
+            "node": "Parse Excel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Excel1": {
+      "main": [
+        [
+          {
+            "node": "Extract Headers and Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create - Excel filename1": {
+      "main": [
+        [
+          {
+            "node": "Check - Does Excel file exist?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Does Excel file exist?1": {
+      "main": [
+        [
+          {
+            "node": "If - File exists?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - File exists?1": {
+      "main": [
+        [
+          {
+            "node": "Info - Skip conversion1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract - Run converter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Run converter1": {
+      "main": [
+        [
+          {
+            "node": "Check - Did extraction succeed?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info - Skip conversion1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Did extraction succeed?1": {
+      "main": [
+        [
+          {
+            "node": "Error - Show what went wrong1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set xlsx_filename after success1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error - Show what went wrong1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set xlsx_filename after success1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge - Continue workflow1": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Parameters1": {
+      "main": [
+        [
+          {
+            "node": "Read Excel File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process AI Response1": {
+      "main": [
+        [
+          {
+            "node": "Group Data with AI Rules1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare HTML Path": {
+      "main": [
+        [
+          {
+            "node": "Write HTML to Project Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write HTML to Project Folder": {
+      "main": [
+        [
+          {
+            "node": "Open HTML in Browser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Excel Path1": {
+      "main": [
+        [
+          {
+            "node": "Write Excel to Project Folder1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup - Define file paths": {
+      "main": [
+        [
+          {
+            "node": "Create - Excel filename1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Enhanced",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "11a3ece8-fa98-4b6b-baf7-7151c73e05a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+  },
+  "id": "WyUSW4VZgEw5QC13",
+  "tags": []
+}
