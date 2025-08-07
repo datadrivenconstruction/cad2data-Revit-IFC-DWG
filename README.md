@@ -126,6 +126,10 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 
 Converts CAD/BIM files (`.rvt`, `.ifc`, `.dwg`, `.dgn`) to Excel (XLSX) and Collada (DAE) for Revit/IFC files. Minimal configuration for quick setup.
 
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
+</p>
+
 #### Installation
 1. Import `n8n_1_Revit_IFC_DWG_Conversation_simple.json` into n8n via **Workflows > Import from File**.
 2. Update **Set Variables** node:
@@ -160,14 +164,16 @@ graph LR;
     C --> D[Output XLSX + DAE + PDF];
 ```
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_simple-1.jpg" alt="Basic Conversion" width="100%"/>
-</p>
+
 
 ### ⚡️ 2. Conversion with Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 Converts CAD/BIM files with customizable export modes (basic: 309 categories, standard: 724 categories, complete: all 1209 categories) and optional outputs like bounding box, Revit schedules, or PDF drawings.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.jpg" alt="Basic Conversion" width="100%"/>
+</p>
 
 #### Installation
 1. Import `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json` into n8n via **Workflows > Import from File**.
@@ -198,14 +204,16 @@ graph LR;
     D -->|+PDF| I[XLSX + DAE + PDF];
 ```
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_All_Settings_Revit_IFC_DWG_Conversation_simple.jpg" alt="Advanced Conversion" width="100%"/>
-</p>
+
 
 ### ⚡️ 3. Revit Batch Conversion with Validation and Reporting
 **File**: `grok_BP_26072025_14.json`
 
 Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (DAE), validates outputs, tracks processing times, and generates an HTML report with metrics, file links, and configuration details.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/CAD-BIM-Batch-Converter-Pipeline.jpg" alt="Advanced Conversion" width="100%"/>
+</p>
 
 #### Installation
 1. Import `grok_BP_26072025_14.json` into n8n via **Workflows > Import from File**.
@@ -238,14 +246,16 @@ graph LR;
     G --> H[Save & Open Report];
 ```
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/QTO-Revit-IFC-AutoCAD-report-in-n8n.jpg" alt="Advanced Conversion" width="100%"/>
-</p>
+
 
 ### ⚡️ 4. Multi-Format Validation
 **Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
 Validates CAD/BIM data against predefined rules, generating color-coded Excel reports with data quality metrics.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Validation_CAD_BIM_Revit_IFC_DWG.jpg" alt="Validation Pipeline" width="100%"/>
+</p>
 
 #### Installation
 1. Import `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json` into n8n via **Workflows > Import from File**.
@@ -277,9 +287,7 @@ graph LR;
     I --> J[Save & Open];
 ```
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/cad-bim-validation-in-n8n-revit-ifc-autocad.jpg" alt="Validation Pipeline" width="100%"/>
-</p>
+
 
 
 ### ⚡️ 5. Construction Price Estimation Pipeline
@@ -287,6 +295,10 @@ graph LR;
 **File:** `Construction_Price_Estimation_Pipeline.json`
 
 Automates construction cost estimation for building elements extracted from CAD/BIM files (`.rvt`, `.ifc`). Processes grouped data, classifies elements using AI, searches for current market prices, calculates costs, and generates comprehensive reports with visualizations.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.jpg" alt="QTO Generator" width="100%"/>
+</p>
 
 ## Key Features
 
@@ -386,9 +398,7 @@ Material Distribution:
 - **Classification Failures**: Falls back to generic material categories
 - **Volume Calculations**: Uses alternative measurements (area × height) when direct volume unavailable
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-pipeline-cost-estimation.jpg" alt="QTO Generator" width="100%"/>
-</p>
+
 
 
 
@@ -397,6 +407,10 @@ Material Distribution:
 **File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.jpg" alt="QTO Generator" width="100%"/>
+</p>
 
 #### Installation
 1. Import `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json` into n8n via **Workflows > Import from File**.
@@ -413,14 +427,17 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
 3. Use the parsed data for LLM tasks (e.g., feed JSON to Claude or ChatGPT).
 4. Monitor logs for conversion and parsing status.
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX-2.jpg" alt="ETL Pipeline" width="100%"/>
-</p>
+
+
 
 ### ⚡️ 7. Revit to HTML Quantity Takeoff
 **File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.jpg" alt="QTO Generator" width="100%"/>
+</p>
 
 #### Installation
 1. Import `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json` into n8n via **Workflows > Import from File**.
@@ -453,9 +470,7 @@ graph LR;
     L --> M[Success];
 ```
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator-1.jpg" alt="QTO Generator" width="100%"/>
-</p>
+
 
 ## Troubleshooting
 
