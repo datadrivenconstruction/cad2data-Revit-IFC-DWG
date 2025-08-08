@@ -27,7 +27,7 @@
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipeline-github-CAD-BIM.png" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-GitHub-DataDrivenConstruction.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
 ## Table of Contents
