@@ -52,7 +52,7 @@
 - [Next Level Automation](#next-level-automation)
 - [Contributing](#contributing)
 - [🆘 Support](#support)
-- [🎓 Consulting & Industry Training](#consulting--industry-training)
+- [🎓 Consulting and Training](#consulting-and-training)
 
 
 
@@ -533,7 +533,7 @@ We welcome contributions! Please feel free to:
 - 📧 **Email**: info@datadrivenconstruction.io
   
 
-## Consulting & Industry Training
+## Consulting and Training
 
 We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
 
