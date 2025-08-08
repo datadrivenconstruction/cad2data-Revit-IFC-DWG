@@ -48,7 +48,6 @@
 - [Troubleshooting](#troubleshooting)
 - [What is DataFrames?](#what-is-dataframes)
 - [Re-import Data into Revit](#️re-import-data-into-revit)
-- [Next Level Automation](#next-level-automation)
 - [Contributing](#contributing)
 - [🆘 Support](#support)
 - [🎓 Consulting and Training](#consulting-and-training)
@@ -504,15 +503,6 @@ After transforming and enriching your Excel data, you can effortlessly push the 
 https://github.com/datadrivenconstruction/ImportExcelToRevit
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
-
-
-## Next Level Automation
-
-For AI-powered processing and advanced automation:
-
-🤖 **[CAD-(BIM)-to-Code Automation Pipeline with LLM (ChatGPT)](https://github.com/datadrivenconstruction/CAD-BIM-to-Code-Automation-Pipeline-DDC-Workflow-with-LLM-ChatGPT)**
-
-Features ChatGPT integration, element classification, and code generation.
 
 
 
