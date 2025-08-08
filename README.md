@@ -332,7 +332,7 @@ Automates cost estimation for building elements from CAD/BIM files. Uses AI to c
 - **Multi-Format Output**: Excel workbook + HTML report with charts
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC-1.jpg" alt="Price Estimation" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC-2.jpg" alt="Price Estimation" width="100%"/>
 </p>
 
 
