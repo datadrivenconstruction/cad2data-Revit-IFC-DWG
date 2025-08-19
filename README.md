@@ -326,7 +326,6 @@ Intelligently classifies building elements from CAD/BIM files using AI and ANY c
 - **Smart Mapping**: Automatically extracts dictionaries from Excel, CSV, PDF files
 - **Automatic Filtering**: Separates building elements from drawings/annotations
 - **Hierarchical Support**: Handles both flat and hierarchical classification structures
-- **Volume Analysis**: Includes BoundingBox volume calculations (ft³ to m³)
 - **Professional Reports**: Interactive HTML dashboards + multi-sheet Excel
 - **RAG Technology**: Retrieval-Augmented Generation for accurate classification
 
@@ -335,7 +334,7 @@ Intelligently classifies building elements from CAD/BIM files using AI and ANY c
 </p>
 
 #### Installation
-1. Import `1908_1_Universal_Classification_CAD_BIM_with_AI_RAG.json` into n8n
+1. Import `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json` into n8n
 2. Configure AI credentials (OpenAI/Anthropic/OpenRouter/Gemini/xAI)
 3. Update **Setup - Define file paths** node:
    ```
@@ -350,22 +349,11 @@ Intelligently classifies building elements from CAD/BIM files using AI and ANY c
 #### Classification Flexibility
 This pipeline works with **ANY classification system**:
 - ✅ International standards (Omniclass, Uniclass, MasterFormat, etc.)
-- ✅ National standards (DIN, ГОСТ, NF, BS, etc.)
+- ✅ National standards (DIN, NF, BS, etc.)
 - ✅ Company-specific classifications
 - ✅ Custom project classifications
 - ✅ Proprietary coding systems
 - ✅ Any structured classification in Excel/CSV/PDF format
-
-#### Examples of Supported Standards
-- **Omniclass** (North America) - Format: XX-XX XX XX
-- **Uniclass 2015** (UK) - Format: Xx_XX_XX_XX
-- **MasterFormat** (CSI) - Format: XX XX XX
-- **Uniformat II** (ASTM) - Format: Letter+numbers
-- **CoClass** (Sweden) - Alphanumeric codes
-- **Классификатор КЭЦИН** (Russia) - CIM>BE format
-- **NBS** (UK) - Section-based
-- **IFC** (buildingSMART) - IfcXxxxx format
-- **Your Custom System** - Any format you define
 
 #### How It Works
 1. **With Mapping File**: Provide your classification dictionary (Excel/CSV/PDF) - the AI will extract codes and apply them accurately
