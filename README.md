@@ -41,10 +41,11 @@
   - [⚡️ 2. CAD (BIM) Conversion with Advanced Settings](#️-2-conversion-with-advanced-settings)
   - [⚡️ 3. Revit Batch Conversion with Validation and Reporting](#️-3-revit-batch-conversion-with-validation-and-reporting)
   - [⚡️ 4. Multi-Format Validation](#️-4-multi-format-validation)
-  - [⚡️ 5. Construction Price Estimation Pipeline for Revit and IFC with LLM](#️-5-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
-  - [⚡️ 6. Carbon Footprint CO2 Estimator for Revit and IFC with LLM](#️-6-carbon-footprint-co2-estimator-for-revit-and-ifc-with-llm-ai)
-  - [⚡️ 7. Simple ETL for LLM Use Cases](#️-6-simple-etl-for-llm-use-cases)
-  - [⚡️ 8. Revit and IFC to HTML Quantity Takeoff](#️-7-revit-to-html-quantity-takeoff)
+  - [⚡️ 5. Universal BIM/CAD Classification with AI & RAG](#️-5-universal-bimcad-classification-with-ai--rag)
+  - [⚡️ 6. Construction Price Estimation Pipeline for Revit and IFC with LLM](#️-5-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
+  - [⚡️ 7. Carbon Footprint CO2 Estimator for Revit and IFC with LLM](#️-6-carbon-footprint-co2-estimator-for-revit-and-ifc-with-llm-ai)
+  - [⚡️ 8. Simple ETL for LLM Use Cases](#️-6-simple-etl-for-llm-use-cases)
+  - [⚡️ 9. Revit and IFC to HTML Quantity Takeoff](#️-7-revit-to-html-quantity-takeoff)
 - [Troubleshooting](#troubleshooting)
 - [What is DataFrames?](#what-is-dataframes)
 - [Re-import Data into Revit](#️re-import-data-into-revit)
@@ -243,7 +244,7 @@ Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (
 </p>
 
 #### Installation
-1. Import `grok_BP_26072025_14.json` into n8n via **Workflows > Import from File**.
+1. Import `n8n_3_CAD-BIM-Batch-Converter-Pipeline.json` into n8n via **Workflows > Import from File**.
 2. Update **Set Configuration Parameters** node:
    ```
    converter_path: C:\Converters\datadrivenlibs\RvtExporter.exe
@@ -276,7 +277,7 @@ graph LR;
 
 
 ### ⚡️ 4. Multi-Format CAD (BIM) Validation
-**Files**: `n8n_3_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
+**Files**: `n8n_4_Validation_CAD_BIM_Revit_IFC_DWG.json`, `DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
 Validates CAD/BIM data against predefined rules, generating color-coded Excel reports with data quality metrics.
 
@@ -314,12 +315,86 @@ graph LR;
     I --> J[Save & Open];
 ```
 
+### ⚡️ 5. Universal BIM/CAD Classification with AI & RAG
+**File**: `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json`
+
+Intelligently classifies building elements from CAD/BIM files using AI and ANY classification system - international standards (Omniclass, Uniclass, etc.) or your custom/proprietary classifications. Supports automatic dictionary extraction from mapping files.
+
+#### Key Features
+- **Universal Classification**: Works with ANY classification system - standard or custom
+- **AI-Powered Classification**: Uses LLMs to classify elements with confidence scoring
+- **Smart Mapping**: Automatically extracts dictionaries from Excel, CSV, PDF files
+- **Automatic Filtering**: Separates building elements from drawings/annotations
+- **Hierarchical Support**: Handles both flat and hierarchical classification structures
+- **Volume Analysis**: Includes BoundingBox volume calculations (ft³ to m³)
+- **Professional Reports**: Interactive HTML dashboards + multi-sheet Excel
+- **RAG Technology**: Retrieval-Augmented Generation for accurate classification
+
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Universal_Classification_BIM_CAD.jpg" alt="Universal Classification" width="100%"/>
+</p>
+
+#### Installation
+1. Import `1908_1_Universal_Classification_CAD_BIM_with_AI_RAG.json` into n8n
+2. Configure AI credentials (OpenAI/Anthropic/OpenRouter/Gemini/xAI)
+3. Update **Setup - Define file paths** node:
+   ```
+   path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
+   project_file: C:\Projects\Model.rvt
+   group_by: Type Name
+   classification_name: [Any classification name]
+   optional_mapping_file: C:\Classifications\[your_classification].xlsx
+   optional_help_prompt: "Additional context for AI"
+   ```
+
+#### Classification Flexibility
+This pipeline works with **ANY classification system**:
+- ✅ International standards (Omniclass, Uniclass, MasterFormat, etc.)
+- ✅ National standards (DIN, ГОСТ, NF, BS, etc.)
+- ✅ Company-specific classifications
+- ✅ Custom project classifications
+- ✅ Proprietary coding systems
+- ✅ Any structured classification in Excel/CSV/PDF format
+
+#### Examples of Supported Standards
+- **Omniclass** (North America) - Format: XX-XX XX XX
+- **Uniclass 2015** (UK) - Format: Xx_XX_XX_XX
+- **MasterFormat** (CSI) - Format: XX XX XX
+- **Uniformat II** (ASTM) - Format: Letter+numbers
+- **CoClass** (Sweden) - Alphanumeric codes
+- **Классификатор КЭЦИН** (Russia) - CIM>BE format
+- **NBS** (UK) - Section-based
+- **IFC** (buildingSMART) - IfcXxxxx format
+- **Your Custom System** - Any format you define
+
+#### How It Works
+1. **With Mapping File**: Provide your classification dictionary (Excel/CSV/PDF) - the AI will extract codes and apply them accurately
+2. **Without Mapping File**: AI uses its knowledge to classify according to the standard you specify
+3. **Hybrid Mode**: Combine mapping file with AI intelligence for best results
+
+**⏱️ Processing Time:** 3-10 seconds per element group (varies by LLM model)
+
+```mermaid
+graph LR;
+    A[CAD/BIM File] --> B[Convert to Excel];
+    B --> C[Filter Elements];
+    C --> D{Mapping File?};
+    D -->|Yes| E[Extract Dictionary];
+    D -->|No| F[Direct AI Classification];
+    E --> G[AI Classification with RAG];
+    F --> G;
+    G --> H[Confidence Scoring];
+    H --> I[Professional Reports];
+```
 
 
 
-### ⚡️ 5. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
 
-**File:** `Construction_Price_Estimation_Pipeline.json`
+
+
+
+### ⚡️ 6. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
+**File:** `n8n_6_Construction_Price_Estimation_Pipeline.json`
 
 Automates cost estimation for building elements from CAD/BIM files. Uses AI to classify materials, search market prices, and generate comprehensive cost reports.
 
@@ -359,9 +434,9 @@ graph LR;
 
 
 
-### ⚡️ 6. Carbon Footprint CO2 Estimator for Revit and IFC with LLM (AI)
+### ⚡️ 7. Carbon Footprint CO2 Estimator for Revit and IFC with LLM (AI)
 
-**File:** `n8n_6_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json`
+**File:** `n8n_7_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json`
 
 Calculates embodied carbon emissions for building projects. Analyzes materials, applies emission factors, and generates professional sustainability reports.
 
@@ -406,8 +481,8 @@ graph LR;
 
 
 
-### ⚡️ 7. Simple ETL for LLM Use Cases
-**File**: `n8n_4_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
+### ⚡️ 8. Simple ETL for LLM Use Cases
+**File**: `n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
 
@@ -433,8 +508,8 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
 
 
 
-### ⚡️ 8. Revit to HTML Quantity Takeoff
-**File**: `n8n_5_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
+### ⚡️ 9. Revit to HTML Quantity Takeoff
+**File**: `n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
 
