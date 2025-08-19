@@ -331,7 +331,7 @@ Intelligently classifies building elements from CAD/BIM files using AI and ANY c
 - **RAG Technology**: Retrieval-Augmented Generation for accurate classification
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n_Universal_Classification_BIM_CAD.jpg" alt="Universal Classification" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/Auto-classification-CAD-BIM.jpg" alt="Universal Classification" width="100%"/>
 </p>
 
 #### Installation
