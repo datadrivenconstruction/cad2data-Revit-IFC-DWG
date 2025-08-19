@@ -1,0 +1,2179 @@
+{
+  "name": "1908_1 ✅✅✅✅✅✅ +Ai2 +replace cleane node +gutrag +projecttype_+RAG_+BBOX_Full_Project_Revit_Auto_classified_CAD copy",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        256
+      ],
+      "id": "feeb1383-b15b-4d8d-ae17-3c176d0dd975",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst items = $input.all();\nif (items.length === 0) {\n  return [{json: {error: 'No grouped data found'}}];\n}\n\n\nconst headers = Object.keys(items[0].json);\n\n\nconst categoryPatterns = [\n  { pattern: /^category$/i, type: 'Category' },\n  { pattern: /^ifc[\\s_-]?type$/i, type: 'IFC' },\n  { pattern: /^host[\\s_-]?category$/i, type: 'Host' },\n  { pattern: /^ifc[\\s_-]?export[\\s_-]?as$/i, type: 'Export' },\n  { pattern: /^layer$/i, type: 'Layer' }\n];\n\nlet categoryField = null;\nlet categoryFieldType = 'None';\n\n\nfor (const header of headers) {\n  for (const {pattern, type} of categoryPatterns) {\n    if (pattern.test(header)) {\n      categoryField = header;\n      categoryFieldType = type;\n      break;\n    }\n  }\n  if (categoryField) break;\n}\n\n\nconst volumetricPatterns = /volume|area|length|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass/i;\nconst volumetricFields = headers.filter(header => volumetricPatterns.test(header));\n\n\nconst categoryValues = new Set();\nif (categoryField) {\n  items.forEach(item => {\n    const value = item.json[categoryField];\n    if (value && value !== '' && value !== null) {\n      categoryValues.add(value);\n    }\n  });\n}\n\nconsole.log('Category field analysis:');\nconsole.log('- Field found:', categoryField || 'None');\nconsole.log('- Field type:', categoryFieldType);\nconsole.log('- Unique values:', categoryValues.size);\nconsole.log('- Volumetric fields:', volumetricFields.length);\n\n\nreturn [{\n  json: {\n    categoryField: categoryField,\n    categoryFieldType: categoryFieldType,\n    categoryValues: Array.from(categoryValues),\n    volumetricFields: volumetricFields,\n    groupedData: items.map(item => item.json),\n    totalGroups: items.length\n  }\n}];"
+      },
+      "id": "2f95b5df-eb62-445d-80ef-5e2e1e6495bd",
+      "name": "Find Category Fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        1088
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst categoryInfo = $node['Find Category Fields'].json;\nconst groupedData = categoryInfo.groupedData;\nconst categoryField = categoryInfo.categoryField;\nconst volumetricFields = categoryInfo.volumetricFields || [];\n\n\nlet classifications = {};\nlet buildingCategories = [];\nlet drawingCategories = [];\n\ntry {\n  const aiResponse = $input.first().json;\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    classifications = parsed.classifications || {};\n    buildingCategories = parsed.building_categories || [];\n    drawingCategories = parsed.drawing_categories || [];\n    console.log(`AI classified ${Object.keys(classifications).length} categories`);\n    console.log(`Building categories: ${buildingCategories.length}`);\n    console.log(`Drawing categories: ${drawingCategories.length}`);\n  }\n} catch (error) {\n  console.error('Error parsing AI classification:', error.message);\n}\n\n\nreturn groupedData.map(group => {\n  let isBuildingElement = false;\n  let reason = '';\n  let confidence = 0;\n  \n  if (categoryField && group[categoryField]) {\n    \n    const categoryValue = group[categoryField];\n    \n    if (classifications[categoryValue] !== undefined) {\n      isBuildingElement = classifications[categoryValue];\n      confidence = 95;\n      reason = `Category '${categoryValue}' classified by AI as ${isBuildingElement ? 'building element' : 'drawing/annotation'}`;\n    } else {\n      \n      const lowerCategory = categoryValue.toLowerCase();\n      const drawingKeywords = /annotation|drawing|text|dimension|tag|arial|arial|sketchlines|divisionrules|labels|lines|sketch|view|sheet|grid|section|elevation|callout|revision|legend|symbol|mark|note|detail items|filled region|detail line/i;\n      const buildingKeywords = /wall|floor|roof|column|beam|door|window|stair|pipe|duct|equipment|fixture|furniture/i;\n      \n      if (drawingKeywords.test(lowerCategory)) {\n        isBuildingElement = false;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched drawing keywords`;\n      } else if (buildingKeywords.test(lowerCategory)) {\n        isBuildingElement = true;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched building keywords`;\n      } else {\n        \n        isBuildingElement = true;\n        confidence = 70;\n        reason = `Category '${categoryValue}' assumed as building element (no clear match)`;\n      }\n    }\n  } else {\n    \n    let hasSignificantVolumetricData = false;\n    let volumetricCount = 0;\n    \n    for (const field of volumetricFields) {\n      const value = parseFloat(group[field]);\n      if (!isNaN(value) && value > 0) {\n        hasSignificantVolumetricData = true;\n        volumetricCount++;\n      }\n    }\n    \n    isBuildingElement = hasSignificantVolumetricData;\n    confidence = hasSignificantVolumetricData ? 80 : 60;\n    reason = hasSignificantVolumetricData ? \n      `Has ${volumetricCount} volumetric parameters with values` : \n      'No category field and no significant volumetric data';\n  }\n  \n  return {\n    json: {\n      ...group,\n      is_building_element: isBuildingElement,\n      element_confidence: confidence,\n      element_reason: reason\n    }\n  };\n});"
+      },
+      "id": "de1312f3-d246-40d0-9c7a-b1fb4b3199af",
+      "name": "Apply Classification to Groups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "Non-building elements (drawings, annotations, etc.)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4045154c-4cb6-48d8-a4d0-0249fbf26598",
+      "name": "Non-Building Elements Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2032,
+        1232
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.is_building_element }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "a187ef36-d152-4a39-a757-80ec275902d6",
+      "name": "Is Building Element",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
+        "height": 148,
+        "width": 292
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2ca948a7-e4bd-4801-8abd-f743cc78213e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Modified Group Data with AI Rules node with feet to meters conversion\nconst input = $input.first().json;\nconst aggregationRules = input.aggregationRules;\nconst headerMapping = input.headerMapping;\nconst rawData = input.rawData;\nconst groupByParamOriginal = input.groupByParam;\n\n// Conversion factor from cubic feet to cubic meters\nconst CUBIC_FEET_TO_CUBIC_METERS = 0.0283168;\n\n// Map the groupBy parameter\nconst groupByParam = headerMapping[groupByParamOriginal] || groupByParamOriginal;\n\nconsole.log(`Grouping ${rawData.length} items by: ${groupByParam}`);\n\n// Check if we have BoundingBox columns\nconst hasBoundingBox = Object.keys(headerMapping).some(key => \n  key.includes('BoundingBoxMin_X') || key.includes('BoundingBoxMax_X')\n);\n\n// Clean and prepare data\nconst cleanedData = rawData.map(item => {\n  const cleaned = {};\n  Object.entries(item).forEach(([key, value]) => {\n    const newKey = headerMapping[key] || key;\n    cleaned[newKey] = value;\n  });\n  \n  // Calculate BoundingBox volume if we have the necessary columns\n  if (hasBoundingBox) {\n    // Extract coordinates (in feet)\n    const minX = parseFloat(cleaned['BoundingBoxMin_X'] || 0);\n    const minY = parseFloat(cleaned['BoundingBoxMin_Y'] || 0);\n    const minZ = parseFloat(cleaned['BoundingBoxMin_Z'] || 0);\n    const maxX = parseFloat(cleaned['BoundingBoxMax_X'] || 0);\n    const maxY = parseFloat(cleaned['BoundingBoxMax_Y'] || 0);\n    const maxZ = parseFloat(cleaned['BoundingBoxMax_Z'] || 0);\n    \n    // Calculate volume in cubic feet: (maxX - minX) * (maxY - minY) * (maxZ - minZ)\n    const volumeCubicFeet = Math.abs((maxX - minX) * (maxY - minY) * (maxZ - minZ));\n    \n    // Convert to cubic meters\n    const volumeCubicMeters = volumeCubicFeet * CUBIC_FEET_TO_CUBIC_METERS;\n    \n    cleaned['BoundingBox_Volume'] = volumeCubicMeters;\n    \n    console.log(`Item BoundingBox: ${volumeCubicFeet.toFixed(2)} ft³ = ${volumeCubicMeters.toFixed(4)} m³`);\n  }\n  \n  return cleaned;\n});\n\n// Group the data\nconst grouped = {};\n\ncleanedData.forEach(item => {\n  const groupKey = item[groupByParam];\n  \n  if (!groupKey || groupKey === '' || groupKey === null) return;\n  \n  if (!grouped[groupKey]) {\n    grouped[groupKey] = {\n      _count: 0,\n      _values: {},\n      _boundingBoxVolumes: [] // Store individual volumes for summing (already in m³)\n    };\n    \n    // Initialize value arrays for all parameters\n    Object.keys(aggregationRules).forEach(param => {\n      if (param !== groupByParam) {\n        grouped[groupKey]._values[param] = [];\n      }\n    });\n    \n    // Add BoundingBox_Volume to values if it exists\n    if (hasBoundingBox) {\n      grouped[groupKey]._values['BoundingBox_Volume'] = [];\n    }\n  }\n  \n  grouped[groupKey]._count++;\n  \n  // Store BoundingBox volume if calculated (already in m³)\n  if (item['BoundingBox_Volume'] !== undefined) {\n    grouped[groupKey]._boundingBoxVolumes.push(item['BoundingBox_Volume']);\n  }\n  \n  // Collect values for aggregation\n  Object.entries(item).forEach(([key, value]) => {\n    if (key === groupByParam) return;\n    \n    if (value !== null && value !== undefined && value !== '' && grouped[groupKey]._values[key]) {\n      grouped[groupKey]._values[key].push(value);\n    }\n  });\n});\n\n// Process aggregation\nconst result = [];\n\nObject.entries(grouped).forEach(([groupKey, groupData]) => {\n  const aggregated = {\n    [groupByParam]: groupKey,\n    'Element Count': groupData._count\n  };\n  \n  // Add summed BoundingBox_Volume if we have it (in m³)\n  if (groupData._boundingBoxVolumes.length > 0) {\n    const totalBoundingBoxVolume = groupData._boundingBoxVolumes.reduce((sum, vol) => sum + vol, 0);\n    aggregated['BoundingBox_Volume_Total'] = Math.round(totalBoundingBoxVolume * 10000) / 10000; // Round to 4 decimal places\n    console.log(`Group ${groupKey} - Total BoundingBox Volume: ${aggregated['BoundingBox_Volume_Total'].toFixed(4)} m³`);\n  }\n  \n  // Process other aggregations\n  Object.entries(groupData._values).forEach(([param, values]) => {\n    // Skip BoundingBox_Volume as we've already handled it\n    if (param === 'BoundingBox_Volume') return;\n    \n    // Special handling for BoundingBox min/max coordinates - use 'first' rule\n    if (param.includes('BoundingBoxMin') || param.includes('BoundingBoxMax')) {\n      aggregated[param] = values[0];\n      return;\n    }\n    \n    const rule = aggregationRules[param] || 'first';\n    \n    if (values.length === 0) {\n      aggregated[param] = null;\n      return;\n    }\n    \n    switch(rule) {\n      case 'sum':\n        const numericValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? 0 : num;\n        });\n        aggregated[param] = numericValues.reduce((a, b) => a + b, 0);\n        \n        if (aggregated[param] % 1 !== 0) {\n          aggregated[param] = Math.round(aggregated[param] * 100) / 100;\n        }\n        break;\n        \n      case 'mean':\n      case 'average':\n        const avgValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? null : num;\n        }).filter(v => v !== null);\n        \n        if (avgValues.length > 0) {\n          const avg = avgValues.reduce((a, b) => a + b, 0) / avgValues.length;\n          aggregated[param] = Math.round(avg * 100) / 100;\n        } else {\n          aggregated[param] = values[0];\n        }\n        break;\n        \n      case 'first':\n      default:\n        aggregated[param] = values[0];\n        break;\n    }\n  });\n  \n  result.push({ json: aggregated });\n});\n\n// Sort results\nresult.sort((a, b) => {\n  const aVal = a.json[groupByParam];\n  const bVal = b.json[groupByParam];\n  if (aVal < bVal) return -1;\n  if (aVal > bVal) return 1;\n  return 0;\n});\n\nconsole.log(`\\nGrouping complete:`);\nconsole.log(`- Input items: ${cleanedData.length}`);\nconsole.log(`- Output groups: ${result.length}`);\nconsole.log(`- Parameters processed: ${Object.keys(aggregationRules).length}`);\nif (hasBoundingBox) {\n  console.log(`- BoundingBox volumes calculated (converted from ft³ to m³)`);\n  console.log(`- Conversion factor used: 1 ft³ = ${CUBIC_FEET_TO_CUBIC_METERS} m³`);\n}\n\n// Summary of aggregation rules\nconst rulesSummary = { sum: [], mean: [], first: [] };\nObject.entries(aggregationRules).forEach(([param, rule]) => {\n  if (rulesSummary[rule]) rulesSummary[rule].push(param);\n});\n\nconsole.log('\\nAggregation summary:');\nif (rulesSummary.sum.length > 0) {\n  console.log(`- SUM (${rulesSummary.sum.length}): ${rulesSummary.sum.slice(0, 5).join(', ')}${rulesSummary.sum.length > 5 ? '...' : ''}`);\n}\nif (rulesSummary.mean.length > 0) {\n  console.log(`- MEAN (${rulesSummary.mean.length}): ${rulesSummary.mean.slice(0, 5).join(', ')}${rulesSummary.mean.length > 5 ? '...' : ''}`);\n}\nif (rulesSummary.first.length > 0) {\n  console.log(`- FIRST (${rulesSummary.first.length}): ${rulesSummary.first.slice(0, 5).join(', ')}${rulesSummary.first.length > 5 ? '...' : ''}`);\n}\n\nreturn result;"
+      },
+      "id": "f0a30319-6ad2-42ff-8ca3-3102a1d5315d",
+      "name": "Group Data with AI Rules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\n const items = $input.all();\n if (items.length === 0) {\n  throw new Error('No data found in Excel file');\n }\n\n\n const allHeaders = new Set();\n items.forEach(item => {\n  Object.keys(item.json).forEach(key => allHeaders.add(key));\n });\n\n\n const headers = Array.from(allHeaders);\n const cleanedHeaders = headers.map(header => {\n  return header.replace(/:\\s*(string|double|int|float|boolean|number)\\s*$/i, '').trim();\n });\n\n\n const headerMapping = {};\n headers.forEach((oldHeader, index) => {\n  headerMapping[oldHeader] = cleanedHeaders[index];\n });\n\n\n const sampleValues = {};\n cleanedHeaders.forEach((header, index) => {\n  const originalHeader = headers[index];\n  for (const item of items) {\n    const value = item.json[originalHeader];\n    if (value !== null && value !== undefined && value !== '') {\n      sampleValues[header] = value;\n      break;\n    }\n  }\n  if (!sampleValues[header]) {\n    sampleValues[header] = null;\n  }\n });\n\n console.log(`Found ${headers.length} unique headers across ${items.length} items`);\n\n\n return [{\n  json: {\n    headers: cleanedHeaders,\n    originalHeaders: headers,\n    headerMapping: headerMapping,\n    sampleValues: sampleValues,\n    totalRows: items.length,\n    totalHeaders: headers.length,\n    \n    rawData: items.map(item => item.json)\n  }\n }];"
+      },
+      "id": "a5f996b4-a0d5-409e-b28c-4cb416686343",
+      "name": "Extract Headers and Data1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json.path_to_file }}"
+      },
+      "id": "95cefffb-3012-4afb-81ca-b4825fbaa608",
+      "name": "Read Excel File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        896,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "fileFormat": "xlsx",
+        "options": {
+          "headerRow": true,
+          "includeEmptyCells": false,
+          "sheetName": "={{ $node['Set Parameters'].json.sheet_name }}"
+        }
+      },
+      "id": "178bd9db-5779-44a1-a8d4-a3385b2207e0",
+      "name": "Parse Excel",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $json[\"project_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
+              "type": "string"
+            },
+            {
+              "id": "path-to-converter-pass",
+              "name": "path_to_converter",
+              "value": "={{ $json[\"path_to_converter\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "project-file-pass",
+              "name": "project_file",
+              "value": "={{ $json[\"project_file\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        256
+      ],
+      "id": "6507807b-0415-495e-9a52-e3e83652828b",
+      "name": "Create - Excel filename"
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json[\"xlsx_filename\"] }}"
+      },
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        256
+      ],
+      "id": "d5b77dfd-60f6-4fb3-8805-6b2a8431fa1c",
+      "name": "Check - Does Excel file exist?",
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "e7fb1577-e753-43f5-9f5a-4d5285aeb96e",
+              "leftValue": "={{ $binary.data ? true : false }}",
+              "rightValue": "={{ true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "70423ec0-0a2e-4215-8f68-93c4eb0a1e19",
+      "name": "If - File exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=\"{{$node[\"Setup - Define file paths1\"].json[\"path_to_converter\"]}}\" \"{{$node[\"Setup - Define file paths1\"].json[\"project_file\"]}}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        464
+      ],
+      "id": "19b6597b-d1fc-4944-b79f-fd809be8d859",
+      "name": "Extract - Run converter",
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "status-id",
+              "name": "status",
+              "value": "File already exists - skipping conversion",
+              "type": "string"
+            },
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1808,
+        240
+      ],
+      "id": "f22baeed-ac78-4954-9185-0d8a4dfc0cb7",
+      "name": "Info - Skip conversion"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition1",
+              "leftValue": "={{ $node[\"Extract - Run converter\"].json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e84e9bd9-748b-4132-ad94-1a19d7f0690c",
+      "name": "Check - Did extraction succeed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "error-message-id",
+              "name": "error_message",
+              "value": "=Extraction failed: {{ $node[\"Extract - Run converter\"].json.error || \"Unknown error\" }}",
+              "type": "string"
+            },
+            {
+              "id": "error-code-id",
+              "name": "error_code",
+              "value": "={{ $node[\"Extract - Run converter\"].json.code || -1 }}",
+              "type": "number"
+            },
+            {
+              "id": "xlsx-filename-error",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc4c68a8-f1ca-48a8-bf92-27219ea89ae6",
+      "name": "Error - Show what went wrong",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1808,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-success",
+              "name": "xlsx_filename",
+              "value": "={{ $node[\"Create - Excel filename\"].json[\"xlsx_filename\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1808,
+        576
+      ],
+      "id": "ee54a42a-49bf-4a9d-92f1-ec59266e5628",
+      "name": "Set xlsx_filename after success"
+    },
+    {
+      "parameters": {},
+      "id": "7e39c3f2-c1aa-4a06-8f76-fcb32b1d0da6",
+      "name": "Merge - Continue workflow",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2016,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "path-id",
+              "name": "path_to_file",
+              "value": "={{ $json.xlsx_filename }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eb6fbd68-010e-4a74-89bc-90cff3cdf1ae",
+      "name": "Set Parameters",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2176,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\n const aiResponse = $input.first().json;\n const headerData = $node['Extract Headers and Data1'].json;\n\n\n let aiRules = {};\n try {\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  console.log('AI Response received, length:', content.length);\n  \n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    aiRules = parsed.aggregation_rules || parsed.parameter_aggregation || {};\n    console.log(`AI provided ${Object.keys(aiRules).length} rules`);\n  } else {\n    console.warn('No JSON found in AI response');\n  }\n } catch (error) {\n  console.error('Error parsing AI response:', error.message);\n }\n\n\n const finalRules = {};\n headerData.headers.forEach(header => {\n  if (aiRules[header]) {\n    finalRules[header] = aiRules[header];\n  } else {\n    \n    const lowerHeader = header.toLowerCase();\n    \n    if (lowerHeader.match(/volume|area|length|width|height|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass|total|amount|number/)) {\n      finalRules[header] = 'sum';\n    } else if (lowerHeader.match(/price|rate|cost|coefficient|factor|percent|ratio|efficiency|avg|average|mean/)) {\n      finalRules[header] = 'mean';\n    } else {\n      finalRules[header] = 'first';\n    }\n  }\n });\n\n const groupByParam = $node['Setup - Define file paths1'].json.group_by;\n\n console.log(`\\nAggregation rules summary:`);\n console.log(`- Total headers: ${headerData.headers.length}`);\n console.log(`- AI rules: ${Object.keys(aiRules).length}`);\n console.log(`- Default rules: ${headerData.headers.length - Object.keys(aiRules).length}`);\n console.log(`- Group by: ${groupByParam}`);\n\n\n return [{\n  json: {\n    aggregationRules: finalRules,\n    headerMapping: headerData.headerMapping,\n    headers: headerData.headers,\n    originalHeaders: headerData.originalHeaders,\n    rawData: headerData.rawData,\n    groupByParam: groupByParam,\n    totalRows: headerData.totalRows\n  }\n }];"
+      },
+      "id": "3cd37eaa-4ef1-4609-a763-a8f8480f7895",
+      "name": "Process AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## About n8n workflow\nThis is a comprehensive BIM/CAD classification and analysis pipeline that:\n\n1. **Extracts** data from Revit/IFC/DWG/DGN files\n2. **Processes** and groups element data\n3. **Classifies** elements using AI and mapping files\n4. **Generates** professional reports\n\nSupports multiple classification systems\n",
+        "height": 400,
+        "width": 288,
+        "color": 4
+      },
+      "id": "1612ceb5-710d-4a19-af1f-d6fc24b49b31",
+      "name": "Important Notes1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# LLM-CAD-BIM Classification Engine + RAG\nLarge Language Model Engine and RAG for UniverCAD-sal Classification BIM\nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto)",
+        "height": 144,
+        "width": 776,
+        "color": 5
+      },
+      "id": "e5709d10-9274-41ca-8b29-b4433d958630",
+      "name": "Conversion Block3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RvtExporter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "height": 432,
+        "width": 288
+      },
+      "id": "160bea54-d069-4b3b-9b89-97fe93fe5558",
+      "name": "Setup Instructions1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enhanced Excel styling configuration\nconst excelBuffer = $input.first().binary.data;\nconst fileName = `Price_Estimation_Report_${new Date().toISOString().slice(0,10)}.xlsx`;\n\n// Add metadata to the file\nconst metadata = {\n  title: 'Price Estimation Analysis Report',\n  author: 'DataDrivenConstruction.io',\n  company: 'Automated Price Estimation System',\n  created: new Date().toISOString(),\n  description: 'Comprehensive project cost assessment with multi-standard material classification',\n  keywords: 'Price, Cost Estimation, Building Materials'\n};\n\n// Return the enhanced Excel file\nreturn [{\n  json: {\n    fileName: fileName,\n    fileSize: excelBuffer.data.length,\n    sheets: 8,\n    metadata: metadata,\n    timestamp: new Date().toISOString()\n  },\n  binary: {\n    data: {\n      ...excelBuffer,\n      fileName: fileName,\n      fileExtension: 'xlsx',\n      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'\n    }\n  }\n}];"
+      },
+      "id": "9888cfde-3da8-45ae-8aa7-abd9e0e6c190",
+      "name": "Enhance Excel Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare comprehensive data for multi-sheet Excel export\nconst items = $input.all();\nconst context = $getWorkflowStaticData('global').classificationSummary || {};\nconst projectFile = $node['Setup - Define file paths1'].json.project_file || '';\nconst classificationName = $node['Setup - Define file paths1'].json.classification_name || 'Unknown';\n\n// Helper function to clean values\nconst cleanValue = (value) => {\n  if (value === null || value === undefined) return '';\n  return value;\n};\n\n// Calculate statistics\nconst totalGroups = items.length;\nconst totalElements = items.reduce((sum, item) => sum + (parseInt(item.json['Element Count']) || 0), 0);\nconst classifiedGroups = items.filter(item => \n  item.json['Classification_Code'] !== 'ERROR' && \n  item.json['Classification_Code'] !== 'Unclassified'\n).length;\n\n// Group by classification for summary\nconst byClassification = {};\nitems.forEach(item => {\n  const code = item.json['Classification_Code'] || 'Unclassified';\n  if (!byClassification[code]) {\n    byClassification[code] = {\n      name: item.json['Classification_Name'],\n      count: 0,\n      elements: 0,\n      confidence: []\n    };\n  }\n  byClassification[code].count++;\n  byClassification[code].elements += parseInt(item.json['Element Count']) || 0;\n  byClassification[code].confidence.push(parseFloat(item.json['Classification_Confidence']) || 0);\n});\n\n// Calculate average confidence per class\nObject.keys(byClassification).forEach(code => {\n  const confidences = byClassification[code].confidence;\n  byClassification[code].avgConfidence = confidences.reduce((a, b) => a + b, 0) / confidences.length;\n});\n\n// Sheet 1: Executive Summary\nconst executiveSummary = [\n  {\n    'Metric': 'Project File',\n    'Value': projectFile.split('\\\\').pop(),\n    'Category': 'Project Information'\n  },\n  {\n    'Metric': 'Classification System',\n    'Value': classificationName,\n    'Category': 'Project Information'\n  },\n  {\n    'Metric': 'Project Type',\n    'Value': context.projectType || 'Unknown',\n    'Category': 'Project Information'\n  },\n  {\n    'Metric': 'Total Element Groups',\n    'Value': totalGroups,\n    'Category': 'Statistics'\n  },\n  {\n    'Metric': 'Total Individual Elements',\n    'Value': totalElements,\n    'Category': 'Statistics'\n  },\n  {\n    'Metric': 'Successfully Classified',\n    'Value': classifiedGroups,\n    'Category': 'Statistics'\n  },\n  {\n    'Metric': 'Classification Rate (%)',\n    'Value': ((classifiedGroups/totalGroups)*100).toFixed(2),\n    'Category': 'Statistics'\n  },\n  {\n    'Metric': 'Unique Classification Codes',\n    'Value': Object.keys(byClassification).length,\n    'Category': 'Statistics'\n  },\n  {\n    'Metric': 'Mapping Rules Available',\n    'Value': context.totalMappingRules || 0,\n    'Category': 'Mapping'\n  },\n  {\n    'Metric': 'Items Using Mapping',\n    'Value': items.filter(item => item.json['Mapping_Used'] === 'Yes').length,\n    'Category': 'Mapping'\n  },\n  {\n    'Metric': 'Average Confidence (%)',\n    'Value': (items.reduce((sum, item) => sum + (parseFloat(item.json['Classification_Confidence']) || 0), 0) / items.length).toFixed(2),\n    'Category': 'Quality'\n  },\n  {\n    'Metric': 'Report Generated',\n    'Value': new Date().toLocaleString(),\n    'Category': 'Metadata'\n  }\n];\n\n// Sheet 2: Classification Summary\nconst classificationSummary = Object.entries(byClassification)\n  .sort((a, b) => b[1].count - a[1].count)\n  .map(([code, data], index) => ({\n    'Rank': index + 1,\n    'Classification_Code': code,\n    'Classification_Name': data.name || 'Unknown',\n    'Group_Count': data.count,\n    'Element_Count': data.elements,\n    'Percentage_of_Total': ((data.count / totalGroups) * 100).toFixed(2),\n    'Average_Confidence': data.avgConfidence.toFixed(2),\n    'Confidence_Level': data.avgConfidence >= 80 ? 'High' : data.avgConfidence >= 60 ? 'Medium' : 'Low'\n  }));\n\n// Sheet 3: Detailed Classification Results\nconst detailedResults = items.map((item, index) => {\n  const data = item.json;\n  return {\n    'Index': index + 1,\n    'Element_Group': cleanValue(data['Type Name'] || data['Family'] || data['Category']),\n    'Category': cleanValue(data['Category']),\n    'Family': cleanValue(data['Family']),\n    'Type_Name': cleanValue(data['Type Name']),\n    'Element_Count': parseInt(data['Element Count']) || 0,\n    'Classification_Code': cleanValue(data['Classification_Code']),\n    'Classification_Name': cleanValue(data['Classification_Name']),\n    'Classification_Level': cleanValue(data['Classification_Level']),\n    'Parent_Class': cleanValue(data['Parent_Class']),\n    'Confidence_%': parseFloat(data['Classification_Confidence']) || 0,\n    'Mapping_Used': cleanValue(data['Mapping_Used']),\n    'Alternative_Classes': cleanValue(data['Alternative_Classes']),\n    'Classification_Reasoning': cleanValue(data['Classification_Reasoning']),\n    'Status': cleanValue(data['Classification_Status']),\n    'Timestamp': cleanValue(data['Classification_Timestamp'])\n  };\n});\n\n// Sheet 4: Original Element Parameters (first 50 items with all original parameters)\nconst elementParameters = items.slice(0, Math.min(50, items.length)).map((item, index) => {\n  const data = { ...item.json };\n  // Remove internal fields\n  delete data._systemPrompt;\n  delete data._userPrompt;\n  delete data._directMapping;\n  delete data._originalData;\n  \n  return {\n    'Index': index + 1,\n    ...data\n  };\n});\n\n// Sheet 5: Failed Classifications (if any)\nconst failedClassifications = items\n  .filter(item => item.json['Classification_Status'] === 'Failed' || item.json['Classification_Code'] === 'ERROR')\n  .map((item, index) => ({\n    'Index': index + 1,\n    'Element_Group': item.json['Type Name'] || item.json['Category'] || 'Unknown',\n    'Category': item.json['Category'] || '',\n    'Error': item.json['Error'] || 'Unknown error',\n    'Element_Count': parseInt(item.json['Element Count']) || 0\n  }));\n\n// Sheet 6: Mapping Analysis (if mapping was used)\nconst mappingAnalysis = items\n  .filter(item => item.json['Mapping_Used'] === 'Yes')\n  .map((item, index) => ({\n    'Index': index + 1,\n    'Source_Category': item.json['Category'] || item.json['Type Name'] || 'Unknown',\n    'Mapped_To_Code': item.json['Classification_Code'],\n    'Mapped_To_Name': item.json['Classification_Name'],\n    'Confidence': parseFloat(item.json['Classification_Confidence']) || 0,\n    'Element_Count': parseInt(item.json['Element Count']) || 0\n  }));\n\n// Sheet 7: Low Confidence Items (confidence < 60%)\nconst lowConfidenceItems = items\n  .filter(item => parseFloat(item.json['Classification_Confidence']) < 60)\n  .sort((a, b) => parseFloat(a.json['Classification_Confidence']) - parseFloat(b.json['Classification_Confidence']))\n  .map((item, index) => ({\n    'Index': index + 1,\n    'Element_Group': item.json['Type Name'] || item.json['Category'] || 'Unknown',\n    'Category': item.json['Category'] || '',\n    'Classification_Code': item.json['Classification_Code'],\n    'Classification_Name': item.json['Classification_Name'],\n    'Confidence_%': parseFloat(item.json['Classification_Confidence']) || 0,\n    'Reasoning': item.json['Classification_Reasoning'] || '',\n    'Alternative_Classes': item.json['Alternative_Classes'] || ''\n  }));\n\n// Create worksheet structure\nconst worksheets = [\n  { name: 'Summary', data: executiveSummary },\n  { name: 'Classification Summary', data: classificationSummary },\n  { name: 'Detailed Results', data: detailedResults },\n  { name: 'Element Parameters', data: elementParameters },\n  { name: 'Failed Classifications', data: failedClassifications.length > 0 ? failedClassifications : [{ Message: 'No failed classifications' }] },\n  { name: 'Mapping Analysis', data: mappingAnalysis.length > 0 ? mappingAnalysis : [{ Message: 'No mapping rules were used' }] },\n  { name: 'Low Confidence', data: lowConfidenceItems.length > 0 ? lowConfidenceItems : [{ Message: 'No low confidence items' }] }\n];\n\n// Flatten all data with sheet markers for n8n spreadsheet node\nconst allData = [];\nworksheets.forEach(sheet => {\n  sheet.data.forEach(row => {\n    allData.push({\n      json: {\n        ...row,\n        _sheetName: sheet.name\n      }\n    });\n  });\n});\n\nconsole.log(`Prepared ${allData.length} rows across ${worksheets.length} sheets`);\n\nreturn allData;"
+      },
+      "id": "45d423b7-40b1-43cc-aa11-96bf43cb10d3",
+      "name": "Prepare Excel Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "xlsx",
+        "options": {
+          "fileName": "=Price_Estimation_Report_{{ $now.format('yyyy-MM-dd') }}",
+          "headerRow": true,
+          "sheetName": "={{ $json._sheetName }}"
+        }
+      },
+      "id": "1e9e1723-38c0-46c4-a387-0a1d331572b3",
+      "name": "Create Excel File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Similar logic for Excel file\nconst projectFile = $node['Setup - Define file paths1'].json.project_file;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst excelFileName = `CO2_Analysis_Professional_Report_${timestamp}.xlsx`;\nconst fullPath = `${path}\\\\${excelFileName}`;\n\nconsole.log('Excel file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    excel_filename: excelFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "b8294f10-06f8-4eeb-9983-8b97f14676ce",
+      "name": "Prepare Excel Path1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.full_path }}",
+        "options": {}
+      },
+      "id": "91590b84-80c4-4738-af67-077ae0315290",
+      "name": "Write Excel to Project Folder1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        2736
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate professional classification report with volume analysis and model information\nconst items = $input.all();\nconst context = $getWorkflowStaticData('global').classificationSummary || {};\nconst projectFile = $node['Setup - Define file paths1'].json.project_file || '';\nconst classificationName = $node['Setup - Define file paths1'].json.classification_name || 'Unknown Classification';\nconst projectName = projectFile.split('\\\\').pop().replace(/\\.(rvt|ifc|dwg|dgn)$/i, '').replace(/_/g, ' ');\n\n// Get model name from global storage\nconst modelName = $getWorkflowStaticData('global').aiModelName || 'Unknown Model';\n\n// Calculate statistics with volumes\nconst totalGroups = items.length;\nconst totalElements = items.reduce((sum, item) => sum + (parseInt(item.json['Element Count'] || item.json['Element_Count']) || 0), 0);\nconst totalBoundingBoxVolume = items.reduce((sum, item) => sum + (parseFloat(item.json['BoundingBox_Volume_Total']) || 0), 0);\nconst totalRegularVolume = items.reduce((sum, item) => sum + (parseFloat(item.json['Volume']) || 0), 0);\n\nconst classifiedGroups = items.filter(item => \n  item.json['Classification_Code'] !== 'ERROR' && \n  item.json['Classification_Code'] !== 'Unclassified'\n).length;\n\nconst avgConfidence = items.reduce((sum, item) => \n  sum + (parseFloat(item.json['Classification_Confidence']) || 0), 0\n) / items.length;\n\n// Count mapping usage\nconst mappingUsed = items.filter(item => item.json['Mapping_Used'] === 'Yes').length;\n\n// Count model usage for each item\nconst modelUsage = {};\nitems.forEach(item => {\n  const model = item.json['Model_Used'] || 'Unknown';\n  modelUsage[model] = (modelUsage[model] || 0) + 1;\n});\n\n// Group by classification with volumes\nconst byClassification = {};\nitems.forEach(item => {\n  const code = item.json['Classification_Code'] || 'Unclassified';\n  if (!byClassification[code]) {\n    byClassification[code] = {\n      name: item.json['Classification_Name'],\n      count: 0,\n      elements: 0,\n      totalConfidence: 0,\n      boundingBoxVolume: 0,\n      regularVolume: 0,\n      items: []\n    };\n  }\n  byClassification[code].count++;\n  byClassification[code].elements += parseInt(item.json['Element Count'] || item.json['Element_Count']) || 0;\n  byClassification[code].totalConfidence += parseFloat(item.json['Classification_Confidence']) || 0;\n  byClassification[code].boundingBoxVolume += parseFloat(item.json['BoundingBox_Volume_Total']) || 0;\n  byClassification[code].regularVolume += parseFloat(item.json['Volume']) || 0;\n  byClassification[code].items.push(item.json);\n});\n\n// Calculate average confidence per class\nObject.keys(byClassification).forEach(code => {\n  byClassification[code].avgConfidence = byClassification[code].totalConfidence / byClassification[code].count;\n});\n\n// Sort by volume (regular volume as primary sort)\nconst sortedClasses = Object.entries(byClassification)\n  .sort((a, b) => b[1].regularVolume - a[1].regularVolume);\n\n// Prepare multiple chart data\nconst chartLabels = sortedClasses.slice(0, 10).map(([code]) => code);\nconst chartData = sortedClasses.slice(0, 10).map(([, data]) => data.count);\nconst volumeChartData = sortedClasses.slice(0, 10).map(([, data]) => data.regularVolume.toFixed(2));\nconst elementCountChartData = sortedClasses.slice(0, 10).map(([, data]) => data.elements);\n\n// Prepare pie charts data\nconst pieChartDataCount = sortedClasses.slice(0, 8).map(([code, data]) => ({\n  label: `${code}: ${data.name}`,\n  value: data.elements,\n  percentage: ((data.elements / totalElements) * 100).toFixed(1)\n}));\n\nconst pieChartDataVolume = sortedClasses.slice(0, 8).map(([code, data]) => ({\n  label: `${code}: ${data.name}`,\n  value: data.regularVolume.toFixed(2),\n  percentage: totalRegularVolume > 0 ? ((data.regularVolume / totalRegularVolume) * 100).toFixed(1) : '0'\n}));\n\n// Generate recommendations based on analysis\nconst recommendations = [];\nconst lowConfidenceCount = items.filter(item => parseFloat(item.json['Classification_Confidence']) < 60).length;\nconst unclassifiedCount = items.filter(item => item.json['Classification_Code'] === 'Unclassified' || item.json['Classification_Code'] === 'ERROR').length;\n\nif (lowConfidenceCount > 0) {\n  recommendations.push({\n    type: 'warning',\n    icon: '⚠️',\n    text: `${lowConfidenceCount} elements have confidence below 60% - manual review recommended`,\n    priority: 'high'\n  });\n}\n\nif (unclassifiedCount > 0) {\n  recommendations.push({\n    type: 'error',\n    icon: '❌',\n    text: `${unclassifiedCount} elements failed classification - check element data quality`,\n    priority: 'high'\n  });\n}\n\nif (mappingUsed < totalGroups * 0.3 && context.totalMappingRules > 0) {\n  recommendations.push({\n    type: 'info',\n    icon: '💡',\n    text: `Only ${((mappingUsed/totalGroups)*100).toFixed(1)}% of elements use mapping rules - consider expanding mapping file`,\n    priority: 'medium'\n  });\n}\n\nif (avgConfidence > 80) {\n  recommendations.push({\n    type: 'success',\n    icon: '✅',\n    text: `Classification confidence is excellent (${avgConfidence.toFixed(1)}%)`,\n    priority: 'low'\n  });\n}\n\n// Generate HTML with enhanced volume sections and model information\nconst html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>BIM/CAD Classification Analysis Report | ${projectName}</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        \n        :root {\n            --primary-color: #0F4C75;\n            --secondary-color: #3282B8;\n            --accent-color: #BBE1FA;\n            --success-color: #10b981;\n            --warning-color: #f59e0b;\n            --error-color: #ef4444;\n            --bg-primary: #ffffff;\n            --bg-secondary: #f8fafc;\n            --text-primary: #1e293b;\n            --text-secondary: #64748b;\n            --border-color: #e2e8f0;\n        }\n        \n        body {\n            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);\n            min-height: 100vh;\n            padding: 20px;\n        }\n        \n        /* Navigation Menu */\n        .nav-menu {\n            position: fixed;\n            top: 50%;\n            left: 20px;\n            transform: translateY(-50%);\n            background: var(--bg-primary);\n            border-radius: 12px;\n            padding: 20px;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.1);\n            z-index: 999;\n            max-height: 80vh;\n            overflow-y: auto;\n        }\n        \n        .nav-menu h3 {\n            font-size: 14px;\n            color: var(--text-secondary);\n            margin-bottom: 15px;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n        }\n        \n        .nav-menu a {\n            display: block;\n            padding: 10px 15px;\n            color: var(--text-primary);\n            text-decoration: none;\n            border-radius: 8px;\n            margin-bottom: 5px;\n            transition: all 0.3s ease;\n            font-size: 14px;\n        }\n        \n        .nav-menu a:hover {\n            background: var(--bg-secondary);\n            transform: translateX(5px);\n        }\n        \n        .nav-menu a.active {\n            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);\n            color: white;\n        }\n        \n        .container {\n            max-width: 1600px;\n            margin: 0 auto 0 280px;\n            background: var(--bg-primary);\n            border-radius: 24px;\n            box-shadow: 0 25px 80px rgba(0,0,0,0.15);\n            overflow: hidden;\n        }\n        \n        .header {\n            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);\n            color: white;\n            padding: 60px 50px;\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .header::before {\n            content: '';\n            position: absolute;\n            top: -50%;\n            right: -10%;\n            width: 600px;\n            height: 600px;\n            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);\n            animation: float 6s ease-in-out infinite;\n        }\n        \n        @keyframes float {\n            0%, 100% { transform: translateY(0) rotate(0deg); }\n            50% { transform: translateY(-20px) rotate(180deg); }\n        }\n        \n        h1 {\n            font-size: 42px;\n            font-weight: 700;\n            margin-bottom: 15px;\n            letter-spacing: -1px;\n        }\n        \n        .subtitle {\n            font-size: 18px;\n            opacity: 0.95;\n            margin-bottom: 30px;\n        }\n        \n        .meta-info {\n            display: flex;\n            gap: 30px;\n            font-size: 14px;\n            opacity: 0.9;\n            flex-wrap: wrap;\n        }\n        \n        .ai-model-badge {\n            display: inline-block;\n            padding: 8px 16px;\n            background: rgba(255,255,255,0.2);\n            border-radius: 20px;\n            margin-top: 15px;\n            font-weight: 600;\n            backdrop-filter: blur(10px);\n        }\n        \n        /* Print Button */\n        .print-button {\n            position: fixed;\n            bottom: 30px;\n            right: 30px;\n            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);\n            color: white;\n            border: none;\n            padding: 15px 30px;\n            border-radius: 50px;\n            cursor: pointer;\n            font-weight: 600;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.2);\n            transition: all 0.3s ease;\n            z-index: 999;\n        }\n        \n        .print-button:hover {\n            transform: translateY(-3px);\n            box-shadow: 0 6px 30px rgba(0,0,0,0.3);\n        }\n        \n        /* Volume indicators */\n        .volume-badge {\n            display: inline-block;\n            padding: 4px 10px;\n            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);\n            color: white;\n            border-radius: 12px;\n            font-size: 11px;\n            font-weight: 600;\n            margin-left: 8px;\n        }\n        \n        .volume-stat {\n            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);\n            border-left: 3px solid #6366f1;\n        }\n        \n        /* Recommendations Section */\n        .recommendations-section {\n            background: var(--bg-secondary);\n            padding: 40px;\n            margin: 40px 50px;\n            border-radius: 16px;\n            border-left: 4px solid var(--primary-color);\n        }\n        \n        .recommendations-section h2 {\n            font-size: 24px;\n            color: var(--text-primary);\n            margin-bottom: 25px;\n        }\n        \n        .recommendation-item {\n            display: flex;\n            align-items: center;\n            gap: 15px;\n            padding: 15px 20px;\n            background: var(--bg-primary);\n            border-radius: 12px;\n            margin-bottom: 15px;\n            transition: all 0.3s ease;\n            cursor: pointer;\n        }\n        \n        .recommendation-item:hover {\n            transform: translateX(5px);\n            box-shadow: 0 4px 15px rgba(0,0,0,0.1);\n        }\n        \n        .recommendation-item.warning {\n            border-left: 4px solid var(--warning-color);\n        }\n        \n        .recommendation-item.error {\n            border-left: 4px solid var(--error-color);\n        }\n        \n        .recommendation-item.success {\n            border-left: 4px solid var(--success-color);\n        }\n        \n        .recommendation-item.info {\n            border-left: 4px solid var(--secondary-color);\n        }\n        \n        .recommendation-icon {\n            font-size: 24px;\n        }\n        \n        .recommendation-text {\n            flex: 1;\n            color: var(--text-primary);\n        }\n        \n        .stats-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 24px;\n            padding: 40px;\n            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);\n            border-bottom: 1px solid var(--border-color);\n        }\n        \n        .stat-card {\n            background: var(--bg-primary);\n            padding: 24px;\n            border-radius: 16px;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.06);\n            border: 1px solid var(--border-color);\n            transition: all 0.3s ease;\n            cursor: pointer;\n            position: relative;\n        }\n        \n        .stat-card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 8px 30px rgba(0,0,0,0.1);\n        }\n        \n        .stat-card.model-stat {\n            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);\n            border-left: 3px solid #8b5cf6;\n        }\n        \n        .stat-value {\n            font-size: 36px;\n            font-weight: 700;\n            color: var(--primary-color);\n            margin-bottom: 8px;\n        }\n        \n        .stat-label {\n            font-size: 12px;\n            color: var(--text-secondary);\n            text-transform: uppercase;\n            letter-spacing: 1px;\n            font-weight: 600;\n        }\n        \n        .stat-sublabel {\n            font-size: 13px;\n            color: var(--text-secondary);\n            margin-top: 4px;\n        }\n        \n        .content {\n            padding: 50px;\n        }\n        \n        .section-title {\n            font-size: 28px;\n            font-weight: 700;\n            color: var(--text-primary);\n            margin-bottom: 30px;\n            padding-bottom: 15px;\n            border-bottom: 2px solid var(--border-color);\n        }\n        \n        .chart-container {\n            background: var(--bg-primary);\n            padding: 30px;\n            border-radius: 16px;\n            margin-bottom: 40px;\n            box-shadow: 0 4px 20px rgba(0,0,0,0.06);\n            border: 1px solid var(--border-color);\n        }\n        \n        .chart-container h3 {\n            font-size: 20px;\n            color: var(--text-primary);\n            margin-bottom: 20px;\n        }\n        \n        .chart-grid {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 30px;\n            margin-bottom: 40px;\n        }\n        \n        table {\n            width: 100%;\n            border-collapse: separate;\n            border-spacing: 0;\n            margin-top: 20px;\n            border-radius: 12px;\n            overflow: hidden;\n            box-shadow: 0 0 0 1px var(--border-color);\n        }\n        \n        th {\n            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);\n            color: white;\n            padding: 16px;\n            text-align: left;\n            font-weight: 600;\n            font-size: 13px;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n        }\n        \n        td {\n            padding: 14px 16px;\n            border-bottom: 1px solid var(--border-color);\n            font-size: 14px;\n            color: var(--text-primary);\n            background: var(--bg-primary);\n        }\n        \n        tbody tr {\n            cursor: pointer;\n            transition: all 0.2s ease;\n        }\n        \n        tbody tr:hover {\n            background: var(--bg-secondary);\n            transform: translateX(2px);\n        }\n        \n        tbody tr:last-child td {\n            border-bottom: none;\n        }\n        \n        .confidence-badge {\n            display: inline-block;\n            padding: 4px 12px;\n            border-radius: 20px;\n            font-size: 12px;\n            font-weight: 600;\n        }\n        \n        .high-conf { \n            background: linear-gradient(135deg, var(--success-color) 0%, #34d399 100%); \n            color: white;\n        }\n        .med-conf { \n            background: linear-gradient(135deg, var(--warning-color) 0%, #fbbf24 100%); \n            color: white;\n        }\n        .low-conf { \n            background: linear-gradient(135deg, var(--error-color) 0%, #f87171 100%); \n            color: white;\n        }\n        \n        .code-badge {\n            display: inline-block;\n            padding: 6px 14px;\n            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);\n            color: white;\n            border-radius: 8px;\n            font-weight: 600;\n            font-size: 13px;\n        }\n        \n        .model-badge {\n            display: inline-block;\n            padding: 4px 10px;\n            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);\n            color: white;\n            border-radius: 12px;\n            font-size: 11px;\n            font-weight: 600;\n        }\n        \n        .progress-bar {\n            width: 100%;\n            height: 8px;\n            background: var(--border-color);\n            border-radius: 4px;\n            overflow: hidden;\n            margin-top: 8px;\n        }\n        \n        .progress-fill {\n            height: 100%;\n            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--accent-color) 100%);\n            border-radius: 4px;\n            transition: width 0.3s ease;\n        }\n        \n        .footer {\n            background: var(--bg-secondary);\n            padding: 30px 50px;\n            text-align: center;\n            color: var(--text-secondary);\n            font-size: 13px;\n            border-top: 1px solid var(--border-color);\n        }\n        \n        .footer a {\n            color: var(--secondary-color);\n            text-decoration: none;\n            font-weight: 600;\n        }\n        \n        /* Print Styles */\n        @media print {\n            body {\n                background: white;\n                padding: 0;\n            }\n            \n            .container {\n                box-shadow: none;\n                margin: 0;\n                border-radius: 0;\n            }\n            \n            .nav-menu,\n            .print-button {\n                display: none !important;\n            }\n            \n            .header {\n                background: none;\n                color: black;\n                border-bottom: 2px solid #000;\n            }\n            \n            .header::before {\n                display: none;\n            }\n            \n            h1, .subtitle, .meta-info {\n                color: black !important;\n            }\n            \n            .stats-grid {\n                page-break-inside: avoid;\n            }\n            \n            .chart-container {\n                page-break-inside: avoid;\n            }\n            \n            table {\n                page-break-inside: auto;\n            }\n            \n            tr {\n                page-break-inside: avoid;\n                page-break-after: auto;\n            }\n        }\n        \n        @media (max-width: 1200px) {\n            .container {\n                margin-left: 0;\n            }\n            \n            .nav-menu {\n                display: none;\n            }\n        }\n    </style>\n</head>\n<body>    \n    <!-- Navigation Menu -->\n    <nav class=\"nav-menu\" id=\"navMenu\">\n        <h3>Table of Contents</h3>\n        <a href=\"#summary\" class=\"nav-link\">Executive Summary</a>\n        <a href=\"#stats\" class=\"nav-link\">Statistics</a>\n        <a href=\"#recommendations\" class=\"nav-link\">Recommendations</a>\n        <a href=\"#volume-analysis\" class=\"nav-link\">Volume Analysis</a>\n        <a href=\"#classification-summary\" class=\"nav-link\">Classification Summary</a>\n        <a href=\"#detailed-results\" class=\"nav-link\">Detailed Results</a>\n        <a href=\"#distribution-charts\" class=\"nav-link\">Distribution Charts</a>\n    </nav>\n    \n    <!-- Print Button -->\n    <button class=\"print-button\" onclick=\"window.print()\">\n        📄 Print / Save as PDF\n    </button>\n    \n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>BIM/CAD Element Classification Analysis</h1>\n            <div class=\"subtitle\">${projectName}</div>\n            <div class=\"meta-info\">\n                <span>Classification System: ${classificationName}</span>\n                <span>Report Date: ${new Date().toLocaleDateString()}</span>\n                <span>Total Volume: ${totalRegularVolume.toFixed(2)} m³</span>\n            </div>\n            <div class=\"ai-model-badge\">🤖 AI Model: ${modelName}</div>\n        </div>\n        \n        <!-- Enhanced Statistics Grid with Volume Data and Model Info -->\n        <div class=\"stats-grid\" id=\"stats\">\n            <div class=\"stat-card\">\n                <div class=\"stat-value\">${totalGroups}</div>\n                <div class=\"stat-label\">Total Groups</div>\n                <div class=\"stat-sublabel\">${totalElements} elements</div>\n            </div>\n            <div class=\"stat-card\">\n                <div class=\"stat-value\">${classifiedGroups}</div>\n                <div class=\"stat-label\">Successfully Classified</div>\n                <div class=\"stat-sublabel\">${((classifiedGroups/totalGroups)*100).toFixed(1)}% coverage</div>\n            </div>\n            <div class=\"stat-card volume-stat\">\n                <div class=\"stat-value\">${totalRegularVolume.toFixed(2)}</div>\n                <div class=\"stat-label\">Total Volume (m³)</div>\n                <div class=\"stat-sublabel\">Actual element volumes</div>\n            </div>\n            <div class=\"stat-card\">\n                <div class=\"stat-value\">${avgConfidence.toFixed(0)}%</div>\n                <div class=\"stat-label\">Average Confidence</div>\n                <div class=\"stat-sublabel\">Classification accuracy</div>\n            </div>\n            <div class=\"stat-card\">\n                <div class=\"stat-value\">${Object.keys(byClassification).length}</div>\n                <div class=\"stat-label\">Unique Classes</div>\n                <div class=\"stat-sublabel\">Distinct categories</div>\n            </div>\n            <div class=\"stat-card model-stat\">\n                <div class=\"stat-value\" style=\"font-size: 20px;\">${modelName}</div>\n                <div class=\"stat-label\">AI Model Used</div>\n                <div class=\"stat-sublabel\">For classification analysis</div>\n            </div>\n        </div>\n        \n        <!-- Recommendations Section -->\n        <div class=\"recommendations-section\" id=\"recommendations\">\n            <h2>📊 Analysis & Recommendations</h2>\n            ${recommendations.sort((a, b) => {\n                const priorityOrder = { high: 0, medium: 1, low: 2 };\n                return priorityOrder[a.priority] - priorityOrder[b.priority];\n            }).map(rec => `\n                <div class=\"recommendation-item ${rec.type}\">\n                    <span class=\"recommendation-icon\">${rec.icon}</span>\n                    <span class=\"recommendation-text\">${rec.text}</span>\n                </div>\n            `).join('')}\n        </div>\n        \n        <div class=\"content\">\n            <!-- Volume Comparison Charts -->\n            <h2 class=\"section-title\" id=\"volume-analysis\">Volume Analysis by Classification</h2>\n            <div class=\"chart-grid\">\n                <div class=\"chart-container\">\n                    <h3>Element Volume Distribution</h3>\n                    <canvas id=\"volumeChart\"></canvas>\n                </div>\n                <div class=\"chart-container\">\n                    <h3>Element Count Distribution</h3>\n                    <canvas id=\"elementCountChart\"></canvas>\n                </div>\n            </div>\n            \n            <!-- Classification Summary Table with Volumes -->\n            <h2 class=\"section-title\" id=\"classification-summary\">Classification Summary by Code (Sorted by Volume)</h2>\n            <table>\n                <thead>\n                    <tr>\n                        <th style=\"width: 150px;\">Classification Code</th>\n                        <th>Classification Name</th>\n                        <th style=\"width: 80px;\">Groups</th>\n                        <th style=\"width: 80px;\">Elements</th>\n                        <th style=\"width: 100px;\">Volume (m³)</th>\n                        <th style=\"width: 100px;\">Avg Confidence</th>\n                        <th style=\"width: 120px;\">Volume %</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    ${sortedClasses.slice(0, 20).map(([code, data]) => {\n                        const volumePercentage = totalRegularVolume > 0 ? \n                            (data.regularVolume / totalRegularVolume * 100).toFixed(1) : '0';\n                        const confClass = data.avgConfidence >= 80 ? 'high-conf' : \n                                         data.avgConfidence >= 60 ? 'med-conf' : 'low-conf';\n                        \n                        return `\n                        <tr>\n                            <td><span class=\"code-badge\">${code}</span></td>\n                            <td><strong>${data.name}</strong></td>\n                            <td style=\"text-align: center;\">${data.count}</td>\n                            <td style=\"text-align: center;\">${data.elements}</td>\n                            <td style=\"text-align: right;\">\n                                <span class=\"volume-badge\">${data.regularVolume.toFixed(2)}</span>\n                            </td>\n                            <td style=\"text-align: center;\">\n                                <span class=\"confidence-badge ${confClass}\">${data.avgConfidence.toFixed(0)}%</span>\n                            </td>\n                            <td>\n                                <div style=\"font-size: 12px; color: var(--text-secondary);\">${volumePercentage}%</div>\n                                <div class=\"progress-bar\">\n                                    <div class=\"progress-fill\" style=\"width: ${volumePercentage}%\"></div>\n                                </div>\n                            </td>\n                        </tr>\n                        `;\n                    }).join('')}\n                </tbody>\n            </table>\n            \n            <!-- Detailed Results Table with Model Info -->\n            <h2 class=\"section-title\" style=\"margin-top: 40px;\" id=\"detailed-results\">Detailed Classification Results</h2>\n            <table>\n                <thead>\n                    <tr>\n                        <th>Element Group</th>\n                        <th>Category</th>\n                        <th>Classification Code</th>\n                        <th>Elements</th>\n                        <th>Volume (m³)</th>\n                        <th>Confidence</th>\n                        <th>Model Used</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    ${items.slice(0, 100).map(item => {\n                        const conf = parseFloat(item.json['Classification_Confidence']) || 0;\n                        let confClass = 'low-conf';\n                        if (conf >= 80) confClass = 'high-conf';\n                        else if (conf >= 60) confClass = 'med-conf';\n                        \n                        const elementName = item.json['Type Name'] || item.json['Family'] || 'Unknown';\n                        const category = item.json['Category'] || '-';\n                        const code = item.json['Classification_Code'] || 'Unclassified';\n                        const elementCount = item.json['Element Count'] || item.json['Element_Count'] || 1;\n                        const volume = parseFloat(item.json['Volume']) || 0;\n                        const modelUsed = item.json['Model_Used'] || modelName;\n                        \n                        return `\n                        <tr>\n                            <td><strong>${elementName}</strong></td>\n                            <td>${category}</td>\n                            <td><span class=\"code-badge\">${code}</span></td>\n                            <td style=\"text-align: center;\">${elementCount}</td>\n                            <td style=\"text-align: right;\">\n                                <span class=\"volume-badge\">${volume.toFixed(3)}</span>\n                            </td>\n                            <td style=\"text-align: center;\">\n                                <span class=\"confidence-badge ${confClass}\">${conf.toFixed(0)}%</span>\n                            </td>\n                            <td style=\"text-align: center;\">\n                                <span class=\"model-badge\">${modelUsed}</span>\n                            </td>\n                        </tr>\n                        `;\n                    }).join('')}\n                </tbody>\n            </table>\n            \n            <!-- Pie Charts Section -->\n            <h2 class=\"section-title\" style=\"margin-top: 40px;\" id=\"distribution-charts\">Distribution Analysis</h2>\n            <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 30px;\">\n                <div class=\"chart-container\">\n                    <h3>Element Count Distribution</h3>\n                    <canvas id=\"pieChartCount\"></canvas>\n                </div>\n                <div class=\"chart-container\">\n                    <h3>Volume Distribution</h3>\n                    <canvas id=\"pieChartVolume\"></canvas>\n                </div>\n            </div>\n\n        </div>\n        \n        <div class=\"footer\">\n            <p>Generated on ${new Date().toLocaleString()} | \n               Classification System: ${classificationName} | \n               AI Model: ${modelName} |\n               <a href=\"https://datadrivenconstruction.io\">DataDrivenConstruction.io</a></p>\n        </div>\n    </div>\n    \n    <script>\n        // Navigation active state\n        const sections = document.querySelectorAll('[id]');\n        const navLinks = document.querySelectorAll('.nav-link');\n        \n        window.addEventListener('scroll', () => {\n            let current = '';\n            sections.forEach(section => {\n                const sectionTop = section.offsetTop;\n                const sectionHeight = section.clientHeight;\n                if (pageYOffset >= sectionTop - 200) {\n                    current = section.getAttribute('id');\n                }\n            });\n            \n            navLinks.forEach(link => {\n                link.classList.remove('active');\n                if (link.getAttribute('href').substring(1) === current) {\n                    link.classList.add('active');\n                }\n            });\n        });\n        \n        // Smooth scrolling for navigation\n        navLinks.forEach(link => {\n            link.addEventListener('click', (e) => {\n                e.preventDefault();\n                const targetId = link.getAttribute('href').substring(1);\n                const targetSection = document.getElementById(targetId);\n                if (targetSection) {\n                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });\n                }\n            });\n        });\n        \n        // Volume comparison chart\n        const ctxVolume = document.getElementById('volumeChart').getContext('2d');\n        new Chart(ctxVolume, {\n            type: 'bar',\n            data: {\n                labels: ${JSON.stringify(chartLabels)},\n                datasets: [{\n                    label: 'Volume (m³)',\n                    data: ${JSON.stringify(volumeChartData)},\n                    backgroundColor: 'rgba(99, 102, 241, 0.8)',\n                    borderColor: 'rgba(99, 102, 241, 1)',\n                    borderWidth: 2,\n                    borderRadius: 8\n                }]\n            },\n            options: {\n                responsive: true,\n                plugins: {\n                    legend: { display: false }\n                },\n                scales: {\n                    y: { beginAtZero: true }\n                }\n            }\n        });\n        \n        // Element Count chart\n        const ctxElementCount = document.getElementById('elementCountChart').getContext('2d');\n        new Chart(ctxElementCount, {\n            type: 'bar',\n            data: {\n                labels: ${JSON.stringify(chartLabels)},\n                datasets: [{\n                    label: 'Element Count',\n                    data: ${JSON.stringify(elementCountChartData)},\n                    backgroundColor: 'rgba(16, 185, 129, 0.8)',\n                    borderColor: 'rgba(16, 185, 129, 1)',\n                    borderWidth: 2,\n                    borderRadius: 8\n                }]\n            },\n            options: {\n                responsive: true,\n                plugins: {\n                    legend: { display: false }\n                },\n                scales: {\n                    y: { beginAtZero: true }\n                }\n            }\n        });\n        \n        // Pie charts\n        const pieColors = [\n            '#0F4C75', '#3282B8', '#BBE1FA', '#10b981',\n            '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'\n        ];\n        \n        // Count pie chart\n        new Chart(document.getElementById('pieChartCount').getContext('2d'), {\n            type: 'pie',\n            data: {\n                labels: ${JSON.stringify(pieChartDataCount.map(item => item.label))},\n                datasets: [{\n                    data: ${JSON.stringify(pieChartDataCount.map(item => item.value))},\n                    backgroundColor: pieColors\n                }]\n            },\n            options: {\n                responsive: true,\n                plugins: {\n                    legend: { position: 'bottom' },\n                    tooltip: {\n                        callbacks: {\n                            label: function(context) {\n                                const item = ${JSON.stringify(pieChartDataCount)}[context.dataIndex];\n                                return item.label + ': ' + item.value + ' (' + item.percentage + '%)';\n                            }\n                        }\n                    }\n                }\n            }\n        });\n        \n        // Volume pie chart\n        new Chart(document.getElementById('pieChartVolume').getContext('2d'), {\n            type: 'pie',\n            data: {\n                labels: ${JSON.stringify(pieChartDataVolume.map(item => item.label))},\n                datasets: [{\n                    data: ${JSON.stringify(pieChartDataVolume.map(item => item.value))},\n                    backgroundColor: pieColors\n                }]\n            },\n            options: {\n                responsive: true,\n                plugins: {\n                    legend: { position: 'bottom' },\n                    tooltip: {\n                        callbacks: {\n                            label: function(context) {\n                                const item = ${JSON.stringify(pieChartDataVolume)}[context.dataIndex];\n                                return item.label + ': ' + item.value + ' m³ (' + item.percentage + '%)';\n                            }\n                        }\n                    }\n                }\n            }\n        });\n    </script>\n</body>\n</html>`;\n\nreturn [{\n  json: {\n    html: html,\n    reportType: 'Enhanced Classification Report with Volume Analysis',\n    timestamp: new Date().toISOString(),\n    totalItems: items.length,\n    classifiedItems: classifiedGroups,\n    totalVolume: totalRegularVolume,\n    totalBoundingBoxVolume: totalBoundingBoxVolume,\n    classificationSystem: classificationName,\n    aiModel: modelName\n  }\n}];"
+      },
+      "id": "b7bba360-e8ae-42da-ad55-33931ae6cdb6",
+      "name": "Generate HTML Report1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = $json.html;\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(html).toString('base64'),\n      mimeType: 'text/html',\n      fileName: 'price_estimation_report.html'\n    }\n  }\n}];"
+      },
+      "id": "57e26bf0-47d6-4437-b484-831e43dee1f4",
+      "name": "Convert to Binary1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the project file path from the original setup\nconst projectFile = $node['Setup - Define file paths1'].json.project_file;\nconst htmlContent = $node['Convert to Binary1'].json.html || $input.first().binary.data;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst htmlFileName = `CO2_Analysis_Report_${timestamp}.html`;\nconst fullPath = `${path}\\\\${htmlFileName}`;\n\nconsole.log('Project file:', projectFile);\nconsole.log('Directory:', path);\nconsole.log('HTML file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    html_filename: htmlFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
+      },
+      "id": "aaa62938-7377-487c-815a-fe26c2a8671b",
+      "name": "Prepare HTML Path1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.full_path }}",
+        "options": {}
+      },
+      "id": "ac9c8440-3624-4ccd-a01a-ca325fe5a37d",
+      "name": "Write HTML to Project Folder1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=start \"\" \"{{ $json.full_path }}\""
+      },
+      "id": "d0e40422-61e0-48c4-abc0-1d21683ea10d",
+      "name": "Open HTML in Browser1",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2176,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aggregate all results and calculate project totals\nconst items = $input.all();\n\n// Initialize aggregators\nconst projectTotals = {\n  totalElements: 0,\n  totalCost: 0,\n  totalVolume: 0,\n  totalArea: 0,\n  byMaterial: {},\n  byCategory: {},\n  byImpact: {}\n};\n\n// Process each item\nitems.forEach(item => {\n  const data = item.json;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const volume = parseFloat(data['Volume (m³)']) || 0;\n  const area = parseFloat(data['Area (m²)']) || 0;\n  const material = data['Material (EU Standard)'] || 'Unknown';\n  const category = data['Element Category'] || 'Unknown';\n  const impact = data['Impact Category'] || 'Unknown';\n  \n  // Update totals\n  projectTotals.totalElements += elementCount;\n  projectTotals.totalCost += cost;\n  projectTotals.totalVolume += volume;\n  projectTotals.totalArea += area;\n  \n  // Aggregate by material\n  if (!projectTotals.byMaterial[material]) {\n    projectTotals.byMaterial[material] = {\n      elements: 0,\n      cost: 0,\n      volume: 0,\n      types: new Set()\n    };\n  }\n  projectTotals.byMaterial[material].elements += elementCount;\n  projectTotals.byMaterial[material].cost += cost;\n  projectTotals.byMaterial[material].volume += volume;\n  projectTotals.byMaterial[material].types.add(data['Element Name']);\n  \n  // Aggregate by category\n  if (!projectTotals.byCategory[category]) {\n    projectTotals.byCategory[category] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byCategory[category].elements += elementCount;\n  projectTotals.byCategory[category].cost += cost;\n  \n  // Aggregate by impact\n  if (!projectTotals.byImpact[impact]) {\n    projectTotals.byImpact[impact] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byImpact[impact].elements += elementCount;\n  projectTotals.byImpact[impact].cost += cost;\n});\n\n// Add percentages and rankings to each item\nconst enrichedItems = items.map((item, index) => {\n  const data = item.json;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  \n  return {\n    json: {\n      ...data,\n      // Add project percentages\n      'Cost % of Total': projectTotals.totalCost > 0 ? \n        ((cost / projectTotals.totalCost) * 100).toFixed(2) : '0.00',\n      'Elements % of Total': projectTotals.totalElements > 0 ? \n        ((elementCount / projectTotals.totalElements) * 100).toFixed(2) : '0.00',\n      // Add ranking\n      'Cost Rank': index + 1,\n      // Project totals (same for all rows)\n      'Project Total Elements': projectTotals.totalElements,\n      'Project Total Cost (EUR)': projectTotals.totalCost.toFixed(3),\n      'Project Total Volume (m³)': projectTotals.totalVolume.toFixed(2),\n      'Project Total Area (m²)': projectTotals.totalArea.toFixed(2)\n    }\n  };\n});\n\n// Sort by Cost (highest first)\nenrichedItems.sort((a, b) => \n  parseFloat(b.json['Total Cost (EUR)']) - parseFloat(a.json['Total Cost (EUR)'])\n);\n\n// Store aggregated data for summary\n$getWorkflowStaticData('global').projectTotals = projectTotals;\n\nreturn enrichedItems;"
+      },
+      "id": "db702f7b-a255-4b1a-a124-f8de1bceaaf6",
+      "name": "Calculate Project Totals1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "4a77b7fb-a6eb-4738-9cc2-b3612ec81aad",
+      "name": "Process Classification Batches1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        864,
+        2272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clean empty values from items after classification\n// This node now processes data right after \"Apply Classification to Groups\"\nconst items = $input.all();\n\nreturn items.map(item => {\n  const cleanedJson = {};\n  \n  // Process each field in the item\n  Object.entries(item.json).forEach(([key, value]) => {\n    // Keep null checks\n    if (value !== null && value !== undefined) {\n      \n      // Handle numeric values\n      if (typeof value === 'number') {\n        // Keep zeros only for important count fields\n        const importantZeroFields = [\n          'Element Count',\n          'Element_Count', \n          'element_count',\n          'is_building_element',\n          'element_confidence',\n          'Classification_Confidence'\n        ];\n        \n        if (value !== 0 || importantZeroFields.includes(key)) {\n          cleanedJson[key] = value;\n        }\n      } \n      // Handle boolean values\n      else if (typeof value === 'boolean') {\n        cleanedJson[key] = value;\n      }\n      // Handle string values\n      else if (typeof value === 'string' && value.trim() !== '') {\n        cleanedJson[key] = value.trim();\n      }\n      // Handle arrays and objects\n      else if (Array.isArray(value) || typeof value === 'object') {\n        cleanedJson[key] = value;\n      }\n    }\n  });\n  \n  // Ensure critical fields are preserved\n  const criticalFields = [\n    'is_building_element',\n    'element_confidence', \n    'element_reason',\n    'Category',\n    'Type Name',\n    'Family',\n    'Element Count'\n  ];\n  \n  criticalFields.forEach(field => {\n    if (item.json[field] !== undefined && !(field in cleanedJson)) {\n      cleanedJson[field] = item.json[field];\n    }\n  });\n  \n  return { json: cleanedJson };\n});"
+      },
+      "id": "3a8216cf-ff20-4dce-9431-7b13054d636c",
+      "name": "Clean Values Classification1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Enhanced Classification Prompt Preparation with Professional Universal Approach\nconst groupData = $input.first().json;\nconst context = $getWorkflowStaticData('global').classificationContext;\nconst setupData = $node['Setup - Define file paths1'].json;\n\n// Ensure context exists\nif (!context) {\n  console.error('ERROR: Classification context not found!');\n  const fallbackContext = {\n    classificationName: setupData.classification_name || 'Unknown',\n    helpPrompt: setupData.optional__help_to_the_prompt || '',\n    mappingRules: {},\n    originalMappingRules: {},\n    projectType: 'Building/Construction',\n    directClassificationMode: true,\n    rawDictionaryOutput: ''\n  };\n  $getWorkflowStaticData('global').classificationContext = fallbackContext;\n}\n\nconst classificationContext = $getWorkflowStaticData('global').classificationContext;\n\nconsole.log('=== PREPARING ENHANCED CLASSIFICATION PROMPT ===');\nconsole.log(`Element: ${groupData['Type Name'] || groupData['Category'] || 'Unknown'}`);\nconsole.log(`Classification System: ${classificationContext.classificationName || setupData.classification_name}`);\nconsole.log(`Project Type: ${classificationContext.projectType}`);\n\n// Get mapping data\nconst mappingRules = classificationContext.mappingRules || {};\nconst originalMappingRules = classificationContext.originalMappingRules || {};\nconst rawDictionaryOutput = classificationContext.rawDictionaryOutput || '';\n\n// Check for direct mapping\nlet directMapping = null;\nif (Object.keys(mappingRules).length > 0) {\n  const elementCategory = (groupData['Category'] || '').toLowerCase().trim();\n  const elementTypeName = (groupData['Type Name'] || '').toLowerCase().trim();\n  const elementFamily = (groupData['Family'] || '').toLowerCase().trim();\n  \n  const searchKeys = [\n    elementCategory,\n    elementTypeName,\n    elementFamily,\n    `${elementCategory} - ${elementTypeName}`,\n    `${elementFamily} - ${elementTypeName}`\n  ].filter(key => key && key.length > 0);\n  \n  for (const searchKey of searchKeys) {\n    if (mappingRules[searchKey]) {\n      const mappingValue = mappingRules[searchKey];\n      directMapping = {\n        targetCode: mappingValue.targetCode || searchKey,\n        targetName: mappingValue.targetName || mappingValue.targetClass,\n        confidence: mappingValue.confidence || 95\n      };\n      console.log(`Found direct mapping: ${searchKey} → ${directMapping.targetCode}`);\n      break;\n    }\n  }\n}\n\n// Build classification system knowledge base\nconst classificationSystemKnowledge = {\n  'Omniclass': {\n    description: 'North American construction classification system',\n    format: 'XX-XX XX XX format (e.g., 23-15 11 13)',\n    categories: ['Products', 'Work Results', 'Phases', 'Services', 'Information'],\n    example: '23-15 11 13 - Concrete Masonry Units'\n  },\n  'Uniclass': {\n    description: 'UK construction classification system',\n    format: 'Xx_XX_XX_XX format (e.g., Ss_20_30_14)',\n    categories: ['Systems', 'Products', 'Activities', 'Spaces/Locations'],\n    example: 'Ss_20_30_14 - Concrete block walling systems'\n  },\n  'MasterFormat': {\n    description: 'CSI specification divisions for North America',\n    format: 'XX XX XX format (e.g., 03 30 00)',\n    categories: ['General Requirements', 'Facility Construction', 'Facility Services'],\n    example: '03 30 00 - Cast-in-Place Concrete'\n  },\n  'Uniformat': {\n    description: 'ASTM elemental classification',\n    format: 'Letter + numbers (e.g., B2010)',\n    categories: ['Substructure', 'Shell', 'Interiors', 'Services', 'Equipment'],\n    example: 'B2010 - Exterior Walls'\n  },\n  'CoClass': {\n    description: 'Swedish construction classification',\n    format: 'Alphanumeric codes',\n    categories: ['Built Environment', 'Spaces', 'Building Elements', 'Technical Systems'],\n    example: 'ABC - Example Element'\n  },\n  'Классификатор КЭЦИМ': {\n    description: 'Russian construction classification system for BIM',\n    format: 'Alphanumeric hierarchical codes',\n    categories: ['Строительные элементы', 'Системы', 'Материалы', 'Работы'],\n    example: 'CIM>BE - Building Elements'\n  },\n  'NBS': {\n    description: 'UK National Building Specification',\n    format: 'Section-based classification',\n    categories: ['Architecture', 'Structure', 'Services', 'Landscape'],\n    example: 'F10 - Brick/Block walling'\n  },\n  'IFC': {\n    description: 'Industry Foundation Classes for BIM',\n    format: 'IfcXxxxx format',\n    categories: ['Building Elements', 'Spatial Elements', 'Structural Elements'],\n    example: 'IfcWall, IfcColumn, IfcBeam'\n  }\n};\n\n// Determine the classification system details\nconst classificationName = classificationContext.classificationName || setupData.classification_name || 'Unknown';\nlet systemInfo = classificationSystemKnowledge[classificationName] || null;\n\n// Try to match partial names\nif (!systemInfo) {\n  for (const [key, value] of Object.entries(classificationSystemKnowledge)) {\n    if (classificationName.toLowerCase().includes(key.toLowerCase()) || \n        key.toLowerCase().includes(classificationName.toLowerCase())) {\n      systemInfo = value;\n      break;\n    }\n  }\n}\n\n// Build dictionary prompt section\nlet dictionaryPrompt = '';\nlet validCodesList = [];\n\nif (rawDictionaryOutput && rawDictionaryOutput.length > 0) {\n  dictionaryPrompt = `\n=== CLASSIFICATION DICTIONARY PROVIDED ===\nYou have been provided with a complete classification dictionary.\nTotal dictionary size: ${rawDictionaryOutput.length} characters.\n\nCRITICAL RULES:\n1. Use ONLY codes from the provided dictionary\n2. Match codes EXACTLY as shown (character-for-character)\n3. Never modify or invent codes\n4. If no perfect match exists, choose the CLOSEST available code\n\nDictionary Content:\n${rawDictionaryOutput}\n\n=== END OF DICTIONARY ===\n`;\n  \n} else if (Object.keys(originalMappingRules).length > 0) {\n  dictionaryPrompt = `\n=== CLASSIFICATION CODES AVAILABLE ===\nTotal codes in system: ${Object.keys(originalMappingRules).length}\n\nAvailable Classifications:\n`;\n  for (const [code, value] of Object.entries(originalMappingRules)) {\n    validCodesList.push(code);\n    let description = typeof value === 'string' ? value : value.name || value.description || '';\n    dictionaryPrompt += `${code}: ${description}\\n`;\n  }\n  \n} else {\n  // No mapping file - use knowledge-based approach\n  dictionaryPrompt = `\n=== CLASSIFICATION SYSTEM KNOWLEDGE ===\nSystem: ${classificationName}\n${systemInfo ? `\nDescription: ${systemInfo.description}\nFormat: ${systemInfo.format}\nCategories: ${systemInfo.categories.join(', ')}\nExample: ${systemInfo.example}\n` : `\nNote: Using general knowledge about ${classificationName} classification system.\nApply standard patterns and conventions for this system.\n`}\n\nIMPORTANT: Since no mapping file was provided, use your knowledge of ${classificationName} \nto classify elements according to standard conventions and patterns.\n`;\n}\n\n// Add user's help prompt if provided\nlet additionalContext = '';\nif (setupData.optional__help_to_the_prompt) {\n  additionalContext = `\n\n=== USER GUIDANCE ===\n${setupData.optional__help_to_the_prompt}`;\n}\n\n// Create the enhanced system prompt\nconst systemPrompt = `You are an expert construction classification specialist with deep knowledge of international classification systems.\n\n=== YOUR ROLE ===\nYou must classify building elements according to the ${classificationName} classification system.\nYour classification must be precise, consistent, and follow industry standards.\n\n=== CLASSIFICATION SYSTEM ===\nTarget System: ${classificationName}\nProject Type: ${classificationContext.projectType}\n${systemInfo ? `System Type: ${systemInfo.description}` : ''}\n\n${dictionaryPrompt}\n\n=== CLASSIFICATION METHODOLOGY ===\n1. ELEMENT ANALYSIS:\n   - Identify the element's primary function\n   - Determine its construction type\n   - Understand its position in the building system\n   - Consider material composition\n\n2. CLASSIFICATION MATCHING:\n   - Find the most specific applicable code\n   - Consider hierarchical relationships\n   - Match based on function over form\n   - Use industry-standard interpretations\n\n3. CONFIDENCE ASSESSMENT:\n   - 90-100%: Perfect match with clear definition\n   - 70-89%: Good match with minor ambiguity\n   - 50-69%: Reasonable match but could have alternatives\n   - Below 50%: Uncertain, multiple valid options\n\n4. VALIDATION RULES:\n   ${validCodesList.length > 0 ? `\n   - Valid codes must be from the provided list\n   - Use EXACT code format as shown\n   ` : `\n   - Follow ${classificationName} standard format\n   - Use established naming conventions\n   - Maintain hierarchical consistency\n   `}\n\n${additionalContext}\n\n=== OUTPUT REQUIREMENTS ===\nReturn a structured JSON response with:\n- The most appropriate classification code\n- Clear reasoning for your choice\n- Confidence level based on match quality\n- Alternative classifications if applicable\n- Any relevant notes about edge cases`;\n\nconst userPrompt = `Classify this ${classificationContext.projectType} element using ${classificationName} classification system.\n\n=== ELEMENT TO CLASSIFY ===\nElement Category: ${groupData['Category'] || 'Not specified'}\nElement Type: ${groupData['Type Name'] || 'Not specified'}\nElement Family: ${groupData['Family'] || 'Not specified'}\nInstance Count: ${groupData['Element Count'] || 1}\n${groupData['Volume'] ? `Volume: ${groupData['Volume']} m³` : ''}\n${groupData['Area'] ? `Area: ${groupData['Area']} m²` : ''}\n${groupData['Material'] ? `Material: ${groupData['Material']}` : ''}\n\n=== ADDITIONAL ELEMENT PROPERTIES ===\n${(() => {\n  const relevantProps = {};\n  const skipProps = ['_systemPrompt', '_userPrompt', '_directMapping', '_originalData', \n                     'Category', 'Type Name', 'Family', 'Element Count', 'Volume', 'Area'];\n  \n  for (const [key, value] of Object.entries(groupData)) {\n    if (!skipProps.includes(key) && value && \n        !key.startsWith('_') && !key.includes('BoundingBox')) {\n      relevantProps[key] = value;\n    }\n  }\n  \n  return Object.keys(relevantProps).length > 0 \n    ? JSON.stringify(relevantProps, null, 2)\n    : 'No additional properties available';\n})()}\n\n${directMapping ? `\n=== MAPPING SUGGESTION ===\nA potential match was found in the mapping file:\nSuggested Code: ${directMapping.targetCode}\nSuggested Name: ${directMapping.targetName}\nConfidence: ${directMapping.confidence}%\n\nPlease verify this suggestion and use it if appropriate.\n` : ''}\n\n=== YOUR TASK ===\n1. Analyze the element's characteristics\n2. Determine the most appropriate ${classificationName} classification\n3. Provide clear reasoning for your choice\n4. Suggest alternatives if multiple valid options exist\n\n${validCodesList.length > 0 ? `\nREMINDER: You must select from these valid codes:\n${validCodesList.slice(0, 50).join(', ')}${validCodesList.length > 50 ? '... and more' : ''}\n` : `\nUse standard ${classificationName} codes and naming conventions.\n`}\n\n=== RESPONSE FORMAT ===\n{\n  \"classification_code\": \"The exact classification code\",\n  \"classification_name\": \"Full descriptive name\",\n  \"classification_level\": \"Level in hierarchy (1, 2, 3, etc.) or null\",\n  \"parent_class\": \"Parent classification code if hierarchical, otherwise null\",\n  \"confidence\": 0-100,\n  \"reasoning\": \"Detailed explanation of why this classification was chosen\",\n  \"match_factors\": [\"List of\", \"factors that\", \"influenced the match\"],\n  \"alternative_classifications\": [\n    {\n      \"code\": \"Alternative code\",\n      \"name\": \"Alternative name\",\n      \"confidence\": 0-100,\n      \"reason\": \"Why this could also apply\"\n    }\n  ],\n  \"notes\": \"Any additional context or edge cases to consider\"\n}`;\n\nconsole.log('\\n=== CLASSIFICATION REQUEST ===');\nconsole.log(`Element: ${groupData['Type Name'] || groupData['Category'] || 'Unknown'}`);\nconsole.log(`System: ${classificationName}`);\nconsole.log(`Dictionary: ${validCodesList.length > 0 ? `${validCodesList.length} codes` : 'Knowledge-based'}`);\nconsole.log('================================\\n');\n\nreturn [{\n  json: {\n    ...groupData,\n    _systemPrompt: systemPrompt,\n    _userPrompt: userPrompt,\n    _directMapping: directMapping,\n    _originalData: groupData,\n    _classificationSystem: classificationName,\n    _projectType: classificationContext.projectType,\n    _dictionarySize: validCodesList.length || Object.keys(originalMappingRules).length,\n    _hasMappingFile: !classificationContext.directClassificationMode,\n    _dictionaryExtracted: rawDictionaryOutput || Object.keys(originalMappingRules).length > 0,\n    _dictionaryType: rawDictionaryOutput ? 'raw' : Object.keys(originalMappingRules).length > 0 ? 'structured' : 'knowledge',\n    _validCodes: validCodesList\n  }\n}];"
+      },
+      "id": "04937d17-7080-4f13-a9d5-a0c2ad53601c",
+      "name": "Prepare Classification Prompt1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        2192
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json._userPrompt }}",
+        "options": {
+          "systemMessage": "={{ $json._systemPrompt }}"
+        }
+      },
+      "id": "95de6907-647c-433b-a23f-9831e9d96d33",
+      "name": "AI Classify Element1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1232,
+        2192
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Accumulate all processed items\nconst currentItem = $input.first();\nconst storedData = $getWorkflowStaticData('global');\n\n// Initialize accumulator if needed\nif (!storedData.classifiedData) {\n  storedData.classifiedData = [];\n}\n\n// Add current item to accumulated data\nstoredData.classifiedData.push(currentItem);\n\nconsole.log(`Item classified. Total accumulated: ${storedData.classifiedData.length} items`);\n\n// Return the current item to continue the flow\nreturn [currentItem];"
+      },
+      "id": "dca77adc-cdd5-4987-8898-03b3de8a5caa",
+      "name": "Accumulate Classification1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        2192
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $node['Process Classification Batches1'].context['noItemsLeft'] }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b91173f8-22c3-40d2-b418-a823a0a6659c",
+      "name": "All Batches Done?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1952,
+        2272
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all classification results\nconst storedData = $getWorkflowStaticData('global');\nconst allClassifiedItems = storedData.classifiedData || [];\nconst context = storedData.classificationContext || {};\n\nconsole.log(`\\n=== CLASSIFICATION COMPLETE ===`);\nconsole.log(`Total items classified: ${allClassifiedItems.length}`);\nconsole.log(`Classification system: ${context.classificationName}`);\nconsole.log(`Project type: ${context.projectType}`);\n\n// Clear accumulated data for next run\nstoredData.classifiedData = [];\n\n// Store context for reporting\nstoredData.classificationSummary = {\n  totalItems: allClassifiedItems.length,\n  classificationSystem: context.classificationName,\n  projectType: context.projectType,\n  mappingRulesUsed: context.totalMappingRules || 0\n};\n\n// Return all items for report generation\nreturn allClassifiedItems;"
+      },
+      "id": "a38f431b-973a-4a94-ae5d-3374c271fae4",
+      "name": "Collect Classification Results1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        2336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Classification Setup - combines all initial logic\nconst setupData = $node['Setup - Define file paths1'].json;\nconst buildingElements = $input.all(); // From 'Is Building Element1'\n\n// --- NEW LOGIC TO DETERMINE projectType ---\nconst projectFile = setupData.project_file || '';\nconst fileExtension = projectFile.slice(-3).toLowerCase();\n\nlet projectType = 'Building/Construction'; // Default value\n\nconst typeDictionary = {\n  'rvt': 'Revit project',\n  'ifc': 'IFC project',\n  'dwg': 'AutoCAD project',\n  'dgn': 'MicroStation project'\n};\n\nif (typeDictionary[fileExtension]) {\n  projectType = typeDictionary[fileExtension];\n}\n// --- END OF NEW LOGIC ---\n\nconst config = {\n  // Main classification parameters\n  classificationName: setupData.classification_name || 'Unknown',\n  helpPrompt: setupData.optional__help_to_the_prompt || '',\n  projectType: projectType, // Using the dynamically determined project type\n  \n  // Data for processing\n  elements: buildingElements,\n  totalGroups: buildingElements.length,\n  \n  // Path to the mapping file (if any)\n  mappingFilePath: setupData.optional__classifier_or_mapping_file?.trim() || null,\n  \n  // Operating mode will be determined next\n  mode: null,\n  mappingRules: {},\n  mappingFound: false\n};\n\n// Determine the operating mode\nif (config.mappingFilePath && config.mappingFilePath !== '') {\n  config.mode = 'mapping';\n  console.log('=== CLASSIFICATION SETUP ===');\n  console.log(`Mode: MAPPING FILE`);\n  console.log(`File path: ${config.mappingFilePath}`);\n  console.log(`Classification: ${config.classificationName}`);\n} else {\n  config.mode = 'direct';\n  console.log('=== CLASSIFICATION SETUP ===');\n  console.log(`Mode: DIRECT CLASSIFICATION`);\n  console.log(`Classification: ${config.classificationName}`);\n  console.log(`Help prompt: ${config.helpPrompt ? 'Provided' : 'None'}`);\n}\n\nconsole.log(`Project Type: ${config.projectType}`); // Added for debugging\nconsole.log(`Elements to classify: ${config.totalGroups}`);\nconsole.log('============================\\\\n');\n\n// Store elements separately for later processing\nconfig.originalElements = buildingElements;\n\nreturn [{ json: config }];"
+      },
+      "id": "b9302233-5ba1-4de0-958f-654087c1b4a5",
+      "name": "Prepare Classification Setup1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        1232
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// TESTING NODE - Limit items to first 5 for faster testing\n// Remove or bypass this node for production use\n\nconst allItems = $input.all();\nconst testLimit = 5; // Change this number to test with more or fewer items\n\n// Take only the first N items for testing\nconst limitedItems = allItems.slice(0, testLimit);\n\nconsole.log(`===== TESTING MODE =====`);\nconsole.log(`Total items available: ${allItems.length}`);\nconsole.log(`Limited to first ${testLimit} items for testing`);\nconsole.log(`========================`);\n\n// Log what we're processing\nlimitedItems.forEach((item, index) => {\n  const elementName = item.json['Type Name'] || item.json['Category'] || 'Unknown';\n  console.log(`${index + 1}. ${elementName}`);\n});\n\nreturn limitedItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2048,
+        1088
+      ],
+      "id": "60408a20-77a5-4b8b-a4a9-39911835e8c6",
+      "name": "Limit Items for Testing1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse AI classification result with model information and volumes\nconst aiResponse = $input.first().json.output || $input.first().json.response || $input.first().json.text || $input.first().json;\nconst originalData = $node['Prepare Classification Prompt1'].json._originalData;\nconst directMapping = $node['Prepare Classification Prompt1'].json._directMapping;\nconst context = $getWorkflowStaticData('global').classificationContext;\nlet modelName = $getWorkflowStaticData('global').aiModelName || 'OpenRouter';\n\ntry {\n  let classification = {};\n  let isFromMapping = false;\n  \n  // Use direct mapping if available with 100% confidence\n  if (directMapping && directMapping.confidence === 100) {\n    classification = {\n      classification_code: directMapping.targetCode || directMapping.targetClass,\n      classification_name: directMapping.targetName || directMapping.targetClass,\n      confidence: 100,\n      reasoning: 'Direct mapping from provided mapping file'\n    };\n    isFromMapping = true;\n    modelName = 'Mapping Rule';\n  } else {\n    // Parse AI response if no high-confidence mapping\n    let jsonStr = aiResponse;\n    if (typeof jsonStr === 'string') {\n      const jsonMatch = jsonStr.match(/```json\\n?([\\s\\S]*?)\\n?```/) || jsonStr.match(/\\{[\\s\\S]*\\}/);\n      if (jsonMatch) {\n        jsonStr = jsonMatch[1] || jsonMatch[0];\n      }\n    }\n    classification = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;\n    \n    // If there was a mapping suggestion, note it\n    if (directMapping) {\n      classification.reasoning = `AI classification. Suggested mapping was: ${directMapping.targetClass}. ${classification.reasoning || ''}`;\n    }\n  }\n  \n  console.log(`Model for report: ${modelName}`);\n\n  // Extract volume data from original data\n  const boundingBoxVolume = parseFloat(originalData['BoundingBox_Volume_Total']) || 0;\n  const regularVolume = parseFloat(originalData['Volume']) || 0;\n  const elementCount = parseInt(originalData['Element Count']) || 0;\n\n  // Create comprehensive output with volume data\n  return [{\n    json: {\n      // Original data\n      ...originalData,\n      \n      // Classification results\n      'Classification_System': context.classificationName,\n      'Classification_Code': classification.classification_code || 'Unclassified',\n      'Classification_Name': classification.classification_name || 'Unknown',\n      'Classification_Level': classification.classification_level || '',\n      'Parent_Class': classification.parent_class || '',\n      'Classification_Confidence': classification.confidence || 0,\n      'Classification_Reasoning': classification.reasoning || '',\n      \n      // Alternative classifications\n      'Alternative_Classes': classification.alternative_classifications ? \n        classification.alternative_classifications.map(alt => `${alt.code}: ${alt.name} (${alt.confidence}%)`).join('; ') : '',\n      \n      // Volume data (ensure these are included)\n      'Element_Count': elementCount,\n      'BoundingBox_Volume_Total': boundingBoxVolume,\n      'Volume': regularVolume,\n      \n      // Metadata\n      'Project_Type': context.projectType,\n      'Mapping_Used': isFromMapping ? 'Yes' : 'No',\n      'Model_Used': modelName,\n      'Classification_Timestamp': new Date().toISOString(),\n      'Classification_Status': 'Complete'\n    }\n  }];\n  \n} catch (error) {\n  // Return error record with volume data\n  return [{\n    json: {\n      ...originalData,\n      'Classification_System': context.classificationName,\n      'Classification_Code': 'ERROR',\n      'Classification_Name': 'Classification Failed',\n      'Classification_Confidence': 0,\n      'Classification_Status': 'Failed',\n      'Error': error.message,\n      'Element_Count': parseInt(originalData['Element Count']) || 0,\n      'BoundingBox_Volume_Total': parseFloat(originalData['BoundingBox_Volume_Total']) || 0,\n      'Volume': parseFloat(originalData['Volume']) || 0,\n      'Project_Type': context.projectType,\n      'Model_Used': modelName,\n      'Classification_Timestamp': new Date().toISOString()\n    }\n  }];\n}"
+      },
+      "id": "0a329b25-9b5d-45c0-9b0b-2301c769dfe4",
+      "name": "Parse Classification Result1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        2192
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        96,
+        1936
+      ],
+      "id": "9bd8409c-653a-45b5-845e-4d8f91cc39b7",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "TF3tGqLbxHk30fXk",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "{{ $json.categoryField ? `Classify these ${$json.categoryValues.length} category values from field '${$json.categoryField}' as building elements (true) or drawings/annotations (false):\n\nCategory values:\n${JSON.stringify($json.categoryValues, null, 2)}\n\nCategory field type: ${$json.categoryFieldType}` : 'No category field found. Please classify based on volumetric data presence.'}}",
+        "options": {
+          "systemMessage": "You are an expert in Revit, BIM (Building Information Modeling) and construction classification. Your task is to classify category values as either building elements or non-building elements (drawings, annotations, etc.).\n\nBuilding elements include:\n- Structural elements (walls, floors, roofs, columns, beams, foundations, slabs)\n- MEP elements (pipes, ducts, equipment, fixtures, mechanical equipment)\n- Architectural elements (doors, windows, stairs, railings, curtain walls)\n- Site elements (parking, roads, landscaping)\n- Furniture and fixtures\n- Any physical construction element that has volume, area, or physical properties\n\nNon-building elements include:\n- Drawings and sheets\n- Annotations, dimensions, text notes\n- Views, sections, elevations, plans\n- Tags, symbols, legends, schedules\n- Grids, levels, reference planes\n- Revision clouds, callouts, detail items\n- Lines, filled regions, detail lines\n- Any 2D documentation or annotation element\n\nIMPORTANT: Analyze the actual category name, not just keywords. For example:\n- \"Detail Items\" = non-building (annotation)\n- \"Plumbing Fixtures\" = building element\n- \"Room Tags\" = non-building (annotation)\n- \"Structural Columns\" = building element\n\nReturn ONLY valid JSON in this exact format:\n{\n  \"classifications\": {\n    \"category_value_1\": true,\n    \"category_value_2\": false\n  },\n  \"building_categories\": [\"list\", \"of\", \"building\", \"categories\"],\n  \"drawing_categories\": [\"list\", \"of\", \"drawing\", \"categories\"]\n}"
+        }
+      },
+      "id": "d7f69d3d-fea0-4760-b8a5-0e1da3f1e6b3",
+      "name": "AI Classify Categories1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1232,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Analyze these {{ $json.totalHeaders }} headers and determine aggregation method for each:\n\nHeaders with sample values:\n{{ JSON.stringify($json.sampleValues, null, 2) }}\n\nProvide aggregation rule for EACH header listed above.",
+        "options": {
+          "systemMessage": "You are an expert in construction classification systems. Analyze building element groups and assign aggregation methods for grouping data.\n\nRules:\n1. 'sum' - for quantities that should be totaled:\n   - Volume, Area, Length, Width, Height, Depth, Size\n   - Count, Quantity, Number, Amount, Total\n   - Thickness, Perimeter, Dimension\n   - Weight, Mass, Load\n   - Any measurable physical property that accumulates\n\n2. 'mean' (average) - for rates and unit values:\n   - Price, Cost, Rate (per unit)\n   - Coefficient, Factor, Ratio\n   - Percentage, Percent\n   - Efficiency, Performance metrics\n   - Any per-unit or normalized values\n\n3. 'first' - for descriptive/categorical data:\n   - ID, Code, Number (when used as identifier)\n   - Name, Title, Description\n   - Type, Category, Class, Group\n   - Material, Component, Element\n   - Project, Building, Location\n   - Status, Phase, Stage\n   - Any text or categorical field\n\nIMPORTANT: \n- Analyze each header carefully\n- Consider both the header name AND sample value\n- Return aggregation rule for EVERY header provided\n- Use exact header names from input\n\nReturn ONLY valid JSON in this exact format:\n{\n  \"aggregation_rules\": {\n    \"Header1\": \"sum\",\n    \"Header2\": \"first\",\n    \"Header3\": \"mean\"\n  }\n}"
+        }
+      },
+      "id": "f33257e3-2307-4149-85f1-11d17c920b0b",
+      "name": "AI Analyze All Headers",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1536,
+        848
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        2752
+      ],
+      "id": "6bc1d705-366b-4d7b-96f2-3dd500808e2a",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "model": "grok-4-0709",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatXAiGrok",
+      "typeVersion": 1,
+      "position": [
+        96,
+        2256
+      ],
+      "id": "cb97d4fe-2c8a-4b71-9696-0d1884d89c40",
+      "name": "xAI Grok Chat Model"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        96,
+        2416
+      ],
+      "id": "0b572807-427a-4868-b67c-ce8be474f49c",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-opus-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Opus 4"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        2576
+      ],
+      "id": "cd548a09-044b-485a-b229-159153f25dff",
+      "name": "Anthropic Chat Model2"
+    },
+    {
+      "parameters": {
+        "jsCode": "let modelName = \"OpenRouter\";\ntry {\n  const modelParam = $node[\"OpenRouter Chat Model1\"].parameter[\"model\"];\n  if (modelParam) {\n    modelName = `${modelParam}`;\n  }\n} catch (error) {\n  console.log(\"Could not get model name:\", error.message);\n  modelName = \"OpenRouter (Unknown Model)\";\n}\n\n$getWorkflowStaticData('global').aiModelName = modelName;\n\nreturn [{\n  json: {\n    modelNameForReport: modelName\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        592
+      ],
+      "id": "c8edfdc3-295a-4503-88ae-31dd9fd1deb3",
+      "name": "Get LLM Model Name"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json['On the standard 3D View'] }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "b802afee-f022-445a-9d1e-ff6a876d69b2",
+      "name": "On the standard 3D View",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        896,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "Elements not visible in standard 3D view",
+              "type": "string"
+            },
+            {
+              "id": "filtered_count",
+              "name": "filtered_count",
+              "value": "={{ $input.all().length }}",
+              "type": "number"
+            },
+            {
+              "id": "reason",
+              "name": "reason",
+              "value": "Parameter 'On the standard 3D View' is not True",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ac93b998-b8f1-412c-826a-448347218a3d",
+      "name": "Non-3D View Elements Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        96,
+        2096
+      ],
+      "id": "ce9d0867-ad47-4db7-8a03-e1c1eb571c60",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "TF3tGqLbxHk30fXk",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.mode }}",
+              "rightValue": "mapping",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              },
+              "id": "check-mapping-mode"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4277e1b6-f949-478a-b00e-10cc9fdd63b3",
+      "name": "Check Mapping Mode Enhanced",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1552
+      ]
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $json.mappingFilePath }}"
+      },
+      "id": "ba7bf666-1ef3-46c0-b7b9-98299f259ee8",
+      "name": "Read Mapping File Enhanced",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        1552
+      ],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Universal Document Processor - handles any file format\nconst config = $node['Prepare Classification Setup1'].json;\nconst binary = $input.first().binary;\n\nlet processedConfig = { ...config };\n\nif (!binary || !binary.data) {\n  console.log('No mapping file found, using direct AI classification');\n  processedConfig.mode = 'direct';\n  processedConfig.mappingError = 'Could not read file';\n  processedConfig.requiresDirectClassification = true;\n  return [{ json: processedConfig }];\n}\n\ntry {\n  const fileName = config.mappingFilePath.split(/[\\\\\\/]/).pop();\n  const extension = fileName.split('.').pop().toLowerCase();\n  \n  console.log(`\\n=== UNIVERSAL DOCUMENT PROCESSOR ===`);\n  console.log(`File: ${fileName}`);\n  console.log(`Format: ${extension.toUpperCase()}`);\n  \n  const buffer = Buffer.from(binary.data.data, 'base64');\n  \n  // Store file info\n  processedConfig.fileInfo = {\n    fileName: fileName,\n    extension: extension,\n    size: buffer.length,\n    sizeKB: Math.round(buffer.length / 1024),\n    sizeMB: (buffer.length / 1048576).toFixed(2)\n  };\n  \n  // Determine processing type based on extension\n  const processingMap = {\n    'xlsx': 'spreadsheet',\n    'xls': 'spreadsheet',\n    'csv': 'delimited',\n    'tsv': 'delimited',\n    'pdf': 'document',\n    'doc': 'document',\n    'docx': 'document',\n    'xml': 'structured',\n    'json': 'structured',\n    'txt': 'text',\n    'md': 'text'\n  };\n  \n  processedConfig.processingType = processingMap[extension] || 'binary';\n  processedConfig.binaryData = binary;\n  \n  // Set processing flags\n  processedConfig.requiresSpreadsheetProcessing = ['xlsx', 'xls'].includes(extension);\n  processedConfig.requiresDelimitedProcessing = ['csv', 'tsv'].includes(extension);\n  processedConfig.requiresDocumentProcessing = ['pdf', 'doc', 'docx'].includes(extension);\n  processedConfig.requiresStructuredProcessing = ['xml', 'json'].includes(extension);\n  processedConfig.requiresTextProcessing = ['txt', 'md'].includes(extension);\n  \n  console.log(`Size: ${processedConfig.fileInfo.sizeMB} MB`);\n  console.log(`Processing type: ${processedConfig.processingType}`);\n  console.log(`================================\\n`);\n  \n} catch (error) {\n  console.error('Error in document processor:', error.message);\n  processedConfig.processingError = error.message;\n  processedConfig.requiresDirectClassification = true;\n}\n\nreturn [{ json: processedConfig, binary: binary }];"
+      },
+      "id": "dcd61502-62a5-4c7d-895e-032732e97a26",
+      "name": "Document Processor Enhanced",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        1552
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Universal Content Extractor with PDF support\nconst config = $input.first().json;\nconst binary = $input.first().binary;\n\nconsole.log(`\\n=== UNIVERSAL CONTENT EXTRACTOR ===`);\nconsole.log(`Processing: ${config.fileInfo?.fileName || 'Unknown'}`);\nconsole.log(`Type: ${config.processingType}`);\n\nlet extractedContent = '';\nlet classifications = {};\nlet structuredData = {\n  type: config.processingType,\n  metadata: {}\n};\n\n// Universal pattern extraction function\nfunction extractClassificationsUniversal(text) {\n  const classifs = {};\n  if (!text) return classifs;\n  \n  // Comprehensive patterns for various classification formats\n  const patterns = [\n    // Standard code: description formats\n    /^([A-Z0-9][A-Z0-9\\-\\._>]{0,20})\\s*[:=\\->|]+\\s*(.+)$/gim,\n    // Numeric codes with descriptions\n    /^(\\d{1,10})\\s+([^\\d\\n\\r].{2,500})$/gm,\n    // Hierarchical dotted notation\n    /^(\\d{1,3}(?:\\.\\d{1,3}){0,5})\\s+(.+)$/gm,\n    // Alphanumeric codes\n    /^([A-Z]{1,5}[\\-\\.]?\\d{1,5}[A-Z0-9]*)\\s*[:=\\-]?\\s*(.+)$/gim,\n    // Table/grid format with pipes\n    /\\|?\\s*([A-Z0-9][A-Z0-9\\-\\.>]{0,20})\\s*\\|?\\s*([^|\\n]{2,500})\\s*\\|?/gi,\n    // XML/HTML style\n    /<(?:code|id|key)>([^<]+)<\\/(?:code|id|key)>.*?<(?:name|value|description)>([^<]+)<\\/(?:name|value|description)>/gi,\n    // JSON style\n    /\"([A-Z0-9][A-Z0-9\\-\\.]{0,20})\"\\s*:\\s*[\\[{]?\"([^\"]{2,500})\"/gi,\n    // Special format with arrows or greater than\n    /([A-Z0-9]+>?[A-Z0-9]*)\\s*\\|?\\s*([^|\\n]+)/g,\n    // CoClass/КЭЦИН format\n    /(CIM>[A-Z]{1,4})\\s*[-–]\\s*([^,\\n]+)/gi,\n    // Omniclass format\n    /(\\d{2}-\\d{2}\\s\\d{2}\\s\\d{2})\\s*[-–]\\s*([^,\\n]+)/gi,\n    // Uniclass format\n    /([A-Z]{2}_\\d{2}_\\d{2}_\\d{2})\\s*[-–]\\s*([^,\\n]+)/gi,\n    // MasterFormat\n    /(\\d{2}\\s\\d{2}\\s\\d{2})\\s*[-–]\\s*([^,\\n]+)/gi\n  ];\n  \n  // Extract using all patterns\n  patterns.forEach(pattern => {\n    let match;\n    const regex = new RegExp(pattern);\n    while ((match = regex.exec(text)) !== null) {\n      const code = match[1]?.trim();\n      const desc = match[2]?.trim();\n      \n      // Validate extracted data\n      if (code && desc && \n          code.length >= 1 && code.length <= 50 &&\n          desc.length >= 2 && desc.length <= 1000 &&\n          !code.match(/^(and|or|the|with|from|this|that|for|are|was|were)$/i)) {\n        \n        // Clean the description\n        const cleanDesc = desc\n          .replace(/\\s+/g, ' ')\n          .replace(/^[\\s\\-\\.,;:]+|[\\s\\-\\.,;:]+$/g, '')\n          .replace(/\\.$/, '');\n        \n        if (cleanDesc && cleanDesc.length > 1) {\n          classifs[code] = cleanDesc;\n        }\n      }\n    }\n  });\n  \n  return classifs;\n}\n\n// Enhanced PDF extraction function\nfunction extractFromPDF(buffer) {\n  const pdfContent = [];\n  const pdfText = buffer.toString('latin1');\n  \n  // Method 1: Extract text from PDF streams\n  const streamPattern = /stream([\\s\\S]*?)endstream/g;\n  let streamMatch;\n  while ((streamMatch = streamPattern.exec(pdfText)) !== null) {\n    const streamContent = streamMatch[1];\n    \n    // Try to decompress FlateDecode streams (most common in PDFs)\n    try {\n      // Look for text in brackets (common PDF text format)\n      const textInBrackets = streamContent.match(/\\(([^)]+)\\)/g) || [];\n      textInBrackets.forEach(match => {\n        let text = match.slice(1, -1);\n        // Decode PDF escape sequences\n        text = text\n          .replace(/\\\\n/g, '\\n')\n          .replace(/\\\\r/g, '\\r')\n          .replace(/\\\\t/g, '\\t')\n          .replace(/\\\\\\(/g, '(')\n          .replace(/\\\\\\)/g, ')')\n          .replace(/\\\\\\\\/g, '\\\\')\n          .replace(/\\\\(\\d{3})/g, (m, octal) => String.fromCharCode(parseInt(octal, 8)));\n        \n        if (text.trim().length > 1) {\n          pdfContent.push(text.trim());\n        }\n      });\n      \n      // Look for Tj/TJ operators (text showing operators)\n      const tjPattern = /\\[(.*?)\\]\\s*TJ/g;\n      let tjMatch;\n      while ((tjMatch = tjPattern.exec(streamContent)) !== null) {\n        const textArray = tjMatch[1];\n        const texts = textArray.match(/\\(([^)]*)\\)/g) || [];\n        texts.forEach(t => {\n          const cleaned = t.slice(1, -1).trim();\n          if (cleaned.length > 0) {\n            pdfContent.push(cleaned);\n          }\n        });\n      }\n      \n      // Simple Tj operator\n      const simpleTjPattern = /\\(([^)]+)\\)\\s*Tj/g;\n      let simpleTjMatch;\n      while ((simpleTjMatch = simpleTjPattern.exec(streamContent)) !== null) {\n        const text = simpleTjMatch[1].trim();\n        if (text.length > 0) {\n          pdfContent.push(text);\n        }\n      }\n    } catch (e) {\n      // Continue if decompression fails\n    }\n  }\n  \n  // Method 2: Look for BT...ET blocks (text objects)\n  const textObjectPattern = /BT([\\s\\S]*?)ET/g;\n  let textMatch;\n  while ((textMatch = textObjectPattern.exec(pdfText)) !== null) {\n    const textBlock = textMatch[1];\n    \n    // Extract text from this block\n    const texts = textBlock.match(/\\(([^)]+)\\)/g) || [];\n    texts.forEach(match => {\n      let text = match.slice(1, -1);\n      // Basic PDF escape sequence handling\n      text = text\n        .replace(/\\\\n/g, ' ')\n        .replace(/\\\\r/g, ' ')\n        .replace(/\\\\\\(/g, '(')\n        .replace(/\\\\\\)/g, ')')\n        .trim();\n      \n      if (text.length > 1 && !text.match(/^[\\d\\s\\.\\-]+$/)) {\n        pdfContent.push(text);\n      }\n    });\n  }\n  \n  // Method 3: Extract from object definitions\n  const objPattern = /obj([\\s\\S]*?)endobj/g;\n  let objMatch;\n  while ((objMatch = objPattern.exec(pdfText)) !== null) {\n    const objContent = objMatch[1];\n    \n    // Look for dictionaries with text\n    if (objContent.includes('/Type') || objContent.includes('/Contents')) {\n      const texts = objContent.match(/\\(([^)]+)\\)/g) || [];\n      texts.forEach(match => {\n        const text = match.slice(1, -1).trim();\n        if (text.length > 2 && !text.match(/^[\\d\\s]+$/)) {\n          pdfContent.push(text);\n        }\n      });\n    }\n  }\n  \n  // Method 4: Look for Unicode strings\n  const unicodePattern = /<([0-9A-Fa-f]+)>/g;\n  let unicodeMatch;\n  while ((unicodeMatch = unicodePattern.exec(pdfText)) !== null) {\n    try {\n      const hex = unicodeMatch[1];\n      let text = '';\n      for (let i = 0; i < hex.length; i += 4) {\n        const charCode = parseInt(hex.substr(i, 4), 16);\n        if (charCode > 31 && charCode < 65536) {\n          text += String.fromCharCode(charCode);\n        }\n      }\n      if (text.trim().length > 1) {\n        pdfContent.push(text.trim());\n      }\n    } catch (e) {\n      // Continue on error\n    }\n  }\n  \n  // Combine and clean extracted content\n  let combinedText = pdfContent.join('\\n');\n  \n  // Remove duplicate lines\n  const lines = combinedText.split('\\n');\n  const uniqueLines = [...new Set(lines)];\n  combinedText = uniqueLines.join('\\n');\n  \n  // Clean up common PDF artifacts\n  combinedText = combinedText\n    .replace(/\\0/g, '')\n    .replace(/[\\x00-\\x1F\\x7F-\\x9F]/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .replace(/(\\w)\\s+(\\w)/g, '$1 $2');\n  \n  return combinedText;\n}\n\n// Main processing logic\nif (config.requiresSpreadsheetProcessing) {\n  console.log('Spreadsheet file detected - will attempt multiple extraction methods');\n  \n  // Try to extract as binary/text first as fallback\n  if (binary?.data) {\n    const buffer = Buffer.from(binary.data.data, 'base64');\n    const textChunks = [];\n    let current = '';\n    \n    // Extract readable strings from binary\n    for (let i = 0; i < buffer.length; i++) {\n      const byte = buffer[i];\n      if ((byte >= 32 && byte <= 126) || (byte >= 160 && byte <= 255)) {\n        current += String.fromCharCode(byte);\n      } else {\n        if (current.length > 3) {\n          textChunks.push(current.trim());\n        }\n        current = '';\n      }\n    }\n    \n    extractedContent = textChunks.join(' | ');\n    classifications = extractClassificationsUniversal(extractedContent);\n    \n    console.log(`Fallback extraction from binary: ${Object.keys(classifications).length} classifications`);\n  }\n  \n  // Mark for specialized processing\n  config.needsSpreadsheetParser = true;\n  \n} else if (config.requiresDocumentProcessing) {\n  console.log('Document processing required');\n  \n  if (binary?.data) {\n    const buffer = Buffer.from(binary.data.data, 'base64');\n    \n    if (config.fileInfo.extension === 'pdf') {\n      console.log('PDF detected - using specialized PDF extraction');\n      \n      // Use enhanced PDF extraction\n      extractedContent = extractFromPDF(buffer);\n      \n      // If PDF extraction didn't work well, try alternative method\n      if (extractedContent.length < 100) {\n        console.log('PDF extraction yielded little content, trying alternative methods...');\n        \n        // Alternative: Extract all printable ASCII sequences\n        const asciiChunks = [];\n        let currentChunk = '';\n        \n        for (let i = 0; i < buffer.length; i++) {\n          const byte = buffer[i];\n          if (byte >= 32 && byte <= 126) {\n            currentChunk += String.fromCharCode(byte);\n          } else {\n            if (currentChunk.length > 10) {\n              // Only keep chunks that look like text\n              if (!currentChunk.match(/^[\\d\\s\\W]+$/) && currentChunk.match(/[a-zA-Z]/)) {\n                asciiChunks.push(currentChunk.trim());\n              }\n            }\n            currentChunk = '';\n          }\n        }\n        \n        const alternativeContent = asciiChunks.join('\\n');\n        if (alternativeContent.length > extractedContent.length) {\n          extractedContent = alternativeContent;\n          console.log('Alternative extraction yielded more content');\n        }\n      }\n      \n    } else {\n      // For Word documents and other binary formats\n      console.log(`Processing ${config.fileInfo.extension} document`);\n      \n      const textChunks = [];\n      let current = '';\n      \n      // Extract all readable strings\n      for (let i = 0; i < buffer.length; i++) {\n        const byte = buffer[i];\n        \n        // Check for printable characters (including extended ASCII)\n        if ((byte >= 32 && byte <= 126) || (byte >= 160 && byte <= 255)) {\n          current += String.fromCharCode(byte);\n        } else {\n          if (current.length > 2) {\n            textChunks.push(current.trim());\n          }\n          current = '';\n        }\n      }\n      \n      // Also try UTF-16 LE for Word docs\n      try {\n        const utf16Text = buffer.toString('utf16le');\n        if (utf16Text && !utf16Text.includes('�')) {\n          const cleanUtf16 = utf16Text.replace(/[\\x00-\\x1F\\x7F-\\x9F]/g, ' ').trim();\n          if (cleanUtf16.length > 100) {\n            textChunks.push(cleanUtf16);\n          }\n        }\n      } catch (e) {\n        // Ignore UTF-16 errors\n      }\n      \n      extractedContent = textChunks.join('\\n');\n    }\n  }\n  \n  classifications = extractClassificationsUniversal(extractedContent);\n  \n} else if (config.requiresDelimitedProcessing) {\n  // Handle CSV/TSV files\n  if (binary?.data) {\n    const buffer = Buffer.from(binary.data.data, 'base64');\n    extractedContent = buffer.toString('utf8');\n    \n    // Parse delimited data\n    const delimiter = config.fileInfo.extension === 'tsv' ? '\\t' : ',';\n    const lines = extractedContent.split(/\\r?\\n/);\n    \n    if (lines.length > 0) {\n      const headers = lines[0].split(delimiter).map(h => h.trim().replace(/^\"|\"$/g, ''));\n      \n      for (let i = 1; i < lines.length; i++) {\n        const values = lines[i].split(delimiter).map(v => v.trim().replace(/^\"|\"$/g, ''));\n        \n        // Try to find code-description pairs\n        if (values.length >= 2) {\n          const potentialCode = values[0];\n          const potentialDesc = values[1];\n          \n          if (potentialCode && potentialDesc && \n              potentialCode.length <= 50 && \n              potentialDesc.length > 1) {\n            classifications[potentialCode] = potentialDesc;\n          }\n        }\n      }\n    }\n  }\n  \n} else {\n  // Text-based files or fallback\n  if (binary?.data) {\n    const buffer = Buffer.from(binary.data.data, 'base64');\n    \n    // Try multiple encodings\n    const encodings = ['utf8', 'latin1', 'utf16le'];\n    for (const encoding of encodings) {\n      try {\n        const decoded = buffer.toString(encoding);\n        if (decoded && !decoded.includes('�')) {\n          extractedContent = decoded;\n          break;\n        }\n      } catch (e) {\n        continue;\n      }\n    }\n  }\n  \n  classifications = extractClassificationsUniversal(extractedContent);\n}\n\nconsole.log(`Extracted text: ${extractedContent.length} chars`);\nconsole.log(`Classifications found: ${Object.keys(classifications).length}`);\n\nif (Object.keys(classifications).length > 0) {\n  console.log(`Sample classifications:`);\n  Object.entries(classifications).slice(0, 5).forEach(([code, desc]) => {\n    console.log(`  ${code}: ${desc.substring(0, 60)}...`);\n  });\n} else if (extractedContent.length > 0) {\n  console.log('No classifications found, but text was extracted.');\n  console.log('Sample of extracted text:');\n  console.log(extractedContent.substring(0, 500));\n}\n\nconsole.log(`====================================\\n`);\n\n// Prepare output\nconfig.extractedContent = {\n  text: extractedContent,\n  classifications: classifications,\n  totalClassifications: Object.keys(classifications).length,\n  confidence: Object.keys(classifications).length > 10 ? 85 : 60,\n  extractionMethod: config.fileInfo?.extension === 'pdf' ? 'PDF extraction' : 'Binary extraction'\n};\n\nreturn [{ json: config, binary: binary }];"
+      },
+      "id": "25e1d002-a2ea-490d-ab07-e8a166ec0e99",
+      "name": "Universal Extractor Enhanced",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        1552
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.needsSpreadsheetParser }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "89522979-0dc2-4993-b5c1-afbfd900d534",
+      "name": "Check Spreadsheet Enhanced",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        1552
+      ]
+    },
+    {
+      "parameters": {
+        "fileFormat": "xlsx",
+        "options": {
+          "headerRow": true,
+          "includeEmptyCells": false
+        }
+      },
+      "id": "3cf1370d-5570-4e7e-aff0-07a0a6f3bea3",
+      "name": "Try Parse Spreadsheet",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        1472
+      ],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simplified Spreadsheet Parser\nconst config = $node['Universal Extractor Enhanced'].json;\nconst parseAttempt = $input.all();\n\nconsole.log(`\\n=== SIMPLIFIED SPREADSHEET PARSER ===`);\n\nlet classifications = {};\nlet fullContent = ''; // This will store the text representation of the table\nlet structuredData = {\n  parseMethod: 'unknown',\n  totalRows: 0,\n};\n\n// Check if the standard spreadsheet parser was successful\nif (parseAttempt.length > 0 && parseAttempt[0].json && !parseAttempt[0].json.error) {\n  console.log(`Standard parse successful: ${parseAttempt.length} rows`);\n  structuredData.parseMethod = 'standard';\n  structuredData.totalRows = parseAttempt.length;\n\n  // Convert each row to a JSON string and append it.\n  // WARNING: This can create a very large text block for the LLM,\n  // which will be slower and more expensive to process.\n  const allRowsAsText = parseAttempt.map(item => JSON.stringify(item.json)).join('\\n');\n  \n  fullContent = allRowsAsText;\n\n  // For compatibility, we'll try to populate 'classifications' from the first two columns.\n  // This is a basic fallback.\n  if (parseAttempt.length > 0) {\n    const firstItemKeys = Object.keys(parseAttempt[0].json);\n    if (firstItemKeys.length >= 2) {\n      parseAttempt.forEach(item => {\n        const row = item.json;\n        const key = row[firstItemKeys[0]];\n        const value = row[firstItemKeys[1]];\n        if (key && value) {\n          classifications[String(key)] = String(value);\n        }\n      });\n    }\n  }\n\n} else {\n  // If parsing failed, use the fallback data from the previous node\n  console.log('Standard parse failed. Using fallback from binary extraction.');\n  structuredData.parseMethod = 'binary_fallback';\n  classifications = config.extractedContent?.classifications || {};\n  fullContent = config.extractedContent?.text || '';\n}\n\nconsole.log(`\\nExtraction complete:`);\nconsole.log(`- Parse method: ${structuredData.parseMethod}`);\nconsole.log(`- Total rows processed: ${structuredData.totalRows}`);\nconsole.log(`- Total classifications found (basic): ${Object.keys(classifications).length}`);\nconsole.log(`- Full content length for LLM: ${fullContent.length} chars`);\nconsole.log(`=====================================\\n`);\n\nconfig.extractedContent = {\n  text: fullContent,\n  classifications: classifications, // Basic classifications from first 2 columns\n  totalClassifications: Object.keys(classifications).length,\n  confidence: 70, // Confidence is lower as we are not intelligently parsing\n  source: 'Spreadsheet',\n  parseMethod: structuredData.parseMethod,\n};\n\nreturn [{ json: config }];"
+      },
+      "id": "947b659d-ebab-4b78-8799-7f1a19b40c18",
+      "name": "Process Spreadsheet Enhanced",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        1472
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "fe7c4e55-ad03-4c5f-85d4-62f385c3d988",
+      "name": "Merge Extraction Enhanced",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2176,
+        1584
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Direct Classification Mode - No mapping file provided\nconst config = $node['Prepare Classification Setup1'].json;\n\nconsole.log(`\\n=== DIRECT CLASSIFICATION MODE ===`);\nconsole.log(`No mapping file provided`);\nconsole.log(`Classification system: ${config.classificationName || 'Will be determined by AI'}`);\nconsole.log(`Using AI for direct classification without predefined mappings`);\n\nconst directConfig = {\n  ...config,\n  mode: 'direct',\n  mappingRules: {},\n  totalMappingRules: 0,\n  uniqueCodes: 0,\n  mappingFound: false,\n  confidence: 60,\n  extractionComplete: true,\n  classificationSystem: config.classificationName || 'Unknown',\n  systemType: 'AI-determined'\n};\n\nconsole.log(`==================================\\n`);\n\nreturn [{ json: directConfig }];"
+      },
+      "id": "2b797f38-d99d-4045-a193-2845f9de44e2",
+      "name": "Direct Mode Enhanced",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        1776
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "caf450e4-b755-4b7a-ac63-397defae1a56",
+      "name": "Merge Modes Enhanced",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        1936
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Finalize Classification Context with Complete Dictionary\nconst inputData = $input.first().json;\nconst setupConfig = $node['Prepare Classification Setup1'].json;\n\nconsole.log(`\\n=== FINALIZING CLASSIFICATION CONTEXT ===`);\nconsole.log(`Input mode: ${inputData.mode}`);\nconsole.log('Input keys:', Object.keys(inputData));\n\n// Initialize configuration\nlet config = {};\nlet extractedMappings = {};\nlet rawDictionaryOutput = ''; // Store raw output\n\nif (inputData.mode === 'direct') {\n  // DIRECT MODE - no mapping file\n  config = inputData;\n  console.log('Direct classification mode - no mapping file');\n  \n} else {\n  // MAPPING MODE - process AI extracted mappings\n  console.log('Processing mapping mode with AI extracted dictionary...');\n  \n  // SAVE THE RAW OUTPUT from AI Extract Minimal Dictionary1\n  if (inputData.output) {\n    rawDictionaryOutput = inputData.output;\n    console.log(`Raw dictionary output captured: ${rawDictionaryOutput.length} characters`);\n  }\n  \n  // Also parse for structured use (existing logic)\n  if (inputData.mappings && Object.keys(inputData.mappings).length > 0) {\n    extractedMappings = inputData.mappings;\n    console.log(`Found pre-parsed mappings: ${Object.keys(extractedMappings).length} codes`);\n    \n  } else if (inputData.aiExtractionResult) {\n    extractedMappings = inputData.aiExtractionResult.mappings || {};\n    console.log(`Found mappings in aiExtractionResult: ${Object.keys(extractedMappings).length} codes`);\n    \n  } else if (inputData.output) {\n    try {\n      const output = inputData.output;\n      let aiResult = {};\n      \n      if (typeof output === 'string') {\n        const jsonMatch = output.match(/\\{[\\s\\S]*\\}/);\n        if (jsonMatch) {\n          aiResult = JSON.parse(jsonMatch[0]);\n        }\n      } else {\n        aiResult = output;\n      }\n      \n      extractedMappings = aiResult.mappings || {};\n      console.log(`Parsed mappings from output: ${Object.keys(extractedMappings).length} codes`);\n      \n    } catch (error) {\n      console.error('Error parsing output:', error.message);\n    }\n  }\n  \n  // Log extraction results\n  console.log(`\\n=== EXTRACTION SUMMARY ===`);\n  console.log(`Classification system: ${inputData.classification_system || setupConfig.classificationName}`);\n  console.log(`Total codes extracted: ${Object.keys(extractedMappings).length}`);\n  console.log(`Raw dictionary saved: ${rawDictionaryOutput ? 'Yes' : 'No'}`);\n  \n  // Build configuration\n  config = {\n    ...setupConfig,\n    ...inputData,\n    mode: Object.keys(extractedMappings).length > 0 ? 'mapping' : 'direct',\n    mappingRules: extractedMappings,\n    originalMappingRules: extractedMappings,\n    totalMappingRules: Object.keys(extractedMappings).length,\n    classificationSystem: inputData.classification_system || setupConfig.classificationName,\n    mappingFound: Object.keys(extractedMappings).length > 0\n  };\n}\n\n// Ensure all fields are present\nconfig = {\n  ...config,\n  classificationName: config.classificationSystem || setupConfig.classificationName || 'Unknown',\n  projectType: config.projectType || setupConfig.projectType || 'Building/Construction',\n  helpPrompt: setupConfig.optional__help_to_the_prompt || '',\n  originalElements: setupConfig.originalElements || [],\n  totalGroups: setupConfig.totalGroups || 0\n};\n\n// Create simplified lookup (existing logic)\nconst mappingRules = config.originalMappingRules || {};\nconst simplifiedMappings = {};\nif (Object.keys(mappingRules).length > 0) {\n  Object.entries(mappingRules).forEach(([key, value]) => {\n    const keyLower = key.toLowerCase().trim();\n    \n    if (typeof value === 'string') {\n      simplifiedMappings[keyLower] = {\n        targetCode: key,\n        targetName: value,\n        confidence: 95\n      };\n    } else if (typeof value === 'object') {\n      simplifiedMappings[keyLower] = {\n        targetCode: key,\n        targetName: value.name || value.description || '',\n        parent: value.parent || null,\n        confidence: 95\n      };\n    }\n  });\n}\n\n// Create classification context\nconst classificationContext = {\n  // System info\n  classificationName: config.classificationName,\n  projectType: config.projectType,\n  mode: config.mode,\n  \n  // CRITICAL: Store both RAW and processed mappings\n  rawDictionaryOutput: rawDictionaryOutput, // NEW: Store raw output\n  mappingRules: simplifiedMappings,\n  originalMappingRules: mappingRules,\n  totalMappingRules: Object.keys(mappingRules).length,\n  \n  // Flags\n  directClassificationMode: Object.keys(mappingRules).length === 0,\n  hasMappingDictionary: Object.keys(mappingRules).length > 0,\n  \n  // Metadata\n  totalGroups: config.totalGroups\n};\n\n// Save to global context\n$getWorkflowStaticData('global').classificationContext = classificationContext;\n\nconsole.log(`\\n=== CONTEXT SAVED TO GLOBAL ===`);\nconsole.log(`Classification: ${classificationContext.classificationName}`);\nconsole.log(`Dictionary size: ${classificationContext.totalMappingRules} codes`);\nconsole.log(`Raw dictionary included: ${classificationContext.rawDictionaryOutput ? 'Yes' : 'No'}`);\nconsole.log(`Mode: ${classificationContext.directClassificationMode ? 'Direct' : 'Mapping'}`);\n\n// Return elements for classification\nconst elements = config.originalElements || [];\n\nif (elements.length === 0) {\n  const setupData = $node['Prepare Classification Setup1'].json;\n  if (setupData.originalElements && setupData.originalElements.length > 0) {\n    console.log(`Retrieved ${setupData.originalElements.length} elements from setup`);\n    return setupData.originalElements;\n  }\n}\n\nconsole.log(`Returning ${elements.length} elements for classification`);\nreturn elements;"
+      },
+      "id": "c7a61a6b-66b5-424b-921f-0574beb5dc51",
+      "name": "Finalize Context Enhanced",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        1952
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Block 1: Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\n\n\n\n\n\n\n\nSimply: Converts Revit file to Excel for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?: Verifies file\n- Extract - Run converter: Converts if needed\n\n\n\n\n\n\n\n",
+        "height": 580,
+        "width": 1496,
+        "color": 5
+      },
+      "id": "82a89672-4c2e-4e09-862b-5e17b00d587b",
+      "name": "Conversion Block",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        864,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Block 2: Data Loading & Grouping\nThis block:\n- Loads Excel data\n- Cleans headers\n- Uses AI to decide aggregation (sum for quantities, mean \nfor rates, first for texts)\n- Groups data by parameter (e.g., Type Name)\nSimply: Prepares raw data for classification.",
+        "height": 272,
+        "width": 2064,
+        "color": 6
+      },
+      "id": "5152a7a0-647c-4ddc-8ee7-3ffa1781862b",
+      "name": "Data Loading Block1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        768
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Block 3: Element Classification Block\nThis block:\n- Identifies category fields in the data\n- Uses AI to classify categories as building elements \nor drawing/annotation elements\n- Filters out non-building elements (drawings, tags, annotations)\n- Applies classification to all element groups\n\nSimply: Separates real building elements from documentation elements",
+        "height": 320,
+        "width": 2064,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        1072
+      ],
+      "typeVersion": 1,
+      "id": "61077740-e3b3-4bcb-88f4-ce27b3a89559",
+      "name": "Element Classification Block"
+    },
+    {
+      "parameters": {
+        "content": "## Block 4: Classification & Mapping Block\nThis block:\n- Processes building elements through classification system\n- Reads optional mapping/classification file (Excel, CSV, PDF, etc.)\n- Extracts classification codes and descriptions\n- Uses AI to enhance and complete the classification dictionary\n- Applies classifications to each element group\n\nSimply: Maps building elements to standard classification codes",
+        "height": 688,
+        "width": 2064,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        1424
+      ],
+      "typeVersion": 1,
+      "id": "7df6d46d-dc4b-4bcd-9a91-91327f045031",
+      "name": "Material Analysis Block"
+    },
+    {
+      "parameters": {
+        "content": "## Block 5: Batch Classification Processing\nThis block:\n- Processes elements in batches for efficiency\n- Prepares classification prompts with context\n- Uses AI to classify each element according to the specified system\n- Parses and validates classification results\n- Accumulates all classified elements\n\nSimply: AI-powered classification of building elements",
+        "height": 352,
+        "width": 2064,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        2144
+      ],
+      "typeVersion": 1,
+      "id": "8a7fadc7-d7b7-4e96-815d-5fafcce77af2",
+      "name": "Material Analysis Block6"
+    },
+    {
+      "parameters": {
+        "content": "## Block 6: Report Generation Block\nThis block:\n- Calculates project totals and statistics\n- Generates comprehensive HTML report with charts and visualizations\n- Creates multi-sheet Excel file with detailed analysis\n- Saves reports to project folder\n- Opens HTML report in browser automatically\n\nSimply: Creates professional reports from classified data",
+        "height": 384,
+        "width": 2064,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        2528
+      ],
+      "typeVersion": 1,
+      "id": "3c1f1c9c-66d6-4e26-931e-856b4b440a90",
+      "name": "Material Analysis Block7"
+    },
+    {
+      "parameters": {
+        "content": "## Available AI Models\n\nConnect any of these models to the workflow:\n\n1. **OpenRouter** - Access to multiple models\n2. **OpenAI** - GPT-4 and other models\n3. **Anthropic** - Claude models\n4. **Google Gemini** - Gemini Pro\n5. **xAI Grok** - Grok models\n\nModels are used for:\n- Header analysis\n- Category classification\n- Element classification\n- Mapping extraction",
+        "height": 1476,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1424
+      ],
+      "id": "7e3fc1a1-633a-40fb-b329-fc2147a425e2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Config here and run\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n### Configure File Paths here\nIn the **'Setup - Define file paths'** node, set:\n- `path_to_converter`: Full path to RvtExporter.exe (e.g., C:\\DDC_Converter\\RvtExporter.exe)\n- `project_file`: Path to your CAD/BIM file (.rvt, .ifc, .dwg, .dgn)\n- `group_by`: Grouping parameter (e.g., 'Type Name', 'Category', 'IfcType')\n- `classification_name`: Target system (Omniclass, Uniclass, MasterFormat, etc.)\n- `optional_mapping_file`: Path to classification mapping file (Excel/CSV/PDF)\n- `optional_help_prompt`: Additional context for AI (e.g., \"Focus on structural elements\")\n",
+        "height": 576,
+        "width": 544,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "59ab1655-dd6f-48ef-a890-cd7eba979dcf",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
+              "name": "path_to_converter",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n pipelines\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
+              "type": "string"
+            },
+            {
+              "id": "aa834467-80fb-476a-bac1-6728478834f0",
+              "name": "project_file",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n pipelines\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "type": "string"
+            },
+            {
+              "id": "4e4f5e6f-7a8b-4c5d-9e0f-1a2b3c4d5e6f",
+              "name": "group_by",
+              "value": "Type Name",
+              "type": "string"
+            },
+            {
+              "id": "5f6a7b8c-9d0e-4f1a-2b3c-4d5e6f7a8b9c",
+              "name": "classification_name",
+              "value": "OmniClass",
+              "type": "string"
+            },
+            {
+              "id": "ed7fdee0-6ea2-4e8a-be3f-2b8a09fc5abe",
+              "name": "optional__classifier_or_mapping_file",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "910660fd-4ed9-443a-a2ee-1d484ca7d4d4",
+              "name": "optional__help_to_the_prompt",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        256
+      ],
+      "id": "cc1a5613-1da0-42b5-99ca-b0a5b8062bd6",
+      "name": "Setup - Define file paths1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Step 1: Analyze Document Structure\nconst config = $input.first().json;\nconst extractedText = config.extractedContent?.text || '';\nconst projectType = config.projectType || 'Unknown';\nconst classificationName = config.classificationName || 'Unknown';\n\nconsole.log(`\\n=== INTELLIGENT STRUCTURE ANALYSIS ===`);\nconsole.log(`Project Type: ${projectType}`);\nconsole.log(`Classification System: ${classificationName}`);\nconsole.log(`Document size: ${extractedText.length} chars`);\n\n// Extract sample of the document for analysis\nconst sampleSize = Math.min(10000, extractedText.length);\nconst documentSample = extractedText.substring(0, sampleSize);\n\n// Also get a middle sample if document is large\nlet middleSample = '';\nif (extractedText.length > 20000) {\n  const midPoint = Math.floor(extractedText.length / 2);\n  middleSample = extractedText.substring(midPoint, midPoint + 5000);\n}\n\n// Prepare analysis prompt\nconst systemPrompt = `You are an expert in classification systems and document structure analysis.\nYour task is to analyze the document structure and identify the MINIMAL fields needed for classification mapping.\n\nProject context:\n- Project Type: ${projectType}\n- Target Classification: ${classificationName}\n\nYour goal: Identify ONLY the essential columns/fields needed for mapping, typically:\n1. Classification code field\n2. Classification name/description field\n3. Optional: parent/hierarchy field if hierarchical\n\nDO NOT extract all metadata - only mapping essentials.`;\n\nconst userPrompt = `Analyze this document structure and identify the minimal fields needed for ${projectType} classification mapping:\n\n=== DOCUMENT SAMPLE (first ${sampleSize} chars) ===\n${documentSample}\n\n${middleSample ? `=== MIDDLE SAMPLE ===\\n${middleSample}\\n` : ''}\n\n=== TASK ===\n1. Identify the document format/structure\n2. Find which fields contain classification codes\n3. Find which fields contain classification names/descriptions\n4. Determine if it's hierarchical (and how hierarchy is represented)\n5. Identify the language of the classification\n6. Suggest extraction pattern for this specific format\n\nReturn JSON:\n{\n  \"document_format\": \"table/list/structured/etc\",\n  \"detected_language\": \"English/Russian/etc\",\n  \"classification_type\": \"hierarchical/flat/matrix\",\n  \"essential_fields\": {\n    \"code_field\": \"field name or pattern\",\n    \"name_field\": \"field name or pattern\",\n    \"parent_field\": \"field name or null if flat\",\n    \"description_field\": \"optional field name\"\n  },\n  \"extraction_pattern\": \"regex or description of pattern\",\n  \"sample_mappings\": [\n    {\"code\": \"example\", \"name\": \"example name\"}\n  ],\n  \"confidence\": 0-100,\n  \"notes\": \"any important observations\"\n}`;\n\nconfig.structureAnalysis = {\n  systemPrompt: systemPrompt,\n  userPrompt: userPrompt,\n  projectType: projectType,\n  classificationName: classificationName\n};\n\nreturn [{ json: config }];"
+      },
+      "id": "864fcb9e-dd02-4eb7-9b8e-66e109e79aa1",
+      "name": "Analyze Document Structure1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.structureAnalysis.userPrompt }}",
+        "options": {
+          "systemMessage": "={{ $json.structureAnalysis.systemPrompt }}"
+        }
+      },
+      "id": "5a4d9de0-eeb1-4c9c-ab66-9ad134123613",
+      "name": "AI Analyze Structure1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1024,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Step 2: Create Targeted Extraction Prompt\nconst config = $node['Analyze Document Structure1'].json;\nconst structureAnalysis = $input.first().json;\nconst extractedText = config.extractedContent?.text || '';\n\nconsole.log(`\\n=== TARGETED EXTRACTION SETUP ===`);\n\nlet analysisResult = {};\ntry {\n  const content = structureAnalysis.output || structureAnalysis.text || structureAnalysis;\n  if (typeof content === 'string') {\n    const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      analysisResult = JSON.parse(jsonMatch[0]);\n    }\n  } else {\n    analysisResult = content;\n  }\n} catch (error) {\n  console.error('Error parsing structure analysis:', error.message);\n  analysisResult = {\n    document_format: 'unknown',\n    essential_fields: {\n      code_field: 'code',\n      name_field: 'name'\n    }\n  };\n}\n\nconsole.log(`Document format: ${analysisResult.document_format}`);\nconsole.log(`Language: ${analysisResult.detected_language}`);\nconsole.log(`Essential fields identified:`);\nconsole.log(`  - Code: ${analysisResult.essential_fields?.code_field}`);\nconsole.log(`  - Name: ${analysisResult.essential_fields?.name_field}`);\n\n// Build targeted extraction prompt based on analysis\nconst systemPrompt = `You are a precision data extractor for ${config.projectType} classification systems.\n\nDocument structure identified:\n- Format: ${analysisResult.document_format}\n- Language: ${analysisResult.detected_language}\n- Classification type: ${analysisResult.classification_type}\n\nEssential fields to extract:\n- Code field: ${analysisResult.essential_fields?.code_field}\n- Name field: ${analysisResult.essential_fields?.name_field}\n${analysisResult.essential_fields?.parent_field ? `- Parent field: ${analysisResult.essential_fields.parent_field}` : ''}\n\nExtraction rules:\n1. Extract ONLY code and name pairs (plus parent if hierarchical)\n2. Ignore all other metadata and fields\n3. Preserve original language\n4. Keep descriptions concise (first sentence only if long)\n5. Use the identified pattern: ${analysisResult.extraction_pattern || 'standard'}`;\n\nconst userPrompt = `Extract MINIMAL classification mappings from this document.\n\nFocus ONLY on:\n- ${analysisResult.essential_fields?.code_field} → ${analysisResult.essential_fields?.name_field}\n${analysisResult.essential_fields?.parent_field ? `- Include parent references` : ''}\n\n=== DOCUMENT (${extractedText.length} chars) ===\n${extractedText}\n\n=== EXTRACTION REQUIREMENTS ===\n1. Return ONLY essential mapping data\n2. Format: {\"CODE\": \"NAME\"} or {\"CODE\": {\"name\": \"NAME\", \"parent\": \"PARENT_CODE\"}} if hierarchical\n3. Skip all unnecessary metadata\n4. Preserve exact codes as they appear\n5. Keep names/descriptions concise\n\nReturn JSON:\n{\n  \"classification_system\": \"${config.classificationName}\",\n  \"total_codes\": number,\n  \"mappings\": {\n    \"CODE1\": \"Name/Description\",\n    \"CODE2\": \"Name/Description\",\n    // OR for hierarchical:\n    \"CODE1\": {\"name\": \"Name\", \"parent\": null},\n    \"CODE2\": {\"name\": \"Name\", \"parent\": \"CODE1\"}\n  },\n  \"extraction_complete\": true\n}`;\n\nconfig.targetedExtraction = {\n  systemPrompt: systemPrompt,\n  userPrompt: userPrompt,\n  analysisResult: analysisResult\n};\n\nreturn [{ json: config }];"
+      },
+      "id": "a9cceae1-969a-4695-9253-c576ffd9d3d7",
+      "name": "Prepare Targeted Extraction1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.targetedExtraction.userPrompt }}",
+        "options": {
+          "systemMessage": "={{ $json.targetedExtraction.systemPrompt }}"
+        }
+      },
+      "id": "d764c2c0-ee2a-4aae-9025-f73f36752843",
+      "name": "AI Extract Minimal Dictionary1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1472,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge classification modes while preserving AI extraction data\nconst inputs = $input.all();\n\nconsole.log(`\\n=== MERGE MODES ENHANCED ===`);\nconsole.log(`Total inputs to merge: ${inputs.length}`);\n\n// Initialize merged output\nlet mergedOutput = {};\n\n// Process each input\ninputs.forEach((input, index) => {\n  console.log(`\\nInput ${index + 1}:`);\n  console.log('Keys:', Object.keys(input.json));\n  \n  // Check if this is from AI Extract Minimal Dictionary1 (has 'output' field)\n  if (input.json.output) {\n    console.log('Found AI extraction output');\n    \n    // Parse the AI response\n    try {\n      let aiResult = {};\n      const output = input.json.output;\n      \n      if (typeof output === 'string') {\n        aiResult = JSON.parse(output);\n        console.log('Parsed AI extraction:');\n        console.log('- Classification system:', aiResult.classification_system);\n        console.log('- Total codes:', aiResult.total_codes);\n        console.log('- Mappings count:', Object.keys(aiResult.mappings || {}).length);\n      } else {\n        aiResult = output;\n      }\n      \n      // Store the parsed AI result directly\n      mergedOutput = {\n        ...input.json,\n        mode: 'mapping',\n        aiExtractionResult: aiResult,\n        mappings: aiResult.mappings || {},\n        classification_system: aiResult.classification_system,\n        total_codes: aiResult.total_codes,\n        extraction_complete: aiResult.extraction_complete\n      };\n      \n    } catch (error) {\n      console.error('Error parsing AI extraction:', error.message);\n      mergedOutput = {\n        ...input.json,\n        mode: 'mapping',\n        parseError: error.message\n      };\n    }\n    \n  } else if (input.json.mode === 'direct') {\n    // This is from Direct Mode Enhanced\n    console.log('Found direct mode configuration');\n    mergedOutput = {\n      ...mergedOutput,\n      ...input.json\n    };\n  } else {\n    // Merge any other data\n    mergedOutput = {\n      ...mergedOutput,\n      ...input.json\n    };\n  }\n});\n\nconsole.log('\\n=== MERGED OUTPUT ===');\nconsole.log('Mode:', mergedOutput.mode);\nconsole.log('Has mappings:', !!mergedOutput.mappings);\nconsole.log('Mappings count:', Object.keys(mergedOutput.mappings || {}).length);\nconsole.log('=====================================\\n');\n\nreturn [{ json: mergedOutput }];"
+      },
+      "id": "2fd8d61f-5260-4cf9-a625-31fde65cf0b9",
+      "name": "Merge Modes Enhanced1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare prompt for AI classification\n// Now receives data directly from Process Classification Batches1 (already cleaned)\nconst groupData = $input.first().json;\nconst context = $getWorkflowStaticData('global').classificationContext;\nconst setupData = $node['Setup - Define file paths1'].json;\n\n// Check for context existence\nif (!context) {\n  console.error('ERROR: Classification context not found in global storage!');\n  console.log('Available global data:', Object.keys($getWorkflowStaticData('global')));\n  \n  // Minimal fallback context\n  const fallbackContext = {\n    classificationName: setupData.classification_name || 'Unknown',\n    helpPrompt: setupData.optional__help_to_the_prompt || '',\n    mappingRules: {},\n    originalMappingRules: {},\n    projectType: 'Building/Construction',\n    directClassificationMode: true,\n    rawDictionaryOutput: ''\n  };\n  \n  $getWorkflowStaticData('global').classificationContext = fallbackContext;\n}\n\n// Use the context (either saved or fallback)\nconst classificationContext = $getWorkflowStaticData('global').classificationContext;\n\nconsole.log('=== PREPARING CLASSIFICATION PROMPT ===');\nconsole.log(`Processing element: ${groupData['Type Name'] || groupData['Category'] || 'Unknown'}`);\nconsole.log(`Project Type: ${classificationContext.projectType}`);\nconsole.log(`Classification System: ${classificationContext.classificationName || setupData.classification_name}`);\n\n// Get ALL mapping rules - both processed and original from AI extraction\nconst mappingRules = classificationContext.mappingRules || {};\nconst originalMappingRules = classificationContext.originalMappingRules || {};\nconst rawDictionaryOutput = classificationContext.rawDictionaryOutput || '';\n\n// Debug logging to see what we have\nconsole.log(`Mapping Rules (processed): ${Object.keys(mappingRules).length}`);\nconsole.log(`Original Mapping Rules: ${Object.keys(originalMappingRules).length}`);\nconsole.log(`Raw Dictionary Output: ${rawDictionaryOutput ? rawDictionaryOutput.length + ' chars' : 'None'}`);\nconsole.log(`Direct Classification Mode: ${classificationContext.directClassificationMode}`);\n\n// Check for direct mapping\nlet directMapping = null;\n\nif (Object.keys(mappingRules).length > 0) {\n  // Prepare search keys - normalize to lowercase for comparison\n  const elementCategory = (groupData['Category'] || '').toLowerCase().trim();\n  const elementTypeName = (groupData['Type Name'] || '').toLowerCase().trim();\n  const elementFamily = (groupData['Family'] || '').toLowerCase().trim();\n  \n  const searchKeys = [\n    elementCategory,\n    elementTypeName,\n    elementFamily,\n    `${elementCategory} - ${elementTypeName}`,\n    `${elementFamily} - ${elementTypeName}`\n  ].filter(key => key && key.length > 0);\n  \n  // Search for mapping\n  for (const searchKey of searchKeys) {\n    if (mappingRules[searchKey]) {\n      const mappingValue = mappingRules[searchKey];\n      directMapping = {\n        targetCode: mappingValue.targetCode || searchKey,\n        targetName: mappingValue.targetName || mappingValue.targetClass,\n        confidence: mappingValue.confidence || 95\n      };\n      console.log(`Found direct mapping: ${searchKey} → ${directMapping.targetCode}`);\n      break;\n    }\n  }\n}\n\n// Build dictionary prompt based on what's available\nlet dictionaryPrompt = '';\nconst classificationName = classificationContext.classificationName || setupData.classification_name || 'Unknown';\nlet validCodesList = [];\n\n// PRIORITY 1: Use raw dictionary output if available\nif (rawDictionaryOutput && rawDictionaryOutput.length > 0) {\n  dictionaryPrompt = `\\n=== COMPLETE CLASSIFICATION DICTIONARY ===\\n`;\n  dictionaryPrompt += `This is the COMPLETE classification dictionary for ${classificationName}.\\n`;\n  dictionaryPrompt += `The dictionary is provided exactly as extracted from the mapping file.\\n`;\n  dictionaryPrompt += `⚠️ CRITICAL: You MUST use ONLY these exact codes. ANY code not in this dictionary is INVALID.\\n\\n`;\n  dictionaryPrompt += rawDictionaryOutput;\n  dictionaryPrompt += `\\n\\n=== END OF DICTIONARY ===\\n`;\n  \n  // Try to extract valid codes from raw output for validation\n  try {\n    const jsonMatch = rawDictionaryOutput.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      const parsed = JSON.parse(jsonMatch[0]);\n      if (parsed.mappings) {\n        validCodesList = Object.keys(parsed.mappings);\n      }\n    }\n  } catch (e) {\n    console.log('Could not parse codes from raw output for validation');\n  }\n  \n  console.log(`Using RAW dictionary output (${rawDictionaryOutput.length} chars)`);\n  \n// FALLBACK: Use originalMappingRules if no raw output but rules exist\n} else if (Object.keys(originalMappingRules).length > 0) {\n  dictionaryPrompt = `\\n=== COMPLETE CLASSIFICATION DICTIONARY ===\\n`;\n  dictionaryPrompt += `This is the COMPLETE and ONLY classification dictionary for ${classificationName}.\\n`;\n  dictionaryPrompt += `Total codes available: ${Object.keys(originalMappingRules).length}\\n`;\n  dictionaryPrompt += `⚠️ CRITICAL: You MUST use ONLY these exact codes. ANY code not in this list is INVALID.\\n\\n`;\n  \n  // Include ALL codes without any limits\n  for (const [code, value] of Object.entries(originalMappingRules)) {\n    validCodesList.push(code); // Add to valid codes list\n    \n    let description = '';\n    if (typeof value === 'string') {\n      description = value;\n    } else if (typeof value === 'object') {\n      description = value.name || value.description || JSON.stringify(value);\n    }\n    \n    dictionaryPrompt += `${code}: ${description}\\n`;\n  }\n  \n  console.log(`Using structured mapping rules (${Object.keys(originalMappingRules).length} codes)`);\n  \n} else if (!classificationContext.directClassificationMode) {\n  // Mapping file was provided but extraction failed or is empty\n  console.warn('Mapping file provided but no dictionary extracted!');\n  dictionaryPrompt = `\\n=== WARNING ===\\n`;\n  dictionaryPrompt += `Mapping file was provided but classification dictionary could not be extracted.\\n`;\n  dictionaryPrompt += `Using direct classification based on ${classificationName} knowledge.\\n`;\n}\n\n// Add strict rules based on whether we have a dictionary\nif (rawDictionaryOutput || Object.keys(originalMappingRules).length > 0) {\n  dictionaryPrompt += `\\n=== STRICT CLASSIFICATION RULES ===\\n`;\n  dictionaryPrompt += `⚠️ ABSOLUTE REQUIREMENTS:\\n`;\n  \n  if (rawDictionaryOutput) {\n    dictionaryPrompt += `1. The dictionary above is in JSON format with hierarchical structure\\n`;\n    dictionaryPrompt += `2. Each code has a \"name\" and may have a \"parent\" reference\\n`;\n    dictionaryPrompt += `3. You MUST select a code from this exact dictionary\\n`;\n    dictionaryPrompt += `4. NEVER create or modify codes - use them EXACTLY as shown\\n`;\n    dictionaryPrompt += `5. If no perfect match exists, choose the CLOSEST code from the dictionary\\n`;\n    dictionaryPrompt += `6. DO NOT modify codes - use them EXACTLY as shown in the dictionary\\n`;\n    dictionaryPrompt += `7. If uncertain, use \"Unclassified\" rather than inventing a code\\n`;\n  } else {\n    dictionaryPrompt += `1. You have ${Object.keys(originalMappingRules).length} valid codes in the dictionary above\\n`;\n    dictionaryPrompt += `2. You MUST use ONLY these exact codes - NO EXCEPTIONS\\n`;\n    dictionaryPrompt += `3. NEVER create, modify, or invent new codes\\n`;\n    dictionaryPrompt += `4. If the element doesn't match any code perfectly, choose the CLOSEST available code\\n`;\n    dictionaryPrompt += `5. Valid codes start with: ${validCodesList.slice(0, 20).map(c => `\"${c}\"`).join(', ')}\\n`;\n    dictionaryPrompt += `6. Before returning, VERIFY your chosen code exists in the dictionary above\\n`;\n    dictionaryPrompt += `7. If you cannot find a suitable code, use \"Unclassified\" - DO NOT INVENT\\n`;\n  }\n}\n\n// Add user's help prompt if provided\nlet additionalContext = '';\nif (setupData.optional__help_to_the_prompt) {\n  additionalContext = `\\n\\nAdditional Context from User:\\n${setupData.optional__help_to_the_prompt}`;\n}\n\n// Create the system prompt with FULL dictionary and stronger anti-hallucination instructions\nconst systemPrompt = `You are a STRICT classification system that MUST follow exact rules.\nClassification System: ${classificationName}\nProject Type: ${classificationContext.projectType}\n\n${dictionaryPrompt}\n\n${additionalContext}\n\n${directMapping ? `\\nSuggested mapping found for this element: \nCode: ${directMapping.targetCode}\nName: ${directMapping.targetName}\nConfidence: ${directMapping.confidence}%\nVerify this suggestion against the dictionary and use if appropriate.` : ''}\n\n⚠️ CRITICAL ANTI-HALLUCINATION RULES:\n${(rawDictionaryOutput || Object.keys(originalMappingRules).length > 0) ? `\n1. You have a complete dictionary provided above\n2. You MUST use ONLY codes from this dictionary - NO EXCEPTIONS\n3. NEVER create, modify, or invent new codes\n4. If the element doesn't match any code perfectly, choose the CLOSEST available code\n5. Before returning, VERIFY your chosen code exists in the dictionary above\n6. If you cannot find a suitable code, use \"Unclassified\" - DO NOT INVENT\n` : `\n1. Use standard ${classificationName} codes only\n2. Do not invent or modify codes\n3. Use established classification patterns for ${classificationName}\n`}\n\nVERIFICATION CHECKLIST:\n✓ Is the code you selected EXACTLY in the dictionary? (character-for-character match)\n✓ Did you copy the code EXACTLY as shown?\n✓ Is the classification name EXACTLY as shown in the dictionary?\n\nReturn ONLY valid JSON with EXACT codes from the dictionary:\n{\n  \"classification_code\": \"EXACT code from dictionary (no modifications)\",\n  \"classification_name\": \"EXACT name from dictionary\",\n  \"classification_level\": \"level if hierarchical or null\",\n  \"parent_class\": \"parent code if hierarchical or null\",  \n  \"confidence\": 0-100,\n  \"reasoning\": \"explanation including which dictionary entry was selected\",\n  \"alternative_classifications\": [\n    {\n      \"code\": \"EXACT alternative code from dictionary\",\n      \"name\": \"EXACT alternative name from dictionary\",\n      \"confidence\": 0-100\n    }\n  ]\n}`;\n\nconst userPrompt = `Classify this ${classificationContext.projectType} element using ONLY the provided dictionary.\n\n=== ELEMENT TO CLASSIFY ===\nCategory: ${groupData['Category'] || 'Not specified'}\nType Name: ${groupData['Type Name'] || 'Not specified'}  \nFamily: ${groupData['Family'] || 'Not specified'}\nElement Count: ${groupData['Element Count'] || 1}\nVolume: ${groupData['Volume'] || groupData['BoundingBox_Volume_Total'] || 'Not specified'}\n\nFull element data:\n${JSON.stringify(groupData, null, 2)}\n\n${directMapping ? `\n=== MAPPING SUGGESTION ===\nA potential match was found in the dictionary:\nCode: ${directMapping.targetCode}\nName: ${directMapping.targetName}\nConfidence: ${directMapping.confidence}%` : ''}\n\n=== YOUR TASK ===\n${(rawDictionaryOutput || Object.keys(originalMappingRules).length > 0) ? \n  `⚠️ MANDATORY: Select from the dictionary provided above.\n${validCodesList.length > 0 ? `Valid codes include: ${validCodesList.slice(0, 30).join(', ')}${validCodesList.length > 30 ? '...' : ''}` : ''}\n\nThe code you return MUST be one of the codes listed in the dictionary above.\nDO NOT create new codes. Use ONLY dictionary codes.\nBefore answering, verify your code exists in the dictionary.` : \n  `Classify using standard ${classificationName} codes.\nNo mapping dictionary was provided, use established ${classificationName} patterns.`}\n\nFINAL CHECK: Is your selected code EXACTLY in the dictionary? Return JSON.`;\n\nconsole.log('\\nElement to classify:', groupData['Type Name'] || groupData['Category'] || 'Unknown');\nconsole.log(`Dictionary type: ${rawDictionaryOutput ? 'Raw output' : Object.keys(originalMappingRules).length > 0 ? 'Structured' : 'None'}`);\nif (rawDictionaryOutput) {\n  console.log(`Raw dictionary: ${rawDictionaryOutput.length} characters`);\n} else if (Object.keys(originalMappingRules).length > 0) {\n  console.log(`Dictionary codes available: ${Object.keys(originalMappingRules).length}`);\n  console.log('Valid codes (first 10):', validCodesList.slice(0, 10).join(', '));\n}\nconsole.log('======================================\\n');\n\nreturn [{\n  json: {\n    ...groupData,\n    _systemPrompt: systemPrompt,\n    _userPrompt: userPrompt,\n    _directMapping: directMapping,\n    _originalData: groupData,\n    _classificationSystem: classificationName,\n    _projectType: classificationContext.projectType,\n    _dictionarySize: validCodesList.length || Object.keys(originalMappingRules).length,\n    _hasMappingFile: !classificationContext.directClassificationMode,\n    _dictionaryExtracted: rawDictionaryOutput || Object.keys(originalMappingRules).length > 0,\n    _dictionaryType: rawDictionaryOutput ? 'raw' : Object.keys(originalMappingRules).length > 0 ? 'structured' : 'none',\n    _validCodes: validCodesList // Store for verification\n  }\n}];"
+      },
+      "id": "f19e8a72-9640-4ae8-bf69-77ffbb0fbe7c",
+      "name": "Prepare Classification Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        2384
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Setup - Define file paths1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Category Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Classify Categories1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Classification to Groups": {
+      "main": [
+        [
+          {
+            "node": "Clean Values Classification1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Building Element": {
+      "main": [
+        [
+          {
+            "node": "Limit Items for Testing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non-Building Elements Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Group Data with AI Rules": {
+      "main": [
+        [
+          {
+            "node": "On the standard 3D View",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Headers and Data1": {
+      "main": [
+        [
+          {
+            "node": "AI Analyze All Headers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Excel File": {
+      "main": [
+        [
+          {
+            "node": "Parse Excel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Excel": {
+      "main": [
+        [
+          {
+            "node": "Extract Headers and Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create - Excel filename": {
+      "main": [
+        [
+          {
+            "node": "Check - Does Excel file exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Does Excel file exist?": {
+      "main": [
+        [
+          {
+            "node": "If - File exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - File exists?": {
+      "main": [
+        [
+          {
+            "node": "Info - Skip conversion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract - Run converter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract - Run converter": {
+      "main": [
+        [
+          {
+            "node": "Check - Did extraction succeed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Info - Skip conversion": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check - Did extraction succeed?": {
+      "main": [
+        [
+          {
+            "node": "Error - Show what went wrong",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set xlsx_filename after success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error - Show what went wrong": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set xlsx_filename after success": {
+      "main": [
+        [
+          {
+            "node": "Merge - Continue workflow",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge - Continue workflow": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Parameters": {
+      "main": [
+        [
+          {
+            "node": "Read Excel File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process AI Response": {
+      "main": [
+        [
+          {
+            "node": "Group Data with AI Rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enhance Excel Output": {
+      "main": [
+        [
+          {
+            "node": "Prepare Excel Path1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Excel Data": {
+      "main": [
+        [
+          {
+            "node": "Create Excel File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Excel File": {
+      "main": [
+        [
+          {
+            "node": "Enhance Excel Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Excel Path1": {
+      "main": [
+        [
+          {
+            "node": "Write Excel to Project Folder1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate HTML Report1": {
+      "main": [
+        [
+          {
+            "node": "Convert to Binary1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Binary1": {
+      "main": [
+        [
+          {
+            "node": "Prepare HTML Path1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare HTML Path1": {
+      "main": [
+        [
+          {
+            "node": "Write HTML to Project Folder1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write HTML to Project Folder1": {
+      "main": [
+        [
+          {
+            "node": "Open HTML in Browser1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Project Totals1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Excel Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate HTML Report1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Classification Batches1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Classification Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Values Classification1": {
+      "main": [
+        [
+          {
+            "node": "Is Building Element",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Classification Prompt1": {
+      "main": [
+        [
+          {
+            "node": "AI Classify Element1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Classify Element1": {
+      "main": [
+        [
+          {
+            "node": "Parse Classification Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Accumulate Classification1": {
+      "main": [
+        [
+          {
+            "node": "All Batches Done?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All Batches Done?1": {
+      "main": [
+        [
+          {
+            "node": "Collect Classification Results1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process Classification Batches1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect Classification Results1": {
+      "main": [
+        [
+          {
+            "node": "Calculate Project Totals1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Classification Setup1": {
+      "main": [
+        [
+          {
+            "node": "Check Mapping Mode Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit Items for Testing1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Classification Setup1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Classification Result1": {
+      "main": [
+        [
+          {
+            "node": "Accumulate Classification1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Analyze All Headers",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Classify Categories1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Classify Categories1": {
+      "main": [
+        [
+          {
+            "node": "Apply Classification to Groups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analyze All Headers": {
+      "main": [
+        [
+          {
+            "node": "Process AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On the standard 3D View": {
+      "main": [
+        [
+          {
+            "node": "Find Category Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non-3D View Elements Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Classify Element1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Analyze Structure1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Extract Minimal Dictionary1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Mapping Mode Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Read Mapping File Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Direct Mode Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Mapping File Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Document Processor Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Document Processor Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Universal Extractor Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Universal Extractor Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Check Spreadsheet Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Spreadsheet Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Try Parse Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Extraction Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Try Parse Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Process Spreadsheet Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Spreadsheet Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Merge Extraction Enhanced",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Extraction Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Analyze Document Structure1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Direct Mode Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Merge Modes Enhanced",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Modes Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Finalize Context Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalize Context Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Process Classification Batches1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup - Define file paths1": {
+      "main": [
+        [
+          {
+            "node": "Create - Excel filename",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get LLM Model Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Document Structure1": {
+      "main": [
+        [
+          {
+            "node": "AI Analyze Structure1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Analyze Structure1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Targeted Extraction1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Targeted Extraction1": {
+      "main": [
+        [
+          {
+            "node": "AI Extract Minimal Dictionary1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Extract Minimal Dictionary1": {
+      "main": [
+        [
+          {
+            "node": "Merge Modes Enhanced1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Modes Enhanced1": {
+      "main": [
+        [
+          {
+            "node": "Merge Modes Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "94dede89-8ba9-433b-879b-04d597e806e5",
+  "meta": {
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
+  },
+  "id": "wYjCQTcZiGRonvah",
+  "tags": []
+}
