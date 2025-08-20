@@ -150,8 +150,7 @@
       "parameters": {
         "content": "## 🤖 AUTOMATED VALIDATION\n\nProcessing includes:\n- Project data analysis\n- Rules-based checking\n- Report creation with color coding\n\n🟩 Green = data present\n🟥 Red = data missing",
         "height": 596,
-        "width": 620,
-        "color": 2
+        "width": 620
       },
       "id": "1d601482-2b90-4d52-91b7-4e7579a88db2",
       "name": "Sticky Note - Validation",
@@ -165,7 +164,7 @@
     {
       "parameters": {
         "content": "## 🔄 CONVERSION\n\nAutomatic conversion Project files → Excel\n\nIf file already exists, conversion is skipped",
-        "height": 580,
+        "height": 596,
         "width": 1320
       },
       "id": "fde712a8-5bb1-4604-bc51-0c635fbc4c0a",
@@ -174,7 +173,7 @@
       "typeVersion": 1,
       "position": [
         976,
-        64
+        48
       ]
     },
     {
@@ -249,7 +248,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1040,
+        1024,
         272
       ],
       "id": "c70924fa-ecbc-48bb-b66c-98afe5947994",
@@ -754,7 +753,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7636fa35-ff08-45a0-970b-6437812d4a3a",
+  "versionId": "ac348842-d375-4344-bf7c-b9ba532bd626",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
