@@ -236,7 +236,7 @@ graph LR;
 
 
 
-### ⚡️ 3. Revit Batch Conversion with Validation and Reporting
+### ⚡️ 3. Revit, IFC, DWG Batch Conversion with Validation and Reporting
 **File**: `n8n_3_CAD-BIM-Batch-Converter-Pipeline.json`
 
 Automates batch conversion of Revit (`.rvt`) files to Excel (XLSX) and Collada (DAE), validates outputs, tracks processing times, and generates an HTML report with metrics, file links, and configuration details.
