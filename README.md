@@ -590,7 +590,7 @@ We welcome contributions! Please feel free to:
 
 ## Consulting and Training
 
-We work with leading construction, engineering, major consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
+We work with leading construction, engineering, consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
 
 If you would like to test this solution with your own data, or are interested in adapting the workflow to real project tasks, feel free to contact us.
 
