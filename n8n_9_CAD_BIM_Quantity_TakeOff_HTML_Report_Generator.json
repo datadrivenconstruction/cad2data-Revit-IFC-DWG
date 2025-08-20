@@ -1,15 +1,15 @@
 {
-  "name": "n8n_8_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator",
+  "name": "n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -2624,
-        656
+        -2416,
+        432
       ],
-      "id": "8cc7df80-0071-4c2d-a219-546ea81ad5a6",
+      "id": "c9a94127-f5d7-4044-a8bd-20aa3cdf46c0",
       "name": "Start - Click to begin"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2416,
-        656
+        -2208,
+        432
       ],
-      "id": "aaade7b4-f609-4bac-8d2d-c3541667a24e",
+      "id": "5104d8b7-29ca-4a7c-a93f-340a719a2a6c",
       "name": "Setup - Define file paths"
     },
     {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2224,
-        656
+        -2000,
+        432
       ],
-      "id": "b100135b-e36e-40e7-a98b-d04fe0fc8b1a",
+      "id": "b5614908-73d2-44fb-9313-0ab85ccccd74",
       "name": "Extract - Run Revit converter",
       "continueOnFail": true
     },
@@ -79,13 +79,13 @@
         },
         "options": {}
       },
-      "id": "46f91858-87f5-4ede-a2a7-935b530e7330",
+      "id": "aef344df-8f03-4570-a65e-56d2e4fff3fb",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -2016,
-        656
+        -1792,
+        432
       ]
     },
     {
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1824,
-        656
+        -1600,
+        432
       ],
-      "id": "ec96b8a2-0b53-4953-a663-bf0027215a3d",
+      "id": "e274fcd1-06c0-4173-8287-0640905ec57c",
       "name": "Success - Create Excel filename"
     },
     {
@@ -131,39 +131,39 @@
         },
         "options": {}
       },
-      "id": "ed985d75-7c4e-48c3-aa46-80a3f55ef8bb",
+      "id": "518688e3-a536-492c-b985-2a2ef67e6522",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1824,
-        464
+        -1600,
+        240
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "1d372085-9f90-4079-8b2b-fd734d09f6f5",
+      "id": "6e372a42-fd88-4108-b7af-d4ee285e8dd4",
       "name": "Extract - Read Excel file from disk",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        -1616,
-        656
+        -1392,
+        432
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "dbf94434-1cda-4958-b698-837c0e3956f4",
+      "id": "a23332a0-2be2-4ce3-8c96-98674190c87f",
       "name": "Extract - Parse Excel to data",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 1,
       "position": [
-        -1424,
-        656
+        -1200,
+        432
       ]
     },
     {
@@ -177,13 +177,13 @@
           ]
         }
       },
-      "id": "51ee3070-455c-4840-839a-4eb4c2ef1494",
+      "id": "bab0a798-2472-473b-a841-63b1723e321b",
       "name": "Transform - Filter only OST_Walls",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        -1216,
-        656
+        -992,
+        432
       ]
     },
     {
@@ -215,10 +215,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1024,
-        656
+        -800,
+        432
       ],
-      "id": "254fa491-05da-43c6-bc7f-a21d0ec72ab8",
+      "id": "6f548116-439e-4929-b249-8f5c8887d3b0",
       "name": "Transform - Clean wall data"
     },
     {
@@ -228,10 +228,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        -800,
-        656
+        -576,
+        432
       ],
-      "id": "27a72691-020f-485a-bd11-339900df9188",
+      "id": "fa87ab03-0e48-4145-bac3-7288c09953a6",
       "name": "Transform - Group by Type Name & sum Volume"
     },
     {
@@ -241,10 +241,10 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        -592,
-        656
+        -368,
+        432
       ],
-      "id": "894e2327-6d86-42a0-bac1-f86155a34aa8",
+      "id": "08f545ba-1ee8-42cb-96eb-0711801fbc98",
       "name": "Transform - Generate HTML Report"
     },
     {
@@ -255,10 +255,10 @@
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        -384,
-        656
+        -160,
+        432
       ],
-      "id": "5ba5e31d-0174-4243-b007-312ab3cfe989",
+      "id": "e659c87f-aaf4-4798-a4e2-27c7a6bc2632",
       "name": "Load - Save HTML Report"
     },
     {
@@ -290,26 +290,26 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -176,
-        656
+        48,
+        432
       ],
-      "id": "d3b41072-eef7-4925-bee6-660198768890",
+      "id": "bca9431a-fbee-4846-bbc2-aaa7a63c673f",
       "name": "Success - Final results"
     },
     {
       "parameters": {
         "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run Revit converter (RVT → Excel)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
         "height": 520,
-        "width": 1400,
+        "width": 1512,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2672,
-        320
+        -2560,
+        96
       ],
-      "id": "2e5b6f5c-6040-48c2-b6ea-2eae8226ac22",
+      "id": "ec2d073b-5208-4283-9d0e-13c4df88b990",
       "name": "Extract Phase Note"
     },
     {
@@ -317,15 +317,15 @@
         "content": "## 🔷 TRANSFORM Phase\n\n**T**ransform raw data:\n1. Filter ONLY records with 'Category : String' = 'OST_Walls'\n2. Clean data: extract ID, Type Name, Volume\n3. Group by 'Type Name : String'\n4. Sum 'Volume : Double' for each group\n5. Calculate statistics per group",
         "height": 520,
         "width": 800,
-        "color": 4
+        "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1248,
-        320
+        -1024,
+        96
       ],
-      "id": "4b940afe-d5b4-4860-b78b-3555a4334afe",
+      "id": "598b3b4a-fea6-4993-b8e7-502893ba5985",
       "name": "Transform Phase Note"
     },
     {
@@ -337,26 +337,26 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -432,
-        320
+        -208,
+        96
       ],
-      "id": "74cdea15-4ffc-41f1-8800-2aa350cccf19",
+      "id": "59442551-3b88-44e2-b983-7c4fdb4c86d8",
       "name": "Load Phase Note"
     },
     {
       "parameters": {
         "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
         "height": 720,
-        "width": 2800,
+        "width": 2912,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2704,
-        144
+        -2592,
+        -80
       ],
-      "id": "0045d925-adf8-456e-9009-1dc189f48d9e",
+      "id": "ba96bb08-7b5b-4aec-a13a-da81e0abf5a6",
       "name": "Sticky Note"
     },
     {
@@ -368,11 +368,27 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -256,
-        16
+        -32,
+        -208
       ],
-      "id": "89b71b52-5d3b-4d51-a0ed-a096e6a38fc0",
+      "id": "adf1e99a-9d5f-4ba4-bcad-08d930c14cf0",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \neverything else works automatically",
+        "height": 368,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2272,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "f7994b78-719e-475d-bc7d-f8d5a2a18d0a",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {
@@ -516,10 +532,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c96a553f-05b8-4881-80f9-d319696e8b15",
+  "versionId": "3cd6d9fa-033b-45eb-a996-f38170f0bd1f",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "VYQMEnKrXLcMjsck",
+  "id": "1PiujxH54akz4wxk",
   "tags": []
 }

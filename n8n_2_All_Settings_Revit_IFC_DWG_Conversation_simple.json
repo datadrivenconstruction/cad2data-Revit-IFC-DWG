@@ -68,10 +68,10 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        1008,
-        832
+        800,
+        768
       ],
-      "id": "21b1c701-de28-4690-ace6-a0b229aa7b74",
+      "id": "795ed30e-8c1c-4163-a715-1cbed2e84c20",
       "name": "Form UI",
       "webhookId": "simple-revit-converter-form",
       "disabled": true
@@ -81,26 +81,26 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        720,
-        624
+        432,
+        416
       ],
-      "id": "c0e9683f-7b79-4a4d-90b1-16b58e51ac4a",
+      "id": "d806b3c5-b37f-4c31-b729-eed39f8c29df",
       "name": "Manual Trigger (Optional)"
     },
     {
       "parameters": {
-        "content": "\n## ⚠️ Troubleshooting\n\n### Browser Popup Issues\nIf the form doesn't open:\n1. Look for a popup blocker icon in your browser's address bar\n2. Click it and select \"Always allow popups from this site\"\n3. Refresh the page and try again\n\n### Executable Path Issues\nIf conversion fails, ensure you're using the correct path:\n\n✅ **Correct path:**\n```\nC:\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe\n```\n\n❌ **Incorrect path:**\n```\nC:\\Community\\DDC_Converter_Revit\\RvtExporter.ex",
+        "content": "\n## ⚠️ Troubleshooting\n\n### Browser Popup Issues\nIf the form doesn't open:\n1. Look for a popup blocker icon in your browser's address bar\n2. Click it and select \"Always allow popups from this site\"\n3. Refresh the page and try again\n\n### Executable Path Issues\nIf conversion fails, ensure you're using the correct path:\n\n✅ **Correct path:**\n```\nC:\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe\n```\n\n❌ **Incorrect path:**\n```\nC:\\Community\\DDC_Converter_Revit\\RvtExporter.exe",
         "height": 540,
-        "width": 540,
+        "width": 524,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        640,
-        1024
+        -176,
+        1008
       ],
       "typeVersion": 1,
-      "id": "74ec2b3d-4b7b-4e0b-9987-ab1fd92abbf4",
+      "id": "0341b325-d8e1-4e0b-af16-c978aa50286e",
       "name": "Instructions"
     },
     {
@@ -168,41 +168,42 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1008,
-        624
+        800,
+        416
       ],
-      "id": "3531969f-6e0c-4c99-ba5e-e36f2c4ae3d8",
+      "id": "5a9b8bcb-a9ed-4e26-bc96-f20bc6840b79",
       "name": "Set the conversion variables"
     },
     {
       "parameters": {
         "content": "### Option 1: Manual Variables\n- Click **\"Manual Trigger\"** to use pre-configured variables\n- Modify the variables in the **\"Set Variables\"** node as needed\n\n## 🔧 Configuration\n- Update the **RvtExporter.exe** path in the form or variables\n- Ensure the path points to the executable inside the **`datadrivenlibs`** folder",
-        "height": 372,
-        "width": 556
+        "height": 420,
+        "width": 428,
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
-        416
+        624,
+        176
       ],
-      "id": "bc1ea684-cd0a-43c5-a4ed-844b3d1a224b",
+      "id": "abd24898-9349-4a9d-b141-952366d93507",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "### Option 2: Form UI\n- Activate and click **\"Form UI\"** to open the web form\n- Fill in your converter path and Revit file path\n- Select export mode and options\n\n\n",
-        "height": 200,
-        "width": 556,
+        "height": 376,
+        "width": 428,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
-        800
+        624,
+        608
       ],
-      "id": "d6e4d508-3b71-49bd-a185-c23f6bb46422",
+      "id": "5b94ebb6-d9d7-4c2c-9be3-2b686bb7da56",
       "name": "Sticky Note3"
     },
     {
@@ -214,10 +215,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        640,
-        272
+        1040,
+        16
       ],
-      "id": "fb072c79-c5d2-4d6e-81cb-147a1c42068b",
+      "id": "834ab7ac-e341-4644-8ccf-a74de3a1a49d",
       "name": "Sticky Note5"
     },
     {
@@ -228,11 +229,42 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1264,
-        768
+        1152,
+        544
       ],
-      "id": "50b039f8-e361-45ef-bc19-74e12bca3a54",
+      "id": "fefc7765-70ef-4d4f-b18b-52cba0c927c0",
       "name": "Converting the project into a structured form1"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 836,
+        "width": 1020,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        368,
+        160
+      ],
+      "id": "0ad6e61e-1d2d-400f-859e-461a40d9de6c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 📋 Options Parameter Configuration Guide\n\n## 🎯 Overview\nThe Options parameter allows you to customize the export process with various flags and settings. Multiple options can be combined using spaces.\n\n## 🚀 Available Options\n\n### 📦 Export Modes\n| Mode   | Description |\n|------|-------------|\n| `basic`   |  Minimal export with essential data only |\n| `standard`   | Default export level with standard properties |\n| `complete`   | Full export including all available data |\n| `custom`   | Custom export using category file specification |\n\n### 🛠️ Feature Flags\n| Option | Description |\n|--------|-------------|\n| `bbox` | Add BoundingBox geometry of each element in XLSX |\n| `schedule` | Export all Schedules |\n| `sheets2pdf` | Export all Sheets to PDF format |\n| `[<output file>]` | Specify custom output file path |\n| `[<category file>]` | Text file with category names (required for custom mode) |\n\n### 🚫 Disable Options\n| Option | Description |\n|--------|-------------|\n| `-no-xlsx` | Disable export to .xlsx format |\n| `-no-collada` | Disable export to .dae format |\n\n---\n\n## 📝 Notes\n- All options are case-sensitive\n- Invalid combinations will be ignored\n- Default behavior applies when no options are specified",
+        "height": 836,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        160
+      ],
+      "id": "a1bcc5e5-2ef3-4ce9-ba60-b2eefd600458",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -258,16 +290,21 @@
           }
         ]
       ]
+    },
+    "Form UI": {
+      "main": [
+        []
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fcafa731-1564-4621-ba89-690d9e90821a",
+  "versionId": "c033470d-da11-4344-ab21-4a7ff21d251a",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "JJnbjIui8Mtajlox",
+  "id": "KqIWWnRV00zSYMVv",
   "tags": []
 }

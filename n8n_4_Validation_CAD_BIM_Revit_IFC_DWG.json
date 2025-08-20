@@ -6,10 +6,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -832,
-        800
+        560,
+        272
       ],
-      "id": "686ce796-dc49-44e2-86cd-40b582f0f3ff",
+      "id": "4b870d62-e3be-4c76-9d71-43aef3a21d44",
       "name": "Start - Click to begin"
     },
     {
@@ -35,55 +35,38 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -592,
-        800
+        800,
+        272
       ],
-      "id": "126c413d-b63f-48d7-bd0f-5fa73a860de6",
+      "id": "ab1dbae1-42fe-4123-ac17-ecf410e62c72",
       "name": "Setup - Define file paths"
     },
     {
       "parameters": {
         "content": "## 🚀 START WORKFLOW\n\nClick \"Execute Workflow\" button to begin the validation process",
         "height": 444,
-        "width": 190,
-        "color": 4
+        "width": 190
       },
-      "id": "bd70d7e3-5671-4fa0-a093-d51787aff5f7",
+      "id": "dea38ca4-33e5-43a8-bede-e5ff37f4116c",
       "name": "Sticky Note - Start",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -864,
-        576
-      ]
-    },
-    {
-      "parameters": {
-        "content": "## ⚙️ SETTINGS\n\n**Update file paths here:**\n- `path_to_converter` - path to converter\n- `project_file` - path to your project file (IFC/DWG/RVT)",
-        "height": 628,
-        "width": 220,
-        "color": 4
-      },
-      "id": "9d1b24b1-6239-4112-b64a-cbf802e712ec",
-      "name": "Sticky Note - Settings",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -656,
-        384
+        528,
+        48
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "0dde0b48-9834-4ccb-8c72-1ec66e640b25",
+      "id": "46bd811d-00c9-4c14-b622-4981dcf8cca0",
       "name": "Read Project Excel File",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        1008,
-        912
+        2400,
+        384
       ]
     },
     {
@@ -100,13 +83,13 @@
         },
         "options": {}
       },
-      "id": "fe9a717a-e7c2-4698-9a33-e78afbab4892",
+      "id": "4f191ee6-712a-4bf2-a2ee-6332716ffdec",
       "name": "Set Validation Rules Path",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1008,
-        736
+        2400,
+        208
       ]
     },
     {
@@ -116,37 +99,37 @@
         "width": 220,
         "color": 4
       },
-      "id": "fb22f4a7-bb2a-4dd3-abf4-30f4080243b9",
+      "id": "69a54929-3ec3-45d1-98fc-8a74072a8026",
       "name": "Sticky Note - Validation Rules",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        928,
-        384
+        2320,
+        -144
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"validation_rules_path\"] }}"
       },
-      "id": "e4e006b1-1d64-40dc-8d23-bd8fcc4339b8",
+      "id": "d731282b-9ac8-4dc4-a53e-e41176a9cf2e",
       "name": "Read Validation Rules File",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        1248,
-        816
+        2640,
+        288
       ]
     },
     {
       "parameters": {},
-      "id": "dbfd5141-e697-40e0-95b9-3b04ae816255",
+      "id": "ba8aeb4b-cca4-44e7-bd9e-43ce2fad7024",
       "name": "Merge Excel Files",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1472,
-        960
+        2864,
+        400
       ]
     },
     {
@@ -157,10 +140,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1648,
-        816
+        3040,
+        288
       ],
-      "id": "d0af66fd-f309-465f-b3c4-7fbe65664c16",
+      "id": "20a8b8e1-6153-4f99-85fe-5085fac971bd",
       "name": "Validate - Enhanced"
     },
     {
@@ -170,13 +153,13 @@
         "width": 620,
         "color": 2
       },
-      "id": "7c3f6306-3d6f-41df-939a-e476f5d2a67a",
+      "id": "1d601482-2b90-4d52-91b7-4e7579a88db2",
       "name": "Sticky Note - Validation",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1168,
-        576
+        2560,
+        48
       ]
     },
     {
@@ -185,13 +168,13 @@
         "height": 580,
         "width": 1320
       },
-      "id": "9dd06b64-c7cb-4bd0-ad97-e14934a6d2c5",
+      "id": "fde712a8-5bb1-4604-bc51-0c635fbc4c0a",
       "name": "Sticky Note - Conversion",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -416,
-        592
+        976,
+        64
       ]
     },
     {
@@ -201,13 +184,13 @@
         "width": 420,
         "color": 6
       },
-      "id": "4c565862-094d-4737-91e9-586d8bc9ed1a",
+      "id": "8c98aae6-074a-4701-99d9-7c49ae13e682",
       "name": "Sticky Note - Save & Open",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1808,
-        576
+        3200,
+        48
       ]
     },
     {
@@ -215,26 +198,26 @@
         "fileName": "={{ $json.full_path }}",
         "options": {}
       },
-      "id": "d9ef1d31-73c5-4aec-ac55-1e6c772209cc",
+      "id": "6fce729b-f210-407e-9de2-81a193715ca5",
       "name": "Save Validation Report1",
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        1888,
-        816
+        3280,
+        288
       ]
     },
     {
       "parameters": {
         "command": "=start \"\" \"{{ $json.full_path }}\""
       },
-      "id": "70be47e3-49e7-44b1-94b6-40fa5364d92a",
+      "id": "8d09f3bc-8478-48a5-a235-460597226737",
       "name": "Open Excel Report1",
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        2096,
-        816
+        3488,
+        288
       ]
     },
     {
@@ -266,10 +249,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -352,
-        800
+        1040,
+        272
       ],
-      "id": "5a585401-7b24-4db0-a67b-16ebac3628ba",
+      "id": "c70924fa-ecbc-48bb-b66c-98afe5947994",
       "name": "Create - Excel filename"
     },
     {
@@ -279,10 +262,10 @@
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        -176,
-        800
+        1216,
+        272
       ],
-      "id": "dee8fd04-5567-49da-af23-1eefd57c1910",
+      "id": "2f4617b8-f146-4fd6-bee2-020a8609a92c",
       "name": "Check - Does Excel file exist?",
       "alwaysOutputData": true,
       "continueOnFail": true
@@ -310,13 +293,13 @@
         },
         "options": {}
       },
-      "id": "98c71cd4-612c-411e-8b0e-cfd6c81a6afb",
+      "id": "aa925149-5394-4db4-bdc2-9116f9b76700",
       "name": "If - File exists?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -16,
-        800
+        1376,
+        272
       ]
     },
     {
@@ -326,10 +309,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        208,
-        896
+        1600,
+        368
       ],
-      "id": "25416b73-4c3e-4133-b29f-7e1dd2c6a327",
+      "id": "18206815-fe18-4e53-970d-85d7dda0d8c0",
       "name": "Extract - Run converter",
       "continueOnFail": true
     },
@@ -356,10 +339,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        288,
-        672
+        1680,
+        144
       ],
-      "id": "121e54ad-b306-4c46-b0c0-d4e3645473f9",
+      "id": "c701d878-85d1-4122-b5cb-59c1edc2f835",
       "name": "Info - Skip conversion"
     },
     {
@@ -386,13 +369,13 @@
         },
         "options": {}
       },
-      "id": "1cf2565b-b63c-4468-95d0-1766484a2d17",
+      "id": "026e9414-30a8-4e99-bb9f-c91cddb8dbce",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        368,
-        896
+        1760,
+        368
       ]
     },
     {
@@ -421,13 +404,13 @@
         },
         "options": {}
       },
-      "id": "c4a94671-d324-41b6-ac4b-764660b17e74",
+      "id": "362d1574-f7e0-4c7c-a0f2-27496d62cf16",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        528,
-        816
+        1920,
+        288
       ]
     },
     {
@@ -447,21 +430,21 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        528,
-        976
+        1920,
+        448
       ],
-      "id": "38bfe8e5-e29a-42a3-8df1-cbd0c740e5bc",
+      "id": "c8f21f46-0647-4819-ae0e-419d9a46f206",
       "name": "Set xlsx_filename after success"
     },
     {
       "parameters": {},
-      "id": "3b72f34d-7ce2-4ca8-8c1b-63ae6f5a6469",
+      "id": "b502d5d2-8530-427e-9390-7c11012bd06a",
       "name": "Merge - Continue workflow",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        768,
-        736
+        2160,
+        208
       ]
     },
     {
@@ -473,10 +456,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -416,
-        1200
+        976,
+        672
       ],
-      "id": "0a2dbf6c-b2db-4a8b-a1b0-29c9bdcfca63",
+      "id": "b236040c-8651-41dd-a6b1-63da8db3d4cd",
       "name": "Sticky Note"
     },
     {
@@ -488,10 +471,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1184,
-        1200
+        2576,
+        672
       ],
-      "id": "d499c2fa-935e-416d-861a-0f025e65e776",
+      "id": "cae2d3e4-07de-45c9-9b45-da19789cabb4",
       "name": "Sticky Note1"
     },
     {
@@ -503,11 +486,59 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1888,
-        448
+        3280,
+        -80
       ],
-      "id": "ece9eda3-f50a-491b-973a-6e4dc9f4e7f6",
+      "id": "079841ea-bc60-47c7-ab3c-a7e9d3e59d2c",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \n— everything else works automatically",
+        "height": 176,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "389526e6-34a8-4cb2-bb68-c9cfd28ed566",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ SETTINGS\n\n**Update file paths here:**\n- `path_to_converter` - path to converter\n- `project_file` - path to your project file (IFC/DWG/RVT)",
+        "height": 628,
+        "width": 220,
+        "color": 4
+      },
+      "id": "c41d11fb-f654-49e9-a2f0-ac81a01eff02",
+      "name": "Sticky Note - Settings",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        736,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \n— everything else works automatically",
+        "height": 176,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2320,
+        -336
+      ],
+      "typeVersion": 1,
+      "id": "730b1426-7b20-4eb0-8f1e-b70ae0bd9fed",
+      "name": "Sticky Note4"
     }
   ],
   "pinData": {},
@@ -723,10 +754,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d6b8b27f-8152-4001-ac22-e0d868cec156",
+  "versionId": "7636fa35-ff08-45a0-970b-6437812d4a3a",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "HGLXxdzYNmJPCZzV",
+  "id": "40UdEGFo6xcsiP60",
   "tags": []
 }

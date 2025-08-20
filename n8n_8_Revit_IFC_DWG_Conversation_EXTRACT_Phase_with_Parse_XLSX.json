@@ -1,15 +1,15 @@
 {
-  "name": "n8n_7_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX",
+  "name": "n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1808,
-        240
+        -656,
+        720
       ],
-      "id": "066caae9-3666-4c4f-9ccb-6e8609f435fa",
+      "id": "fc85a630-5560-4345-bb4a-02cb8632bc80",
       "name": "Start - Click to begin"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1600,
-        240
+        -432,
+        720
       ],
-      "id": "6db5d35b-2225-4919-8647-5bdc3292eece",
+      "id": "26b97603-966f-4f03-a3bb-3e0d7a99bb2f",
       "name": "Setup - Define file paths"
     },
     {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1408,
-        240
+        -176,
+        720
       ],
-      "id": "b0936acf-6155-48c0-8a28-41af003992fa",
+      "id": "09957e4d-78e3-43c5-8c53-73bc70d8cdce",
       "name": "Extract - Run Revit converter",
       "continueOnFail": true
     },
@@ -79,13 +79,13 @@
         },
         "options": {}
       },
-      "id": "4afb3516-25ef-43e4-8954-937ef1d66ab3",
+      "id": "b7023aae-b316-47c0-be39-57938aa0c7a4",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -1200,
-        240
+        16,
+        720
       ]
     },
     {
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1008,
-        256
+        208,
+        736
       ],
-      "id": "2333ac07-2c43-413f-a41a-339cdfe30286",
+      "id": "040addcf-4238-4e7a-a579-893eb4bca48c",
       "name": "Success - Create Excel filename"
     },
     {
@@ -131,71 +131,71 @@
         },
         "options": {}
       },
-      "id": "8355433b-06b5-4467-847a-e4adf5255681",
+      "id": "b04c4618-1565-4551-b154-b9d4d5aa6b39",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1008,
-        80
+        208,
+        560
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "6e714836-a5bd-4f47-99f6-83d6ee0bc1ab",
+      "id": "6010e598-b0de-415b-b812-3dcbf656dd65",
       "name": "Extract - Read Excel file from disk",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        -800,
-        256
+        416,
+        736
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "b72b3738-7d05-4746-85b7-7887f411b5ff",
+      "id": "fabbaaf9-ec88-45eb-866d-e4a3f876a586",
       "name": "Extract - Parse Excel to data",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 1,
       "position": [
-        -608,
-        256
+        608,
+        736
       ]
     },
     {
       "parameters": {
         "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run Revit converter (RVT → Excel)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
-        "height": 440,
-        "width": 1448,
+        "height": 504,
+        "width": 552,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1856,
-        16
+        -784,
+        432
       ],
-      "id": "4a4c30ed-b723-440a-9918-c6555e107e65",
+      "id": "1865546f-1253-4ea3-9179-3ebd95ad5189",
       "name": "Extract Phase Note"
     },
     {
       "parameters": {
         "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
-        "height": 648,
-        "width": 1508,
+        "height": 712,
+        "width": 1636,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1888,
-        -160
+        -800,
+        256
       ],
-      "id": "d4d45c09-9688-4bc2-a035-0fbcd1820123",
+      "id": "5c9a53b9-1818-4135-b442-f0643d97b645",
       "name": "Sticky Note"
     },
     {
@@ -207,11 +207,42 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -720,
-        -304
+        496,
+        112
       ],
-      "id": "925e69e0-02ae-4145-b681-d9961a2d1824",
+      "id": "3aa00356-09e3-4e4c-85d0-4a316a3877a2",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \neverything else works automatically",
+        "height": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -496,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "af58225a-0ea4-4c6f-888e-49f1a8c6b319",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 504,
+        "width": 1000,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        432
+      ],
+      "id": "14f11329-b954-4675-96e9-f357b1ff7caf",
+      "name": "Extract Phase Note1"
     }
   ],
   "pinData": {
@@ -300,10 +331,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c336c86e-7a12-4e6d-9c0e-81048e1e3106",
+  "versionId": "c9aafa7e-4d05-472e-8dde-59b279311ef0",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "pTFG8gaIveDfYVc8",
+  "id": "fgQgNpXb2YQnLXjA",
   "tags": []
 }

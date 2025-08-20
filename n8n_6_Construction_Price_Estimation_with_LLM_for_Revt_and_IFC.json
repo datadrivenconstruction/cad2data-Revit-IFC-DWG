@@ -1,41 +1,41 @@
 {
-  "name": "n8n_5_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC",
+  "name": "n8n_6_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        13760,
-        -608
+        944,
+        -64
       ],
-      "id": "76a4a46b-32aa-4106-afa7-04f739fb67b5",
+      "id": "44ac22bc-92ff-450d-ac53-b2b587cc0318",
       "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
         "jsCode": "\nconst items = $input.all();\nif (items.length === 0) {\n  return [{json: {error: 'No grouped data found'}}];\n}\n\n\nconst headers = Object.keys(items[0].json);\n\n\nconst categoryPatterns = [\n  { pattern: /^category$/i, type: 'Category' },\n  { pattern: /^ifc[\\s_-]?type$/i, type: 'IFC' },\n  { pattern: /^host[\\s_-]?category$/i, type: 'Host' },\n  { pattern: /^ifc[\\s_-]?export[\\s_-]?as$/i, type: 'Export' },\n  { pattern: /^layer$/i, type: 'Layer' }\n];\n\nlet categoryField = null;\nlet categoryFieldType = 'None';\n\n\nfor (const header of headers) {\n  for (const {pattern, type} of categoryPatterns) {\n    if (pattern.test(header)) {\n      categoryField = header;\n      categoryFieldType = type;\n      break;\n    }\n  }\n  if (categoryField) break;\n}\n\n\nconst volumetricPatterns = /volume|area|length|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass/i;\nconst volumetricFields = headers.filter(header => volumetricPatterns.test(header));\n\n\nconst categoryValues = new Set();\nif (categoryField) {\n  items.forEach(item => {\n    const value = item.json[categoryField];\n    if (value && value !== '' && value !== null) {\n      categoryValues.add(value);\n    }\n  });\n}\n\nconsole.log('Category field analysis:');\nconsole.log('- Field found:', categoryField || 'None');\nconsole.log('- Field type:', categoryFieldType);\nconsole.log('- Unique values:', categoryValues.size);\nconsole.log('- Volumetric fields:', volumetricFields.length);\n\n\nreturn [{\n  json: {\n    categoryField: categoryField,\n    categoryFieldType: categoryFieldType,\n    categoryValues: Array.from(categoryValues),\n    volumetricFields: volumetricFields,\n    groupedData: items.map(item => item.json),\n    totalGroups: items.length\n  }\n}];"
       },
-      "id": "817e37ef-9ada-4805-ad95-686294739fc5",
+      "id": "2b81e046-ebc1-4687-8fd2-b9d2a3347a12",
       "name": "Find Category Fields1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14160,
-        288
+        1376,
+        832
       ]
     },
     {
       "parameters": {
         "jsCode": "\nconst categoryInfo = $node['Find Category Fields1'].json;\nconst groupedData = categoryInfo.groupedData;\nconst categoryField = categoryInfo.categoryField;\nconst volumetricFields = categoryInfo.volumetricFields || [];\n\n\nlet classifications = {};\nlet buildingCategories = [];\nlet drawingCategories = [];\n\ntry {\n  const aiResponse = $input.first().json;\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    classifications = parsed.classifications || {};\n    buildingCategories = parsed.building_categories || [];\n    drawingCategories = parsed.drawing_categories || [];\n    console.log(`AI classified ${Object.keys(classifications).length} categories`);\n    console.log(`Building categories: ${buildingCategories.length}`);\n    console.log(`Drawing categories: ${drawingCategories.length}`);\n  }\n} catch (error) {\n  console.error('Error parsing AI classification:', error.message);\n}\n\n\nreturn groupedData.map(group => {\n  let isBuildingElement = false;\n  let reason = '';\n  let confidence = 0;\n  \n  if (categoryField && group[categoryField]) {\n    \n    const categoryValue = group[categoryField];\n    \n    if (classifications[categoryValue] !== undefined) {\n      isBuildingElement = classifications[categoryValue];\n      confidence = 95;\n      reason = `Category '${categoryValue}' classified by AI as ${isBuildingElement ? 'building element' : 'drawing/annotation'}`;\n    } else {\n      \n      const lowerCategory = categoryValue.toLowerCase();\n      const drawingKeywords = /annotation|drawing|text|dimension|tag|view|sheet|grid|section|elevation|callout|revision|legend|symbol|mark|note|detail items|filled region|detail line/i;\n      const buildingKeywords = /wall|floor|roof|column|beam|door|window|stair|pipe|duct|equipment|fixture|furniture/i;\n      \n      if (drawingKeywords.test(lowerCategory)) {\n        isBuildingElement = false;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched drawing keywords`;\n      } else if (buildingKeywords.test(lowerCategory)) {\n        isBuildingElement = true;\n        confidence = 85;\n        reason = `Category '${categoryValue}' matched building keywords`;\n      } else {\n        \n        isBuildingElement = true;\n        confidence = 70;\n        reason = `Category '${categoryValue}' assumed as building element (no clear match)`;\n      }\n    }\n  } else {\n    \n    let hasSignificantVolumetricData = false;\n    let volumetricCount = 0;\n    \n    for (const field of volumetricFields) {\n      const value = parseFloat(group[field]);\n      if (!isNaN(value) && value > 0) {\n        hasSignificantVolumetricData = true;\n        volumetricCount++;\n      }\n    }\n    \n    isBuildingElement = hasSignificantVolumetricData;\n    confidence = hasSignificantVolumetricData ? 80 : 60;\n    reason = hasSignificantVolumetricData ? \n      `Has ${volumetricCount} volumetric parameters with values` : \n      'No category field and no significant volumetric data';\n  }\n  \n  return {\n    json: {\n      ...group,\n      is_building_element: isBuildingElement,\n      element_confidence: confidence,\n      element_reason: reason\n    }\n  };\n});"
       },
-      "id": "22a68901-fc6e-453c-962d-f617b757f628",
+      "id": "65f07357-2e47-41ac-87ee-43d692b7511d",
       "name": "Apply Classification to Groups1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14656,
-        288
+        1872,
+        832
       ]
     },
     {
@@ -52,13 +52,13 @@
         },
         "options": {}
       },
-      "id": "f47c7dd3-f508-463f-b1de-ecbe6bdaa0ec",
+      "id": "50462cce-7978-4147-b215-25749d3bbf79",
       "name": "Non-Building Elements Output1",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        15056,
-        304
+        2272,
+        848
       ]
     },
     {
@@ -85,13 +85,13 @@
           "temperature": 0.1
         }
       },
-      "id": "f665e1ea-1cf3-4d82-bb2f-8300af32c974",
+      "id": "93e37bf0-a126-4174-9bc6-a8a5378885a1",
       "name": "AI Classify Categories1",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.3,
       "position": [
-        14320,
-        288
+        1536,
+        832
       ],
       "credentials": {
         "openAiApi": {
@@ -111,13 +111,13 @@
           ]
         }
       },
-      "id": "8869e92b-e3e1-43c1-9b0f-d200d2fb86e9",
+      "id": "2adc7c4e-1133-43bd-a3b8-8648a95861be",
       "name": "Is Building Element1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        14848,
-        288
+        2064,
+        832
       ]
     },
     {
@@ -144,26 +144,26 @@
         },
         "options": {}
       },
-      "id": "7fe7f759-bf99-428c-b373-b7a9955b8f98",
+      "id": "a6b94ddd-8674-4072-8bb0-f2a813b4c042",
       "name": "Check If All Batches Done",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        13808,
-        736
+        1024,
+        1280
       ]
     },
     {
       "parameters": {
         "jsCode": "// Get all accumulated data and prepare for reporting\nconst storedData = $getWorkflowStaticData('global');\nconst allProcessedItems = storedData.accumulatedData || [];\n\nconsole.log(`\\n=== BATCH PROCESSING COMPLETE ===`);\nconsole.log(`Total items processed: ${allProcessedItems.length}`);\n\n// Clear accumulated data for next run\nstoredData.accumulatedData = [];\n\n// Return all items for report generation\nreturn allProcessedItems;"
       },
-      "id": "46fb885b-8d37-4621-953d-9650a8ddf877",
+      "id": "6a62ad33-7c47-495d-b81b-3be78ae0cd81",
       "name": "Collect All Results",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        13984,
-        1024
+        1200,
+        1568
       ]
     },
     {
@@ -171,26 +171,26 @@
         "batchSize": 1,
         "options": {}
       },
-      "id": "ee694637-686e-44a3-818b-d9c159ac7db6",
+      "id": "e3ab164d-d34c-4415-9ecc-d1e2dcd35ebe",
       "name": "Process in Batches1",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 1,
       "position": [
-        13968,
-        608
+        1184,
+        1152
       ]
     },
     {
       "parameters": {
         "jsCode": "// Clean empty values from the item\nreturn $input.all().map(item => {\n  const cleanedJson = {};\n  Object.entries(item.json).forEach(([key, value]) => {\n    if (value !== null) {\n      if (typeof value === 'number') {\n        if (value !== 0 || key === 'Element Count') {\n          cleanedJson[key] = value;\n        }\n      } else if (value !== '') {\n        cleanedJson[key] = value;\n      }\n    }\n  });\n  return { json: cleanedJson };\n});"
       },
-      "id": "93c36df9-a179-477b-a5fb-018696601d50",
+      "id": "b1504e4e-6a04-4014-aeed-b38dbaa9b12d",
       "name": "Clean Empty Values1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14144,
-        608
+        1360,
+        1152
       ]
     },
     {
@@ -201,26 +201,26 @@
           "systemMessage": "={{ $json.systemPrompt }}"
         }
       },
-      "id": "f0fd1e6d-c498-4215-885f-52643741337e",
+      "id": "d152a0a9-71c9-4532-9743-15225429bcc8",
       "name": "AI Agent Enhanced",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        14496,
-        608
+        1712,
+        1152
       ]
     },
     {
       "parameters": {
         "jsCode": "// Accumulate all processed items\nconst currentItem = $input.first();\nconst storedData = $getWorkflowStaticData('global');\n\n// Initialize accumulator if needed\nif (!storedData.accumulatedData) {\n  storedData.accumulatedData = [];\n}\n\n// Add current item to accumulated data\nstoredData.accumulatedData.push(currentItem);\n\nconsole.log(`Item processed. Total accumulated: ${storedData.accumulatedData.length} items`);\n\n// Return the current item to continue the flow\nreturn [currentItem];"
       },
-      "id": "1df2fab7-89b5-4e41-a83a-bebf1c990735",
+      "id": "72e3dd39-013c-43b4-a0e1-9ce4167d37f0",
       "name": "Accumulate Results",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        15072,
-        720
+        2288,
+        1264
       ]
     },
     {
@@ -236,10 +236,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "typeVersion": 1.3,
       "position": [
-        14256,
-        768
+        1472,
+        1312
       ],
-      "id": "6b1aaa7c-3939-4c51-a73f-35d73d84e556",
+      "id": "7f62341e-e758-4664-aa1d-62cdba49cd84",
       "name": "Anthropic Chat Model1",
       "credentials": {
         "anthropicApi": {
@@ -252,39 +252,39 @@
       "parameters": {
         "jsCode": "// Aggregate all results and calculate project totals\nconst items = $input.all();\n\n// Initialize aggregators\nconst projectTotals = {\n  totalElements: 0,\n  totalCost: 0,\n  totalVolume: 0,\n  totalArea: 0,\n  byMaterial: {},\n  byCategory: {},\n  byImpact: {}\n};\n\n// Process each item\nitems.forEach(item => {\n  const data = item.json;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const volume = parseFloat(data['Volume (m³)']) || 0;\n  const area = parseFloat(data['Area (m²)']) || 0;\n  const material = data['Material (EU Standard)'] || 'Unknown';\n  const category = data['Element Category'] || 'Unknown';\n  const impact = data['Impact Category'] || 'Unknown';\n  \n  // Update totals\n  projectTotals.totalElements += elementCount;\n  projectTotals.totalCost += cost;\n  projectTotals.totalVolume += volume;\n  projectTotals.totalArea += area;\n  \n  // Aggregate by material\n  if (!projectTotals.byMaterial[material]) {\n    projectTotals.byMaterial[material] = {\n      elements: 0,\n      cost: 0,\n      volume: 0,\n      types: new Set()\n    };\n  }\n  projectTotals.byMaterial[material].elements += elementCount;\n  projectTotals.byMaterial[material].cost += cost;\n  projectTotals.byMaterial[material].volume += volume;\n  projectTotals.byMaterial[material].types.add(data['Element Name']);\n  \n  // Aggregate by category\n  if (!projectTotals.byCategory[category]) {\n    projectTotals.byCategory[category] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byCategory[category].elements += elementCount;\n  projectTotals.byCategory[category].cost += cost;\n  \n  // Aggregate by impact\n  if (!projectTotals.byImpact[impact]) {\n    projectTotals.byImpact[impact] = {\n      elements: 0,\n      cost: 0\n    };\n  }\n  projectTotals.byImpact[impact].elements += elementCount;\n  projectTotals.byImpact[impact].cost += cost;\n});\n\n// Add percentages and rankings to each item\nconst enrichedItems = items.map((item, index) => {\n  const data = item.json;\n  const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n  const elementCount = parseFloat(data['Element Count']) || 1;\n  \n  return {\n    json: {\n      ...data,\n      // Add project percentages\n      'Cost % of Total': projectTotals.totalCost > 0 ? \n        ((cost / projectTotals.totalCost) * 100).toFixed(2) : '0.00',\n      'Elements % of Total': projectTotals.totalElements > 0 ? \n        ((elementCount / projectTotals.totalElements) * 100).toFixed(2) : '0.00',\n      // Add ranking\n      'Cost Rank': index + 1,\n      // Project totals (same for all rows)\n      'Project Total Elements': projectTotals.totalElements,\n      'Project Total Cost (EUR)': projectTotals.totalCost.toFixed(3),\n      'Project Total Volume (m³)': projectTotals.totalVolume.toFixed(2),\n      'Project Total Area (m²)': projectTotals.totalArea.toFixed(2)\n    }\n  };\n});\n\n// Sort by Cost (highest first)\nenrichedItems.sort((a, b) => \n  parseFloat(b.json['Total Cost (EUR)']) - parseFloat(a.json['Total Cost (EUR)'])\n);\n\n// Store aggregated data for summary\n$getWorkflowStaticData('global').projectTotals = projectTotals;\n\nreturn enrichedItems;"
       },
-      "id": "4781c7a6-1b01-4d9f-89da-326b1daad69b",
+      "id": "dfb09d43-49c8-47be-af77-e3bef30a5053",
       "name": "Calculate Project Totals1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14160,
-        1024
+        1376,
+        1568
       ]
     },
     {
       "parameters": {
         "jsCode": "// Enhanced Excel styling configuration\nconst excelBuffer = $input.first().binary.data;\nconst fileName = `Price_Estimation_Report_${new Date().toISOString().slice(0,10)}.xlsx`;\n\n// Add metadata to the file\nconst metadata = {\n  title: 'Price Estimation Analysis Report',\n  author: 'DataDrivenConstruction.io',\n  company: 'Automated Price Estimation System',\n  created: new Date().toISOString(),\n  description: 'Comprehensive project cost assessment with multi-standard material classification',\n  keywords: 'Price, Cost Estimation, Building Materials'\n};\n\n// Return the enhanced Excel file\nreturn [{\n  json: {\n    fileName: fileName,\n    fileSize: excelBuffer.data.length,\n    sheets: 8,\n    metadata: metadata,\n    timestamp: new Date().toISOString()\n  },\n  binary: {\n    data: {\n      ...excelBuffer,\n      fileName: fileName,\n      fileExtension: 'xlsx',\n      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'\n    }\n  }\n}];"
       },
-      "id": "cb410769-f828-4b46-b643-4c4fae14dc89",
+      "id": "4d061758-4051-4bcc-85db-d7ed7fa06ec7",
       "name": "Enhance Excel Output",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14720,
-        1200
+        1936,
+        1744
       ]
     },
     {
       "parameters": {
         "jsCode": "// Prepare comprehensive data for multi-sheet Excel export\nconst items = $input.all();\nconst projectTotals = $getWorkflowStaticData('global').projectTotals;\n\n// Helper function to format numbers\nconst formatNumber = (num, decimals = 2) => {\n  return typeof num === 'number' ? parseFloat(num.toFixed(decimals)) : 0;\n};\n\n// Sheet 1: Executive Summary with project metrics\nconst executiveSummary = [\n  {\n    'Category': 'PROJECT OVERVIEW',\n    'Metric': 'Total Elements Analyzed',\n    'Value': projectTotals.totalElements,\n    'Unit': 'elements'\n  },\n  {\n    'Category': 'PROJECT OVERVIEW',\n    'Metric': 'Element Groups',\n    'Value': items.length,\n    'Unit': 'groups'\n  },\n  {\n    'Category': 'COST METRICS',\n    'Metric': 'Total Estimated Cost',\n    'Value': formatNumber(projectTotals.totalCost, 2),\n    'Unit': 'EUR'\n  },\n  {\n    'Category': 'COST METRICS',\n    'Metric': 'Average Cost per Element',\n    'Value': formatNumber(projectTotals.totalCost / projectTotals.totalElements, 3),\n    'Unit': 'EUR/element'\n  },\n  {\n    'Category': 'MATERIAL METRICS',\n    'Metric': 'Unique Material Types',\n    'Value': Object.keys(projectTotals.byMaterial).length,\n    'Unit': 'materials'\n  },\n  {\n    'Category': 'VOLUMETRIC DATA',\n    'Metric': 'Total Volume',\n    'Value': formatNumber(projectTotals.totalVolume, 2),\n    'Unit': 'm³'\n  },\n  {\n    'Category': 'VOLUMETRIC DATA',\n    'Metric': 'Total Area',\n    'Value': formatNumber(projectTotals.totalArea, 2),\n    'Unit': 'm²'\n  }\n];\n\n// Sheet 2: Detailed Elements Analysis - ALL fields from processing\nconst detailedElements = items.map((item, index) => {\n  const data = item.json;\n  return {\n    'Cost_Rank': index + 1,\n    'Element_Group': data['Element Name'] || data['Type Name'] || 'Unknown',\n    'Element_Category': data['Element Category'] || 'Unknown',\n    'Element_Type': data['Element Type'] || 'Unknown',\n    'Element_Function': data['Element Function'] || 'Unknown',\n    'Element_Count': parseInt(data['Element Count']) || 0,\n    'Material_EU_Standard': data['Material (EU Standard)'] || 'Unknown',\n    'Material_DE_Standard': data['Material (DE Standard)'] || 'Unknown',\n    'Material_US_Standard': data['Material (US Standard)'] || 'Unknown',\n    'Primary_Material': data['Primary Material'] || 'Unknown',\n    'Secondary_Materials': data['Secondary Materials'] || 'None',\n    'Quantity_Value': formatNumber(data['Quantity'] || 0, 3),\n    'Quantity_Unit': data['Quantity Unit'] || 'piece',\n    'Volume_m3': formatNumber(data['Volume (m³)'] || 0, 3),\n    'Area_m2': formatNumber(data['Area (m²)'] || 0, 3),\n    'Price_per_Unit_EUR': formatNumber(data['Price per Unit (EUR)'] || 0, 2),\n    'Total_Cost_EUR': formatNumber(data['Total Cost (EUR)'] || 0, 2),\n    'Cost_per_Element_EUR': formatNumber(data['Cost per Element (EUR)'] || 0, 2),\n    'Cost_Percent_of_Total': formatNumber(data['Cost % of Total'] || 0, 2),\n    'Price_Source': data['Price Source'] || 'Unknown',\n    'Overall_Confidence_%': parseInt(data['Overall Confidence (%)']) || 0,\n    'Assumptions': data['Assumptions'] || 'None',\n    'Warnings': data['Warnings'] || 'None'\n  };\n});\n\n// Sheet 3: Material Summary with detailed breakdown\nconst materialSummary = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .map(([material, data], index) => {\n    const costPercent = (data.cost / projectTotals.totalCost) * 100;\n    return {\n      'Rank': index + 1,\n      'Material_Type': material,\n      'Element_Count': data.elements,\n      'Cost_EUR': formatNumber(data.cost, 2),\n      'Cost_%': formatNumber(costPercent, 1),\n      'Volume_m3': formatNumber(data.volume, 2)\n    };\n  });\n\n// Sheet 4: Top 10 Expensive Groups\nconst top10Groups = items\n  .slice(0, 10)\n  .map((item, index) => {\n    const data = item.json;\n    const cost = parseFloat(data['Total Cost (EUR)']) || 0;\n    const costPercent = parseFloat(data['Cost % of Total']) || 0;\n    const elementCount = parseInt(data['Element Count']) || 1;\n    \n    return {\n      'Rank': index + 1,\n      'Element_Group': data['Element Name'] || 'Unknown',\n      'Category': data['Element Category'] || 'Unknown',\n      'Material': data['Material (EU Standard)'] || 'Unknown',\n      'Element_Count': elementCount,\n      'Cost_EUR': formatNumber(cost, 2),\n      'Cost_%': formatNumber(costPercent, 1),\n      'Cost_per_Element': formatNumber(cost / elementCount, 1)\n    };\n  });\n\n// Create worksheet structure with proper sheet names\nconst worksheets = [\n  { name: 'Summary', data: executiveSummary },\n  { name: 'Detailed Elements', data: detailedElements },\n  { name: 'Material Summary', data: materialSummary },\n  { name: 'Top 10 Groups', data: top10Groups }\n];\n\n// Flatten all data with sheet markers\nconst allData = [];\nworksheets.forEach(sheet => {\n  sheet.data.forEach(row => {\n    allData.push({\n      json: {\n        ...row,\n        _sheetName: sheet.name\n      }\n    });\n  });\n});\n\nreturn allData;"
       },
-      "id": "aa14cb0b-4bec-45c7-9a76-78229d2a6f57",
+      "id": "d006c84f-3df6-493e-8965-2552f06cc862",
       "name": "Prepare Excel Data",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14384,
-        1200
+        1600,
+        1744
       ]
     },
     {
@@ -297,65 +297,65 @@
           "sheetName": "={{ $json._sheetName }}"
         }
       },
-      "id": "2351a3e7-a876-4e3d-8529-4b244524fcde",
+      "id": "b55dc4f5-1309-4a06-9924-d796733a21f5",
       "name": "Create Excel File",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 2,
       "position": [
-        14544,
-        1200
+        1760,
+        1744
       ]
     },
     {
       "parameters": {
         "jsCode": "// Enhanced prompts for comprehensive price estimation analysis\nconst inputData = $input.first().json;\nconst originalGroupedData = { ...inputData };\nconst country = $node['Process AI Response1'].json.country;\n\nconst systemPrompt = `You are an expert in construction cost estimation, material pricing, and building element classification. Analyze the provided building element data and return a comprehensive price estimation assessment.\n\nUse tools like web_search or browse_page to find current prices from reliable sources (e.g., manufacturer websites, construction databases like RSMeans, ÖKOBAUDAT for ${country}, etc.). Prioritize sources from ${country} or relevant region.\n\nIMPORTANT NOTE ON DATA:\n- All quantitative fields like Volume, Area, Length, etc. in the input data represent ALREADY AGGREGATED TOTALS for the entire group of elements.\n- 'Element Count' indicates the number of individual elements in this group.\n- DO NOT multiply volumes/areas by Element Count - they are already total sums.\n- Infer the best unit for pricing (e.g., per m³ for volumes, per m² for areas, per piece for counts) based on parameters.\n- Search for prices using element parameters (material, dimensions, type).\n- If exact price not found, use average or rough estimate and note it.\n- Consider secondary materials if possible, otherwise focus on primary.\n- For additional factors (e.g., labor, transport), note percentages but do not include in calculations.\n- If no price found, state 'Price not found' and suggest average if possible.\n\n## Your Analysis Must Include:\n\n### 1. Element Identification\n- Element type and category\n- Primary material composition\n- Secondary materials if applicable\n- Functional classification\n\n### 2. Material Classification (All 3 Standards, prioritize ${country}'s if applicable)\n- **European (EN 15978/15804)**: Concrete/Steel/Wood/Glass/Insulation/etc.\n- **German (ÖKOBAUDAT)**: Mineralische/Metalle/Holz/Dämmstoffe/etc.\n- **US (MasterFormat)**: Division classifications\n\n### 3. Quantity Analysis\n- Primary quantity with unit (m³, m², m, kg, pieces) - use aggregated total from input\n- Calculation method used (e.g., 'Direct from provided total volume')\n- Confidence level (0-100%)\n- Data quality assessment\n\n### 4. Price Estimation\n- Price per unit (EUR/unit)\n- Total price (for the entire group)\n- Price source (URL or database name)\n- Additional factors (percentages only, e.g., labor: 20%)\n\n### 5. Data Quality & Confidence\n- Overall confidence score\n- Data completeness assessment\n- Key assumptions made\n- Warnings or limitations\n\n## Output Format\nReturn ONLY valid JSON with this exact structure:\n{\n  \"element_identification\": {\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"type\": \"string\",\n    \"function\": \"string\"\n  },\n  \"material_classification\": {\n    \"european\": \"string\",\n    \"german\": \"string\",\n    \"us\": \"string\",\n    \"primary_material\": \"string\",\n    \"secondary_materials\": [\"string\"]\n  },\n  \"quantities\": {\n    \"value\": number,\n    \"unit\": \"string\",\n    \"calculation_method\": \"string\",\n    \"raw_dimensions\": {\n      \"length\": number,\n      \"width\": number,\n      \"height\": number,\n      \"thickness\": number,\n      \"area\": number,\n      \"volume\": number\n    }\n  },\n  \"price_analysis\": {\n    \"price_per_unit_eur\": number,\n    \"total_price_eur\": number,\n    \"price_source\": \"string\",\n    \"additional_factors\": {\"labor\": number, \"transport\": number},\n    \"data_source\": \"string\"\n  },\n  \"confidence\": {\n    \"overall_score\": number,\n    \"material_confidence\": number,\n    \"quantity_confidence\": number,\n    \"price_confidence\": number,\n    \"data_quality\": \"high/medium/low\"\n  },\n  \"metadata\": {\n    \"assumptions\": [\"string\"],\n    \"warnings\": [\"string\"],\n    \"notes\": \"string\"\n  }\n}`;\n\nconst userPrompt = `Analyze this building element group for price estimation in ${country}. Remember: Volumes and areas are already total for the group, not per element. Use tools to search for prices.\n\n${JSON.stringify(inputData, null, 2)}\n\nProvide comprehensive price analysis following the specified format. Focus on accuracy and use conservative estimates where data is uncertain.`;\n\nreturn [{\n  json: {\n    ...originalGroupedData,\n    systemPrompt,\n    userPrompt,\n    _originalGroupedData: originalGroupedData\n  }\n}];"
       },
-      "id": "b888cf20-1db2-4116-ae31-2a7b73efb39d",
+      "id": "750047a0-76ea-41a6-8e6e-83447eaef026",
       "name": "Prepare Enhanced Prompts",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14320,
-        608
+        1536,
+        1152
       ]
     },
     {
       "parameters": {
         "jsCode": "// Parse and enrich AI response with all necessary data\nconst aiResponse = $input.first().json.output || $input.first().json.response || $input.first().json.text || $input.first().json;\nconst originalData = $node[\"Prepare Enhanced Prompts\"].json._originalGroupedData || $node[\"Prepare Enhanced Prompts\"].json;\n\ntry {\n  // Extract JSON from response\n  let jsonStr = aiResponse;\n  if (typeof jsonStr === 'string') {\n    const jsonMatch = jsonStr.match(/```json\\n?([\\s\\S]*?)\\n?```/) || jsonStr.match(/\\{[\\s\\S]*\\}/);\n    if (jsonMatch) {\n      jsonStr = jsonMatch[1] || jsonMatch[0];\n    }\n  }\n  \n  const analysis = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;\n  \n  // Calculate additional metrics - use total price for group\n  const total_price_eur = analysis.price_analysis?.total_price_eur || 0;\n  const elementCount = parseFloat(originalData['Element Count']) || 1;\n  const price_per_element = total_price_eur / elementCount;\n  \n  // Determine impact category\n  let impactCategory = 'Unknown';\n  const pricePerUnit = analysis.price_analysis?.price_per_unit_eur || 0;\n  if (pricePerUnit <= 10) {\n    impactCategory = 'Very Low Cost';\n  } else if (pricePerUnit <= 50) {\n    impactCategory = 'Low Cost';\n  } else if (pricePerUnit <= 200) {\n    impactCategory = 'Medium Cost';\n  } else if (pricePerUnit <= 500) {\n    impactCategory = 'High Cost';\n  } else {\n    impactCategory = 'Very High Cost';\n  }\n  \n  // Create comprehensive output record\n  return [{\n    json: {\n      // Original data\n      ...originalData,\n      \n      // Element identification\n      'Element Name': analysis.element_identification?.name || originalData['Type Name'] || 'Unknown',\n      'Element Category': analysis.element_identification?.category || originalData['Category'] || 'Unknown',\n      'Element Type': analysis.element_identification?.type || 'Unknown',\n      'Element Function': analysis.element_identification?.function || 'Unknown',\n      \n      // Material classification\n      'Material (EU Standard)': analysis.material_classification?.european || 'Unknown',\n      'Material (DE Standard)': analysis.material_classification?.german || 'Unknown',\n      'Material (US Standard)': analysis.material_classification?.us || 'Unknown',\n      'Primary Material': analysis.material_classification?.primary_material || 'Unknown',\n      'Secondary Materials': (analysis.material_classification?.secondary_materials || []).join(', ') || 'None',\n      \n      // Quantities\n      'Quantity': analysis.quantities?.value || 0,\n      'Quantity Unit': analysis.quantities?.unit || 'piece',\n      'Calculation Method': analysis.quantities?.calculation_method || 'Not specified',\n      \n      // Dimensions (from raw data) - these are totals\n      'Length (mm)': analysis.quantities?.raw_dimensions?.length || originalData['Length'] || 0,\n      'Width (mm)': analysis.quantities?.raw_dimensions?.width || originalData['Width'] || 0,\n      'Height (mm)': analysis.quantities?.raw_dimensions?.height || originalData['Height'] || 0,\n      'Thickness (mm)': analysis.quantities?.raw_dimensions?.thickness || originalData['Thickness'] || 0,\n      'Area (m²)': analysis.quantities?.raw_dimensions?.area || originalData['Area'] || 0,\n      'Volume (m³)': analysis.quantities?.raw_dimensions?.volume || originalData['Volume'] || 0,\n      \n      // Price Analysis\n      'Price per Unit (EUR)': analysis.price_analysis?.price_per_unit_eur || 0,\n      'Total Cost (EUR)': total_price_eur,\n      'Cost per Element (EUR)': price_per_element,\n      'Price Source': analysis.price_analysis?.price_source || 'Unknown',\n      'Additional Factors': JSON.stringify(analysis.price_analysis?.additional_factors || {}),\n      'Data Source': analysis.price_analysis?.data_source || 'Industry average',\n      'Impact Category': impactCategory,\n      \n      // Confidence scores\n      'Overall Confidence (%)': analysis.confidence?.overall_score || 0,\n      'Material Confidence (%)': analysis.confidence?.material_confidence || 0,\n      'Quantity Confidence (%)': analysis.confidence?.quantity_confidence || 0,\n      'Price Confidence (%)': analysis.confidence?.price_confidence || 0,\n      'Data Quality': analysis.confidence?.data_quality || 'unknown',\n      \n      // Metadata\n      'Assumptions': (analysis.metadata?.assumptions || []).join('; ') || 'None',\n      'Warnings': (analysis.metadata?.warnings || []).join('; ') || 'None',\n      'Analysis Notes': analysis.metadata?.notes || '',\n      'Processing Timestamp': new Date().toISOString(),\n      'Analysis Status': 'Complete'\n    }\n  }];\n  \n} catch (error) {\n  // Return error record with original data preserved\n  return [{\n    json: {\n      ...originalData,\n      'Analysis Status': 'Failed',\n      'Error': error.message,\n      'Processing Timestamp': new Date().toISOString()\n    }\n  }];\n}"
       },
-      "id": "09dbcf38-8650-41f5-9625-779a859e4031",
+      "id": "f5d3ae3d-68fe-43e3-a6df-4bed5a82aefa",
       "name": "Parse Enhanced Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14848,
-        608
+        2064,
+        1152
       ]
     },
     {
       "parameters": {
         "jsCode": "// Generate professional McKinsey/Accenture style HTML report with visualizations\nconst items = $input.all();\nconst projectTotals = $getWorkflowStaticData('global').projectTotals;\n\n// Get project name from file path\nconst projectFile = $node['Setup - Define file paths'].json.project_file || '';\nconst projectName = projectFile.split('\\\\').pop().replace('.rvt', '').replace(/_/g, ' ').toUpperCase();\n\n// Sort items by total cost descending\nconst sortedItems = [...items].sort((a, b) => \n  parseFloat(b.json['Total Cost (EUR)'] || 0) - parseFloat(a.json['Total Cost (EUR)'] || 0)\n);\n\n// Calculate additional metrics\nconst avgConfidence = sortedItems.reduce((sum, item) => sum + (parseInt(item.json['Overall Confidence (%)']) || 0), 0) / sortedItems.length;\nconst completeItems = sortedItems.filter(item => item.json['Analysis Status'] === 'Complete').length;\nconst coveragePercent = (completeItems / sortedItems.length) * 100;\n\n// Get top material\nconst topMaterial = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)[0];\n\n// Calculate high impact items\nconst highImpactItems = sortedItems.filter(item => \n  parseFloat(item.json['Total Cost (EUR)']) >= projectTotals.totalCost * 0.05\n).length;\n\n// Calculate top 3 materials percentage\nconst top3Materials = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .slice(0, 3);\nconst top3Percentage = (top3Materials.reduce((sum, [, data]) => sum + data.cost, 0) / projectTotals.totalCost) * 100;\n\n// Prepare data for charts\nconst materialChartData = Object.entries(projectTotals.byMaterial)\n  .sort((a, b) => b[1].cost - a[1].cost)\n  .slice(0, 6)\n  .map(([material, data]) => ({\n    label: material,\n    value: data.cost\n  }));\n\nconst barChartData = sortedItems.slice(0, 10).map(item => ({\n  label: item.json['Element Name'] || 'Unknown',\n  value: parseFloat(item.json['Total Cost (EUR)'] || 0)\n}));\n\n// Generate HTML\nconst html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Project Cost Intelligence | Executive Report</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap\" rel=\"stylesheet\">\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        \n        :root {\n            --primary-gradient: linear-gradient(135deg, #0F4C75 0%, #3282B8 50%, #1B262C 100%);\n            --secondary-gradient: linear-gradient(135deg, #3282B8 0%, #0F4C75 100%);\n            --light-gradient: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            --accent-gradient: linear-gradient(135deg, #BBE1FA 0%, #3282B8 100%);\n        }\n        \n        body {\n            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n            background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);\n            min-height: 100vh;\n            color: #0f172a;\n            line-height: 1.6;\n        }\n        \n        .container {\n            max-width: 1600px;\n            margin: 0 auto;\n            background: white;\n            box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);\n            position: relative;\n        }\n        \n        /* Professional Header */\n        .header {\n            background: var(--primary-gradient);\n            color: white;\n            padding: 45px 80px;\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .header::before {\n            content: '';\n            position: absolute;\n            top: -50%;\n            right: -10%;\n            width: 800px;\n            height: 800px;\n            background: radial-gradient(circle, rgba(50, 130, 184, 0.15) 0%, transparent 70%);\n            animation: float 6s ease-in-out infinite;\n        }\n        \n        .header::after {\n            content: '';\n            position: absolute;\n            bottom: -30%;\n            left: -10%;\n            width: 600px;\n            height: 600px;\n            background: radial-gradient(circle, rgba(187, 225, 250, 0.1) 0%, transparent 70%);\n            animation: float 6s ease-in-out infinite 3s;\n        }\n        \n        @keyframes float {\n            0%, 100% { transform: translateY(0) scale(1); }\n            50% { transform: translateY(-20px) scale(1.05); }\n        }\n        \n        .header-content {\n            position: relative;\n            z-index: 1;\n        }\n        \n        .header-top {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 50px;\n        }\n        \n        .company-brand {\n            display: flex;\n            align-items: center;\n            gap: 20px;\n        }\n        \n        .company-logo {\n            font-size: 13px;\n            font-weight: 800;\n            letter-spacing: 3px;\n            text-transform: uppercase;\n            padding-left: 20px;\n            border-left: 4px solid #BBE1FA;\n            opacity: 0.95;\n        }\n        \n        .report-badge {\n            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);\n            backdrop-filter: blur(20px);\n            padding: 12px 24px;\n            border-radius: 50px;\n            font-size: 11px;\n            font-weight: 700;\n            letter-spacing: 2px;\n            text-transform: uppercase;\n            border: 1px solid rgba(255,255,255,0.2);\n            box-shadow: 0 4px 20px rgba(0,0,0,0.1);\n        }\n        \n        h1 {\n            font-family: 'Poppins', sans-serif;\n            font-size: 48px;\n            font-weight: 800;\n            margin-bottom: 16px;\n            letter-spacing: -2px;\n            line-height: 1.1;\n            color: white;\n        }\n        \n        .subtitle {\n            font-size: 18px;\n            font-weight: 300;\n            opacity: 0.9;\n            margin-bottom: 30px;\n            color: #cbd5e1;\n            letter-spacing: 0.5px;\n        }\n        \n        .meta-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 30px;\n            padding-top: 30px;\n            border-top: 1px solid rgba(255,255,255,0.15);\n        }\n        \n        .meta-card {\n            display: flex;\n            align-items: flex-start;\n            gap: 16px;\n            flex-direction: column;\n        }\n        \n        .meta-info {\n            flex: 1;\n        }\n        \n        .meta-label {\n            font-size: 12px;\n            opacity: 0.8;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n            margin-bottom: 4px;\n            font-weight: 500;\n        }\n        \n        .meta-value {\n            font-size: 20px;\n            font-weight: 700;\n        }\n        \n        /* KPI Cards Section */\n        .kpi-section {\n            padding: 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);\n            position: relative;\n        }\n        \n        .kpi-section::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            height: 2px;\n            background: var(--accent-gradient);\n        }\n        \n        .kpi-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 32px;\n        }\n        \n        .kpi-card {\n            background: white;\n            padding: 40px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);\n            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .kpi-card::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 3px;\n            background: linear-gradient(90deg, #3282B8 0%, #0F4C75 100%);\n        }\n        \n        .kpi-card:hover {\n            transform: translateY(-8px);\n            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);\n            border-color: #cbd5e1;\n        }\n        \n        .kpi-icon {\n            width: 56px;\n            height: 56px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            border-radius: 16px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 24px;\n            margin-bottom: 20px;\n            border: 1px solid #e5e7eb;\n            color: #94a3b8;\n        }\n        \n        .kpi-label {\n            font-size: 11px;\n            color: #64748b;\n            text-transform: uppercase;\n            letter-spacing: 1.5px;\n            margin-bottom: 12px;\n            font-weight: 700;\n        }\n        \n        .kpi-value {\n            font-size: 42px;\n            font-weight: 800;\n            color: #1e293b;\n            margin-bottom: 8px;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .kpi-unit {\n            font-size: 14px;\n            color: #94a3b8;\n            font-weight: 500;\n        }\n        \n        .kpi-trend {\n            position: absolute;\n            top: 24px;\n            right: 24px;\n            padding: 8px 16px;\n            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);\n            border-radius: 20px;\n            font-size: 12px;\n            font-weight: 600;\n            color: #3282B8;\n        }\n        \n        /* Executive Summary */\n        .executive-section {\n            padding: 80px;\n            background: white;\n        }\n        \n        .section-header {\n            display: flex;\n            align-items: center;\n            gap: 20px;\n            margin-bottom: 50px;\n            padding-bottom: 30px;\n            border-bottom: 2px solid #e0f2fe;\n        }\n        \n        .section-number {\n            width: 60px;\n            height: 60px;\n            background: linear-gradient(135deg, #3282B8 0%, #0F4C75 100%);\n            color: white;\n            border-radius: 16px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-weight: 800;\n            font-size: 24px;\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n        }\n        \n        h2 {\n            font-size: 36px;\n            font-weight: 800;\n            color: #1e293b;\n            font-family: 'Poppins', sans-serif;\n            letter-spacing: -1px;\n        }\n        \n        .summary-grid {\n            display: grid;\n            grid-template-columns: 1.5fr 1fr;\n            gap: 60px;\n            margin-top: 50px;\n        }\n        \n        .summary-content {\n            font-size: 17px;\n            line-height: 1.9;\n            color: #475569;\n        }\n        \n        .summary-content p {\n            margin-bottom: 20px;\n        }\n        \n        .summary-content strong {\n            color: #3282B8;\n            font-weight: 700;\n        }\n        \n        .insight-panel {\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            padding: 40px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            position: relative;\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);\n        }\n        \n        .insight-panel h3 {\n            font-size: 20px;\n            margin-bottom: 30px;\n            color: #1e293b;\n            font-weight: 800;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .insight-item {\n            display: flex;\n            align-items: center;\n            gap: 20px;\n            margin-bottom: 24px;\n            padding: 16px 20px;\n            background: white;\n            border-radius: 12px;\n            transition: all 0.3s;\n            border: 1px solid transparent;\n        }\n        \n        .insight-item:hover {\n            transform: translateX(8px);\n            border-color: #cbd5e1;\n            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n        }\n        \n        .insight-icon {\n            width: 40px;\n            height: 40px;\n            background: linear-gradient(135deg, #3282B8 0%, #0F4C75 100%);\n            border-radius: 10px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: white;\n            font-size: 18px;\n            font-weight: bold;\n            flex-shrink: 0;\n        }\n        \n        .insight-icon::before {\n            content: '⦿';\n            opacity: 0.7;\n        }\n        \n        .insight-text {\n            flex: 1;\n            font-size: 15px;\n            color: #334155;\n            font-weight: 500;\n        }\n        \n        /* Charts Section */\n        .charts-section {\n            padding: 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);\n        }\n        \n        .charts-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));\n            gap: 50px;\n            margin-top: 50px;\n        }\n        \n        .chart-container {\n            background: white;\n            padding: 50px;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);\n            transition: all 0.3s;\n        }\n        \n        .chart-container:hover {\n            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);\n        }\n        \n        .chart-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            margin-bottom: 40px;\n            padding-bottom: 20px;\n            border-bottom: 2px solid #e0f2fe;\n        }\n        \n        .chart-title {\n            font-size: 22px;\n            font-weight: 700;\n            color: #1e293b;\n        }\n        \n        .chart-badge {\n            padding: 6px 12px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n            border-radius: 20px;\n            font-size: 11px;\n            font-weight: 600;\n            color: #64748b;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n        }\n        \n        /* Data Tables */\n        .data-section {\n            padding: 80px;\n            background: white;\n        }\n        \n        .table-container {\n            margin-top: 50px;\n            border-radius: 16px;\n            overflow: hidden;\n            box-shadow: 0 0 0 1px #e0f2fe;\n        }\n        \n        .data-table {\n            width: 100%;\n            border-collapse: separate;\n            border-spacing: 0;\n            background: white;\n        }\n        \n        .data-table thead {\n            background: var(--primary-gradient);\n        }\n        \n        .data-table th {\n            padding: 20px;\n            text-align: left;\n            font-size: 11px;\n            font-weight: 800;\n            color: white;\n            text-transform: uppercase;\n            letter-spacing: 1.5px;\n        }\n        \n        .data-table td {\n            padding: 20px;\n            font-size: 14px;\n            color: #1e293b;\n            border-bottom: 1px solid #f1f5f9;\n            transition: all 0.2s;\n        }\n        \n        .data-table tbody tr {\n            transition: all 0.3s;\n        }\n        \n        .data-table tbody tr:hover {\n            background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 100%);\n        }\n        \n        .rank-badge {\n            display: inline-flex;\n            width: 36px;\n            height: 36px;\n            background: linear-gradient(135deg, #3282B8 0%, #0F4C75 100%);\n            color: white;\n            border-radius: 10px;\n            align-items: center;\n            justify-content: center;\n            font-size: 14px;\n            font-weight: 800;\n            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n        }\n        \n        .cost-bar-container {\n            display: flex;\n            align-items: center;\n            gap: 12px;\n        }\n        \n        .cost-bar {\n            height: 10px;\n            background: var(--accent-gradient);\n            border-radius: 5px;\n            box-shadow: 0 2px 8px rgba(50, 130, 184, 0.2);\n            transition: all 0.3s;\n        }\n        \n        .data-table tbody tr:hover .cost-bar {\n            transform: scaleY(1.4);\n        }\n        \n        .impact-badge {\n            padding: 6px 12px;\n            background: linear-gradient(135deg, #dbeafe 0%, #bae6fd 100%);\n            border-radius: 20px;\n            font-size: 12px;\n            font-weight: 700;\n            color: #0F4C75;\n        }\n        \n        /* Methodology Section */\n        .methodology-section {\n            padding: 80px;\n            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);\n        }\n        \n        .methodology-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 40px;\n            margin-top: 50px;\n        }\n        \n        .step-card {\n            text-align: center;\n            padding: 40px 30px;\n            background: white;\n            border-radius: 20px;\n            border: 1px solid #e5e7eb;\n            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .step-card::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            height: 3px;\n            background: linear-gradient(90deg, #1B262C 0%, #3282B8 100%);\n            transform: scaleX(0);\n            transition: transform 0.4s;\n        }\n        \n        .step-card:hover {\n            transform: translateY(-12px);\n            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);\n        }\n        \n        .step-card:hover::before {\n            transform: scaleX(1);\n        }\n        \n        .step-number {\n            width: 80px;\n            height: 80px;\n            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);\n            border: 4px solid;\n            border-image: var(--secondary-gradient) 1;\n            border-radius: 24px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin: 0 auto 24px;\n            font-size: 32px;\n            font-weight: 800;\n            color: #3282B8;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .step-title {\n            font-size: 18px;\n            font-weight: 700;\n            color: #0c4a6e;\n            margin-bottom: 12px;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .step-description {\n            font-size: 14px;\n            color: #64748b;\n            line-height: 1.6;\n        }\n        \n        /* Footer */\n        .footer {\n            background: linear-gradient(135deg, #0F4C75 0%, #3282B8 50%, #1B262C 100%);\n            color: white;\n            padding: 60px 80px;\n            position: relative;\n            overflow: hidden;\n        }\n        \n        .footer::before {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            height: 2px;\n            background: linear-gradient(90deg, transparent 0%, #BBE1FA 50%, transparent 100%);\n        }\n        \n        .footer-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n            gap: 60px;\n            margin-bottom: 50px;\n        }\n        \n        .footer-section h3 {\n            font-size: 20px;\n            font-weight: 700;\n            margin-bottom: 24px;\n            color: #bae6fd;\n            font-family: 'Poppins', sans-serif;\n        }\n        \n        .footer-text {\n            color: #cbd5e1;\n            font-size: 14px;\n            line-height: 1.8;\n            margin-bottom: 20px;\n        }\n        \n        .footer-links {\n            display: flex;\n            flex-direction: column;\n            gap: 12px;\n        }\n        \n        .footer-link {\n            color: #cbd5e1;\n            text-decoration: none;\n            font-size: 14px;\n            transition: all 0.3s;\n            display: inline-flex;\n            align-items: center;\n            gap: 8px;\n        }\n        \n        .footer-link:hover {\n            color: #BBE1FA;\n            transform: translateX(4px);\n        }\n        \n        .footer-link::before {\n            content: '→';\n            color: #BBE1FA;\n        }\n        \n        .footer-bottom {\n            padding-top: 40px;\n            border-top: 1px solid rgba(255,255,255,0.1);\n            text-align: center;\n            font-size: 13px;\n            color: #94a3b8;\n        }\n        \n        /* Responsive Design */\n        @media (max-width: 768px) {\n            .header {\n                padding: 60px 40px;\n            }\n            \n            h1 {\n                font-size: 48px;\n            }\n            \n            .kpi-section,\n            .executive-section,\n            .charts-section,\n            .data-section,\n            .methodology-section {\n                padding: 50px 30px;\n            }\n            \n            .summary-grid {\n                grid-template-columns: 1fr;\n            }\n            \n            .charts-grid {\n                grid-template-columns: 1fr;\n            }\n            \n            .data-table {\n                font-size: 12px;\n            }\n            \n            .data-table th,\n            .data-table td {\n                padding: 12px;\n            }\n        }\n        \n        /* Print Styles */\n        @media print {\n            body {\n                background: white;\n            }\n            \n            .container {\n                box-shadow: none;\n            }\n            \n            .header {\n                background: #3282B8;\n                print-color-adjust: exact;\n                -webkit-print-color-adjust: exact;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <!-- Professional Header -->\n        <div class=\"header\">\n            <div class=\"header-content\">\n                <div class=\"header-top\">\n                    <div class=\"company-brand\">\n                        <div class=\"company-logo\">${projectName}</div>\n                    </div>\n                    <div class=\"report-badge\">Cost Analysis</div>\n                </div>\n                \n                <h1>Project Cost Intelligence</h1>\n                <div class=\"subtitle\">Building Element Cost Analysis & Strategic Insights</div>\n                \n                <div class=\"meta-grid\">\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Report Date</div>\n                            <div class=\"meta-value\">${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Total Elements</div>\n                            <div class=\"meta-value\">${projectTotals.totalElements.toLocaleString()}</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Element Groups</div>\n                            <div class=\"meta-value\">${items.length}</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Total Cost</div>\n                            <div class=\"meta-value\">€${(projectTotals.totalCost / 1000).toFixed(1)}K</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Confidence</div>\n                            <div class=\"meta-value\">${avgConfidence.toFixed(0)}%</div>\n                        </div>\n                    </div>\n                    <div class=\"meta-card\">\n                        <div class=\"meta-info\">\n                            <div class=\"meta-label\">Material Types</div>\n                            <div class=\"meta-value\">${Object.keys(projectTotals.byMaterial).length}</div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Key Performance Indicators -->\n        <div class=\"kpi-section\">\n            <div class=\"kpi-grid\">\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">€</div>\n                    <div class=\"kpi-label\">Total Project Investment</div>\n                    <div class=\"kpi-value\">€${(projectTotals.totalCost / 1000).toFixed(1)}K</div>\n                    <div class=\"kpi-unit\">EUR Total Cost</div>\n                </div>\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">↗</div>\n                    <div class=\"kpi-label\">Average Unit Cost</div>\n                    <div class=\"kpi-value\">€${(projectTotals.totalCost / projectTotals.totalElements).toFixed(2)}</div>\n                    <div class=\"kpi-unit\">Per Element</div>\n                </div>\n                <div class=\"kpi-card\">\n                    <div class=\"kpi-icon\">□</div>\n                    <div class=\"kpi-label\">Material Categories</div>\n                    <div class=\"kpi-value\">${Object.keys(projectTotals.byMaterial).length}</div>\n                    <div class=\"kpi-unit\">Unique Types</div>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Executive Summary -->\n        <div class=\"executive-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">1</div>\n                <h2>Executive Summary</h2>\n            </div>\n            <div class=\"summary-grid\">\n                <div class=\"summary-content\">\n                    <p>The comprehensive cost analysis reveals a total project estimation of <strong>€${projectTotals.totalCost.toFixed(2)}</strong> across ${projectTotals.totalElements.toLocaleString()} building elements. This assessment encompasses ${Object.keys(projectTotals.byMaterial).length} distinct material categories, providing detailed insights into cost distribution and optimization opportunities.</p>\n                    \n                    <p>Our analysis indicates that the top ${Math.min(3, Object.keys(projectTotals.byMaterial).length)} material categories account for <strong>${top3Percentage.toFixed(1)}%</strong> of total project costs, suggesting that focused optimization strategies in these areas could yield significant cost reductions without compromising project quality.</p>\n                    \n                    <p>The cost distribution analysis reveals concentration patterns that align with industry benchmarks, while also identifying specific areas where strategic interventions could improve cost efficiency. The high confidence level of ${avgConfidence.toFixed(0)}% in our estimations provides a solid foundation for decision-making.</p>\n                </div>\n                <div class=\"insight-panel\">\n                    <h3>Key Strategic Insights</h3>\n                    <div class=\"insight-item\">\n                        <div class=\"insight-icon\"></div>\n                        <div class=\"insight-text\">Primary cost driver: <strong>${topMaterial[0]}</strong> (${((topMaterial[1].cost / projectTotals.totalCost) * 100).toFixed(1)}%)</div>\n                    </div>\n                    <div class=\"insight-item\">\n                        <div class=\"insight-icon\"></div>\n                        <div class=\"insight-text\">High-impact elements: <strong>${highImpactItems}</strong> groups (&gt;5% each)</div>\n                    </div>\n                    <div class=\"insight-item\">\n                        <div class=\"insight-icon\"></div>\n                        <div class=\"insight-text\">Analysis confidence: <strong>${avgConfidence.toFixed(0)}%</strong> average</div>\n                    </div>\n                    <div class=\"insight-item\">\n                        <div class=\"insight-icon\"></div>\n                        <div class=\"insight-text\">Coverage rate: <strong>${coveragePercent.toFixed(0)}%</strong> analyzed</div>\n                    </div>\n                    <div class=\"insight-item\">\n                        <div class=\"insight-icon\"></div>\n                        <div class=\"insight-text\">Cost per m³: <strong>€${(projectTotals.totalCost / projectTotals.totalVolume).toFixed(2)}</strong></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Charts Section -->\n        <div class=\"charts-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">2</div>\n                <h2>Cost Distribution Analytics</h2>\n            </div>\n            <div class=\"charts-grid\">\n                <div class=\"chart-container\">\n                    <div class=\"chart-header\">\n                        <div class=\"chart-title\">Material Cost Distribution</div>\n                        <div class=\"chart-badge\">Top 6</div>\n                    </div>\n                    <canvas id=\"materialPieChart\" style=\"max-height: 350px;\"></canvas>\n                </div>\n                <div class=\"chart-container\">\n                    <div class=\"chart-header\">\n                        <div class=\"chart-title\">Top Cost Contributors</div>\n                        <div class=\"chart-badge\">Top 10</div>\n                    </div>\n                    <canvas id=\"top10BarChart\" style=\"max-height: 350px;\"></canvas>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Top Contributors Table -->\n        <div class=\"data-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">3</div>\n                <h2>Cost Leadership Analysis</h2>\n            </div>\n            <div class=\"table-container\">\n                <table class=\"data-table\">\n                    <thead>\n                        <tr>\n                            <th style=\"width: 80px;\">Rank</th>\n                            <th>Element Group</th>\n                            <th>Material Type</th>\n                            <th style=\"width: 120px;\">Quantity</th>\n                            <th style=\"width: 120px;\">Unit Cost</th>\n                            <th style=\"width: 200px;\">Total Cost</th>\n                            <th style=\"width: 100px;\">Impact</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        ${sortedItems.slice(0, 10).map((item, index) => {\n                            const data = item.json;\n                            const costPercent = parseFloat(data['Cost % of Total']) || 0;\n                            const totalCost = parseFloat(data['Total Cost (EUR)']) || 0;\n                            const maxCost = parseFloat(sortedItems[0].json['Total Cost (EUR)']) || 1;\n                            const barWidth = (totalCost / maxCost) * 100;\n                            \n                            return `<tr>\n                                <td><span class=\"rank-badge\">${index + 1}</span></td>\n                                <td><strong>${data['Element Name'] || 'Unknown'}</strong></td>\n                                <td>${data['Material (EU Standard)'] || 'Unknown'}</td>\n                                <td>${data['Element Count'] || 0} units</td>\n                                <td>€${parseFloat(data['Price per Unit (EUR)'] || 0).toFixed(2)}</td>\n                                <td>\n                                    <div class=\"cost-bar-container\">\n                                        <strong>€${totalCost.toFixed(2)}</strong>\n                                        <div style=\"width: ${barWidth}px; max-width: 80px;\" class=\"cost-bar\"></div>\n                                    </div>\n                                </td>\n                                <td><span class=\"impact-badge\">${costPercent.toFixed(1)}%</span></td>\n                            </tr>`;\n                        }).join('')}\n                    </tbody>\n                </table>\n            </div>\n        </div>\n        \n        <!-- Material Summary -->\n        <div class=\"data-section\" style=\"background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">4</div>\n                <h2>Material Cost Intelligence</h2>\n            </div>\n            <div class=\"table-container\">\n                <table class=\"data-table\">\n                    <thead>\n                        <tr>\n                            <th>Material Category</th>\n                            <th style=\"width: 120px;\">Elements</th>\n                            <th style=\"width: 120px;\">Volume (m³)</th>\n                            <th style=\"width: 150px;\">Total Cost</th>\n                            <th style=\"width: 200px;\">Cost Share</th>\n                            <th style=\"width: 150px;\">Avg. Cost/Unit</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        ${Object.entries(projectTotals.byMaterial)\n                            .sort((a, b) => b[1].cost - a[1].cost)\n                            .slice(0, 8)\n                            .map(([material, data]) => {\n                                const costPercent = (data.cost / projectTotals.totalCost) * 100;\n                                const avgCost = data.cost / data.elements;\n                                \n                                return `<tr>\n                                    <td><strong>${material}</strong></td>\n                                    <td>${data.elements.toLocaleString()}</td>\n                                    <td>${data.volume.toFixed(2)}</td>\n                                    <td><strong>€${data.cost.toFixed(2)}</strong></td>\n                                    <td>\n                                        <div class=\"cost-bar-container\">\n                                            <span class=\"impact-badge\">${costPercent.toFixed(1)}%</span>\n                                            <div style=\"width: ${costPercent * 2}px; max-width: 100px;\" class=\"cost-bar\"></div>\n                                        </div>\n                                    </td>\n                                    <td>€${avgCost.toFixed(2)}</td>\n                                </tr>`;\n                            }).join('')}\n                    </tbody>\n                </table>\n            </div>\n        </div>\n        \n        <!-- Cumulative Price Impact -->\n        <div class=\"data-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">5</div>\n                <h2>Cumulative Price Impact</h2>\n            </div>\n            <p style=\"color: #64748b; font-size: 14px; margin-top: -20px; margin-bottom: 40px;\">\n                Pareto analysis showing concentration of costs\n            </p>\n            \n            <!-- Cumulative Chart -->\n            <div style=\"background: white; padding: 40px; border-radius: 16px; border: 1px solid #e5e7eb; margin-bottom: 40px;\">\n                <canvas id=\"cumulativeChart\" style=\"max-height: 400px;\"></canvas>\n            </div>\n            \n            <!-- Summary Stats -->\n            <div style=\"display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;\">\n                <div style=\"background: #f8fafc; padding: 24px; border-radius: 12px; border-left: 3px solid #3282B8;\">\n                    <div style=\"font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 600;\">TOP 20% OF ITEMS</div>\n                    <div style=\"font-size: 28px; font-weight: 700; color: #1e293b;\">${(() => {\n                        const twentyPercentIndex = Math.floor(sortedItems.length * 0.2);\n                        let sum = 0;\n                        for(let i = 0; i < twentyPercentIndex && i < sortedItems.length; i++) {\n                            sum += parseFloat(sortedItems[i].json['Total Cost (EUR)'] || 0);\n                        }\n                        return ((sum / projectTotals.totalCost) * 100).toFixed(0);\n                    })()}%</div>\n                    <div style=\"font-size: 13px; color: #64748b;\">of total cost</div>\n                </div>\n                <div style=\"background: #f8fafc; padding: 24px; border-radius: 12px; border-left: 3px solid #0F4C75;\">\n                    <div style=\"font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 600;\">CONCENTRATION RATIO</div>\n                    <div style=\"font-size: 28px; font-weight: 700; color: #1e293b;\">${(() => {\n                        let sum = 0;\n                        let count = 0;\n                        for(let i = 0; i < sortedItems.length; i++) {\n                            sum += parseFloat(sortedItems[i].json['Total Cost (EUR)'] || 0);\n                            count++;\n                            if(sum >= projectTotals.totalCost * 0.8) break;\n                        }\n                        return ((count / sortedItems.length) * 100).toFixed(0);\n                    })()}%</div>\n                    <div style=\"font-size: 13px; color: #64748b;\">items = 80% cost</div>\n                </div>\n                <div style=\"background: #f8fafc; padding: 24px; border-radius: 12px; border-left: 3px solid #1B262C;\">\n                    <div style=\"font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 600;\">OPTIMIZATION POTENTIAL</div>\n                    <div style=\"font-size: 28px; font-weight: 700; color: #1e293b;\">High</div>\n                    <div style=\"font-size: 13px; color: #64748b;\">cost concentration</div>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Methodology Section -->\n        <div class=\"methodology-section\">\n            <div class=\"section-header\">\n                <div class=\"section-number\">6</div>\n                <h2>Analysis Methodology</h2>\n            </div>\n            \n            <div class=\"methodology-grid\">\n                <div class=\"step-card\">\n                    <div class=\"step-number\">1</div>\n                    <div class=\"step-title\">Data Extraction</div>\n                    <div class=\"step-description\">Automated extraction of building element data from CAD (BIM) projects (Revit or IFC (in certain cases DWG)), including geometric parameters, material specifications, volumes, and quantities. This step ensures comprehensive capture of all relevant project elements using specialized parsing algorithms.</div>\n                </div>\n                <div class=\"step-card\">\n                    <div class=\"step-number\">2</div>\n                    <div class=\"step-title\">AI Classification & Enrichment</div>\n                    <div class=\"step-description\"> AI models classify elements into standardized EU material categories, identify potential substitutes, and enrich data with market insights. Machine learning algorithms analyze patterns to determine accurate material mappings and cost drivers.</div>\n                </div>\n                <div class=\"step-card\">\n                    <div class=\"step-number\">3</div>\n                    <div class=\"step-title\">Cost Estimation & Validation</div>\n                    <div class=\"step-description\">Integration of real-time market pricing data with quantity takeoffs to compute unit and total costs. Multi-source validation ensures accuracy, with confidence scoring based on data completeness, market volatility, and historical benchmarks.</div>\n                </div>\n                <div class=\"step-card\">\n                    <div class=\"step-number\">4</div>\n                    <div class=\"step-title\">Analytics & Visualization</div>\n                    <div class=\"step-description\">Aggregation of cost data into strategic insights, including Pareto analysis, distribution charts, and optimization recommendations. Interactive visualizations enable deep dives into cost structures for informed decision-making.</div>\n                </div>\n            </div>\n        </div>\n        \n        <!-- Footer -->\n        <div class=\"footer\">\n            <div class=\"footer-grid\">\n                <div class=\"footer-section\">\n                    <h3>About This Report</h3>\n                    <p class=\"footer-text\">\n                        \n                    </p>\n                    <p class=\"footer-text\">\n                        Analysis Date: ${new Date().toLocaleString()}<br>\n                        Confidence Level: ${avgConfidence.toFixed(0)}%<br>\n                        Coverage: ${items.length} element groups analyzed\n                    </p>\n                </div>\n                \n                <div class=\"footer-section\">\n                    <h3>Contact & Resources</h3>\n                    <div class=\"footer-links\">\n                        <a href=\"https://datadrivenconstruction.io\" class=\"footer-link\">DataDrivenConstruction.io</a>\n                        <a href=\"https://github.com/datadrivenconstruction\" class=\"footer-link\">GitHub Repository</a>\n                        <a href=\"mailto:info@datadrivenconstruction.io\" class=\"footer-link\">Contact Support</a>\n                        \n                    </div>\n                </div>\n                \n                <div class=\"footer-section\">\n                    <h3>Report</h3>\n                    <p class=\"footer-text\">\n                        This comprehensive cost analysis report was generated using advanced AI-powered estimation algorithms developed by DataDrivenConstruction.io. Our tools combines machine learning with industry expertise to deliver accurate, actionable insights.\n                    </p>\n                </div>\n            </div>\n            <div class=\"footer-bottom\">\n                <p>© ${new Date().getFullYear()} DataDrivenConstruction.io </p>\n            </div>\n        </div>\n    </div>\n    \n    <script>\n        // Configure Chart.js defaults\n        Chart.defaults.font.family = \"'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif\";\n        \n        // Prepare cumulative data with element names\n        const cumulativeData = [];\n        const cumulativePercentages = [];\n        const elementNames = [];\n        const individualCosts = [];\n        let cumSum = 0;\n        \n        ${(() => {\n            let jsData = 'const itemsData = [\\n';\n            sortedItems.forEach((item, index) => {\n                const cost = parseFloat(item.json['Total Cost (EUR)'] || 0);\n                const name = item.json['Element Name'] || 'Unknown';\n                if(index > 0) jsData += ',\\n';\n                jsData += `  {cost: ${cost.toFixed(2)}, name: \"${name.replace(/\"/g, '\\\\\"')}\"}`;\n            });\n            jsData += '\\n];\\n';\n            jsData += `const totalCost = ${projectTotals.totalCost};\\n`;\n            return jsData;\n        })()}\n        \n        // Calculate cumulative values\n        itemsData.forEach((item, index) => {\n            cumSum += item.cost;\n            cumulativeData.push(cumSum);\n            cumulativePercentages.push((cumSum / totalCost) * 100);\n            elementNames.push(item.name);\n            individualCosts.push(item.cost);\n        });\n        \n        // Create labels for x-axis (just empty for clean look)\n        const labels = cumulativeData.map((_, index) => '');\n        \n        // Cumulative Chart\n        const cumulativeCtx = document.getElementById('cumulativeChart').getContext('2d');\n        new Chart(cumulativeCtx, {\n            type: 'line',\n            data: {\n                labels: labels,\n                datasets: [\n                    {\n                        label: 'Cumulative Cost',\n                        data: cumulativeData,\n                        borderColor: '#3282B8',\n                        backgroundColor: 'rgba(50, 130, 184, 0.1)',\n                        borderWidth: 3,\n                        fill: true,\n                        tension: 0.4,\n                        pointRadius: 1,\n                        pointHoverRadius: 6,\n                        pointBackgroundColor: '#3282B8',\n                        pointBorderColor: '#fff',\n                        pointBorderWidth: 2,\n                        yAxisID: 'y'\n                    },\n                    {\n                        label: 'Cumulative %',\n                        data: cumulativePercentages,\n                        borderColor: '#3282B8',\n                        borderWidth: 2,\n                        borderDash: [5, 5],\n                        fill: false,\n                        tension: 0.4,\n                        pointRadius: 0,\n                        pointHoverRadius: 5,\n                        yAxisID: 'y1'\n                    }\n                ]\n            },\n            options: {\n                responsive: true,\n                maintainAspectRatio: true,\n                interaction: {\n                    mode: 'index',\n                    intersect: false\n                },\n                plugins: {\n                    legend: {\n                        display: true,\n                        position: 'top',\n                        labels: {\n                            usePointStyle: true,\n                            padding: 20,\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            }\n                        }\n                    },\n                    tooltip: {\n                        backgroundColor: 'rgba(15, 23, 42, 0.95)',\n                        titleFont: {\n                            size: 14,\n                            weight: '600'\n                        },\n                        bodyFont: {\n                            size: 12\n                        },\n                        padding: 14,\n                        cornerRadius: 8,\n                        displayColors: false,\n                        callbacks: {\n                            title: function(context) {\n                                const index = context[0].dataIndex;\n                                return elementNames[index];\n                            },\n                            label: function(context) {\n                                const index = context.dataIndex;\n                                if (context.datasetIndex === 0) {\n                                    return [\n                                        'Position: ' + (index + 1) + ' of ' + itemsData.length,\n                                        'Individual Cost: €' + individualCosts[index].toFixed(2),\n                                        'Cumulative Cost: €' + context.parsed.y.toFixed(2),\n                                        'Cumulative %: ' + cumulativePercentages[index].toFixed(1) + '%'\n                                    ];\n                                }\n                                return null;\n                            }\n                        }\n                    }\n                },\n                scales: {\n                    x: {\n                        display: true,\n                        grid: {\n                            display: false\n                        },\n                        ticks: {\n                            display: false\n                        },\n                        title: {\n                            display: true,\n                            text: 'Elements (sorted by cost)',\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            },\n                            color: '#64748b'\n                        }\n                    },\n                    y: {\n                        type: 'linear',\n                        display: true,\n                        position: 'left',\n                        beginAtZero: true,\n                        grid: {\n                            color: 'rgba(0, 0, 0, 0.05)',\n                            borderDash: [3, 3]\n                        },\n                        ticks: {\n                            font: {\n                                size: 11\n                            },\n                            callback: function(value) {\n                                if (value >= 1000) {\n                                    return '€' + (value / 1000).toFixed(0) + 'k';\n                                }\n                                return '€' + value.toFixed(0);\n                            }\n                        },\n                        title: {\n                            display: true,\n                            text: 'Cumulative Cost (EUR)',\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            },\n                            color: '#64748b'\n                        }\n                    },\n                    y1: {\n                        type: 'linear',\n                        display: true,\n                        position: 'right',\n                        beginAtZero: true,\n                        max: 110,\n                        grid: {\n                            drawOnChartArea: false\n                        },\n                        ticks: {\n                            font: {\n                                size: 11\n                            },\n                            callback: function(value) {\n                                return value + '%';\n                            }\n                        },\n                        title: {\n                            display: true,\n                            text: 'Cumulative Percentage',\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            },\n                            color: '#64748b'\n                        }\n                    }\n                }\n            }\n        });\n        \n        // Material Distribution Pie Chart\n        const materialCtx = document.getElementById('materialPieChart').getContext('2d');\n        const materialData = ${JSON.stringify(materialChartData)};\n        \n        new Chart(materialCtx, {\n            type: 'doughnut',\n            data: {\n                labels: materialData.map(d => d.label),\n                datasets: [{\n                    data: materialData.map(d => d.value),\n                    backgroundColor: [\n                        '#3282B8',\n                        '#0F4C75',\n                        '#1B262C',\n                        '#BBE1FA',\n                        '#4F6D7A',\n                        '#6D9CBE'\n                    ],\n                    borderWidth: 3,\n                    borderColor: '#fff',\n                    hoverOffset: 8\n                }]\n            },\n            options: {\n                responsive: true,\n                maintainAspectRatio: true,\n                plugins: {\n                    legend: {\n                        position: 'bottom',\n                        labels: {\n                            padding: 20,\n                            font: {\n                                size: 13,\n                                weight: '500'\n                            },\n                            usePointStyle: true,\n                            pointStyle: 'circle'\n                        }\n                    },\n                    tooltip: {\n                        backgroundColor: 'rgba(15, 23, 42, 0.9)',\n                        titleFont: {\n                            size: 14,\n                            weight: '600'\n                        },\n                        bodyFont: {\n                            size: 13\n                        },\n                        padding: 12,\n                        cornerRadius: 8,\n                        callbacks: {\n                            label: function(context) {\n                                const value = context.raw;\n                                const total = context.dataset.data.reduce((a, b) => a + b, 0);\n                                const percentage = ((value / total) * 100).toFixed(1);\n                                return context.label + ': €' + value.toFixed(2) + ' (' + percentage + '%)';\n                            }\n                        }\n                    }\n                }\n            }\n        });\n        \n        // Top 10 Bar Chart\n        const barCtx = document.getElementById('top10BarChart').getContext('2d');\n        const barData = ${JSON.stringify(barChartData)};\n        \n        new Chart(barCtx, {\n            type: 'bar',\n            data: {\n                labels: barData.map(d => d.label.length > 25 ? d.label.substring(0, 25) + '...' : d.label),\n                datasets: [{\n                    label: 'Cost (EUR)',\n                    data: barData.map(d => d.value),\n                    backgroundColor: 'rgba(50, 130, 184, 0.8)',\n                    borderColor: 'rgba(15, 76, 117, 1)',\n                    borderWidth: 2,\n                    borderRadius: 8,\n                    hoverBackgroundColor: 'rgba(50, 130, 184, 0.9)'\n                }]\n            },\n            options: {\n                responsive: true,\n                maintainAspectRatio: true,\n                indexAxis: 'y',\n                plugins: {\n                    legend: {\n                        display: false\n                    },\n                    tooltip: {\n                        backgroundColor: 'rgba(15, 23, 42, 0.9)',\n                        titleFont: {\n                            size: 14,\n                            weight: '600'\n                        },\n                        bodyFont: {\n                            size: 13\n                        },\n                        padding: 12,\n                        cornerRadius: 8,\n                        callbacks: {\n                            label: function(context) {\n                                return '€' + context.raw.toFixed(2);\n                            }\n                        }\n                    }\n                },\n                scales: {\n                    x: {\n                        beginAtZero: true,\n                        grid: {\n                            color: 'rgba(50, 130, 184, 0.05)',\n                            borderDash: [5, 5]\n                        },\n                        ticks: {\n                            font: {\n                                size: 12\n                            },\n                            callback: function(value) {\n                                return '€' + value.toLocaleString();\n                            }\n                        }\n                    },\n                    y: {\n                        grid: {\n                            display: false\n                        },\n                        ticks: {\n                            font: {\n                                size: 12,\n                                weight: '500'\n                            }\n                        }\n                    }\n                }\n            }\n        });\n    </script>\n</body>\n</html>`;\n\nreturn [{\n  json: {\n    html: html,\n    timestamp: new Date().toISOString(),\n    reportType: 'Executive Cost Analysis',\n    totalItems: items.length,\n    totalCost: projectTotals.totalCost\n  }\n}];"
       },
-      "id": "52048886-09cd-4cd2-8dbd-75b21ecd16e8",
+      "id": "428bb655-a1e9-45df-a80c-57c00810e5e9",
       "name": "Generate HTML Report",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14384,
-        1024
+        1600,
+        1568
       ]
     },
     {
       "parameters": {
         "jsCode": "const html = $json.html;\n\nreturn [{\n  binary: {\n    data: {\n      data: Buffer.from(html).toString('base64'),\n      mimeType: 'text/html',\n      fileName: 'price_estimation_report.html'\n    }\n  }\n}];"
       },
-      "id": "9f244722-e022-46c9-b4b3-a44cbbd6fbea",
+      "id": "e99d0ff0-79ea-4ed1-9878-a23986efe41b",
       "name": "Convert to Binary",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14560,
-        1024
+        1776,
+        1568
       ]
     },
     {
@@ -367,36 +367,36 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13008,
-        -112
+        224,
+        432
       ],
-      "id": "896c1aa2-bf73-457d-9c9e-09c145c15159",
+      "id": "80908a5f-3838-4f47-b579-cadb189cea31",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "jsCode": "\n const input = $input.first().json;\n const aggregationRules = input.aggregationRules;\n const headerMapping = input.headerMapping;\n const rawData = input.rawData;\n const groupByParamOriginal = input.groupByParam;\n\n\n const groupByParam = headerMapping[groupByParamOriginal] || groupByParamOriginal;\n\n console.log(`Grouping ${rawData.length} items by: ${groupByParam}`);\n\n\n const cleanedData = rawData.map(item => {\n  const cleaned = {};\n  Object.entries(item).forEach(([key, value]) => {\n    const newKey = headerMapping[key] || key;\n    cleaned[newKey] = value;\n  });\n  return cleaned;\n });\n\n\n const grouped = {};\n\n\n cleanedData.forEach(item => {\n  const groupKey = item[groupByParam];\n  \n  if (!groupKey || groupKey === '' || groupKey === null) return;\n  \n  if (!grouped[groupKey]) {\n    grouped[groupKey] = {\n      _count: 0,\n      _values: {}\n    };\n    \n    \n    Object.keys(aggregationRules).forEach(param => {\n      if (param !== groupByParam) {\n        grouped[groupKey]._values[param] = [];\n      }\n    });\n  }\n  \n  grouped[groupKey]._count++;\n  \n  \n  Object.entries(item).forEach(([key, value]) => {\n    if (key === groupByParam) return;\n    \n    if (value !== null && value !== undefined && value !== '' && grouped[groupKey]._values[key]) {\n      grouped[groupKey]._values[key].push(value);\n    }\n  });\n });\n\n\n const result = [];\n\n Object.entries(grouped).forEach(([groupKey, groupData]) => {\n  const aggregated = {\n    [groupByParam]: groupKey,\n    'Element Count': groupData._count\n  };\n  \n  \n  Object.entries(groupData._values).forEach(([param, values]) => {\n    const rule = aggregationRules[param] || 'first';\n    \n    if (values.length === 0) {\n      aggregated[param] = null;\n      return;\n    }\n    \n    switch(rule) {\n      case 'sum':\n        const numericValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? 0 : num;\n        });\n        aggregated[param] = numericValues.reduce((a, b) => a + b, 0);\n        \n        if (aggregated[param] % 1 !== 0) {\n          aggregated[param] = Math.round(aggregated[param] * 100) / 100;\n        }\n        break;\n        \n      case 'mean':\n      case 'average':\n        const avgValues = values.map(v => {\n          const num = parseFloat(String(v).replace(',', '.'));\n          return isNaN(num) ? null : num;\n        }).filter(v => v !== null);\n        \n        if (avgValues.length > 0) {\n          const avg = avgValues.reduce((a, b) => a + b, 0) / avgValues.length;\n          aggregated[param] = Math.round(avg * 100) / 100;\n        } else {\n          aggregated[param] = values[0];\n        }\n        break;\n        \n      case 'first':\n      default:\n        aggregated[param] = values[0];\n        break;\n    }\n  });\n  \n  result.push({ json: aggregated });\n });\n\n\n result.sort((a, b) => {\n  const aVal = a.json[groupByParam];\n  const bVal = b.json[groupByParam];\n  if (aVal < bVal) return -1;\n  if (aVal > bVal) return 1;\n  return 0;\n });\n\n console.log(`\\nGrouping complete:`);\n console.log(`- Input items: ${cleanedData.length}`);\n console.log(`- Output groups: ${result.length}`);\n console.log(`- Parameters processed: ${Object.keys(aggregationRules).length}`);\n\n\n const rulesSummary = { sum: [], mean: [], first: [] };\n Object.entries(aggregationRules).forEach(([param, rule]) => {\n  if (rulesSummary[rule]) rulesSummary[rule].push(param);\n });\n\n console.log('\\nAggregation summary:');\n if (rulesSummary.sum.length > 0) {\n  console.log(`- SUM (${rulesSummary.sum.length}): ${rulesSummary.sum.slice(0, 5).join(', ')}${rulesSummary.sum.length > 5 ? '...' : ''}`);\n }\n if (rulesSummary.mean.length > 0) {\n  console.log(`- MEAN (${rulesSummary.mean.length}): ${rulesSummary.mean.slice(0, 5).join(', ')}${rulesSummary.mean.length > 5 ? '...' : ''}`);\n }\n if (rulesSummary.first.length > 0) {\n  console.log(`- FIRST (${rulesSummary.first.length}): ${rulesSummary.first.slice(0, 5).join(', ')}${rulesSummary.first.length > 5 ? '...' : ''}`);\n }\n\n return result;"
       },
-      "id": "806e3964-5e05-4eaa-8a27-8a95939de19d",
+      "id": "478155e4-eb87-4684-9546-871dfb3577f0",
       "name": "Group Data with AI Rules1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        13968,
-        288
+        1184,
+        832
       ]
     },
     {
       "parameters": {
         "jsCode": "\n const items = $input.all();\n if (items.length === 0) {\n  throw new Error('No data found in Excel file');\n }\n\n\n const allHeaders = new Set();\n items.forEach(item => {\n  Object.keys(item.json).forEach(key => allHeaders.add(key));\n });\n\n\n const headers = Array.from(allHeaders);\n const cleanedHeaders = headers.map(header => {\n  return header.replace(/:\\s*(string|double|int|float|boolean|number)\\s*$/i, '').trim();\n });\n\n\n const headerMapping = {};\n headers.forEach((oldHeader, index) => {\n  headerMapping[oldHeader] = cleanedHeaders[index];\n });\n\n\n const sampleValues = {};\n cleanedHeaders.forEach((header, index) => {\n  const originalHeader = headers[index];\n  for (const item of items) {\n    const value = item.json[originalHeader];\n    if (value !== null && value !== undefined && value !== '') {\n      sampleValues[header] = value;\n      break;\n    }\n  }\n  if (!sampleValues[header]) {\n    sampleValues[header] = null;\n  }\n });\n\n console.log(`Found ${headers.length} unique headers across ${items.length} items`);\n\n\n return [{\n  json: {\n    headers: cleanedHeaders,\n    originalHeaders: headers,\n    headerMapping: headerMapping,\n    sampleValues: sampleValues,\n    totalRows: items.length,\n    totalHeaders: headers.length,\n    \n    rawData: items.map(item => item.json)\n  }\n }];"
       },
-      "id": "97a05b9c-43d6-43f4-b82a-728e98060e1b",
+      "id": "45d8e0e5-591b-4469-9766-501806e5f7a1",
       "name": "Extract Headers and Data",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14464,
-        0
+        1680,
+        544
       ]
     },
     {
@@ -422,13 +422,13 @@
           "temperature": 0.1
         }
       },
-      "id": "e740446b-dd74-435b-9a62-5563d26e41d0",
+      "id": "d501723a-bf02-4e1b-8f24-5811500868f4",
       "name": "AI Analyze All Headers",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.3,
       "position": [
-        14640,
-        0
+        1856,
+        544
       ],
       "credentials": {
         "openAiApi": {
@@ -441,13 +441,13 @@
       "parameters": {
         "filePath": "={{ $json.path_to_file }}"
       },
-      "id": "777fec0d-6242-4c20-bfe0-3552c7486906",
+      "id": "03b8267f-6ff1-4793-8a03-1c8ba934dbe9",
       "name": "Read Excel File1",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        14000,
-        0
+        1216,
+        544
       ]
     },
     {
@@ -459,13 +459,13 @@
           "sheetName": "={{ $node['Set Parameters1'].json.sheet_name }}"
         }
       },
-      "id": "5c9a3df1-21fe-4021-a0eb-965a5187137d",
+      "id": "b265c8fd-6d6b-49a1-802f-e25598569273",
       "name": "Parse Excel1",
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 2,
       "position": [
-        14192,
-        0
+        1408,
+        544
       ]
     },
     {
@@ -497,10 +497,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        14144,
-        -608
+        1376,
+        -64
       ],
-      "id": "2367bc19-2690-46fa-8c24-d479daf40e9b",
+      "id": "4430c041-3a5d-4235-b092-fcd6c7b4a0ba",
       "name": "Create - Excel filename1"
     },
     {
@@ -510,10 +510,10 @@
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        14336,
-        -608
+        1568,
+        -64
       ],
-      "id": "3638161c-9e6f-49cd-9e2a-f1340bd9cab6",
+      "id": "7ff93cb0-8c5a-4dfb-97d0-3caaa1940bc8",
       "name": "Check - Does Excel file exist?1",
       "alwaysOutputData": true,
       "continueOnFail": true
@@ -542,13 +542,13 @@
         },
         "options": {}
       },
-      "id": "5d9a72b1-20ea-4c43-a652-27528f62dae9",
+      "id": "93cc0ed5-4eac-4907-8638-65010834605a",
       "name": "If - File exists?1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        14496,
-        -608
+        1744,
+        -64
       ]
     },
     {
@@ -558,10 +558,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        14288,
-        -400
+        1504,
+        144
       ],
-      "id": "13ddf603-584d-4cfb-b1b9-0f1a5af1bb0f",
+      "id": "85ead84d-193e-46c0-9d9f-9ccc07f2518b",
       "name": "Extract - Run converter1",
       "continueOnFail": true
     },
@@ -588,10 +588,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        14720,
-        -624
+        1936,
+        -80
       ],
-      "id": "ae5a5deb-1e98-4bf5-bad8-55adfc2266a3",
+      "id": "8b6b3e88-90b9-4dbc-81fd-9aa8378f8981",
       "name": "Info - Skip conversion1"
     },
     {
@@ -618,13 +618,13 @@
         },
         "options": {}
       },
-      "id": "70cdff5d-d33a-46a6-b256-62d1abfd2a35",
+      "id": "5b2c4e88-5254-4682-a1d2-8f200952fba4",
       "name": "Check - Did extraction succeed?1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        14496,
-        -400
+        1712,
+        144
       ]
     },
     {
@@ -653,13 +653,13 @@
         },
         "options": {}
       },
-      "id": "1079ae6f-882d-4848-8b2e-54b3d0173717",
+      "id": "672e73cc-d8a8-4033-8b7a-347ef46ba89a",
       "name": "Error - Show what went wrong1",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        14720,
-        -464
+        1936,
+        80
       ]
     },
     {
@@ -679,21 +679,21 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        14720,
-        -288
+        1936,
+        256
       ],
-      "id": "43558694-6cdb-4dcb-9143-3d2e24111b39",
+      "id": "a99bdd3b-76e0-4517-8258-c78f009d0653",
       "name": "Set xlsx_filename after success1"
     },
     {
       "parameters": {},
-      "id": "7527c0c2-5fc3-4c1d-8ac1-71f163717175",
+      "id": "c60ea846-191c-43d1-a883-131524e2f152",
       "name": "Merge - Continue workflow1",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        14912,
-        -560
+        2128,
+        -16
       ]
     },
     {
@@ -710,26 +710,26 @@
         },
         "options": {}
       },
-      "id": "d7560b06-0036-4f49-8da0-0ded8dcaa04c",
+      "id": "642d6337-d6a4-4079-ba9d-f42b7c69286f",
       "name": "Set Parameters1",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        15056,
-        -272
+        2272,
+        272
       ]
     },
     {
       "parameters": {
         "jsCode": "\n const aiResponse = $input.first().json;\n const headerData = $node['Extract Headers and Data'].json;\n\n\n let aiRules = {};\n try {\n  const content = aiResponse.content || aiResponse.message || aiResponse.response || '';\n  console.log('AI Response received, length:', content.length);\n  \n  \n  const jsonMatch = content.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    const parsed = JSON.parse(jsonMatch[0]);\n    aiRules = parsed.aggregation_rules || parsed.parameter_aggregation || {};\n    console.log(`AI provided ${Object.keys(aiRules).length} rules`);\n  } else {\n    console.warn('No JSON found in AI response');\n  }\n } catch (error) {\n  console.error('Error parsing AI response:', error.message);\n }\n\n\n const finalRules = {};\n headerData.headers.forEach(header => {\n  if (aiRules[header]) {\n    finalRules[header] = aiRules[header];\n  } else {\n    \n    const lowerHeader = header.toLowerCase();\n    \n    if (lowerHeader.match(/volume|area|length|width|height|count|quantity|thickness|perimeter|depth|size|dimension|weight|mass|total|amount|number/)) {\n      finalRules[header] = 'sum';\n    } else if (lowerHeader.match(/price|rate|cost|coefficient|factor|percent|ratio|efficiency|avg|average|mean/)) {\n      finalRules[header] = 'mean';\n    } else {\n      finalRules[header] = 'first';\n    }\n  }\n });\n\n const groupByParam = $node['Setup - Define file paths'].json.group_by;\n\n console.log(`\\nAggregation rules summary:`);\n console.log(`- Total headers: ${headerData.headers.length}`);\n console.log(`- AI rules: ${Object.keys(aiRules).length}`);\n console.log(`- Default rules: ${headerData.headers.length - Object.keys(aiRules).length}`);\n console.log(`- Group by: ${groupByParam}`);\n\n\n return [{\n  json: {\n    aggregationRules: finalRules,\n    headerMapping: headerData.headerMapping,\n    headers: headerData.headers,\n    originalHeaders: headerData.originalHeaders,\n    rawData: headerData.rawData,\n    groupByParam: groupByParam,\n    totalRows: headerData.totalRows\n  }\n }];"
       },
-      "id": "cd02ce88-0b49-476b-81d9-ff1a3502bd90",
+      "id": "52e54e39-139e-4985-a654-fce750204100",
       "name": "Process AI Response1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        15024,
-        0
+        2240,
+        544
       ]
     },
     {
@@ -741,11 +741,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        13360,
-        960
+        576,
+        1504
       ],
       "typeVersion": 1,
-      "id": "c498039a-be7d-4e73-982b-97d5875a4b7c",
+      "id": "0cb35fda-f4ee-4428-9bfa-a6630519908e",
       "name": "Price Analysis and Reporting Block1"
     },
     {
@@ -753,15 +753,15 @@
         "content": "## Block 2: Element Classification\nThis block:\n- Detects category fields (e.g., Category, IFC Type)\n- Uses AI to classify as building elements (e.g., walls, doors) \nor non-building (e.g., annotations, texts)\n- Splits data: building elements go to analysis, \nnon-building are noted separately\n\nKey nodes:\n- Find Category Fields1: Identifies categories\n- AI Classify Categories1: AI classification\n- Is Building Element1: Splits the flow",
         "height": 320,
         "width": 1920,
-        "color": 4
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        13360,
-        208
+        576,
+        752
       ],
       "typeVersion": 1,
-      "id": "ee1bcc6e-c2fa-480d-8d32-786d52ea122a",
+      "id": "77e86578-5835-4b05-9ed0-0cf4789f9e73",
       "name": "Element Classification Block"
     },
     {
@@ -769,31 +769,31 @@
         "content": "## Block 3: Material Analysis\nThis block:\n- Processes building elements in batches\n- Classifies materials by EU/DE/US standards\n- Determines units (m³, m², etc.) and densities\n- Uses AI (Anthropic) for detailed analysis and price estimation\n- Accumulates results and calculates distributions\n\nKey nodes:\n- Process in Batches1: Handles data in chunks\n- AI Agent Enhanced: AI analysis with tools\n- Accumulate Results: Collects all data",
         "height": 400,
         "width": 1920,
-        "color": 4
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        13360,
-        544
+        576,
+        1088
       ],
       "typeVersion": 1,
-      "id": "396482ae-6e94-4801-b280-e0c49cbd0091",
+      "id": "a96c6ebe-b70a-444e-bbff-10db7b42be76",
       "name": "Material Analysis Block"
     },
     {
       "parameters": {
         "content": "## Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\nSimply: Converts Revit file to Excel for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?1: Verifies file\n- Extract - Run converter1: Converts if needed",
-        "height": 580,
+        "height": 708,
         "width": 1912,
         "color": 5
       },
-      "id": "ed73e920-c77e-4d2e-a425-f8cf1dfd486c",
+      "id": "20b27e18-a7bd-491d-9972-6a096633b6ed",
       "name": "Conversion Block",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13360,
-        -688
+        576,
+        -272
       ]
     },
     {
@@ -801,15 +801,15 @@
         "content": "## Block 1: Data Loading & Grouping\nThis block:\n- Loads Excel data\n- Cleans headers\n- Uses AI to decide aggregation (sum for quantities, mean for rates, first for texts)\n- Groups data by parameter (e.g., Type Name)\nSimply: Prepares raw data for classification.",
         "height": 272,
         "width": 1920,
-        "color": 4
+        "color": 6
       },
-      "id": "ad7f11fd-9e21-4ab3-9e97-d109fad69973",
+      "id": "3bd50143-1a76-4ae4-8e4a-904375a45201",
       "name": "Data Loading Block1",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13360,
-        -80
+        576,
+        464
       ]
     },
     {
@@ -818,26 +818,26 @@
         "height": 288,
         "width": 336
       },
-      "id": "ae75c53d-6d7e-43fb-955a-d74efeef329f",
+      "id": "95340b29-d6b6-4aa4-b850-4166f1ff186e",
       "name": "Important Notes",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13008,
-        -416
+        224,
+        128
       ]
     },
     {
       "parameters": {
         "jsCode": "// Get the project file path from the original setup\nconst projectFile = $node['Setup - Define file paths'].json.project_file;\nconst htmlContent = $node['Convert to Binary'].json.html || $input.first().binary.data;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst htmlFileName = `CO2_Analysis_Report_${timestamp}.html`;\nconst fullPath = `${path}\\\\${htmlFileName}`;\n\nconsole.log('Project file:', projectFile);\nconsole.log('Directory:', path);\nconsole.log('HTML file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    html_filename: htmlFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
       },
-      "id": "7bf2c062-1d42-4d7e-96f2-9b9cb7db9506",
+      "id": "9887f607-85f0-41d5-92d8-9c6e655f6581",
       "name": "Prepare HTML Path",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14720,
-        1024
+        1936,
+        1568
       ]
     },
     {
@@ -845,39 +845,39 @@
         "fileName": "={{ $json.full_path }}",
         "options": {}
       },
-      "id": "e97f75ff-1bcd-4952-a131-be30f535805f",
+      "id": "24be1fea-bdcb-491b-afb8-170431f8f198",
       "name": "Write HTML to Project Folder",
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        14896,
-        1024
+        2112,
+        1568
       ]
     },
     {
       "parameters": {
         "command": "=start \"\" \"{{ $json.full_path }}\""
       },
-      "id": "5ca134cf-1a65-4aba-9ae8-71d522f348f5",
+      "id": "c4d015d4-b040-4aa7-a4c5-cc22d3ab7eb4",
       "name": "Open HTML in Browser",
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        15072,
-        1024
+        2288,
+        1568
       ]
     },
     {
       "parameters": {
         "jsCode": "// Similar logic for Excel file\nconst projectFile = $node['Setup - Define file paths'].json.project_file;\n\n// Extract directory path from project file\nconst path = projectFile.substring(0, projectFile.lastIndexOf('\\\\'));\n\n// Create filename with timestamp\nconst timestamp = new Date().toISOString().slice(0,10);\nconst excelFileName = `CO2_Analysis_Professional_Report_${timestamp}.xlsx`;\nconst fullPath = `${path}\\\\${excelFileName}`;\n\nconsole.log('Excel file will be saved to:', fullPath);\n\nreturn [{\n  json: {\n    excel_filename: excelFileName,\n    full_path: fullPath,\n    directory: path,\n    project_file: projectFile\n  },\n  binary: $input.first().binary\n}];"
       },
-      "id": "84389eea-0101-45af-a8f7-31c60d4ed244",
+      "id": "01bcb7a4-534b-46ee-9462-b8f1aaf813e8",
       "name": "Prepare Excel Path1",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        14896,
-        1200
+        2112,
+        1744
       ]
     },
     {
@@ -885,13 +885,13 @@
         "fileName": "={{ $json.full_path }}",
         "options": {}
       },
-      "id": "5de7bf64-4f78-47ea-8601-dc800370ca84",
+      "id": "694efc44-ce97-44d1-a34d-84fce917a0e9",
       "name": "Write Excel to Project Folder1",
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        15072,
-        1200
+        2288,
+        1744
       ]
     },
     {
@@ -929,10 +929,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        13952,
-        -608
+        1168,
+        -64
       ],
-      "id": "0b9a473e-cf49-4b62-8415-9f86b52f1c0e",
+      "id": "297ac011-ea69-4975-b9e5-e14a1b6730b9",
       "name": "Setup - Define file paths"
     },
     {
@@ -942,13 +942,13 @@
         "width": 952,
         "color": 5
       },
-      "id": "692a1640-dcdc-4627-bbf0-f3af63b7deaa",
+      "id": "a2363cf4-bd62-410c-a52b-e5d2c4760940",
       "name": "Conversion Block1",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13360,
-        -816
+        576,
+        -400
       ]
     },
     {
@@ -957,13 +957,13 @@
         "height": 384,
         "width": 336
       },
-      "id": "390fef2f-8d3c-4567-9f61-cbbec9e7bf8f",
+      "id": "0af0bac5-4f11-4a99-bc74-0d99827754cb",
       "name": "Setup Instructions",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        13008,
-        -816
+        224,
+        -272
       ]
     },
     {
@@ -979,10 +979,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        14400,
-        768
+        1616,
+        1312
       ],
-      "id": "6470e673-1df3-4019-832f-6a70622d66a4",
+      "id": "b2243495-e0c0-4bd7-8118-701d33d20c6f",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
@@ -998,10 +998,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatXAiGrok",
       "typeVersion": 1,
       "position": [
-        14560,
-        768
+        1776,
+        1312
       ],
-      "id": "57955c61-a36b-49cc-8cfc-e593c27a4b0f",
+      "id": "2c6de4d3-cf23-4748-aff3-2bdc1f602ae5",
       "name": "xAI Grok Chat Model",
       "credentials": {
         "xAiApi": {
@@ -1009,6 +1009,22 @@
           "name": "xAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \n— everything else works automatically",
+        "height": 368,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1104,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "80f0dd52-efa5-45ce-9812-d75ec19d9fb0",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -1485,22 +1501,17 @@
           }
         ]
       ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        []
-      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7300cb49-b46c-4ec8-a09b-fb0474a27c64",
+  "versionId": "03e3a1fe-c4f7-4ed5-9b78-e1b76a502aa5",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "WyUSW4VZgEw5QC13",
+  "id": "Z1UKztds8E5oQSMe",
   "tags": []
 }

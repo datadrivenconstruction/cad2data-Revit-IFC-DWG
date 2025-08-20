@@ -10,10 +10,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4784,
-        -928
+        -1088,
+        224
       ],
-      "id": "27c78f17-42df-418f-93fc-ca6b96abe673",
+      "id": "be5c0de2-0df1-4c35-8b0e-26f8d1911bda",
       "name": "Sticky Note23"
     },
     {
@@ -26,43 +26,11 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4784,
-        -544
+        -1088,
+        608
       ],
-      "id": "938e4e78-60cd-40fa-9173-044c44f27dc2",
+      "id": "d8a6fce0-af86-4769-8911-afb6c665f38d",
       "name": "Sticky Note25"
-    },
-    {
-      "parameters": {
-        "content": "## 💡 Pro Tips\n\n• Start small (5-10 files)\n• Test with different file types\n• Run overnight for large batches\n• Keep source files backed up\n• Close CAD applications first\n\n**Optimization:**\n• SSD = 2-3x faster\n• More RAM = stability\n• Exclude huge files initially",
-        "height": 296,
-        "width": 380,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -4784,
-        16
-      ],
-      "id": "3e4e66ce-72a5-450c-8d34-d481113cb94d",
-      "name": "Sticky Note26"
-    },
-    {
-      "parameters": {
-        "content": "## 📈 Pipeline Metrics\n\n**Tracks:**\n• Total pipeline time\n• Per-file conversion time\n• Success/failure rates\n• Input/output file sizes\n• Processing efficiency\n\n**Typical performance:**\n• Small files: 10-30 sec\n• Medium: 30-60 sec\n• Large: 1-3 min",
-        "height": 300,
-        "width": 376,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -4784,
-        336
-      ],
-      "id": "5570b264-a191-47e1-8b76-0f85dd3391a8",
-      "name": "Sticky Note27"
     },
     {
       "parameters": {
@@ -74,10 +42,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4784,
-        656
+        -1088,
+        1168
       ],
-      "id": "6c541e97-5acc-4493-a209-817ee8f676d6",
+      "id": "1182ee14-cf89-45ee-96dc-d96a6864dcfa",
       "name": "Sticky Note28"
     },
     {
@@ -90,10 +58,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4784,
-        -304
+        -1088,
+        848
       ],
-      "id": "0e99d687-d3fc-45e6-bc1b-3611ca546ac3",
+      "id": "8bd00e43-cb87-489a-87b6-a6258262a5bf",
       "name": "Sticky Note29"
     },
     {
@@ -105,10 +73,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4784,
-        -1040
+        -1088,
+        112
       ],
-      "id": "52dbc68a-6892-413d-a483-b2595ac7a618",
+      "id": "3ccefd7c-ade0-4125-952c-928115a49ebf",
       "name": "Sticky Note31"
     },
     {
@@ -120,10 +88,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -4384,
-        -1040
+        -688,
+        112
       ],
-      "id": "bb81a207-8975-413c-aac9-bd47d469bb9c",
+      "id": "c5388249-6dc3-4070-9057-2b5668251832",
       "name": "Sticky Note"
     },
     {
@@ -131,10 +99,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -3760,
-        -640
+        -80,
+        704
       ],
-      "id": "eafb883b-c516-4b38-b9b3-2d7b744731a4",
+      "id": "2fe7360d-df50-4eb7-8799-441e7aed7a1a",
       "name": "Manual Trigger"
     },
     {
@@ -144,10 +112,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -3584,
-        -592
+        144,
+        656
       ],
-      "id": "e90eff5e-89c0-4555-a7c0-b1d72ac74ae2",
+      "id": "614d8fe1-6c80-4cb0-b941-5aa3998a2321",
       "name": "Capture Pipeline Start Time1"
     },
     {
@@ -159,10 +127,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -3216,
-        -576
+        688,
+        672
       ],
-      "id": "56fbdde2-61d3-441a-813a-411ce49a9f27",
+      "id": "e64288d1-9d53-4036-afde-437c9892a927",
       "name": "Merge Pipeline Start with Config1"
     },
     {
@@ -212,10 +180,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -3408,
-        -480
+        416,
+        512
       ],
-      "id": "7fd7e5cc-fbfc-44cc-843e-3611b5a156a3",
+      "id": "7b214d29-a619-4a41-8cfa-67f074470b89",
       "name": "Set Configuration Parameters1"
     },
     {
@@ -225,10 +193,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -3056,
-        -464
+        848,
+        688
       ],
-      "id": "16ba0c4e-9582-4b90-a0e0-e22bb74f6b8e",
+      "id": "53648934-0bb7-49d3-83f9-ab4280bb3ec9",
       "name": "Find CAD Files1"
     },
     {
@@ -240,10 +208,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -2896,
-        -576
+        1008,
+        576
       ],
-      "id": "9b995ffe-41bf-44de-abb0-b3a62341d476",
+      "id": "894a4fae-cd2f-4418-b35b-fc6a06cda820",
       "name": "Merge Config with Search Results1"
     },
     {
@@ -253,10 +221,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2736,
-        -576
+        1168,
+        576
       ],
-      "id": "f8719149-f1b2-4683-a27d-c1e728264126",
+      "id": "cc6f17d1-4393-4c77-947a-53c42c01543c",
       "name": "Process File List1"
     },
     {
@@ -285,10 +253,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -2576,
-        -576
+        1328,
+        576
       ],
-      "id": "ece36aa8-a1a1-49d8-b4b9-c9a0b98c38cc",
+      "id": "357d21f1-ff0b-4308-99a7-8ab3140b6dde",
       "name": "Check if Files Exist1"
     },
     {
@@ -299,10 +267,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -2384,
-        -592
+        1520,
+        560
       ],
-      "id": "92201f1a-9752-4c42-80ff-0fec2b37014d",
+      "id": "84eff3b1-f5a8-4c84-82cb-2fa1d1bc23ea",
       "name": "Split Files for Processing1"
     },
     {
@@ -313,10 +281,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -2208,
-        -496
+        1696,
+        656
       ],
-      "id": "fc748649-cf47-45ad-95bc-89236ded1192",
+      "id": "0330e04c-9572-439d-b09f-aa932b5e81ad",
       "name": "Create Output Directory1"
     },
     {
@@ -328,10 +296,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -2048,
-        -576
+        1856,
+        576
       ],
-      "id": "4016011a-0f33-4c61-8d34-7247d54a394e",
+      "id": "1cbf1ee9-0710-4145-a54e-0c4c73e177a6",
       "name": "Merge File Data1"
     },
     {
@@ -341,10 +309,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1872,
-        -576
+        2032,
+        576
       ],
-      "id": "97724e33-e9e4-4358-88ee-3c64eed3cae0",
+      "id": "627097e5-5d07-4386-a9d7-22dffe7ba4ab",
       "name": "Capture Start Time1"
     },
     {
@@ -354,10 +322,10 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1,
       "position": [
-        -1712,
-        -576
+        2192,
+        576
       ],
-      "id": "db22f455-bd7f-4173-b63d-f3b5e8247e71",
+      "id": "edf42bdd-67ed-46d1-a522-cbc93538d894",
       "name": "Small Delay",
       "webhookId": "5a1cb608-ec3e-4832-a289-f6a52ef8bc7a"
     },
@@ -369,10 +337,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1552,
-        -464
+        2352,
+        688
       ],
-      "id": "c2b1d913-0e6e-4260-878a-1c13b7e65dbb",
+      "id": "1c4e14d2-f9cc-4b4f-85f0-7c0245c32b18",
       "name": "Execute Conversion1",
       "continueOnFail": true
     },
@@ -383,10 +351,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1392,
-        -464
+        2512,
+        688
       ],
-      "id": "604e6815-a938-4bf5-8b9b-62043e64c254",
+      "id": "f02f9f74-9b20-4857-92c3-4b0f4103f1b1",
       "name": "Calculate Conversion Time1"
     },
     {
@@ -398,10 +366,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        -1232,
-        -576
+        2672,
+        576
       ],
-      "id": "539ef311-3361-480e-be5d-466ef736fd68",
+      "id": "9255e34b-be94-4630-8887-fc7a0aafd739",
       "name": "Merge Data Before Verification1"
     },
     {
@@ -412,10 +380,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -1072,
-        -576
+        2832,
+        576
       ],
-      "id": "67dd963e-50d4-4f6a-8c1a-f5246726c273",
+      "id": "0e3dc51e-4891-4094-ad20-341424dd04df",
       "name": "Verify Output Files and Get Sizes1"
     },
     {
@@ -425,10 +393,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -912,
-        -576
+        2992,
+        576
       ],
-      "id": "0b82bec8-99dd-44dc-a308-58f353140eb0",
+      "id": "8d038788-44e7-49be-a999-b97ac4f96fac",
       "name": "Complete File Verification1"
     },
     {
@@ -438,10 +406,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -752,
-        -576
+        3152,
+        576
       ],
-      "id": "f9392af5-c779-426f-a939-9c7e6d8375ec",
+      "id": "44336609-1655-4f5b-92b4-9b6165620036",
       "name": "Generate HTML Report1"
     },
     {
@@ -451,10 +419,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -592,
-        -576
+        3312,
+        576
       ],
-      "id": "9f7d9a09-2f75-44d9-9c42-e8cbc770ae35",
+      "id": "21c9bd6d-e1a0-4697-b99d-c51e666af986",
       "name": "Prepare Binary Data1"
     },
     {
@@ -466,10 +434,10 @@
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        -432,
-        -576
+        3472,
+        576
       ],
-      "id": "3134fafa-1db7-4c60-b138-71eb5538e39f",
+      "id": "3ba8b465-5da4-4b79-83e2-2bdb63222b6b",
       "name": "Save HTML File1"
     },
     {
@@ -479,10 +447,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -272,
-        -576
+        3632,
+        576
       ],
-      "id": "5940c5a0-c271-4db8-9ff1-9bcb284ecebb",
+      "id": "94de0bbb-402b-4dea-bcaf-f98fdc678048",
       "name": "Verify and Prepare Path1"
     },
     {
@@ -492,10 +460,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        -112,
-        -576
+        3792,
+        576
       ],
-      "id": "af226cfc-4c2b-41fd-89b6-c5e059ee93ff",
+      "id": "6558ac19-23c1-44c9-8b7b-3615052cd4a5",
       "name": "Open HTML Report1"
     },
     {
@@ -506,10 +474,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        48,
-        -576
+        3952,
+        576
       ],
-      "id": "045b996a-8b9e-47d7-bd9e-bd59af5f3cdd",
+      "id": "cdf12580-ade1-4ae0-a699-980aca156c98",
       "name": "Final Completion Notice1"
     },
     {
@@ -535,26 +503,26 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2384,
-        -368
+        1520,
+        784
       ],
-      "id": "49909319-0488-4936-bedb-8dc9b660b472",
+      "id": "dc253ac4-c296-4a8c-897c-380e5e14b683",
       "name": "No Files Found Response1"
     },
     {
       "parameters": {
         "content": "## 🏁 GROUP 1: INITIALIZATION\n\n**Nodes in this group:**\n• Manual Trigger\n• Capture Pipeline Start Time\n• Set Configuration Parameters\n• Merge Pipeline Start with Config\n\n**What happens here:**\n1️⃣ Pipeline starts manually or on schedule\n2️⃣ Current timestamp is captured for metrics\n3️⃣ All settings are loaded (paths, folders, etc.)\n4️⃣ Configuration merged with timing data\n\n💡 **Key:** This sets up everything needed for the conversion process",
         "height": 844,
-        "width": 532,
-        "color": 4
+        "width": 756,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -3824,
-        -1040
+        -144,
+        112
       ],
-      "id": "6207b494-660b-4f59-ade3-b6815c44f602",
+      "id": "ee8bb887-c553-412b-9be5-c865f08fbd82",
       "name": "Sticky Note7"
     },
     {
@@ -567,10 +535,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -3280,
-        -1040
+        624,
+        112
       ],
-      "id": "4b1cfbf5-d265-48b2-8f36-fee4b4d72f3d",
+      "id": "0ca6f619-b073-41b1-a248-0f2b62333773",
       "name": "Sticky Note9"
     },
     {
@@ -583,10 +551,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2240,
-        -1040
+        1664,
+        112
       ],
-      "id": "7828a70b-0b64-41db-9efb-5e1cd61e0310",
+      "id": "8dcff587-4f09-4e86-a065-bdd056be456d",
       "name": "Sticky Note10"
     },
     {
@@ -599,10 +567,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1904,
-        -1040
+        2000,
+        112
       ],
-      "id": "ce18cdb7-2562-400d-968f-ae5b582669bf",
+      "id": "ae685ee4-bbee-4b56-85e0-26f3da9053fd",
       "name": "Sticky Note11"
     },
     {
@@ -615,10 +583,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1088,
-        -1040
+        2816,
+        112
       ],
-      "id": "64a89a89-909a-4163-a260-df3d39ca697a",
+      "id": "5fe7b6d6-7a36-41ae-a431-a93803227a50",
       "name": "Sticky Note15"
     },
     {
@@ -630,10 +598,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -784,
-        -1040
+        3120,
+        112
       ],
-      "id": "a8d83995-64ac-4bdb-9cf9-12360c8b8b6d",
+      "id": "2a199a8f-7206-4b18-9e87-f9dc4db56d8d",
       "name": "Sticky Note16"
     },
     {
@@ -645,10 +613,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -304,
-        -1040
+        3600,
+        112
       ],
-      "id": "93f24e1b-bbb7-4aed-a898-83bb82d99ed5",
+      "id": "565d9855-8447-4c4e-ab57-b652a8733040",
       "name": "Sticky Note17"
     },
     {
@@ -661,10 +629,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -3824,
-        -1376
+        -144,
+        976
       ],
-      "id": "7ec3763d-9f4f-48ff-9372-5589db180dcf",
+      "id": "32324229-f786-4023-bfc1-bc01ad05575d",
       "name": "Sticky Note30"
     },
     {
@@ -678,11 +646,27 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -3760,
-        -480
+        -80,
+        560
       ],
-      "id": "417ece92-933d-41f6-b19c-8cb530be9940",
+      "id": "62e0570c-238d-40e2-8b1f-f1f71ca8f034",
       "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \n— everything else works automatically",
+        "height": 384,
+        "width": 192,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "637d319f-4c7d-4f14-8676-16e6a839812d",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -972,10 +956,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "4ee19470-d9b9-4139-a0c6-7cdc80583fa4",
+  "versionId": "7eb4a013-6adf-4f71-b5d8-1c78163410dd",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "IJjORMVCyD8FvxyF",
+  "id": "u5MdPlYjhriENe3R",
   "tags": []
 }

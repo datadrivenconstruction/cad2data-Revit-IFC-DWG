@@ -11,10 +11,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        416,
-        208
+        528,
+        224
       ],
-      "id": "3f632c49-6fb0-4c45-bd67-b3f8933712ab",
+      "id": "06a9a9db-ced5-423b-a3a1-9f7494aea317",
       "name": "Sticky Note"
     },
     {
@@ -26,10 +26,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        416,
-        -160
+        400,
+        -400
       ],
-      "id": "adb2ce19-cf06-4079-87c4-1f44398c05cd",
+      "id": "5d337502-da31-4e35-9481-afaae2602ff8",
       "name": "Sticky Note1"
     },
     {
@@ -37,10 +37,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        448,
-        16
+        480,
+        -16
       ],
-      "id": "188775d3-2203-4ccf-9b6c-ee48cf878d0f",
+      "id": "9f2d392f-3e33-472f-9db3-3375606ff62d",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -66,10 +66,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        640,
-        16
+        688,
+        -16
       ],
-      "id": "16c2aaf1-401c-4795-b68a-02f5084c50b7",
+      "id": "9fc834a6-6d60-430e-99be-eb93e5d4939d",
       "name": "Set path to file and converter"
     },
     {
@@ -80,11 +80,43 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        816,
-        16
+        880,
+        -16
       ],
-      "id": "856927ff-9457-4c2a-8401-0a44740dd86d",
+      "id": "8d1c478a-0231-47f9-bf4a-593f21b13dcf",
       "name": "Converting the project into a structured form"
+    },
+    {
+      "parameters": {
+        "content": "## ⬇️ Only modify the variables here  \n— everything else works automatically",
+        "height": 384,
+        "width": 192,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        640,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "3ce0d757-7611-4708-a402-ff97f283361c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Simple n8n workflow",
+        "height": 464,
+        "width": 688,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        400,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "1f42b881-3c0f-42bb-b25e-e7e7512b3f1c",
+      "name": "Sticky Note3"
     }
   ],
   "pinData": {
@@ -122,10 +154,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "e264bc7e-c54b-4474-9c3c-a5d71174b1b7",
+  "versionId": "dc4f6db7-3d9d-4529-8f69-060b87acc545",
   "meta": {
-    "instanceId": "1d7b1da65c471e434188555a2959bd7f825cdfb684701b1bb9481fb29d0bd489"
+    "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "FZW7bcaK0xSBYnrK",
+  "id": "OxEUTQHRy461kBxF",
   "tags": []
 }
