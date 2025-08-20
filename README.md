@@ -317,7 +317,7 @@ graph LR;
     I --> J[Save & Open];
 ```
 
-### ⚡️ 5. Universal BIM/CAD Classification with AI & RAG
+### ⚡️ 5. Universal BIM/CAD Classification with AI & RAG for Revit, IFC, DWG, DGN
 **File**: `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json`
 
 Intelligently classifies building elements from CAD/BIM files using AI and ANY classification system - international standards (Omniclass, Uniclass, etc.) or your custom/proprietary classifications. Supports automatic dictionary extraction from mapping files.
@@ -471,7 +471,7 @@ graph LR;
 
 
 
-### ⚡️ 8. Simple ETL for LLM Use Cases
+### ⚡️ 8. Simple ETL for LLM Use Cases for Revit, IFC, DWG, DGN
 **File**: `n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
 Converts a Revit file to Excel, generates an XLSX filename, and parses data for LLM-based automation tasks.
@@ -498,7 +498,7 @@ Converts a Revit file to Excel, generates an XLSX filename, and parses data for 
 
 
 
-### ⚡️ 9. Revit to HTML Quantity Takeoff
+### ⚡️ 9. Revit and IFC to HTML Quantity Takeoff
 **File**: `n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generatorn.json`
 
 Analyzes Revit wall data, calculates volumes by type, and generates interactive HTML reports with summary statistics.
