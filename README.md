@@ -196,7 +196,7 @@ graph LR;
 
 
 
-### ⚡️ 2. Conversion with Advanced Settings
+### ⚡️ 2. Revit Conversion with Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
 Converts CAD/BIM files with customizable export modes (basic: 309 categories, standard: 724 categories, complete: all 1209 categories) and optional outputs like bounding box, Revit schedules, or PDF drawings.
