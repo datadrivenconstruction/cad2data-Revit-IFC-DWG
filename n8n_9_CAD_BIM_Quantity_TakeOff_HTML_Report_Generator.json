@@ -19,13 +19,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_revit_converter",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\DDC_Converter_Revit\\RvtExporter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
           ]
@@ -182,7 +182,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        -992,
+        -768,
         432
       ]
     },
@@ -215,7 +215,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -800,
+        -576,
         432
       ],
       "id": "6f548116-439e-4929-b249-8f5c8887d3b0",
@@ -228,7 +228,7 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        -576,
+        -368,
         432
       ],
       "id": "fa87ab03-0e48-4145-bac3-7288c09953a6",
@@ -241,7 +241,7 @@
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [
-        -368,
+        -176,
         432
       ],
       "id": "08f545ba-1ee8-42cb-96eb-0711801fbc98",
@@ -255,7 +255,7 @@
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        -160,
+        32,
         432
       ],
       "id": "e659c87f-aaf4-4798-a4e2-27c7a6bc2632",
@@ -290,7 +290,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        48,
+        240,
         432
       ],
       "id": "bca9431a-fbee-4846-bbc2-aaa7a63c673f",
@@ -316,7 +316,7 @@
       "parameters": {
         "content": "## 🔷 TRANSFORM Phase\n\n**T**ransform raw data:\n1. Filter ONLY records with 'Category : String' = 'OST_Walls'\n2. Clean data: extract ID, Type Name, Volume\n3. Group by 'Type Name : String'\n4. Sum 'Volume : Double' for each group\n5. Calculate statistics per group",
         "height": 520,
-        "width": 800,
+        "width": 992,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -337,7 +337,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -208,
+        -16,
         96
       ],
       "id": "59442551-3b88-44e2-b983-7c4fdb4c86d8",
@@ -347,7 +347,7 @@
       "parameters": {
         "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
         "height": 720,
-        "width": 2912,
+        "width": 3120,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -368,7 +368,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -32,
+        160,
         -208
       ],
       "id": "adf1e99a-9d5f-4ba4-bcad-08d930c14cf0",
@@ -389,6 +389,61 @@
       "typeVersion": 1,
       "id": "f7994b78-719e-475d-bc7d-f8d5a2a18d0a",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json['On the standard 3D View : Boolean'] }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "2216c2aa-bac4-41c9-ad8d-2cfcab3f79bf",
+      "name": "On the standard 3D View",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "Elements not visible in standard 3D view",
+              "type": "string"
+            },
+            {
+              "id": "filtered_count",
+              "name": "filtered_count",
+              "value": "={{ $input.all().length }}",
+              "type": "number"
+            },
+            {
+              "id": "reason",
+              "name": "reason",
+              "value": "Parameter 'On the standard 3D View' is not True",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "98471fab-e82c-44bf-9d31-92c2cf3cb812",
+      "name": "Non-3D View Elements Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -624,
+        256
+      ]
     }
   ],
   "pinData": {
@@ -476,7 +531,7 @@
       "main": [
         [
           {
-            "node": "Transform - Filter only OST_Walls",
+            "node": "On the standard 3D View",
             "type": "main",
             "index": 0
           }
@@ -526,13 +581,42 @@
           }
         ]
       ]
+    },
+    "On the standard 3D View": {
+      "main": [
+        [
+          {
+            "node": "Transform - Filter only OST_Walls",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non-3D View Elements Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load - Save HTML Report": {
+      "main": [
+        [
+          {
+            "node": "Success - Final results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3cd6d9fa-033b-45eb-a996-f38170f0bd1f",
+  "versionId": "fbaba1fc-8a3b-4ae1-9423-dec7ba01798f",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },

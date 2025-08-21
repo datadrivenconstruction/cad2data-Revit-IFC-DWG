@@ -19,13 +19,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_revit_converter",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\DDC_Converter_Revit_Community\\RvtExporter.exe",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\DDC_Converter_Revit\\RvtExporter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\DDC\\DDC_Converter\\Release\\Community\\DDC_Converter_Revit_Community\\RVT_sample\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
           ]
@@ -162,7 +162,7 @@
       "type": "n8n-nodes-base.spreadsheetFile",
       "typeVersion": 1,
       "position": [
-        608,
+        624,
         736
       ]
     },
@@ -186,7 +186,7 @@
       "parameters": {
         "content": "# ETL with CAD (BIM)  \n**Extract. Transform. Load — the future of data processing in construction**\n\nETL (Extract, Transform, Load) is a time-tested and universal approach at the heart of every mature digital infrastructure. When applied to CAD and BIM data, it becomes not just relevant — but essential.\nETL is more than just a technical process. It’s a mindset shift — one that takes BIM out of the siloed world of 3D modeling and into the open world of transparent, interoperable, and machine-readable data. It is this paradigm that powers platforms like [DataDrivenConstruction.io](https://datadrivenconstruction.io) and drives the future of digital transformation in the built environment.\n",
         "height": 712,
-        "width": 1636,
+        "width": 1908,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -207,7 +207,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        496,
+        752,
         112
       ],
       "id": "3aa00356-09e3-4e4c-85d0-4a316a3877a2",
@@ -232,7 +232,7 @@
       "parameters": {
         "content": "",
         "height": 504,
-        "width": 1000,
+        "width": 1288,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -243,6 +243,26 @@
       ],
       "id": "14f11329-b954-4675-96e9-f357b1ff7caf",
       "name": "Extract Phase Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json['On the standard 3D View'] }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "e2f8beb9-da5e-4a40-b0c5-869d2ee67c09",
+      "name": "On the standard 3D View",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        832,
+        736
+      ]
     }
   ],
   "pinData": {
@@ -325,13 +345,30 @@
           }
         ]
       ]
+    },
+    "On the standard 3D View": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "Extract - Parse Excel to data": {
+      "main": [
+        [
+          {
+            "node": "On the standard 3D View",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c9aafa7e-4d05-472e-8dde-59b279311ef0",
+  "versionId": "5a2ee85e-e76d-48be-850f-8ebb85cfd222",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
