@@ -21,8 +21,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1376,
-        832
+        1360,
+        768
       ]
     },
     {
@@ -382,8 +382,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1184,
-        832
+        2256,
+        544
       ]
     },
     {
@@ -395,7 +395,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1680,
+        1584,
         544
       ]
     },
@@ -427,7 +427,7 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.3,
       "position": [
-        1856,
+        1728,
         544
       ],
       "credentials": {
@@ -728,7 +728,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2240,
+        2064,
         544
       ]
     },
@@ -1025,6 +1025,61 @@
       "typeVersion": 1,
       "id": "80f0dd52-efa5-45ce-9812-d75ec19d9fb0",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json['On the standard 3D View'] }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "9d8c252c-4dd6-434e-a3c6-18f7a0b1d2e5",
+      "name": "On the standard 3D View",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        816
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "Elements not visible in standard 3D view",
+              "type": "string"
+            },
+            {
+              "id": "filtered_count",
+              "name": "filtered_count",
+              "value": "={{ $input.all().length }}",
+              "type": "number"
+            },
+            {
+              "id": "reason",
+              "name": "reason",
+              "value": "Parameter 'On the standard 3D View' is not True",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "549c23ba-0839-4221-9401-fc4b63011211",
+      "name": "Non-3D View Elements Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        912
+      ]
     }
   ],
   "pinData": {},
@@ -1272,7 +1327,7 @@
       "main": [
         [
           {
-            "node": "Find Category Fields1",
+            "node": "On the standard 3D View",
             "type": "main",
             "index": 0
           }
@@ -1501,13 +1556,31 @@
           }
         ]
       ]
+    },
+    "On the standard 3D View": {
+      "main": [
+        [
+          {
+            "node": "Find Category Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Non-3D View Elements Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "03e3a1fe-c4f7-4ed5-9b78-e1b76a502aa5",
+  "versionId": "df99202c-1ae9-46a0-9d9f-1b46aa6273ea",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
