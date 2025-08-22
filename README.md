@@ -563,7 +563,7 @@ CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprieta
 
 ## Excel to Revit Update Project from Excel
 
-After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
+After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
 
 > **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
 https://github.com/datadrivenconstruction/ImportExcelToRevit
