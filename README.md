@@ -48,7 +48,7 @@
   - [⚡️ 9. Revit and IFC to HTML Quantity Takeoff](#️-9-revit-and-ifc-to-html-quantity-takeoff)
 - [Troubleshooting](#troubleshooting)
 - [What is DataFrames?](#what-is-dataframes)
-- [Excel to Revit. Update Project from Excel](#️Excel-to-Revit-Update-Project-from-Excel)
+- [Excel to Revit. Update Project from Excel](#excel-to-revit-update-project-from-excel)
 - [Contributing](#contributing)
 - [🆘 Support](#support)
 - [🎓 Consulting and Training](#consulting-and-training)
