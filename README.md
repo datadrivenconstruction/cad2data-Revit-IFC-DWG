@@ -561,7 +561,7 @@ CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprieta
 - [Structured Data in Construction](https://datadrivenconstruction.io/2025/06/025-structured-data/)
 
 
-## Excel to Revit and Re-import Data into Revit
+## Excel to Revit and Re Import Data into Revit
 
 After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/ImportExcelToRevit)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
 
