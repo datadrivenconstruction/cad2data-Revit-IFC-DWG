@@ -6,10 +6,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        560,
-        272
+        -3500,
+        1160
       ],
-      "id": "4b870d62-e3be-4c76-9d71-43aef3a21d44",
+      "id": "7be57333-0b2b-4c28-911d-9318a840d699",
       "name": "Start - Click to begin"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        800,
-        272
+        -3260,
+        1160
       ],
-      "id": "ab1dbae1-42fe-4123-ac17-ecf410e62c72",
+      "id": "1fa3e48b-1265-445b-8204-5ed05c5c909d",
       "name": "Setup - Define file paths"
     },
     {
@@ -47,26 +47,26 @@
         "height": 444,
         "width": 190
       },
-      "id": "dea38ca4-33e5-43a8-bede-e5ff37f4116c",
+      "id": "4f16f064-e93f-48da-8fa7-7f756d5aece3",
       "name": "Sticky Note - Start",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        528,
-        48
+        -3520,
+        940
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"xlsx_filename\"] }}"
       },
-      "id": "46bd811d-00c9-4c14-b622-4981dcf8cca0",
+      "id": "168c3e41-48d8-4eb7-92ec-817764620f6e",
       "name": "Read Project Excel File",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        2400,
-        384
+        -1660,
+        1260
       ]
     },
     {
@@ -83,13 +83,13 @@
         },
         "options": {}
       },
-      "id": "4f191ee6-712a-4bf2-a2ee-6332716ffdec",
+      "id": "957fd080-3b95-435b-9fe7-b369f3292614",
       "name": "Set Validation Rules Path",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2400,
-        208
+        -1660,
+        1100
       ]
     },
     {
@@ -99,37 +99,37 @@
         "width": 220,
         "color": 4
       },
-      "id": "69a54929-3ec3-45d1-98fc-8a74072a8026",
+      "id": "ecfec5f4-c26d-46ed-8760-1f10e6b90ea3",
       "name": "Sticky Note - Validation Rules",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2320,
-        -144
+        -1740,
+        740
       ]
     },
     {
       "parameters": {
         "filePath": "={{ $json[\"validation_rules_path\"] }}"
       },
-      "id": "d731282b-9ac8-4dc4-a53e-e41176a9cf2e",
+      "id": "6656e08e-941e-4189-9519-b3d9f1a46555",
       "name": "Read Validation Rules File",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        2640,
-        288
+        -1420,
+        1180
       ]
     },
     {
       "parameters": {},
-      "id": "ba8aeb4b-cca4-44e7-bd9e-43ce2fad7024",
+      "id": "073c8ca6-eb79-4712-a58e-e5be9d00c443",
       "name": "Merge Excel Files",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        2864,
-        400
+        -1180,
+        1280
       ]
     },
     {
@@ -140,10 +140,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3040,
-        288
+        -1020,
+        1180
       ],
-      "id": "20a8b8e1-6153-4f99-85fe-5085fac971bd",
+      "id": "5e7107b6-cabb-43ee-a3d7-2d968f8a9153",
       "name": "Validate - Enhanced"
     },
     {
@@ -152,13 +152,13 @@
         "height": 596,
         "width": 620
       },
-      "id": "1d601482-2b90-4d52-91b7-4e7579a88db2",
+      "id": "0e8c5bdc-2c67-4485-8053-3b9b2a879362",
       "name": "Sticky Note - Validation",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2560,
-        48
+        -1500,
+        940
       ]
     },
     {
@@ -167,13 +167,13 @@
         "height": 596,
         "width": 1320
       },
-      "id": "fde712a8-5bb1-4604-bc51-0c635fbc4c0a",
+      "id": "f02ee0b2-1c6c-4b56-adf7-eb7b09064c3c",
       "name": "Sticky Note - Conversion",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        976,
-        48
+        -3080,
+        940
       ]
     },
     {
@@ -183,13 +183,13 @@
         "width": 420,
         "color": 6
       },
-      "id": "8c98aae6-074a-4701-99d9-7c49ae13e682",
+      "id": "c3c4a3ac-ffb8-47f7-bc55-5c48cfc414f5",
       "name": "Sticky Note - Save & Open",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3200,
-        48
+        -860,
+        940
       ]
     },
     {
@@ -197,62 +197,27 @@
         "fileName": "={{ $json.full_path }}",
         "options": {}
       },
-      "id": "6fce729b-f210-407e-9de2-81a193715ca5",
+      "id": "db26e9dd-a0c3-49f5-bd62-d6ebc3c166bc",
       "name": "Save Validation Report1",
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
       "position": [
-        3280,
-        288
+        -780,
+        1180
       ]
     },
     {
       "parameters": {
         "command": "=start \"\" \"{{ $json.full_path }}\""
       },
-      "id": "8d09f3bc-8478-48a5-a235-460597226737",
+      "id": "138cc205-d8b3-42eb-b4d4-993c3f131b9a",
       "name": "Open Excel Report1",
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        3488,
-        288
+        -560,
+        1180
       ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "xlsx-filename-id",
-              "name": "xlsx_filename",
-              "value": "={{ $json[\"project_file\"].slice(0, -4) + \"_rvt.xlsx\" }}",
-              "type": "string"
-            },
-            {
-              "id": "path-to-converter-pass",
-              "name": "path_to_converter",
-              "value": "={{ $json[\"path_to_converter\"] }}",
-              "type": "string"
-            },
-            {
-              "id": "project-file-pass",
-              "name": "project_file",
-              "value": "={{ $json[\"project_file\"] }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1024,
-        272
-      ],
-      "id": "c70924fa-ecbc-48bb-b66c-98afe5947994",
-      "name": "Create - Excel filename"
     },
     {
       "parameters": {
@@ -261,10 +226,10 @@
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        1216,
-        272
+        -2840,
+        1160
       ],
-      "id": "2f4617b8-f146-4fd6-bee2-020a8609a92c",
+      "id": "88b52402-5e00-4e90-804d-4cc58c316601",
       "name": "Check - Does Excel file exist?",
       "alwaysOutputData": true,
       "continueOnFail": true
@@ -292,13 +257,13 @@
         },
         "options": {}
       },
-      "id": "aa925149-5394-4db4-bdc2-9116f9b76700",
+      "id": "585e4b90-9c68-49e9-9390-7d545184834a",
       "name": "If - File exists?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1376,
-        272
+        -2680,
+        1160
       ]
     },
     {
@@ -308,10 +273,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1600,
-        368
+        -2460,
+        1260
       ],
-      "id": "18206815-fe18-4e53-970d-85d7dda0d8c0",
+      "id": "1d766639-3a2f-4382-a3cb-28b1ff3b48ef",
       "name": "Extract - Run converter",
       "continueOnFail": true
     },
@@ -338,10 +303,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1680,
-        192
+        -2380,
+        1080
       ],
-      "id": "c701d878-85d1-4122-b5cb-59c1edc2f835",
+      "id": "47db95a6-1dce-48ca-9215-792a06aa8137",
       "name": "Info - Skip conversion"
     },
     {
@@ -368,13 +333,13 @@
         },
         "options": {}
       },
-      "id": "026e9414-30a8-4e99-bb9f-c91cddb8dbce",
+      "id": "097927bb-b6b7-4e87-b2a3-eefb0658dc77",
       "name": "Check - Did extraction succeed?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1760,
-        368
+        -2300,
+        1260
       ]
     },
     {
@@ -403,13 +368,13 @@
         },
         "options": {}
       },
-      "id": "362d1574-f7e0-4c7c-a0f2-27496d62cf16",
+      "id": "148b4867-1f1d-4a29-ba57-9bd26527ad5c",
       "name": "Error - Show what went wrong",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1920,
-        288
+        -2140,
+        1180
       ]
     },
     {
@@ -429,21 +394,21 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1920,
-        448
+        -2140,
+        1340
       ],
-      "id": "c8f21f46-0647-4819-ae0e-419d9a46f206",
+      "id": "375a685d-cf25-45bd-a53b-35865381a093",
       "name": "Set xlsx_filename after success"
     },
     {
       "parameters": {},
-      "id": "b502d5d2-8530-427e-9390-7c11012bd06a",
+      "id": "993c857f-7428-420f-b980-27d4bd784aab",
       "name": "Merge - Continue workflow",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        2160,
-        208
+        -1900,
+        1100
       ]
     },
     {
@@ -455,10 +420,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        976,
-        672
+        -3080,
+        1560
       ],
-      "id": "b236040c-8651-41dd-a6b1-63da8db3d4cd",
+      "id": "cbbc29b9-663c-44e1-a940-254bdb330f6b",
       "name": "Sticky Note"
     },
     {
@@ -470,10 +435,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2576,
-        672
+        -1480,
+        1560
       ],
-      "id": "cae2d3e4-07de-45c9-9b45-da19789cabb4",
+      "id": "f895d82b-7622-42a0-9c42-31eb816c30b8",
       "name": "Sticky Note1"
     },
     {
@@ -485,10 +450,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3280,
-        -80
+        -780,
+        800
       ],
-      "id": "079841ea-bc60-47c7-ab3c-a7e9d3e59d2c",
+      "id": "e1715f6d-1363-4549-bce8-bcb588cb0cb1",
       "name": "Sticky Note2"
     },
     {
@@ -500,11 +465,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        736,
-        -288
+        -3320,
+        600
       ],
       "typeVersion": 1,
-      "id": "389526e6-34a8-4cb2-bb68-c9cfd28ed566",
+      "id": "eab7c51f-3e43-4fe4-a8d4-f482a2985b52",
       "name": "Sticky Note3"
     },
     {
@@ -514,13 +479,13 @@
         "width": 220,
         "color": 4
       },
-      "id": "c41d11fb-f654-49e9-a2f0-ac81a01eff02",
+      "id": "cb484c63-09a1-471f-a119-dcade1e5aa8f",
       "name": "Sticky Note - Settings",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        736,
-        -96
+        -3320,
+        780
       ]
     },
     {
@@ -532,12 +497,47 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2320,
-        -336
+        -1740,
+        540
       ],
       "typeVersion": 1,
-      "id": "730b1426-7b20-4eb0-8f1e-b70ae0bd9fed",
+      "id": "3573489e-15b7-4c34-87e1-1a85ad53c3be",
       "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "xlsx-filename-id",
+              "name": "xlsx_filename",
+              "value": "={{ $json[\"project_file\"].slice(0, $json[\"project_file\"].lastIndexOf(\".\")) + \"_\" + $json[\"project_file\"].split(\".\").pop() + \".xlsx\" }}",
+              "type": "string"
+            },
+            {
+              "id": "path-to-converter-pass",
+              "name": "path_to_converter",
+              "value": "={{ $json[\"path_to_converter\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "project-file-pass",
+              "name": "project_file",
+              "value": "={{ $json[\"project_file\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3040,
+        1160
+      ],
+      "id": "3838d91e-b162-4c61-a186-854fa6d79645",
+      "name": "Create - Excel filename"
     }
   ],
   "pinData": {},
@@ -624,17 +624,6 @@
         [
           {
             "node": "Open Excel Report1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create - Excel filename": {
-      "main": [
-        [
-          {
-            "node": "Check - Does Excel file exist?",
             "type": "main",
             "index": 0
           }
@@ -747,16 +736,27 @@
           }
         ]
       ]
+    },
+    "Create - Excel filename": {
+      "main": [
+        [
+          {
+            "node": "Check - Does Excel file exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3f498ad6-c521-472a-a619-d6b1ccc418e5",
+  "versionId": "2c375604-cef3-4185-95f6-f5535bb3de70",
   "meta": {
     "instanceId": "faa70e11b7175129a74fd834d3451fdc1862589b16d68ded03f91ca7b1ecca12"
   },
-  "id": "40UdEGFo6xcsiP60",
+  "id": "nR8TzfUTFdOdCPMN",
   "tags": []
 }
