@@ -114,7 +114,7 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 
 ⭐ **If you find our tools helpful, please consider starring our repository**.
 
-Star Dify on GitHub and be instantly notified of new releases.
+Star DDC workflow on GitHub and be instantly notified of new releases.
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/star-github.gif" width="100%"/>
   <br></br>
