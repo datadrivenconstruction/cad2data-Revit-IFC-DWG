@@ -27,7 +27,7 @@
   <a href="https://dify.ai/pricing" target="_blank">
     <img alt="Static Badge" src="https://img.shields.io/badge/free-pricing?logo=free&color=%23155EEF&label=pricing&labelColor=%23528bff">
   </a>
-
+</br>
   <!-- Social Links -->
   <a href="https://x.com/datadrivenconst" target="_blank">
     <img src="https://img.shields.io/twitter/follow/datadrivenconst?logo=X&style=flat&color=%23f5f5f5" alt="Follow on X">
@@ -136,7 +136,7 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 
 Star DDC workflow on GitHub and be instantly notified of new releases.
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/star-github.gif" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/DDC-n8n-CAD-BIM.gif" width="100%"/>
   <br></br>
 </p>
 
