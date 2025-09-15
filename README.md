@@ -135,15 +135,6 @@
 
 This pipeline automates the conversion of CAD/BIM files to Excel for quantity takeoffs, data analysis, and further processing. It supports offline operation and extensibility with Python or AI tools.
 
-⭐ **If you find our tools helpful, please consider starring our repository**.
-
-Star DDC workflow on GitHub and be instantly notified of new releases.
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/star%20github.gif" width="100%"/>
-  <br></br>
-</p>
-
-
 
 ## Supported Formats
 
@@ -180,6 +171,15 @@ Star DDC workflow on GitHub and be instantly notified of new releases.
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
   <br></br>
 </p>
+⭐ **If you find our tools helpful, please consider starring our repository**.
+
+Star DDC workflow on GitHub and be instantly notified of new releases.
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/star%20github.gif" width="100%"/>
+  <br></br>
+</p>
+
+
 
 # n8n Workflows for working with CAD/BIM data
 
