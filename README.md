@@ -41,10 +41,10 @@
 </p>
 
 
-
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC%20n8n%20CAD%20BIM.gif" alt="Pipeline Overview" width="100%"/>
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-GitHub-DataDrivenConstruction.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
+
 
 ## Table of Contents
 
@@ -126,6 +126,9 @@
 </p>
 
 
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC%20n8n%20CAD%20BIM.gif" alt="Pipeline Overview" width="100%"/>
+</p>
 
 
 ## Overview
