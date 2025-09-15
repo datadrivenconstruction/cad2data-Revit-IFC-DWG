@@ -44,7 +44,10 @@
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-GitHub-DataDrivenConstruction.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
-
+<p align="center">
+  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/bandicam-2025-09-14-13-05-05-897.gif" width="100%"/>
+  <br></br>
+</p>
 
 ## Table of Contents
 
@@ -120,10 +123,7 @@
   </tr>
 </table>
 
-<p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/bandicam-2025-09-14-13-05-05-897.gif" width="100%"/>
-  <br></br>
-</p>
+
 
 
 <p align="center">
