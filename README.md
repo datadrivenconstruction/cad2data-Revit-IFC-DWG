@@ -22,7 +22,24 @@
   <img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats"></br>
   <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.dae%20.html%20.pdf-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
   <img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL Pipeline">
+  
+  <!-- Pricing -->
+  <a href="https://dify.ai/pricing" target="_blank">
+    <img alt="Static Badge" src="https://img.shields.io/badge/free-pricing?logo=free&color=%23155EEF&label=pricing&labelColor=%23528bff">
+  </a>
+
+  <!-- Social Links -->
+  <a href="https://x.com/datadrivenconst" target="_blank">
+    <img src="https://img.shields.io/twitter/follow/datadrivenconst?logo=X&style=flat&color=%23f5f5f5" alt="Follow on X">
+  </a>
+  <a href="https://www.youtube.com/@datadrivenconstruction" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white" alt="Subscribe on YouTube">
+  </a>
+  <a href="https://www.linkedin.com/company/78381569" target="_blank">
+    <img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?logo=linkedin-white&logoColor=fff" alt="Connect on LinkedIn">
+  </a>
 </p>
+
 
 
 <p align="center">
