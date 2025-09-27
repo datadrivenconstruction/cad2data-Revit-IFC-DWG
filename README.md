@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/n8n-pipelines-CAD-BIM-Revit-IFC-AutoCAD-scaled.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_App_Name.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 
 
@@ -42,7 +42,7 @@
 
 
 <p align="center">
-  <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/08/n8n-GitHub-DataDrivenConstruction.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_GithubLogo.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/bandicam-2025-09-14-13-05-05-897.gif" width="100%"/>
@@ -185,7 +185,9 @@ Star DDC workflow on GitHub and be instantly notified of new releases.
 
 
 
-# n8n Workflows for working with CAD/BIM data
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline Overview" width="100%"/>
+</p>
 
 ### ⚡️ 1. Revit, IFC, DWG, DGN Basic Conversion 
 **File**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
