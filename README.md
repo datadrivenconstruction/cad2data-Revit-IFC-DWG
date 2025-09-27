@@ -175,11 +175,10 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
   <br></br>
 </p>
 
-⭐ <b>If you find our tools helpful, please consider starring our repository</b>.
-
+⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>.
 Star DDC workflow on GitHub and be instantly notified of new releases.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/star%20github.gif" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
 
