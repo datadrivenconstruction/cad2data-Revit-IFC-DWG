@@ -43,17 +43,7 @@
    <br></br>
 </p>
 
-  <!-- Social Links -->
-  <a href="https://x.com/datadrivenconst" target="_blank">
-    <img src="https://img.shields.io/twitter/follow/datadrivenconst?logo=X&style=flat&color=%23f5f5f5" alt="Follow on X">
-  </a>
-  <a href="https://www.youtube.com/@datadrivenconstruction" target="_blank">
-    <img src="https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white" alt="Subscribe on YouTube">
-  </a>
-  <a href="https://www.linkedin.com/company/78381569" target="_blank">
-    <img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?logo=linkedin-white&logoColor=fff" alt="Connect on LinkedIn">
-  </a>
-</p>
+ 
 
 ## Table of Contents
 
@@ -635,6 +625,18 @@ Our team delivers hands-on workshops, provides strategic consulting, and develop
 Contact us for a free consultation where we'll discuss your challenges and demonstrate how n8n automation can transform your operations. Reach out via Email at [@DataDrivenConstruction](mailto: info@datadrivenconstruction.io) or visit our website at [datadrivenconstruction.io](https://datadrivenconstruction.io) to learn more about our services.
 
 ---
+ <!-- Social Links -->
+  <a href="https://x.com/datadrivenconst" target="_blank">
+    <img src="https://img.shields.io/twitter/follow/datadrivenconst?logo=X&style=flat&color=%23f5f5f5" alt="Follow on X">
+  </a>
+  <a href="https://www.youtube.com/@datadrivenconstruction" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?logo=youtube&logoColor=white" alt="Subscribe on YouTube">
+  </a>
+  <a href="https://www.linkedin.com/company/78381569" target="_blank">
+    <img src="https://custom-icon-badges.demolab.com/badge/LinkedIn-0A66C2?logo=linkedin-white&logoColor=fff" alt="Connect on LinkedIn">
+  </a>
+</p>
+
 
 <p align="left">
  
