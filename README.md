@@ -1,14 +1,6 @@
 <p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_App_Name.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
-
-
-<h3 align="center">CAD/BIM (Revit, DWG, IFC, DGN) processing and conversion with batch handling, grouping, checks, cost estimation and QTO reports. Visualization of automation processes in open workflows</h3>
-
-<p align="center">
-  Automate your CAD/BIM data extraction and transformation using <a href="https://n8n.io">n8n</a>   </br> with no vendor lock-in, no Autodesk® or CAD licenses, and full control of your project data
-</p>
-
 <p align="center">
   <a href="https://n8n.io">
     <img src="https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white" alt="n8n">
@@ -28,6 +20,14 @@
     <img alt="Static Badge" src="https://img.shields.io/badge/free-pricing?logo=free&color=%23155EEF&label=pricing&labelColor=%23528bff">
   </a>
 </br>
+
+<h3 align="center">CAD/BIM (Revit, DWG, IFC, DGN) processing and conversion with batch handling, grouping, checks, cost estimation and QTO reports. Visualization of automation processes in open workflows</h3>
+
+<p align="center">
+  Automate your CAD/BIM data extraction and transformation using <a href="https://n8n.io">n8n</a>   </br> with no vendor lock-in, no Autodesk® or CAD licenses, and full control of your project data
+</p>
+
+
 
 
 
