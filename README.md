@@ -134,7 +134,7 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 | Format | File Extension | Converter | Output |
 |--------|----------------|-----------|--------|
 | Revit (2015-2026) | `.rvt` | RvtExporter.exe | XLSX database + DAE geometry + Schedules + PDF Drawings |
-| Revit (2015-2026) | `.rvt` | RVT2IFC_converter.exe | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP |
+| Revit (2015-2026) | `.rvt` | RVT2IFC_converter.exe | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5 |
 | IFC (2x3, 4x1, 4x4, 4x, 4.3) | `.ifc` | IfcExporter.exe | XLSX database + DAE geometry |
 | AutoCAD (1983-2026) | `.dwg` | DwgExporter.exe | XLSX database + PDF Drawings |
 | MicroStation (v7-v8) | `.dgn` | DgnExporter.exe | XLSX database |
