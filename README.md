@@ -587,13 +587,6 @@ CAD/BIM formats like `.rvt`, `.ifc`, `.dwg`, or `.dgn` are complex and proprieta
 </p>
 
 
-
-DDC_in_additon/DDC_readme_content/CAD database.jpg
-
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
-</p>
-
 Back to the Roots of “BIM”. 𝗧𝗵𝗲 𝗟𝗼𝘀𝘁 𝗜𝗱𝗲𝗻𝘁𝗶𝘁𝘆: 𝗳𝗿𝗼𝗺 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲 𝘁𝗼 𝗠𝗮𝗿𝗸𝗲𝘁𝗶𝗻𝗴 𝗕𝘂𝘇𝘇𝘄𝗼𝗿𝗱.
 At the beginning, BIM was never about buzzwords or endless interoperability debates. Its foundation was always databases.
 
@@ -602,6 +595,10 @@ At the beginning, BIM was never about buzzwords or endless interoperability deba
 💬 “Native data exchange capability – applications should access the main CAD database directly, so detail and accuracy are not lost.”
 🔹 2002. After acquiring Revit-BOM, ADSK’s BIM whitepaper again placed the database at the core (23 mentions of the term).
 🔹 2003. For the last time, ADSK officially tied BIM to IT and databases. After that, the database vanished from the narrative — replaced by pure marketing.
+
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
+</p>
 
 In reality, BIM has always been simple: a database of project elements, each with its own parameters. Everything else is marketing layers.
 Maybe it’s time to go back to the essence: open, structured, and accessible data.
