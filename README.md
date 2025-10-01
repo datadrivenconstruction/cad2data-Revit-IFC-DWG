@@ -196,6 +196,10 @@ Converts CAD/BIM files (`.rvt`, `.ifc`, `.dwg`, `.dgn`) to Excel (XLSX) and Coll
    path_to_converter: C:\Converters\datadrivenlibs\RvtExporter.exe
    path_project_file: C:\Projects\Model.rvt
 
+   # Revit to IFC
+   path_to_converter: C:\Converters\datadrivenlibs\RVT2IFCconverter.exe
+   path_project_file: C:\Projects\Model.rvt
+   
    # IFC
    path_to_converter: C:\Converters\datadrivenlibs\IfcExporter.exe
    path_project_file: C:\Projects\Model.ifc
