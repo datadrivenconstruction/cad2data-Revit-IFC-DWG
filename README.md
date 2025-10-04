@@ -216,8 +216,8 @@ Depending on your workflow and technical background, you can choose between four
 </p>
 ⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>
 Star DDC workflow on GitHub and be instantly notified of new releases.
-
 <p align="center">
+  <br></br>
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
