@@ -68,8 +68,6 @@
 
 ## Tutorial Videos
 
-## Tutorial Videos
-
 <table style="border: none; border-collapse: collapse;">
   <!-- New videos at the top -->
   <tr>
