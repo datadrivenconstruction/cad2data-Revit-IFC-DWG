@@ -1,25 +1,26 @@
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_App_Name.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Data%20Workflows%20DDC.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 <p align="center">
   <a href="https://n8n.io">
     <img src="https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white" alt="n8n">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue" alt="MIT License">
-  </a>
-  <a href="https://datadrivenconstruction.io">
-    <img src="https://img.shields.io/badge/made%20by-DataDrivenConstruction.io-orange" alt="DataDrivenConstruction">
-  </a>
-  <img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats"></br>
-  <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.dae%20.html%20.pdf-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
-  <img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL Pipeline">
-  
-  <!-- Pricing -->
-  <a href="https://dify.ai/pricing" target="_blank">
-    <img alt="Static Badge" src="https://img.shields.io/badge/free-pricing?logo=free&color=%23155EEF&label=pricing&labelColor=%23528bff">
-  </a>
+  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue&label=workflows%20licence" alt="Workflows Licence: MIT">
+</a>
+<a href="https://datadrivenconstruction.io">
+  <img src="https://img.shields.io/badge/powered%20by-DataDrivenConstruction.io-orange" alt="Powered by DataDrivenConstruction.io">
+</a>
+<img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats"></br>
+<img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.dae%20.html%20.pdf%20.ifc-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
+<img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL Pipeline">
+
+<!-- Pricing -->
+<a href="https://dify.ai/pricing" target="_blank">
+  <img alt="Static Badge" src="https://img.shields.io/badge/free-pricing?logo=free&color=%23155EEF&label=pricing&labelColor=%23528bff">
+</a>
 </br>
+
 
 <h3 align="center">CAD/BIM (Revit, DWG, IFC, DGN) processing and conversion with batch handling, grouping, checks, cost estimation and QTO reports. Visualization of automation processes in open workflows</h3>
 
