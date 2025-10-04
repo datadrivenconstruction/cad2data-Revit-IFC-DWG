@@ -2,9 +2,7 @@
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Data%20Workflows%20DDC.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 <p align="center">
-  <a href="https://n8n.io">
-    <img src="https://img.shields.io/badge/powered%20by-n8n-ff6d5a?logo=n8n&logoColor=white" alt="n8n">
-  </a>
+
   <a href="LICENSE">
   <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue&label=workflows%20licence" alt="Workflows Licence: MIT">
 </a>
