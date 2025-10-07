@@ -190,7 +190,7 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 The DDC converters can be launched in different ways — **n8n is just one of the shells** for automation.  
 Depending on your workflow and technical background, you can choose between four methods:
 
-1. **Graphical User Interface (UI)** 🖥️  
+1. **Graphical User Interface (UI)** 
    - Best for non-technical users and quick one-off conversions.  
    - Intuitive interface, no setup required — just select a folder and start.
 <p align="center">
@@ -198,7 +198,7 @@ Depending on your workflow and technical background, you can choose between four
   <br></br>
 </p>
 
-2. **Console / Terminal (CMD, PowerShell, Shell)** 💻  
+2. **Console / Terminal (CMD, PowerShell, Shell)** 
    - Suitable for advanced users, developers, and technical teams.  
    - Flexible and scriptable, can be integrated into automation scripts or batch processes.  
 <p align="center">
@@ -206,7 +206,7 @@ Depending on your workflow and technical background, you can choose between four
   <br></br>
 </p>
 
-3. **Python or JavaScript Pipelines** 🐍⚙️  
+3. **Python or JavaScript Pipelines** 
    - Ideal for enterprises and teams working with large datasets.  
    - Scalable processing of hundreds of CAD (BIM) files in parallel.  
    - Ready-to-use examples available in the `DDC_Python_pipelines` folder.  
@@ -215,7 +215,7 @@ Depending on your workflow and technical background, you can choose between four
   <br></br>
 </p>
 
-4. **n8n Workflows** 🔗  
+4. **n8n Workflows** 
    - Best for companies seeking **full automation and system integration**.  
    - End-to-end pipelines where CAD (BIM) conversion becomes part of a seamless data flow.  
    - Examples provided in the `DDC_n8n_workflows` folder.
