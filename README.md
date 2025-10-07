@@ -193,25 +193,37 @@ Depending on your workflow and technical background, you can choose between four
 1. **Graphical User Interface (UI)** 🖥️  
    - Best for non-technical users and quick one-off conversions.  
    - Intuitive interface, no setup required — just select a folder and start.
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/1%20UI%20DDC.jpg" width="100%"/>
+  <br></br>
+</p>
 
 2. **Console / Terminal (CMD, PowerShell, Shell)** 💻  
    - Suitable for advanced users, developers, and technical teams.  
    - Flexible and scriptable, can be integrated into automation scripts or batch processes.  
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/2%20CMD%20PowerShell.jpg" width="100%"/>
+  <br></br>
+</p>
 
 3. **Python or JavaScript Pipelines** 🐍⚙️  
    - Ideal for enterprises and teams working with large datasets.  
    - Scalable processing of hundreds of CAD (BIM) files in parallel.  
    - Ready-to-use examples available in the `DDC_Python_pipelines` folder.  
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/3%20Batch%20Processing.jpg" width="100%"/>
+  <br></br>
+</p>
 
 4. **n8n Workflows** 🔗  
    - Best for companies seeking **full automation and system integration**.  
    - End-to-end pipelines where CAD (BIM) conversion becomes part of a seamless data flow.  
    - Examples provided in the `DDC_n8n_workflows` folder.
-  
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/UI%20Console%20Pipeline%20and%20DDC%20of%20converter.jpg" width="100%"/>
+  <p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/4%20Workflows%20and%20Agents.jpg" width="100%"/>
   <br></br>
 </p>
+
 ⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>
 Star DDC workflow on GitHub and be instantly notified of new releases.
 <p align="center">
