@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Data%20Workflows%20DDC.jpg" alt="Pipeline Overview" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 <p align="center">
 
