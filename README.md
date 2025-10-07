@@ -20,10 +20,10 @@
 </br>
 
 
-<h3 align="center">CAD/BIM (Revit, DWG, IFC, DGN) processing and conversion with batch handling, grouping, checks, cost estimation and QTO reports. Visualization of automation processes in open workflows</h3>
+<h3 align="center">CAD/BIM (Revit, DWG, IFC, DGN) processing and conversion with batch handling, grouping, checks, cost estimation and QTO reports. Visualization of automation processes in open agents and workflows</h3>
 
 <p align="center">
-  Automate your CAD/BIM data extraction and transformation using UI or CMD with DDC and <a href="https://n8n.io">n8n</a>   </br> with no vendor lock-in, no Autodesk® or CAD licenses, and full control of your project data
+  Automate your CAD/BIM data extraction and transformation using DDC UI, ComandPromts, Powershell or Workflows with no vendor lock-in, no Autodesk® or CAD licenses, and full control of your project data
 </p>
 
 
