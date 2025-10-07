@@ -193,7 +193,7 @@ Depending on your workflow and technical background, you can choose between four
 1. **Graphical User Interface (UI)** 🖥️  
    - Best for non-technical users and quick one-off conversions.  
    - Intuitive interface, no setup required — just select a folder and start.
-<p align="left">
+<p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/1%20UI%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
@@ -201,7 +201,7 @@ Depending on your workflow and technical background, you can choose between four
 2. **Console / Terminal (CMD, PowerShell, Shell)** 💻  
    - Suitable for advanced users, developers, and technical teams.  
    - Flexible and scriptable, can be integrated into automation scripts or batch processes.  
-<p align="left">
+<p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/2%20CMD%20PowerShell.jpg" width="100%"/>
   <br></br>
 </p>
