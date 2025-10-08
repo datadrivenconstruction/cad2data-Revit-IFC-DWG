@@ -86,7 +86,7 @@
   </tr>
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">
+      <a href="https://www.youtube.com/watch?v=jVU7vlMNTO0" target="_blank">
         <img src="DDC_in_additon/DDC_readme_content/DWG to Excel.png" alt="DWG to Excel Pipeline" width="460" height="315">
       </a>
     </td>
@@ -94,7 +94,7 @@
      <b> DWG to Excel Converter Pipeline </b>
       <br>
         Step-by-step guide on automating <strong>DWG to Excel</strong> data conversion using <code>n8n</code>, making CAD project data easy to use in reporting and analysis.<br>
-        <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">Watch DWG to Excel Pipeline on YouTube</a>
+        <a href="https://www.youtube.com/watch?v=jVU7vlMNTO0" target="_blank">Watch DWG to Excel Pipeline on YouTube</a>
       </br>
     </td>
   </tr>
