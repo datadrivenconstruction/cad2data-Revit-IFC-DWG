@@ -100,7 +100,7 @@
   </tr>
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">
+      <a href="https://youtu.be/QBaH8oBsPpM?si=gno6LZf98d6gWdPl" target="_blank">
         <img src="DDC_in_additon/DDC_readme_content/ETL with Revit and IFC.png" alt="ETL with Revit and IFC" width="460" height="315">
       </a>
     </td>
@@ -108,7 +108,7 @@
      <b> ETL with Revit and IFC </b>
       <br>
         Learn how to build a complete <strong>ETL pipeline</strong> with Revit and IFC data: extract, transform, validate, and load project information into open formats.<br>
-        <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">Watch ETL with Revit and IFC Tutorial on YouTube</a>
+        <a href="https://youtu.be/QBaH8oBsPpM?si=gno6LZf98d6gWdPl" target="_blank">Watch ETL with Revit and IFC Tutorial on YouTube</a>
       </br>
     </td>
   </tr>
