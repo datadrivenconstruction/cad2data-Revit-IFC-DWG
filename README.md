@@ -72,7 +72,7 @@
   <!-- New videos at the top -->
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=jVU7vlMNTO0" target="_blank">
+      <a href="https://www.youtube.com/watch?v=fHkXDMLzWzQ" target="_blank">
         <img src="DDC_in_additon/DDC_readme_content/DDC_Converter.png" alt="DDC Converter" width="460" height="315">
       </a>
     </td>
@@ -80,7 +80,7 @@
      <b> Universal CAD/BIM Converter Overview </b>
       <br>
         Introduction to the <strong>DDC Converter</strong> for Revit, IFC, DWG, and DGN pipelines – conversion, validation, and automation use cases.<br>
-        <a href="https://www.youtube.com/watch?v=jVU7vlMNTO0" target="_blank">Watch Converter Overview on YouTube</a>
+        <a href="https://www.youtube.com/watch?v=fHkXDMLzWzQ" target="_blank">Watch Converter Overview on YouTube</a>
       </br>
     </td>
   </tr>
@@ -100,7 +100,7 @@
   </tr>
   <tr>
     <td style="border: none; padding-right: 12px; vertical-align: top;">
-      <a href="https://www.youtube.com/watch?v=fHkXDMLzWzQ" target="_blank">
+      <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">
         <img src="DDC_in_additon/DDC_readme_content/ETL with Revit and IFC.png" alt="ETL with Revit and IFC" width="460" height="315">
       </a>
     </td>
@@ -108,7 +108,7 @@
      <b> ETL with Revit and IFC </b>
       <br>
         Learn how to build a complete <strong>ETL pipeline</strong> with Revit and IFC data: extract, transform, validate, and load project information into open formats.<br>
-        <a href="https://www.youtube.com/watch?v=fHkXDMLzWzQ" target="_blank">Watch ETL with Revit and IFC Tutorial on YouTube</a>
+        <a href="https://www.youtube.com/watch?v=lmhZiOkI_Uk" target="_blank">Watch ETL with Revit and IFC Tutorial on YouTube</a>
       </br>
     </td>
   </tr>
