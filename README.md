@@ -194,7 +194,7 @@ Depending on your workflow and technical background, you can choose between four
    - Best for non-technical users and quick one-off conversions.  
    - Intuitive interface, no setup required — just select a folder and start.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/1%20UI%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/UI%20Converter%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -202,7 +202,7 @@ Depending on your workflow and technical background, you can choose between four
    - Suitable for advanced users, developers, and technical teams.  
    - Flexible and scriptable, can be integrated into automation scripts or batch processes.  
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/2%20CMD%20PowerShell.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Terminal%20Version%20CMD%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -211,7 +211,7 @@ Depending on your workflow and technical background, you can choose between four
    - Scalable processing of hundreds of CAD (BIM) files in parallel.  
    - Ready-to-use examples available in the `DDC_Python_pipelines` folder.  
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/3%20Batch%20Processing.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Code%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -220,7 +220,7 @@ Depending on your workflow and technical background, you can choose between four
    - End-to-end pipelines where CAD (BIM) conversion becomes part of a seamless data flow.  
    - Examples provided in the `DDC_n8n_workflows` folder.
   <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/4%20Workflows%20and%20Agents.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
