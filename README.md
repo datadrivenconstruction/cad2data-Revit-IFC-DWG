@@ -232,6 +232,20 @@ Star DDC workflow on GitHub and be instantly notified of new releases.
   <br></br>
 </p>
 
+
+### ✅ Important prerequisite (v17 and later)
+
+Starting with **v17**, the converters use an updated runtime baseline.  
+Please install **Microsoft Visual C++ Redistributable 2015–2022 (x64)** before running any `.exe` tools (`RvtExporter.exe`, `RVT2IFCconverter.exe`, etc.).
+
+- Official download (Microsoft Learn): **Latest supported VC++ 2015–2022**.  
+- Choose the **x64** package and run `VC_redist.x64.exe`.
+
+> Without this package some systems (especially fresh Windows installs/VMs) will fail to start the converters.
+
+**Why you need this:** v17 switched the technical baseline from v16; the VC++ runtime is a required dependency now.
+
+
 ## Quick Start with n8n
 
 ### Prerequisites
