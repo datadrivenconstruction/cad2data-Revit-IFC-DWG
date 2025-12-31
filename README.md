@@ -454,6 +454,9 @@ graph LR;
 ### ⚡️ 5. Universal BIM/CAD Classification with AI & RAG for Revit, IFC, DWG, DGN
 **File**: `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json`
 
+🔗 **Enhanced with DDC CWICR Database**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)  
+This workflow leverages the DDC CWICR vector database (Qdrant) containing **55,719 work items** with pre-computed OpenAI embeddings (3072d). The RAG pipeline performs semantic search across 9 languages, matching BIM elements to standardized construction work descriptions. The database covers the full spectrum of construction activities — from earthworks and concrete to specialized MEP installations — enabling accurate classification against any standard (Omniclass, Uniclass, MasterFormat, or custom systems).
+
 Intelligently classifies building elements from CAD/BIM files using AI and ANY classification system - international standards (Omniclass, Uniclass, etc.) or your custom/proprietary classifications. Supports automatic dictionary extraction from mapping files.
 
 #### Key Features
@@ -520,6 +523,9 @@ graph LR;
 ### ⚡️ 6. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
 **File:** `n8n_6_Construction_Price_Estimation_Pipeline.json`
 
+🔗 **Powered by DDC CWICR Database**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)  
+This pipeline connects to the DDC CWICR cost database containing **27,672 resources** with detailed price breakdowns across 10+ regional markets. The resource-based methodology separates physical norms (labor hours, material quantities, equipment time) from volatile prices, ensuring transparent and auditable estimates. Each work item includes 85 data fields: labor costs, material costs, machinery rates, and regional price variants — all searchable via semantic queries in natural language.
+
 Automates cost estimation for building elements from CAD/BIM files. Uses AI to classify materials, search market prices, and generate comprehensive cost reports.
 
 #### Key Features
@@ -561,6 +567,9 @@ graph LR;
 ### ⚡️ 7. Carbon Footprint CO2 Estimator for Revit and IFC with LLM (AI)
 
 **File:** `n8n_7_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json`
+
+🔗 **Integrated with DDC CWICR Database**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)  
+This workflow utilizes DDC CWICR's detailed material classifications and resource decomposition to calculate embodied carbon (A1-A3 lifecycle stages). The database provides precise material quantities per work item — concrete volumes, steel tonnages, insulation areas — which are then matched with CO₂e emission factors. With data covering 9 languages and multiple regional standards (EU/DE/US), the pipeline delivers accurate sustainability assessments for international projects.
 
 Calculates embodied carbon emissions for building projects. Analyzes materials, applies emission factors, and generates professional sustainability reports.
 
@@ -720,6 +729,39 @@ After transforming and enriching your Excel data, you can effortlessly push the 
 https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
+
+
+
+## 🗃️ DDC CWICR - Construction Cost Database
+
+For the highest-quality construction cost estimation, this repository integrates with the **[OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)** — an open multilingual construction cost database.
+
+### Why DDC CWICR?
+
+DDC CWICR (Construction Work Items, Components & Resources) provides the foundation for accurate, transparent, and auditable cost estimation:
+
+- **55,719 Work Items** — comprehensive coverage of construction activities
+- **27,672 Resources** — materials, labor, and equipment with detailed breakdowns
+- **9 Languages** — Arabic, Chinese, German, English, Spanish, French, Hindi, Portuguese, Russian
+- **85 Data Fields** — full resource-based cost structure per work item
+- **Semantic Search** — Qdrant vector database with OpenAI embeddings (3072d) for natural language queries
+
+### Database Advantages
+
+| Feature | Benefit |
+|---------|---------|
+| **Resource-Based Methodology** | Physical norms (labor hours, material quantities) separated from volatile prices |
+| **Full Transparency** | Complete breakdown of every cost component — no hidden markups |
+| **Multi-Format Export** | Excel, Parquet, CSV, Qdrant snapshots for any integration scenario |
+| **AI-Ready** | Pre-computed embeddings enable RAG pipelines and LLM-powered estimation |
+
+### Live Demo & Resources
+
+🌐 **Live Demo**: [openconstructionestimate.com](https://openconstructionestimate.com) — explore the database and semantic search in action
+
+📦 **Repository**: [github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)
+
+The workflows in this repository (especially **Workflow 5, 6, and 7**) leverage DDC CWICR for classification, pricing, and carbon footprint calculations, ensuring professional-grade estimation quality.
 
 
 
