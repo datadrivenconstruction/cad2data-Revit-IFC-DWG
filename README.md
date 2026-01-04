@@ -58,7 +58,9 @@
   - [⚡️ 3. Revit, IFC, DWG Batch Conversion with Validation and Reporting](#️-3-revit-ifc-dwg-batch-conversion-with-validation-and-reporting)
   - [⚡️ 4. Multi-Format CAD (BIM) Validation for Revit, IFC, DWG, DGN](#️-4-multi-format-cad-bim-validation-for-revit-ifc-dwg-dgn)
   - [⚡️ 5. Universal BIM/CAD Classification with AI & RAG for Revit, IFC, DWG, DGN](#️-5-universal-bimcad-classification-with-ai--rag-for-revit-ifc-dwg-dgn)
-  - [⚡️ 6. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)](#️-6-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
+  - [⚡️ 6. Construction Cost Estimation Pipelines](#️-6-construction-cost-estimation-pipelines)
+    - [⚡️ 6.1 Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)](#️-61-construction-price-estimation-pipeline-for-revit-and-ifc-with-llm-ai)
+    - [⚡️ 6.2 CAD (BIM) Cost Estimation Pipeline 4D/5D with DDC CWICR](#️-62-cad-bim-cost-estimation-pipeline-4d5d-with-ddc-cwicr)
   - [⚡️ 7. Carbon Footprint CO2 Estimator for Revit and IFC with LLM (AI)](#️-7-carbon-footprint-co2-estimator-for-revit-and-ifc-with-llm-ai)
   - [⚡️ 8. Simple ETL for LLM Use Cases for Revit, IFC, DWG, DGN](#️-8-simple-etl-for-llm-use-cases-for-revit-ifc-dwg-dgn)
   - [⚡️ 9. Revit and IFC to HTML Quantity Takeoff](#️-9-revit-and-ifc-to-html-quantity-takeoff)
@@ -526,15 +528,23 @@ graph LR;
 
 
 
-### ⚡️ 6. Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
-**File:** `n8n_6_Construction_Price_Estimation_Pipeline.json`
+### ⚡️ 6. Construction Cost Estimation Pipelines
 
-🔗 **Powered by DDC CWICR Database**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)  
-This pipeline connects to the DDC CWICR cost database containing **27,672 resources** with detailed price breakdowns across 10+ regional markets. The resource-based methodology separates physical norms (labor hours, material quantities, equipment time) from volatile prices, ensuring transparent and auditable estimates. Each work item includes 85 data fields: labor costs, material costs, machinery rates, and regional price variants — all searchable via semantic queries in natural language.
+🔗 **Powered by DDC CWICR Database**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)
+
+The cost estimation workflows connect to the DDC CWICR cost database containing **55,719 work items** and **27,672 resources** with detailed price breakdowns across 10+ regional markets. The resource-based methodology separates physical norms (labor hours, material quantities, equipment time) from volatile prices, ensuring transparent and auditable estimates.
+
+📦 **Database Downloads**: [DDC CWICR Releases](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR/releases) — Excel, Parquet, CSV, Qdrant snapshots  
+🌐 **Live Demo**: [openconstructionestimate.com](https://openconstructionestimate.com) — explore the database and semantic search
+
+---
+
+#### ⚡️ 6.1 Construction Price Estimation Pipeline for Revit and IFC with LLM (AI)
+**File:** `n8n_6_Construction_Price_Estimation_Pipeline.json`
 
 Automates cost estimation for building elements from CAD/BIM files. Uses AI to classify materials, search market prices, and generate comprehensive cost reports.
 
-#### Key Features
+##### Key Features
 - **AI Classification**: Materials across EU/DE/US standards
 - **Smart Pricing**: Region-specific databases with fallbacks
 - **Cost Analysis**: Total costs, cost per unit, top 10 groups
@@ -545,7 +555,7 @@ Automates cost estimation for building elements from CAD/BIM files. Uses AI to c
 </p>
 
 
-#### Installation
+##### Installation
 1. Import `Construction_Price_Estimation_Pipeline.json` into n8n
 2. Configure AI credentials (OpenAI/Anthropic)
 3. Update **Set Parameters** node:
@@ -567,6 +577,147 @@ graph LR;
     D --> E[Cost Calculation];
     E --> F[Reports: Excel + HTML];
 ```
+
+---
+
+#### ⚡️ 6.2 CAD (BIM) Cost Estimation Pipeline 4D/5D with DDC CWICR
+**File:** `n8n_4_CAD_(BIM)_Cost_Estimation_Pipeline_4D_5D_with_DDC_CWICR.json`
+
+🔗 **Workflow Repository**: [OpenConstructionEstimate-DDC-CWICR](https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR)
+
+Automated cost estimation from Revit/IFC/DWG models. Extracts BIM data, classifies elements, decomposes into work items, and generates 4D/5D estimates with full resource breakdown.
+
+<p align="left">
+  <a href="https://datadrivenconstruction.io">
+    <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20(Revit)%20to%205D-4D%20Cost%20and%20Time%20Estimate.jpg" alt="CAD to 5D-4D Cost Estimation" width="100%">
+  </a>
+</p>
+
+##### Pipeline Stages
+
+| Stage   | Name                 | Description                                                       |
+|---------|----------------------|-------------------------------------------------------------------|
+| **0**   | Collect BIM Data     | Extract elements from Revit via DDC Converter                     |
+| **1**   | Project Detection    | AI identifies project type (Residential, Commercial, etc.)        |
+| **2**   | Phase Generation     | AI creates construction phases                                    |
+| **3**   | Element Assignment   | AI maps BIM types to phases                                       |
+| **4**   | Work Decomposition   | AI breaks types into work items ("Brick Wall" → masonry, mortar)  |
+| **5**   | Vector Search        | Find matching rates in DDC CWICR via Qdrant                       |
+| **6**   | Unit Mapping         | Convert BIM units to rate units                                   |
+| **7**   | Cost Calculation     | Qty × Unit Price for each work item                               |
+| **7.5** | Validation           | CTO review for completeness and duplicates                        |
+| **8**   | Aggregation          | Sum by phases and categories                                      |
+| **9**   | Report Generation    | Create HTML and Excel outputs                                     |
+
+```mermaid
+flowchart TB
+    subgraph INPUT["📁 INPUT<br/><i>CAD • photos • text description</i>"]
+        CAD["📐 Project Input<br/>(text • photos • RVT / IFC / DWG)"]
+    end
+
+    subgraph EXTRACT["⚙️ EXTRACTION"]
+        CONV["RvtExporter.exe / CAD Export  / ETL"]
+        XLSX["📊 .XLSX<br/>(Raw Elements)"]
+    end
+
+    subgraph PREP["🔧 DATA PREPARATION"]
+        PREP_AI["🤖 AI: Clean & Classify<br/><i>headers • types • categories</i>"]
+    end
+
+    subgraph STAGE_PLAN["📋 STAGES 1–3: Planning"]
+        PLAN["🤖 Detect Project & Phases<br/><i>new / renovation / demolition</i><br/><i>small / medium / large</i><br/><i>elements → construction phases</i>"]
+    end
+
+    subgraph STAGE4["🔨 STAGE 4: Decomposition"]
+        S4["🤖 Decompose Types to Works<br/><i>'Brick Wall 240mm' → masonry, mortar, plaster</i>"]
+    end
+
+    subgraph STAGE5["💰 STAGE 5: Pricing"]
+        S5["🤖 Price via Vector DB<br/><i>OpenAI embeddings + Qdrant</i><br/><i>rate_code, unit_cost, resources</i>"]
+    end
+
+    subgraph STAGE75["✅ STAGE 7.5: Validation"]
+        S75["🤖 CTO Review<br/><i>completeness • duplicates • missing works</i>"]
+    end
+
+    subgraph OUTPUT["📤 OUTPUT"]
+        HTML["📄 HTML Report"]
+        XLS["📊 XLS Report"]
+    end
+
+    CAD --> CONV --> XLSX
+    XLSX --> PREP_AI --> PLAN --> S4 --> S5 --> S75
+    S75 --> HTML & XLS
+
+    style INPUT fill:#f4f4f5,stroke:#d4d4d8,color:#18181b
+    style EXTRACT fill:#e0f2fe,stroke:#bae6fd,color:#0f172a
+    style PREP fill:#ede9fe,stroke:#ddd6fe,color:#1e1b4b
+    style STAGE_PLAN fill:#ecfdf5,stroke:#bbf7d0,color:#064e3b
+    style STAGE4 fill:#fef9c3,stroke:#fef3c7,color:#78350f
+    style STAGE5 fill:#fee2e2,stroke:#fecaca,color:#7f1d1d
+    style STAGE75 fill:#e0f2f1,stroke:#bae5e1,color:#134e4a
+    style OUTPUT fill:#eef2ff,stroke:#e0e7ff,color:#111827
+```
+
+##### Key Features
+- **Full BIM Integration**: Native support for Revit, IFC, DWG via DDC Converter
+- **AI-Powered Decomposition**: Breaks complex BIM types into constituent work items
+- **Semantic Pricing**: Qdrant vector search with 55,719 pre-embedded work items
+- **Multi-LLM Support**: OpenAI GPT-4o, Claude, Gemini 2.5 Pro, xAI Grok, DeepSeek
+- **CTO Validation**: AI review stage checks completeness and catches duplicates
+- **9 Languages**: AR, DE, EN, ES, FR, HI, PT, RU, ZH with regional pricing
+
+##### Prerequisites
+
+| Component | Requirement | Description |
+|-----------|-------------|-------------|
+| **n8n** | v1.0+ (self-hosted) | Workflow automation platform |
+| **Qdrant** | Cloud or self-hosted | Vector database for semantic search |
+| **OpenAI API** | `text-embedding-3-large` | Generates embeddings for matching |
+| **LLM API** | OpenAI / Claude / Gemini / Grok | AI models for classification |
+| **DDC Converter** | `RvtExporter.exe` | Extracts BIM data to Excel |
+
+##### Supported Languages & Price Levels
+
+| Code  | Language    | Price Level     | Currency | Qdrant Collection   |
+|-------|-------------|-----------------|----------|---------------------|
+| `AR`  | Arabic      | Dubai           | AED      | `ddc_cwicr_ar`      |
+| `DE`  | German      | Berlin          | EUR      | `ddc_cwicr_de`      |
+| `EN`  | English     | Toronto         | CAD      | `ddc_cwicr_en`      |
+| `ES`  | Spanish     | Barcelona       | EUR      | `ddc_cwicr_es`      |
+| `FR`  | French      | Paris           | EUR      | `ddc_cwicr_fr`      |
+| `HI`  | Hindi       | Mumbai          | INR      | `ddc_cwicr_hi`      |
+| `PT`  | Portuguese  | São Paulo       | BRL      | `ddc_cwicr_pt`      |
+| `RU`  | Russian     | St. Petersburg  | RUB      | `ddc_cwicr_ru`      |
+| `ZH`  | Chinese     | Shanghai        | CNY      | `ddc_cwicr_zh`      |
+
+##### Output Files
+
+Reports are saved to the project folder:
+```
+project_YYYY-MM-DD.html   ← Interactive report (opens in browser)
+project_YYYY-MM-DD.xls    ← Excel-compatible spreadsheet
+```
+
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/The%20generated%20report%20includes.jpg" width="100%"/>
+</p>
+
+##### LLM Model Selection
+
+The workflow supports multiple AI providers. Enable your preferred model:
+
+| Model            | Status       |
+|------------------|--------------|
+| OpenAI GPT-4o    | ✅ Default   |
+| Claude Opus 4    | Disabled     |
+| Gemini 2.5 Pro   | Disabled     |
+| xAI Grok         | Disabled     |
+| DeepSeek         | Disabled     |
+
+To switch models: **Enable** the desired model node and **Disable** others.
+
+**⏱️ Processing Time:** Varies by project size and LLM model
 
 
 
@@ -821,4 +972,3 @@ Contact us for a free consultation where we'll discuss your challenges and demon
    <br>
      🚀 Move to full-cycle data management  where only unified <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
-
