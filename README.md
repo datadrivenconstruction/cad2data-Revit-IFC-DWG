@@ -52,6 +52,7 @@
 - [Supported Formats](#supported-formats)
 - [Key Features](#key-features)
 - [Quick Start](#quick-start)
+- [⚠️ n8n 2.0+ Setup](#️-n8n-20-setup-required)
 - [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
   - [⚡️ 1. Revit, IFC, DWG, DGN Basic Conversion](#️-1-revit-ifc-dwg-dgn-basic-conversion)
   - [⚡️ 2. Revit Conversion with Advanced Settings](#️-2-revit-conversion-with-advanced-settings)
@@ -273,6 +274,45 @@ Please install **Microsoft Visual C++ Redistributable 2015–2022 (x64)** before
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/07/Install-Nodejs-and-n8n.png" alt="Pipeline Overview" width="100%"/>
   <br></br>
 </p>
+
+---
+
+## ⚠️ n8n 2.0+ Setup Required
+
+> **Starting from n8n version 2.0, the Execute Command node is disabled by default for security reasons.**
+> 
+> Without the configuration below, workflows using Execute Command **will not work** — nodes will show with a question mark or won't be recognized.
+
+### Quick Fix
+
+**Windows (CMD) — run each time:**
+```cmd
+set NODES_EXCLUDE=[] && npx n8n
+```
+
+**Permanent solution — create once:**
+
+Create file `C:\Users\YOUR_USER\.n8n\.env` with:
+```
+NODES_EXCLUDE=[]
+```
+Then just run `npx n8n` as usual.
+
+**Docker:**
+```yaml
+environment:
+  - NODES_EXCLUDE=[]
+```
+
+### Verify Setup
+
+1. Start n8n
+2. Click **+** → search for **"Execute Command"**
+3. If the node appears → ✅ you're all set!
+
+> 📚 More details: [n8n 2.0 Breaking Changes](https://docs.n8n.io/2-0-breaking-changes/)
+
+---
 
 
 
@@ -841,6 +881,21 @@ graph LR;
 
 
 ## Troubleshooting
+
+### Execute Command Node Missing (n8n 2.0+)
+
+**Symptoms:** 
+- Nodes show with question mark (?)
+- Error: `Unrecognized node type: n8n-nodes-base.executeCommand`
+- Execute Command doesn't appear in node search
+
+**Solution:** Add environment variable before starting n8n:
+```cmd
+set NODES_EXCLUDE=[] && npx n8n
+```
+Or create `.env` file in `C:\Users\YOUR_USER\.n8n\.env` with `NODES_EXCLUDE=[]`
+
+See [⚠️ n8n 2.0+ Setup](#️-n8n-20-setup-required) for details.
 
 ### Module 'os' Blocked Error
 In n8n versions 1.98.0–1.101.x, the `os` module is blocked, affecting libraries like pandas. Solution: Use the latest version with `npx n8n@latest`.
