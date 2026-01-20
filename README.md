@@ -1,4 +1,13 @@
 <p align="center">
+  <a href="README.md">🇬🇧 English</a> •
+  <a href="README.de.md">🇩🇪 Deutsch</a> •
+  <a href="README.es.md">🇪🇸 Español</a> •
+  <a href="README.fr.md">🇫🇷 Français</a> •
+  <a href="README.zh.md">🇨🇳 中文</a> •
+  <a href="README.ar.md">🇸🇦 العربية</a>
+</p>
+
+<p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Pipeline Overview" width="100%"/>
 </p>
 <p align="center">
