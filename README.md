@@ -235,6 +235,20 @@ Depending on your workflow and technical background, you can choose between four
   <br></br>
 </p>
 
+
+
+
+
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline Overview" width="100%"/>
+</p>
+
+</p>
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline Overview" width="100%"/>
+   <br></br>
+</p>
+
 ---
 
 ## 🖥️ Command Line Interface (CLI)
@@ -558,19 +572,6 @@ environment:
 
 ---
 
-
-
-
-
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline Overview" width="100%"/>
-</p>
-
-</p>
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline Overview" width="100%"/>
-   <br></br>
-</p>
 
 
 ### ⚡️ 1. Revit, IFC, DWG, DGN Basic Conversion 
