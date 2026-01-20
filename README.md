@@ -51,6 +51,8 @@
 - [Overview](#overview)
 - [Supported Formats](#supported-formats)
 - [Key Features](#key-features)
+- [Running the Converters](#running-the-converters)
+- [🖥️ Command Line Interface (CLI)](#️-command-line-interface-cli)
 - [Quick Start](#quick-start)
 - [⚠️ n8n 2.0+ Setup](#️-n8n-20-setup-required)
 - [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
@@ -232,6 +234,248 @@ Depending on your workflow and technical background, you can choose between four
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
+
+---
+
+## 🖥️ Command Line Interface (CLI)
+
+The DDC converters are fully functional command-line tools that can be integrated into **any automation workflow**. This makes them perfect for scripting, CI/CD pipelines, AI agents, and low-code platforms.
+
+### 🤖 Why CLI Matters: Let AI Build Your Pipelines
+
+**The key advantage of CLI tools is that AI can use them directly.**
+
+Modern AI coding assistants (**Claude Code**, **Cursor**, **GitHub Copilot**, **Windsurf**, **Aider**, **Cline**) can execute shell commands, read documentation, and build complete automation pipelines autonomously. This means:
+
+> **You don't need to write code yourself — just describe what you want, and AI will integrate DDC converters into your workflow.**
+
+**How it works:**
+1. **Copy this documentation** (or point AI to this README)
+2. **Describe your task** in natural language: *"Convert all Revit files in folder X to Excel, then analyze wall quantities"*
+3. **AI reads the CLI syntax**, writes the script, executes it, and processes the results
+
+**What AI can do with DDC converters:**
+- ✅ Batch convert hundreds of CAD/BIM files automatically
+- ✅ Build ETL pipelines: Revit → Excel → Database → Dashboard
+- ✅ Create validation scripts that check BIM data quality
+- ✅ Generate reports from extracted data (PDF, HTML, Excel)
+- ✅ Integrate conversions into CI/CD pipelines
+- ✅ Chain multiple tools: convert → validate → classify → estimate costs
+- ✅ Schedule automated processing via cron/Task Scheduler
+
+**Example prompt for AI assistant:**
+```
+I have Revit files in C:\Projects. Using DDC RvtExporter.exe located at C:\DDC\,
+convert all .rvt files to Excel with bounding boxes, then create a Python script
+that reads the XLSX files and generates a summary report of all wall types and their volumes.
+```
+
+The AI will:
+1. Scan the folder for `.rvt` files
+2. Execute `RvtExporter.exe` for each file with correct parameters
+3. Write Python code to parse the resulting `.xlsx` files
+4. Generate the summary report
+
+**This transforms DDC from a tool into an AI-native building block for construction data automation.**
+
+### RvtExporter.exe — Revit to XLSX/DAE/PDF
+
+```
+===========================================
+         DataDrivenConstruction
+         DDC Revit Community
+         Version: 17.1.1
+===========================================
+
+Usage: RvtExporter <input file> [<output file>] [<output file>] [<export mode>] [<category file>] [bbox] [room] [schedule] [sheets2pdf] [-no-xlsx] [-no-collada]
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `<input file>` | Input `.rvt` / `.rfa` file (required) |
+| `[<output file>]` | Output path for `.dae` file (optional, enabled by default) |
+| `[<output file>]` | Output path for `.xlsx` file (optional, enabled by default) |
+| `[<export mode>]` | `basic` (309 categories), `standard` (724), `complete` (1209), or `custom` |
+| `[<category file>]` | `.txt` file with category names (required only in `custom` mode) |
+| `bbox` | Include element bounding boxes in XLSX output |
+| `room` | Include ToRoom/FromRoom data in XLSX output |
+| `schedule` | Export all Revit schedules |
+| `sheets2pdf` | Export all sheets to PDF |
+| `-no-xlsx` | Disable export to `.xlsx` format |
+| `-no-collada` | Disable export to `.dae` format |
+
+**Examples:**
+```bash
+# Basic conversion (XLSX + DAE)
+RvtExporter.exe "C:\Projects\Building.rvt"
+
+# Full export with bounding boxes, schedules, and PDF sheets
+RvtExporter.exe "C:\Projects\Building.rvt" complete bbox schedule sheets2pdf
+
+# Export only XLSX (no 3D geometry)
+RvtExporter.exe "C:\Projects\Building.rvt" -no-collada
+
+# Custom categories from file
+RvtExporter.exe "C:\Projects\Building.rvt" custom "C:\Config\my_categories.txt"
+```
+
+---
+
+### RVT2IFCconverter.exe — Revit to IFC
+
+```
+===========================================
+         DataDrivenConstruction
+         DDC RVT2IFC Community
+         Version: 17.1.2
+===========================================
+
+Usage: Rvt2IfcConverter <input.rvt> [<output.ifc>] [preset|mode=<name>] [config="..."] [key=value ...]
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `<input.rvt>` | Revit file `.rvt` / `.rfa` (required) |
+| `[<output.ifc>]` | Output IFC path (optional) |
+| `preset=<name>` or `mode=<name>` | `standard`, `extended`, `custom` |
+| `config="K=V; K=V; ..."` | Custom configuration (semicolon-separated) |
+| `key=value` | Individual configuration parameters |
+
+**Examples:**
+```bash
+# Standard IFC export
+RVT2IFCconverter.exe "C:\Projects\Building.rvt"
+
+# Extended export with more detail
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" preset=extended
+
+# Custom output path
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" "D:\Output\model.ifc"
+
+# Custom configuration
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" config="ExportBaseQuantities=true; SitePlacement=Shared"
+```
+
+---
+
+### Integration Examples
+
+The CLI tools can be called from virtually any environment:
+
+#### 🔹 PowerShell / Batch Scripts
+```powershell
+# PowerShell: Process all .rvt files in a folder
+Get-ChildItem "C:\Projects\*.rvt" | ForEach-Object {
+    & "C:\DDC\RvtExporter.exe" $_.FullName
+}
+```
+
+```batch
+:: Batch: Simple conversion
+@echo off
+"C:\DDC\RvtExporter.exe" "%1" complete bbox schedule
+```
+
+#### 🔹 VS Code Tasks
+Add to `.vscode/tasks.json`:
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Convert Revit to Excel",
+      "type": "shell",
+      "command": "C:\\DDC\\RvtExporter.exe",
+      "args": ["${file}", "complete", "bbox"],
+      "problemMatcher": []
+    }
+  ]
+}
+```
+
+#### 🔹 AI Coding Assistants (Claude Code, Cursor, Copilot, Windsurf, Aider, Cline)
+
+AI assistants with terminal access can directly execute DDC converters and build complete workflows:
+
+```bash
+# Example: AI executes this command when you ask "convert my Revit file to Excel"
+RvtExporter.exe "C:\Projects\Model.rvt" complete bbox schedule
+```
+
+**Real-world AI workflow scenarios:**
+
+| You say to AI | AI does |
+|---------------|---------|
+| *"Convert Building.rvt to Excel with all data"* | Runs `RvtExporter.exe Building.rvt complete bbox room` |
+| *"Process all Revit files in this folder"* | Writes PowerShell loop, executes converter for each file |
+| *"Export to IFC 4.3 format"* | Runs `RVT2IFCconverter.exe` with correct preset |
+| *"Create a cost estimate from this model"* | Converts to Excel → parses data → calculates costs |
+| *"Validate BIM data quality"* | Converts → analyzes XLSX → generates validation report |
+| *"Build a dashboard from project data"* | Converts → processes with pandas → creates visualization |
+
+**Supported AI tools:**
+- **Claude Code** — full terminal access, can run converters and analyze results
+- **Cursor** — IDE with AI that can execute shell commands
+- **GitHub Copilot CLI** — command-line AI assistant
+- **Windsurf** — AI-powered IDE with terminal integration
+- **Aider** — AI pair programming in terminal
+- **Cline** — VS Code extension with shell access
+- **Open Interpreter** — AI that runs code locally
+- **AutoGPT / AgentGPT** — autonomous AI agents
+
+**Pro tip:** Share this README with your AI assistant so it understands the full CLI syntax and can build sophisticated pipelines autonomously.
+
+#### 🔹 n8n (Execute Command Node)
+```javascript
+// In n8n Execute Command node
+C:\DDC\RvtExporter.exe "{{ $json.filePath }}" complete bbox
+```
+
+#### 🔹 Python Subprocess
+```python
+import subprocess
+
+result = subprocess.run([
+    r"C:\DDC\RvtExporter.exe",
+    r"C:\Projects\Building.rvt",
+    "complete", "bbox", "schedule"
+], capture_output=True, text=True)
+
+print(result.stdout)
+```
+
+#### 🔹 Node.js / JavaScript
+```javascript
+const { execSync } = require('child_process');
+
+const output = execSync(
+  'C:\\DDC\\RvtExporter.exe "C:\\Projects\\Building.rvt" complete bbox'
+);
+console.log(output.toString());
+```
+
+#### 🔹 Make / Makefile
+```makefile
+CONVERTER = C:/DDC/RvtExporter.exe
+
+convert:
+	$(CONVERTER) "$(INPUT)" complete bbox schedule
+```
+
+#### 🔹 GitHub Actions / CI/CD
+```yaml
+- name: Convert Revit to Excel
+  run: |
+    C:\DDC\RvtExporter.exe "${{ github.workspace }}\model.rvt" complete bbox
+```
+
+#### 🔹 Docker (Windows Container)
+```dockerfile
+COPY DDC_CONVERTER_Revit /app/DDC
+RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
+```
+
+---
 
 ⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>
 Star DDC workflow on GitHub and be instantly notified of new releases.
