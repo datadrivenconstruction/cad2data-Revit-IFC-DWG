@@ -101,17 +101,29 @@ DwgExporter.exe "C:\Projects\Plan.dwg"
 DgnExporter.exe "C:\Projects\Bridge.dgn"
 ```
 
-## n8n Workflows (9 ready-to-use)
+## n8n Workflows - Visual Process Templates
 
-1. **Basic Conversion** - Simple file conversion
+The `n8n_*.json` files are **visual representations of process logic** - not the final solution, but a foundation that can be implemented in any language or application.
+
+**Use these workflows as:**
+- Reference architecture for building your own pipelines
+- Visual documentation of data processing logic
+- Starting point for Python, JavaScript, C#, or any other implementation
+- Templates for integration into enterprise systems
+
+### Available Process Templates
+
+1. **Basic Conversion** - Simple file conversion logic
 2. **Advanced Settings** - Configurable export options
-3. **Batch Processing** - Multiple files with HTML reports
+3. **Batch Processing** - Multiple files with reporting
 4. **Validation** - BIM data quality checks
 5. **AI Classification** - LLM + RAG element classification
 6. **Cost Estimation** - Price calculation with DDC CWICR database
 7. **Carbon Footprint** - CO2 emissions calculation
 8. **ETL for LLM** - Data preparation for AI tasks
-9. **QTO Reports** - Quantity take-off HTML reports
+9. **QTO Reports** - Quantity take-off report generation
+
+**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, Rust, or any language that can call CLI tools and process XLSX/JSON.
 
 ## License
 

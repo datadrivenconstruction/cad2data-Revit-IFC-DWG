@@ -140,19 +140,23 @@ summary.to_html("report.html")
 | Validate BIM | "Check parameter fill rate and generate quality report" |
 | Cost estimation | "Calculate material costs from the extracted quantities" |
 
-## n8n Workflows Available
+## n8n Workflows - Process Logic Templates
 
-| # | File | Purpose |
-|---|------|---------|
-| 1 | n8n_1_*.json | Basic conversion |
-| 2 | n8n_2_*.json | Advanced settings |
-| 3 | n8n_3_*.json | Batch processing with HTML reports |
-| 4 | n8n_4_*.json | BIM validation |
+The `n8n_*.json` files are **visual representations of process logic** - use them as reference architecture for building your own solutions in any language.
+
+| # | File | Process Logic |
+|---|------|---------------|
+| 1 | n8n_1_*.json | Basic conversion flow |
+| 2 | n8n_2_*.json | Advanced settings handling |
+| 3 | n8n_3_*.json | Batch processing + reporting |
+| 4 | n8n_4_*.json | BIM validation rules |
 | 5 | n8n_5_*.json | AI classification (LLM + RAG) |
-| 6 | n8n_6_*.json | Cost estimation |
-| 7 | n8n_7_*.json | Carbon footprint CO2 |
-| 8 | n8n_8_*.json | ETL for LLM |
-| 9 | n8n_9_*.json | QTO HTML reports |
+| 6 | n8n_6_*.json | Cost estimation pipeline |
+| 7 | n8n_7_*.json | Carbon footprint calculation |
+| 8 | n8n_8_*.json | ETL for LLM preparation |
+| 9 | n8n_9_*.json | QTO report generation |
+
+**You can implement this logic in:** Python, JavaScript, C#, Go, or any language.
 
 ## Best Practices
 

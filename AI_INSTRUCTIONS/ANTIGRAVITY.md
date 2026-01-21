@@ -113,19 +113,23 @@ def classify_bim_elements(xlsx_path):
     return response.text
 ```
 
-## n8n Workflows (9 included)
+## n8n Workflows - Process Logic Templates
 
-| # | Purpose |
-|---|---------|
-| 1 | Basic conversion |
-| 2 | Advanced settings |
-| 3 | Batch processing with HTML reports |
-| 4 | BIM validation |
+The `n8n_*.json` files are **visual representations of process logic** - use them as reference architecture for building solutions in any language or Google Cloud services.
+
+| # | Process Logic |
+|---|---------------|
+| 1 | Basic conversion flow |
+| 2 | Advanced settings handling |
+| 3 | Batch processing + reporting |
+| 4 | BIM validation rules |
 | 5 | AI classification (LLM + RAG) |
 | 6 | Cost estimation with DDC CWICR |
-| 7 | Carbon footprint CO2 |
-| 8 | ETL for LLM |
-| 9 | QTO HTML reports |
+| 7 | Carbon footprint calculation |
+| 8 | ETL for LLM preparation |
+| 9 | QTO report generation |
+
+**Implement this logic in:** Python + Cloud Functions, Vertex AI Pipelines, BigQuery workflows, or any GCP service.
 
 ## DDC CWICR Database
 

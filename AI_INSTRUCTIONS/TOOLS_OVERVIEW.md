@@ -178,54 +178,64 @@ DgnExporter.exe "C:\Projects\Bridge.dgn"
 
 ---
 
-## n8n Workflows
+## n8n Workflows - Process Logic Templates
+
+The `n8n_*.json` files are **visual representations of process logic** - not the final solution, but a foundation that can be implemented in any language or application.
+
+**Use these workflows as:**
+- Reference architecture for building your own pipelines
+- Visual documentation of data processing logic
+- Starting point for Python, JavaScript, C#, Go, or any implementation
+- Templates for integration into enterprise systems
 
 ### 1. Basic Conversion
 **File**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
 
-Simple file conversion for Revit, IFC, DWG, DGN.
+**Logic**: Simple file conversion flow for Revit, IFC, DWG, DGN.
 
 ### 2. Advanced Settings
 **File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
-Configurable export modes (basic/standard/complete) and options (bbox, schedule, sheets2pdf).
+**Logic**: Configurable export modes (basic/standard/complete) and options handling.
 
 ### 3. Batch Processing
 **File**: `n8n_3_CAD-BIM-Batch-Converter-Pipeline.json`
 
-Batch conversion with validation, metrics tracking, and HTML report generation.
+**Logic**: Batch conversion with validation, metrics tracking, and report generation.
 
 ### 4. BIM Validation
 **Files**:
 - `n8n_4_Validation_CAD_BIM_Revit_IFC_DWG.json`
 - `n8n_4_DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
-Validate CAD/BIM data against predefined rules, generate color-coded Excel reports.
+**Logic**: Validate CAD/BIM data against predefined rules, generate color-coded reports.
 
 ### 5. AI Classification
 **File**: `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json`
 
-AI-powered element classification using LLM and RAG. Supports any classification system (Omniclass, Uniclass, custom).
+**Logic**: AI-powered element classification using LLM and RAG. Supports any classification system.
 
 ### 6. Cost Estimation
 **File**: `n8n_6_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.json`
 
-Automated cost estimation with AI classification, market prices, and reports.
+**Logic**: Cost estimation pipeline with AI classification and market prices.
 
 ### 7. Carbon Footprint
 **File**: `n8n_7_Carbon_Footprint_CO2_Estimator_for_Revit and_IFC.json`
 
-Calculate embodied carbon emissions (A1-A3 lifecycle stages).
+**Logic**: Calculate embodied carbon emissions (A1-A3 lifecycle stages).
 
 ### 8. ETL for LLM
 **File**: `n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
 
-Data preparation for LLM-based automation tasks.
+**Logic**: Data preparation and transformation for LLM-based automation.
 
 ### 9. QTO Reports
 **File**: `n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.json`
 
-Generate interactive HTML quantity take-off reports.
+**Logic**: Generate quantity take-off reports with aggregation and visualization.
+
+**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, Rust, or any language that can call CLI tools and process XLSX/JSON.
 
 ---
 

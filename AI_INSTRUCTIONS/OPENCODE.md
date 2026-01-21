@@ -60,19 +60,23 @@ DgnExporter.exe "design.dgn"
 
 Read `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` in this folder - explains data-driven approach to construction automation.
 
-## n8n Workflows (9 included)
+## n8n Workflows - Process Logic Templates
 
-| # | Purpose |
-|---|---------|
-| 1 | Basic conversion |
-| 2 | Advanced settings |
-| 3 | Batch processing with reports |
-| 4 | BIM validation |
+The `n8n_*.json` files are **visual representations of process logic** - a foundation that can be implemented in any language or application.
+
+| # | Process Logic |
+|---|---------------|
+| 1 | Basic conversion flow |
+| 2 | Advanced settings handling |
+| 3 | Batch processing + reporting |
+| 4 | BIM validation rules |
 | 5 | AI classification (LLM + RAG) |
-| 6 | Cost estimation |
-| 7 | Carbon footprint CO2 |
-| 8 | ETL for LLM |
-| 9 | QTO HTML reports |
+| 6 | Cost estimation pipeline |
+| 7 | Carbon footprint calculation |
+| 8 | ETL for LLM preparation |
+| 9 | QTO report generation |
+
+**Implement this logic in:** Python, JavaScript, C#, Go, Rust, or any language that can call CLI and process XLSX/JSON.
 
 ## Integration Patterns
 
