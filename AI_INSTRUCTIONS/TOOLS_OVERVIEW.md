@@ -2,227 +2,317 @@
 
 ## Introduction
 
-This document provides a comprehensive overview of all tools available in the CAD2DATA repository. Each tool is open-source and can be integrated into any solution.
+This document provides a comprehensive overview of all tools in the CAD2DATA repository. All tools are open-source (MIT) and can be integrated into any solution.
+
+**Key features:**
+- No Autodesk or CAD licenses required
+- Offline processing
+- CLI interfaces for automation
+- Output to open formats (XLSX, DAE, IFC, PDF, HTML)
+
+---
 
 ## Converters
 
-### DDC_CONVERTER_DGN
+### RvtExporter.exe - Revit Data Extractor
 
-**Purpose**: Convert Bentley MicroStation DGN files to open formats
+**Location**: `DDC_CONVERTER_REVIT/datadrivenlibs/RvtExporter.exe`
 
-**Input**: .dgn (V7, V8)
+**Purpose**: Extract data and geometry from Autodesk Revit files
 
-**Output**: .ifc, .dwg
+**Input**: `.rvt`, `.rfa` (Revit 2015-2026)
 
-**Components**:
-- `DDC_Community_DGN_converter.exe` - Main GUI application
-- `DgnExporter.exe` - Command-line exporter
-- `datadrivenlibs/` - Required libraries
+**Output**:
+- XLSX database (elements as rows, properties as columns)
+- DAE (Collada 3D geometry with element IDs matching XLSX)
+- PDF (sheets/drawings)
+- Revit Schedules
 
-**Usage**:
-```cmd
-DDC_Community_DGN_converter.exe
-# or CLI:
-DgnExporter.exe input.dgn output.ifc
+**CLI Syntax**:
+```bash
+RvtExporter.exe <input.rvt> [output.dae] [output.xlsx] [export_mode] [options]
+
+# Export modes:
+#   basic    - 309 categories
+#   standard - 724 categories
+#   complete - 1209 categories (all)
+#   custom   - user-defined categories from .txt file
+
+# Options:
+#   bbox       - Include element bounding boxes in XLSX
+#   room       - Include ToRoom/FromRoom data
+#   schedule   - Export all Revit schedules
+#   sheets2pdf - Export all sheets to PDF
+#   -no-xlsx   - Disable XLSX export
+#   -no-collada - Disable DAE export
+```
+
+**Examples**:
+```bash
+# Basic conversion (XLSX + DAE)
+RvtExporter.exe "C:\Projects\Building.rvt"
+
+# Full export with all options
+RvtExporter.exe "C:\Projects\Building.rvt" complete bbox schedule sheets2pdf
+
+# XLSX only (no 3D geometry)
+RvtExporter.exe "C:\Projects\Building.rvt" -no-collada
+
+# Custom categories
+RvtExporter.exe "C:\Projects\Building.rvt" custom "C:\Config\my_categories.txt"
 ```
 
 ---
 
-### DDC_CONVERTER_DWG
+### RVT2IFCconverter.exe - Revit to IFC Converter
 
-**Purpose**: Extract data from AutoCAD DWG files
-
-**Input**: .dwg (2000-2025 versions)
-
-**Output**: JSON, CSV
-
-**Capabilities**:
-- Layer information
-- Block attributes
-- Text content
-- Geometry data
-- Custom properties
-
----
-
-### DDC_CONVERTER_IFC
-
-**Purpose**: Parse and analyze IFC (Industry Foundation Classes) files
-
-**Input**: .ifc (IFC2x3, IFC4, IFC4x3)
-
-**Output**: JSON, CSV
-
-**Capabilities**:
-- Property extraction
-- Quantity calculation
-- Spatial structure analysis
-- Material information
-- Classification data
-
----
-
-### DDC_CONVERTER_REVIT
-
-**Purpose**: Extract data from Autodesk Revit files
-
-**Input**: .rvt
-
-**Output**: JSON, CSV, Excel
-
-**Capabilities**:
-- Parameter export
-- Schedule extraction
-- Family information
-- Room data
-- Geometry properties
-
-**Note**: Requires Revit installation for full functionality
-
----
-
-### DDC_CONVERTER_Revit2IFC
+**Location**: `DDC_CONVERTER_Revit2IFC/datadrivenlibs/RVT2IFCconverter.exe`
 
 **Purpose**: Convert Revit files to IFC format
 
-**Input**: .rvt
+**Input**: `.rvt`, `.rfa`
 
-**Output**: .ifc
+**Output**: IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5
 
-**Features**:
-- Configurable export settings
-- Property mapping
-- Classification support
-- Geometry options
+**CLI Syntax**:
+```bash
+RVT2IFCconverter.exe <input.rvt> [output.ifc] [preset=name] [config="..."] [key=value]
+
+# Presets: standard, extended, custom
+```
+
+**Examples**:
+```bash
+# Standard IFC export
+RVT2IFCconverter.exe "C:\Projects\Building.rvt"
+
+# Extended export with more detail
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" preset=extended
+
+# Custom output path
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" "D:\Output\model.ifc"
+
+# Custom configuration
+RVT2IFCconverter.exe "C:\Projects\Building.rvt" config="ExportBaseQuantities=true; SitePlacement=Shared"
+```
 
 ---
 
-### DDC_Update_Revit_from_Excel
+### IfcExporter.exe - IFC Data Extractor
 
-**Purpose**: Sync data from Excel to Revit
+**Location**: `DDC_CONVERTER_IFC/datadrivenlibs/IfcExporter.exe`
 
-**Input**: Excel (.xlsx), Revit (.rvt)
+**Purpose**: Extract data and geometry from IFC files
 
-**Output**: Updated Revit file
+**Input**: `.ifc` (IFC2x3, IFC4, IFC4x1, IFC4x3)
 
-**Use Cases**:
-- Bulk parameter updates
-- Cost data import
-- Specification updates
-- Property synchronization
+**Output**:
+- XLSX database
+- DAE (Collada 3D geometry)
+
+**CLI Syntax**:
+```bash
+IfcExporter.exe <input.ifc>
+```
+
+**Example**:
+```bash
+IfcExporter.exe "C:\Projects\Model.ifc"
+```
+
+---
+
+### DwgExporter.exe - DWG Data Extractor
+
+**Location**: `DDC_CONVERTER_DWG/datadrivenlibs/DwgExporter.exe`
+
+**Purpose**: Extract data from AutoCAD DWG files
+
+**Input**: `.dwg` (AutoCAD 1983-2026)
+
+**Output**:
+- XLSX database
+- PDF drawings
+
+**CLI Syntax**:
+```bash
+DwgExporter.exe <input.dwg>
+```
+
+**Example**:
+```bash
+DwgExporter.exe "C:\Projects\Plan.dwg"
+```
+
+---
+
+### DgnExporter.exe - DGN Data Extractor
+
+**Location**: `DDC_CONVERTER_DGN/datadrivenlibs/DgnExporter.exe`
+
+**Purpose**: Extract data from Bentley MicroStation DGN files
+
+**Input**: `.dgn` (MicroStation V7, V8)
+
+**Output**: XLSX database
+
+**CLI Syntax**:
+```bash
+DgnExporter.exe <input.dgn>
+```
+
+**Example**:
+```bash
+DgnExporter.exe "C:\Projects\Bridge.dgn"
+```
+
+---
+
+## Excel to Revit Update Tool
+
+**Location**: `DDC_Update_Revit_from_Excel/`
+
+**Purpose**: Sync data from Excel back to Revit
+
+**Workflow**: Revit -> Excel -> Transform -> Excel -> Revit
 
 ---
 
 ## n8n Workflows
 
-### n8n_1_Revit_IFC_DWG_Conversation_simple.json
-Basic conversion workflow for single files.
+### 1. Basic Conversion
+**File**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
 
-### n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json
-Advanced conversion with configurable settings.
+Simple file conversion for Revit, IFC, DWG, DGN.
 
-### n8n_3_CAD-BIM-Batch-Converter-Pipeline.json
-Batch processing pipeline for multiple files.
+### 2. Advanced Settings
+**File**: `n8n_2_All_Settings_Revit_IFC_DWG_Conversation_simple.json`
 
-### n8n_4_Validation_CAD_BIM_Revit_IFC_DWG.json
-Validation workflow with requirements from Excel.
-- Accompanying file: `n8n_4_DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
+Configurable export modes (basic/standard/complete) and options (bbox, schedule, sheets2pdf).
 
-### n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json
-AI-powered element classification using LLM and RAG.
+### 3. Batch Processing
+**File**: `n8n_3_CAD-BIM-Batch-Converter-Pipeline.json`
 
-### n8n_6_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.json
-Automated cost estimation using AI.
+Batch conversion with validation, metrics tracking, and HTML report generation.
 
-### n8n_7_Carbon_Footprint_CO2_Estimator_for_Revit_and_IFC.json
-Carbon footprint calculation for sustainability analysis.
+### 4. BIM Validation
+**Files**:
+- `n8n_4_Validation_CAD_BIM_Revit_IFC_DWG.json`
+- `n8n_4_DDC_BIM_Requirements_Table_for_Revit_IFC_DWG.xlsx`
 
-### n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json
-Phase-based extraction with Excel parsing.
+Validate CAD/BIM data against predefined rules, generate color-coded Excel reports.
 
-### n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.json
-Generate HTML reports for quantity take-off.
+### 5. AI Classification
+**File**: `n8n_5_CAD_BIM_Automatic_Classification_with_LLM_and_RAG.json`
+
+AI-powered element classification using LLM and RAG. Supports any classification system (Omniclass, Uniclass, custom).
+
+### 6. Cost Estimation
+**File**: `n8n_6_Construction_Price_Estimation_with_LLM_for_Revt_and_IFC.json`
+
+Automated cost estimation with AI classification, market prices, and reports.
+
+### 7. Carbon Footprint
+**File**: `n8n_7_Carbon_Footprint_CO2_Estimator_for_Revit and_IFC.json`
+
+Calculate embodied carbon emissions (A1-A3 lifecycle stages).
+
+### 8. ETL for LLM
+**File**: `n8n_8_Revit_IFC_DWG_Conversation_EXTRACT_Phase_with_Parse_XLSX.json`
+
+Data preparation for LLM-based automation tasks.
+
+### 9. QTO Reports
+**File**: `n8n_9_CAD_BIM_Quantity_TakeOff_HTML_Report_Generator.json`
+
+Generate interactive HTML quantity take-off reports.
 
 ---
 
-## Sample Projects
+## Output Format Details
 
-Located in `Sample_Projects/` folder. Contains test files for:
-- IFC models
-- Revit projects
-- DWG drawings
-- DGN files
+### XLSX (Excel Database)
 
----
+Structure: Elements as rows, properties as columns
 
-## Integration Guide
-
-### Command Line
-```bash
-# Process single file
-./converter input.ifc --output result.json
-
-# Batch processing
-./converter --batch ./input_folder --output ./output_folder
+```
+| ElementId | Category | Type Name | Area | Volume | Material | Level | ... |
+|-----------|----------|-----------|------|--------|----------|-------|-----|
+| 123456    | Walls    | Basic Wall| 45.5 | 12.3   | Concrete | 01    | ... |
 ```
 
-### Python Integration
+### DAE (Collada 3D Geometry)
+
+- Standard 3D format viewable in any 3D viewer
+- Element IDs match XLSX for data linking
+- Includes materials and textures
+
+### IFC (Industry Foundation Classes)
+
+Supported versions:
+- IFC2x3
+- IFC4
+- IFC4.3
+- IFCXML
+- IFCZIP
+- HDF5
+
+### PDF
+
+- Sheets and drawings from Revit/DWG
+- Preserves layout and annotations
+
+### HTML
+
+- Interactive reports with charts
+- Generated by n8n workflows
+- Self-contained, shareable
+
+---
+
+## Integration Examples
+
+### Python (subprocess)
 ```python
-from DDC_CONVERTER_IFC import IfcParser
-
-parser = IfcParser("model.ifc")
-data = parser.extract_all()
+import subprocess
+result = subprocess.run([
+    r"C:\DDC\RvtExporter.exe",
+    r"C:\Projects\Building.rvt",
+    "complete", "bbox", "schedule"
+], capture_output=True, text=True)
 ```
 
-### n8n Integration
-1. Import JSON workflow into n8n
-2. Configure input/output paths
-3. Set up triggers (manual, schedule, webhook)
-4. Execute workflow
-
-### REST API (Custom)
-```python
-from fastapi import FastAPI
-from DDC_CONVERTER_IFC import IfcParser
-
-app = FastAPI()
-
-@app.post("/api/parse/ifc")
-async def parse_ifc(file: UploadFile):
-    parser = IfcParser(file.file)
-    return parser.extract_all()
-```
-
----
-
-## Output Formats
-
-### JSON Structure
-```json
-{
-  "metadata": {
-    "source_file": "building.ifc",
-    "format_version": "IFC4",
-    "processed_at": "2024-01-15T10:30:00Z"
-  },
-  "elements": [...],
-  "summary": {...}
+### PowerShell (batch)
+```powershell
+Get-ChildItem "C:\Projects\*.rvt" | ForEach-Object {
+    & "C:\DDC\RvtExporter.exe" $_.FullName complete bbox
 }
 ```
 
-### CSV Structure
-```csv
-id,type,name,area,volume,material
-123,IfcWall,Basic Wall,45.5,12.3,Concrete
+### Node.js
+```javascript
+const { execSync } = require('child_process');
+execSync('C:\\DDC\\RvtExporter.exe "C:\\Projects\\Building.rvt" complete bbox');
 ```
+
+### n8n (Execute Command node)
+```javascript
+C:\DDC\RvtExporter.exe "{{ $json.filePath }}" complete bbox
+```
+
+---
+
+## Prerequisites
+
+**For v17+**: Install Microsoft Visual C++ Redistributable 2015-2022 (x64)
 
 ---
 
 ## Documentation
 
-- Main book: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt`
-- PDF Guide: `GuideBook_DataDrivenConstruction_Book_2ndEdition_ArtemBoiko_2025_en-US.pdf`
-- Per-tool READMEs in each folder
+- **Book**: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` (in AI_INSTRUCTIONS folder)
+- **PDF Guide**: `GuideBook_DataDrivenConstruction_Book_2ndEdition_ArtemBoiko_2025_en-US.pdf`
+- **Sample Data**: `Sample_Projects/` folder
 
 ---
 

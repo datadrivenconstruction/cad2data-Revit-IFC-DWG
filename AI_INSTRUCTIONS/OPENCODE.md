@@ -2,98 +2,122 @@
 
 ## Repository Overview
 
-This is the **CAD2DATA Pipeline** repository - open-source tools for construction data automation. All tools are designed to be integrated into any solution.
+**CAD2DATA Pipeline** - open-source tools for construction data automation. All tools are designed to be integrated into any solution via CLI.
 
 ## Core Concept
 
-Extract structured data from CAD/BIM files:
-- Revit (.rvt) -> JSON/CSV
-- IFC (.ifc) -> JSON/CSV
-- DWG (.dwg) -> JSON/CSV
-- DGN (.dgn) -> IFC/DWG/JSON
+Convert proprietary CAD/BIM files to open formats:
+- Revit (.rvt) -> XLSX, DAE, PDF, IFC
+- IFC (.ifc) -> XLSX, DAE
+- DWG (.dwg) -> XLSX, PDF
+- DGN (.dgn) -> XLSX
 
-## Folder Structure
+**No vendor lock-in. No licenses required. Offline processing.**
 
+## Converters
+
+| Converter | Input | Output |
+|-----------|-------|--------|
+| RvtExporter.exe | .rvt, .rfa (2015-2026) | XLSX + DAE + PDF + Schedules |
+| RVT2IFCconverter.exe | .rvt, .rfa | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5 |
+| IfcExporter.exe | .ifc (2x3, 4, 4x1, 4x3) | XLSX + DAE |
+| DwgExporter.exe | .dwg (1983-2026) | XLSX + PDF |
+| DgnExporter.exe | .dgn (V7, V8) | XLSX |
+
+## CLI Examples
+
+```bash
+# Revit to Excel + 3D
+RvtExporter.exe "model.rvt"
+
+# Revit with all options
+RvtExporter.exe "model.rvt" complete bbox schedule sheets2pdf
+
+# Revit to IFC
+RVT2IFCconverter.exe "model.rvt"
+
+# IFC to Excel + 3D
+IfcExporter.exe "model.ifc"
+
+# DWG to Excel + PDF
+DwgExporter.exe "drawing.dwg"
+
+# DGN to Excel
+DgnExporter.exe "design.dgn"
 ```
-DDC_CONVERTER_DGN/     - Bentley DGN format converter
-DDC_CONVERTER_DWG/     - AutoCAD DWG extractor
-DDC_CONVERTER_IFC/     - IFC parser and analyzer
-DDC_CONVERTER_REVIT/   - Revit data extractor
-DDC_CONVERTER_Revit2IFC/ - Revit to IFC converter
-DDC_Update_Revit_from_Excel/ - Sync Excel data to Revit
-n8n_*.json             - Ready automation workflows
-```
+
+## Output Formats
+
+| Format | Description |
+|--------|-------------|
+| **XLSX** | Excel database - elements as rows, properties as columns |
+| **DAE** | Collada 3D geometry with element IDs matching XLSX |
+| **PDF** | Drawings and sheets |
+| **IFC** | Open BIM standard (multiple versions) |
+| **HTML** | Interactive reports (via n8n workflows) |
 
 ## Philosophy
 
-Read `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` in this folder - it explains why data-driven approach matters in construction.
+Read `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` in this folder - explains data-driven approach to construction automation.
 
-## Integration Capabilities
+## n8n Workflows (9 included)
 
-### As Libraries
-Import converters into your Python/C# projects
+| # | Purpose |
+|---|---------|
+| 1 | Basic conversion |
+| 2 | Advanced settings |
+| 3 | Batch processing with reports |
+| 4 | BIM validation |
+| 5 | AI classification (LLM + RAG) |
+| 6 | Cost estimation |
+| 7 | Carbon footprint CO2 |
+| 8 | ETL for LLM |
+| 9 | QTO HTML reports |
 
-### As CLI Tools
-Execute converters from command line in batch mode
+## Integration Patterns
 
-### As n8n Nodes
-Use JSON workflow templates for visual automation
-
-### As API Endpoints
-Wrap converters with FastAPI/Flask for web services
-
-## Supported Workflows
-
-1. **Format Conversion**: DGN -> IFC, Revit -> IFC
-2. **Data Extraction**: Properties, quantities, schedules
-3. **Validation**: Check compliance, find errors
-4. **QTO (Quantity Take-Off)**: Automated measurements
-5. **Classification**: AI-assisted element classification
-6. **Reporting**: Generate HTML/Excel reports
-
-## Sample Code
-
+### Python
 ```python
-# Extract IFC quantities
-from DDC_CONVERTER_IFC import IfcParser
+import subprocess
+import pandas as pd
 
-parser = IfcParser("building.ifc")
-quantities = parser.get_quantities()
-for element in quantities:
-    print(f"{element['type']}: {element['area']} m2")
+# Convert
+subprocess.run(["RvtExporter.exe", "model.rvt", "complete", "bbox"])
+
+# Analyze
+df = pd.read_excel("model_Elements.xlsx")
+summary = df.groupby("Category")["Volume"].sum()
 ```
 
-## n8n Workflows Available
+### PowerShell
+```powershell
+Get-ChildItem "*.rvt" | ForEach-Object {
+    & "RvtExporter.exe" $_.FullName complete bbox
+}
+```
 
-| File | Purpose |
-|------|---------|
-| n8n_1_* | Simple conversion |
-| n8n_2_* | Advanced settings |
-| n8n_3_* | Batch processing |
-| n8n_4_* | Validation |
-| n8n_5_* | AI Classification |
-| n8n_6_* | Cost Estimation |
-| n8n_7_* | CO2 Footprint |
-| n8n_8_* | Phase extraction |
-| n8n_9_* | QTO Reports |
+### Node.js
+```javascript
+const { execSync } = require('child_process');
+execSync('RvtExporter.exe "model.rvt" complete bbox');
+```
 
 ## Best Practices
 
-1. Use IFC as interchange format when possible
-2. Validate data before processing
-3. Keep original files unchanged
-4. Document transformations
-5. Use structured output (JSON preferred)
+1. Use `complete` mode for full data extraction (1209 categories)
+2. Enable `bbox` for spatial analysis
+3. Validate XLSX output before downstream processing
+4. DAE element IDs match XLSX for data linking
+5. Use n8n workflows for complex automation
 
 ## For Code Generation
 
 When generating code for this repository:
-- Follow existing code patterns
-- Use consistent naming conventions
-- Add error handling
-- Support batch processing
-- Output structured data
+- Use CLI calls with subprocess/execSync
+- Parse XLSX with pandas/openpyxl
+- Generate HTML reports for visualization
+- Follow existing n8n workflow patterns
 
 ---
 
-*All tools are open-source and can be freely integrated into your solutions.*
+*All tools are open-source (MIT) and can be freely integrated into your solutions.*

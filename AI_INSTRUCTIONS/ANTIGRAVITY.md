@@ -2,133 +2,155 @@
 
 ## What Is This Repository?
 
-**CAD2DATA Pipeline** - open-source toolkit for converting and extracting data from construction files (Revit, IFC, DWG, DGN).
+**CAD2DATA Pipeline** - open-source toolkit for converting and extracting data from construction files (Revit, IFC, DWG, DGN) to open formats (XLSX, DAE, IFC, PDF, HTML).
 
 ## Key Value
 
-Transform proprietary CAD/BIM files into structured, analyzable data formats (JSON, CSV).
+- Transform proprietary CAD/BIM files into structured, analyzable data
+- No vendor lock-in, no licenses required
+- All tools have CLI interfaces for direct execution
+- Works offline
 
 ## Available Converters
 
-| Tool | Input | Output | Use Case |
-|------|-------|--------|----------|
-| DDC_CONVERTER_DGN | .dgn | .ifc, .dwg | Legacy CAD conversion |
-| DDC_CONVERTER_DWG | .dwg | JSON, CSV | DWG data extraction |
-| DDC_CONVERTER_IFC | .ifc | JSON, CSV | IFC analysis |
-| DDC_CONVERTER_REVIT | .rvt | JSON, CSV | Revit data export |
-| DDC_CONVERTER_Revit2IFC | .rvt | .ifc | Revit to IFC |
+| Converter | Input | Output |
+|-----------|-------|--------|
+| RvtExporter.exe | Revit (.rvt, .rfa) 2015-2026 | XLSX + DAE + PDF + Schedules |
+| RVT2IFCconverter.exe | Revit (.rvt, .rfa) | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5 |
+| IfcExporter.exe | IFC (2x3, 4, 4x1, 4x3) | XLSX + DAE |
+| DwgExporter.exe | AutoCAD (.dwg) 1983-2026 | XLSX + PDF |
+| DgnExporter.exe | MicroStation (.dgn) V7, V8 | XLSX |
 
-## Guiding Philosophy
+## CLI Syntax
 
-See `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` - explains data-driven approach to construction automation.
+```bash
+# Revit to Excel + 3D geometry
+RvtExporter.exe "building.rvt"
+RvtExporter.exe "building.rvt" complete bbox schedule sheets2pdf
 
-## Integration Points
+# Revit to IFC
+RVT2IFCconverter.exe "building.rvt"
+RVT2IFCconverter.exe "building.rvt" preset=extended
 
-### Google Cloud Integration
+# IFC to Excel + 3D
+IfcExporter.exe "model.ifc"
+
+# DWG to Excel + PDF
+DwgExporter.exe "plan.dwg"
+
+# DGN to Excel
+DgnExporter.exe "design.dgn"
+```
+
+## Output Format Details
+
+| Format | Description | Use Case |
+|--------|-------------|----------|
+| **XLSX** | Elements as rows, properties as columns | BigQuery, pandas, databases |
+| **DAE** | Collada 3D with element IDs matching XLSX | 3D viewers, web visualization |
+| **IFC** | Open BIM standard | Interoperability, BIM tools |
+| **PDF** | Drawings and sheets | Documentation |
+| **HTML** | Interactive reports | Dashboards, sharing |
+
+## Google Cloud Integration Examples
+
+### Cloud Storage + Converter
 ```python
 from google.cloud import storage
-from DDC_CONVERTER_IFC import parse_ifc
+import subprocess
+import tempfile
 
-def process_ifc_from_gcs(bucket_name, blob_name):
+def process_revit_from_gcs(bucket_name, blob_name, converter_path):
     client = storage.Client()
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(blob_name)
 
-    content = blob.download_as_bytes()
-    result = parse_ifc(content)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        local_file = f"{tmpdir}/{blob_name}"
+        blob.download_to_filename(local_file)
 
-    # Upload result
-    result_blob = bucket.blob(f"results/{blob_name}.json")
-    result_blob.upload_from_string(json.dumps(result))
-    return result
+        subprocess.run([converter_path, local_file, "complete", "bbox"])
+
+        # Upload results
+        for output_file in Path(tmpdir).glob("*.xlsx"):
+            result_blob = bucket.blob(f"results/{output_file.name}")
+            result_blob.upload_from_filename(str(output_file))
 ```
 
 ### BigQuery Integration
 ```python
 from google.cloud import bigquery
-import json
+import pandas as pd
 
-def upload_ifc_data_to_bigquery(ifc_data, table_id):
+def load_bim_data_to_bigquery(xlsx_path, table_id):
     client = bigquery.Client()
-    table = client.get_table(table_id)
+    df = pd.read_excel(xlsx_path)
 
-    rows = [
-        {"element_type": elem["type"], "quantity": elem["quantity"]}
-        for elem in ifc_data["elements"]
-    ]
+    job = client.load_table_from_dataframe(df, table_id)
+    job.result()
 
-    errors = client.insert_rows_json(table, rows)
-    return errors
+    return f"Loaded {len(df)} rows to {table_id}"
 ```
 
-### Vertex AI Integration
+### Vertex AI Classification
 ```python
 from vertexai.generative_models import GenerativeModel
+import pandas as pd
 
-def classify_elements_with_ai(ifc_data):
+def classify_bim_elements(xlsx_path):
     model = GenerativeModel("gemini-pro")
+    df = pd.read_excel(xlsx_path)
+
+    elements = df[["Category", "Type Name", "Area", "Volume"]].head(20).to_dict()
 
     prompt = f"""
-    Classify the following construction elements according to UniClass:
-    {json.dumps(ifc_data['elements'][:10])}
+    Classify these construction elements according to Omniclass:
+    {elements}
+    Return JSON with element_id and omniclass_code.
     """
 
     response = model.generate_content(prompt)
     return response.text
 ```
 
-## n8n Workflows
+## n8n Workflows (9 included)
 
-Pre-built automation workflows in `n8n_*.json`:
-- Batch conversion
-- Validation
-- AI Classification
-- Cost Estimation
-- Carbon Footprint calculation
-- QTO Reports
+| # | Purpose |
+|---|---------|
+| 1 | Basic conversion |
+| 2 | Advanced settings |
+| 3 | Batch processing with HTML reports |
+| 4 | BIM validation |
+| 5 | AI classification (LLM + RAG) |
+| 6 | Cost estimation with DDC CWICR |
+| 7 | Carbon footprint CO2 |
+| 8 | ETL for LLM |
+| 9 | QTO HTML reports |
 
-## Common Tasks
+## DDC CWICR Database
 
-1. **Extract quantities from IFC**
-2. **Validate BIM model compliance**
-3. **Generate cost estimates**
-4. **Calculate carbon footprint**
-5. **Create QTO reports**
+The repository integrates with **DDC CWICR** - open construction cost database:
+- 55,719 work items
+- 27,672 resources
+- 9 languages
+- Pre-computed OpenAI embeddings for semantic search
+- Qdrant vector database ready
 
-## Data Schema
+## Guiding Philosophy
 
-All converters output consistent JSON:
-```json
-{
-  "source_file": "building.ifc",
-  "format": "IFC4",
-  "elements": [
-    {
-      "id": "2O2Fr$t4X7Zf8NOew3FL3",
-      "type": "IfcWall",
-      "name": "Basic Wall",
-      "properties": {...},
-      "quantities": {...}
-    }
-  ],
-  "summary": {
-    "total_elements": 1234,
-    "by_type": {...}
-  }
-}
-```
+See `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` - explains data-driven approach to construction automation.
 
 ## Best Practices
 
-1. Use streaming for large files
-2. Validate IFC schema before processing
-3. Cache results in Cloud Storage
+1. Use `complete` mode for full extraction (1209 categories)
+2. Enable `bbox` for spatial analysis
+3. Stream large files to Cloud Storage
 4. Use BigQuery for analytics
-5. Apply AI for classification tasks
+5. Apply Vertex AI for classification tasks
 
-## Open Source License
+## License
 
-All tools are open-source. Can be freely integrated into Google Cloud workflows, Vertex AI pipelines, or any other solution.
+All tools are open-source (MIT). Can be freely integrated into Google Cloud workflows, Vertex AI pipelines, or any other solution.
 
 ---
 
