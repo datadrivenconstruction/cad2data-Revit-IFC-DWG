@@ -63,6 +63,8 @@
 - [Key Features](#key-features)
 - [Running the Converters](#running-the-converters)
 - [🖥️ Command Line Interface (CLI)](#️-command-line-interface-cli)
+- [🚀 AI Integration](#-ai-integration--perfect-fuel-for-ai-products)
+  - [📂 AI_INSTRUCTIONS Folder](#-ai_instructions-folder--ready-context-for-ai-assistants)
 - [Quick Start](#quick-start)
 - [⚠️ n8n 2.0+ Setup](#️-n8n-20-setup-required)
 - [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
@@ -584,6 +586,36 @@ claude
 - Point AI to specific files: *"Analyze the Parquet file and summarize the cost distribution"*
 - Ask for explanations: *"Explain how the resource-based costing methodology works"*
 - Request modifications: *"Modify the n8n workflow to add email notifications"*
+
+---
+
+### 📂 AI_INSTRUCTIONS Folder — Ready Context for AI Assistants
+
+The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** folder containing everything AI coding assistants need to work effectively with these tools.
+
+**What's inside:**
+
+| File | Purpose |
+|------|---------|
+| **INSTRUCTIONS.md** | Main overview: repository philosophy, input/output formats, CLI examples |
+| **CLAUDE.md** | Specific instructions for Claude Code with detailed CLI syntax |
+| **OPENCODE.md** | Instructions for Opencode |
+| **ANTIGRAVITY.md** | Instructions for Google Antigravity with GCP integration examples |
+| **TOOLS_OVERVIEW.md** | Complete reference for all converters and process logic |
+| **DATA_DRIVEN_CONSTRUCTION_BOOK.txt** | The "Data-Driven Construction" book — guiding philosophy for construction automation |
+
+**Why this matters:**
+- AI assistants can read these files to understand the full context
+- Contains CLI syntax, integration patterns, and best practices
+- The book serves as a "compass" for automation decisions in construction
+- n8n workflows are documented as **visual process logic templates** — not the final solution, but a foundation that can be implemented in any language (Python, JavaScript, C#, Go, Rust)
+
+**How to use:**
+```bash
+# AI assistants automatically read AI_INSTRUCTIONS when working with the repo
+# Or point them directly:
+"Read AI_INSTRUCTIONS/CLAUDE.md and help me build a batch conversion pipeline"
+```
 
 ---
 
