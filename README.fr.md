@@ -499,6 +499,122 @@ RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
 
 ---
 
+## 🚀 Intégration IA — Carburant Parfait pour les Produits AI
+
+<p align="center">
+  <b>Clonez simplement le dépôt et décrivez ce que vous voulez — l'IA fait le reste</b>
+</p>
+
+Les convertisseurs DDC ne sont pas seulement des outils — ce sont **du carburant prêt à l'emploi pour les applications alimentées par l'IA**. Créez des bots d'estimation des coûts, automatisez les flux de travail de construction ou créez des assistants intelligents — les données fonctionnent immédiatement avec les outils IA modernes.
+
+### Pourquoi DDC est idéal pour l'IA
+
+| Fonctionnalité | Avantage |
+|----------------|----------|
+| **Sortie structurée** | Format Excel/JSON que l'IA peut analyser immédiatement |
+| **Interface CLI** | Les assistants IA peuvent appeler directement les convertisseurs |
+| **Intégration DDC CWICR** | 55 000+ postes de travail avec embeddings précalculés pour la recherche sémantique |
+| **Entrée multi-format** | Revit, IFC, DWG, DGN — une interface pour tous les formats |
+
+### 🛠️ Fonctionne parfaitement avec
+
+<table>
+<tr>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Claude_Code-000000?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code"/><br/>
+<b>Claude Code</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Google_Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Antigravity"/><br/>
+<b>Google Antigravity</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"/><br/>
+<b>Cursor</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/GitHub_Copilot-000000?style=for-the-badge&logo=github&logoColor=white" alt="Copilot"/><br/>
+<b>Copilot</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n"/><br/>
+<b>n8n</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Dify-1677FF?style=for-the-badge&logo=openai&logoColor=white" alt="Dify"/><br/>
+<b>Dify</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Windsurf-6366F1?style=for-the-badge&logoColor=white" alt="Windsurf"/><br/>
+<b>Windsurf</b>
+</td>
+</tr>
+</table>
+
+---
+
+### 💻 Claude Code & Google Antigravity — Assistants de Programmation IA
+
+Le moyen le plus rapide de travailler avec les convertisseurs DDC. Ouvrez simplement le dépôt et posez des questions en langage naturel.
+
+**Premiers pas:**
+```bash
+# Cloner le dépôt
+git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto.git
+
+# Ouvrir avec Claude Code
+cd cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto
+claude
+```
+
+**Exemples de prompts:**
+
+| Tâche | Prompt |
+|-------|--------|
+| **Conversion** | "Convertis tous les fichiers .rvt dans le dossier C:\Projects en Excel avec bounding boxes" |
+| **Analyse de données** | "Analyse le XLSX résultant et montre tous les types de murs avec leurs volumes" |
+| **Créer un pipeline** | "Crée un script Python qui convertit Revit → parse Excel → génère un rapport de coûts" |
+| **Validation BIM** | "Vérifie la qualité des données BIM et génère un rapport de complétude des paramètres" |
+| **Estimation des coûts** | "En utilisant DDC CWICR, estime les coûts des travaux de béton de ce modèle" |
+| **Intégration CI/CD** | "Écris une GitHub Action qui convertit automatiquement les fichiers .rvt lors d'un push" |
+
+**Conseils de pro:**
+- Pointez l'IA vers des fichiers spécifiques: *"Analyse le fichier Parquet et résume la distribution des coûts"*
+- Demandez des explications: *"Explique comment fonctionne la méthodologie de chiffrage basée sur les ressources"*
+- Demandez des modifications: *"Modifie le workflow n8n pour ajouter des notifications par email"*
+
+---
+
+### ⚡ n8n + Dify + LangChain
+
+**Workflows n8n** — automatisation visuelle sans code:
+- Bot Telegram: envoyer photo → IA reconnaît → retourne estimation des coûts
+- Automatisation email: recevoir BOQ → traiter → envoyer devis formaté
+- Pipeline BIM: Revit → Excel → DDC CWICR → rapport 5D
+
+**Dify / LangChain** — créer des applications LLM:
+- Connecter DDC CWICR comme base de connaissances
+- Configurer le pipeline RAG avec embeddings OpenAI
+- Créer un chatbot d'estimation des coûts
+
+**Plateformes compatibles:**
+LangChain, LlamaIndex, Flowise, Botpress, Voiceflow, Stack AI, Relevance AI, Sim AI
+
+---
+
+### 📋 Cas d'Utilisation Universels
+
+| Cas d'Utilisation | Description |
+|-------------------|-------------|
+| **Estimation instantanée** | Obtenir des estimations de coûts à partir de descriptions textuelles ou de photos |
+| **Génération de BOQ** | Création automatique de devis quantitatifs |
+| **Benchmarking des prix** | Comparer les coûts entre régions |
+| **Planification des ressources** | Calculer les heures de travail, matériaux et équipements |
+| **Intégration BIM** | Estimation 4D/5D automatisée depuis Revit/IFC |
+| **Entraînement de modèles IA** | Utiliser des données structurées pour le fine-tuning de l'IA construction |
+
+---
+
 ⭐ <b>Si vous trouvez nos outils utiles et souhaitez voir plus d'applications similaires pour l'industrie de la construction, merci de donner une étoile à nos dépôts.</b>
 Ajoutez une étoile au workflow DDC sur GitHub et soyez instantanément notifié des nouvelles versions.
 <p align="center">

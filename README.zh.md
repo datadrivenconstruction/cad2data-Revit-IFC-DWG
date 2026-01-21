@@ -500,6 +500,122 @@ RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
 
 ---
 
+## 🚀 AI 集成 — AI 产品的完美燃料
+
+<p align="center">
+  <b>只需克隆仓库并描述您的需求 — AI 完成其余工作</b>
+</p>
+
+DDC 转换器不仅仅是工具 — 它们是 **AI 驱动应用的即用燃料**。构建成本估算机器人、自动化建筑工作流程或创建智能助手 — 数据可与现代 AI 工具即开即用。
+
+### 为什么 DDC 非常适合 AI
+
+| 功能 | 优势 |
+|------|------|
+| **结构化输出** | AI 可以立即分析的 Excel/JSON 格式 |
+| **CLI 接口** | AI 助手可以直接调用转换器 |
+| **DDC CWICR 集成** | 55,000+ 工作项目，预计算嵌入向量用于语义搜索 |
+| **多格式输入** | Revit、IFC、DWG、DGN — 所有格式一个接口 |
+
+### 🛠️ 完美适配
+
+<table>
+<tr>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Claude_Code-000000?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code"/><br/>
+<b>Claude Code</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Google_Antigravity-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Antigravity"/><br/>
+<b>Google Antigravity</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor"/><br/>
+<b>Cursor</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/GitHub_Copilot-000000?style=for-the-badge&logo=github&logoColor=white" alt="Copilot"/><br/>
+<b>Copilot</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n"/><br/>
+<b>n8n</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Dify-1677FF?style=for-the-badge&logo=openai&logoColor=white" alt="Dify"/><br/>
+<b>Dify</b>
+</td>
+<td align="center" width="14%">
+<img src="https://img.shields.io/badge/Windsurf-6366F1?style=for-the-badge&logoColor=white" alt="Windsurf"/><br/>
+<b>Windsurf</b>
+</td>
+</tr>
+</table>
+
+---
+
+### 💻 Claude Code & Google Antigravity — AI 编程助手
+
+使用 DDC 转换器的最快方式。只需打开仓库并用自然语言提问。
+
+**入门指南：**
+```bash
+# 克隆仓库
+git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto.git
+
+# 使用 Claude Code 打开
+cd cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto
+claude
+```
+
+**提示词示例：**
+
+| 任务 | 提示词 |
+|------|--------|
+| **转换** | "将 C:\Projects 文件夹中的所有 .rvt 文件转换为带有边界框的 Excel" |
+| **数据分析** | "分析生成的 XLSX 并显示所有墙体类型及其体积" |
+| **构建管道** | "创建一个 Python 脚本：转换 Revit → 解析 Excel → 生成成本报告" |
+| **BIM 验证** | "检查 BIM 数据质量并生成参数完整性报告" |
+| **成本估算** | "使用 DDC CWICR，估算该模型的混凝土工程成本" |
+| **CI/CD 集成** | "编写一个 GitHub Action，在推送时自动转换 .rvt 文件" |
+
+**专业提示：**
+- 将 AI 指向特定文件：*"分析 Parquet 文件并总结成本分布"*
+- 请求解释：*"解释基于资源的成本计算方法是如何工作的"*
+- 请求修改：*"修改 n8n 工作流以添加电子邮件通知"*
+
+---
+
+### ⚡ n8n + Dify + LangChain
+
+**n8n 工作流** — 无代码可视化自动化：
+- Telegram 机器人：发送照片 → AI 识别 → 返回成本估算
+- 邮件自动化：接收 BOQ → 处理 → 发送格式化报价
+- BIM 管道：Revit → Excel → DDC CWICR → 5D 报告
+
+**Dify / LangChain** — 构建 LLM 应用：
+- 将 DDC CWICR 连接为知识库
+- 配置带有 OpenAI 嵌入的 RAG 管道
+- 创建成本估算聊天机器人
+
+**兼容平台：**
+LangChain、LlamaIndex、Flowise、Botpress、Voiceflow、Stack AI、Relevance AI、Sim AI
+
+---
+
+### 📋 通用应用场景
+
+| 应用场景 | 描述 |
+|----------|------|
+| **即时估算** | 从文字描述或照片获取成本估算 |
+| **BOQ 生成** | 自动创建工程量清单 |
+| **价格基准** | 跨地区比较成本 |
+| **资源规划** | 计算工时、材料和设备需求 |
+| **BIM 集成** | 从 Revit/IFC 自动进行 4D/5D 估算 |
+| **AI 模型训练** | 使用结构化数据微调建筑 AI |
+
+---
+
 ⭐ <b>如果您觉得我们的工具有用，并希望看到更多类似的建筑行业应用，请给我们的仓库点个星。</b>
 在 GitHub 上给 DDC 工作流点星，即可第一时间收到新版本通知。
 <p align="center">
