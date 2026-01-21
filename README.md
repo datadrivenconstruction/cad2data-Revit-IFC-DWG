@@ -66,7 +66,6 @@
 - [🚀 AI Integration](#-ai-integration--perfect-fuel-for-ai-products)
   - [📂 AI_INSTRUCTIONS Folder](#-ai_instructions-folder--ready-context-for-ai-assistants)
 - [Quick Start](#quick-start)
-- [⚠️ n8n 2.0+ Setup](#️-n8n-20-setup-required)
 - [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
   - [⚡️ 1. Revit, IFC, DWG, DGN Basic Conversion](#️-1-revit-ifc-dwg-dgn-basic-conversion)
   - [⚡️ 2. Revit Conversion with Advanced Settings](#️-2-revit-conversion-with-advanced-settings)
@@ -631,36 +630,6 @@ The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** fold
 
 ---
 
-### ⚡ n8n + Dify + LangChain
-
-**n8n workflows** — visual automation without code:
-- Telegram bot: send photo → AI recognizes → returns cost estimate
-- Email automation: receive BOQ → process → send formatted estimate
-- BIM pipeline: Revit → Excel → DDC CWICR → 5D report
-
-**Dify / LangChain** — build LLM applications:
-- Connect DDC CWICR as knowledge base
-- Configure RAG pipeline with OpenAI embeddings
-- Create cost estimation chatbot
-
-**Compatible Platforms:**
-LangChain, LlamaIndex, Flowise, Botpress, Voiceflow, Stack AI, Relevance AI, Sim AI
-
----
-
-### 📋 Universal Use Cases
-
-| Use Case | Description |
-|----------|-------------|
-| **Instant Estimation** | Get cost estimates from text descriptions or photos |
-| **BOQ Generation** | Auto-generate bill of quantities from project descriptions |
-| **Price Benchmarking** | Compare costs across regions and languages |
-| **Resource Planning** | Calculate labor hours, materials, and equipment needs |
-| **BIM Integration** | Automated 4D/5D estimation from Revit/IFC |
-| **AI Model Training** | Use structured data for fine-tuning construction AI |
-
----
-
 ## Quick Start with n8n
 
 ### Prerequisites
@@ -683,42 +652,6 @@ LangChain, LlamaIndex, Flowise, Botpress, Voiceflow, Stack AI, Relevance AI, Sim
 
 ---
 
-## ⚠️ n8n 2.0+ Setup Required
-
-> **Starting from n8n version 2.0, the Execute Command node is disabled by default for security reasons.**
-> 
-> Without the configuration below, workflows using Execute Command **will not work** — nodes will show with a question mark or won't be recognized.
-
-### Quick Fix
-
-**Windows (CMD) — run each time:**
-```cmd
-set NODES_EXCLUDE=[] && npx n8n
-```
-
-**Permanent solution — create once:**
-
-Create file `C:\Users\YOUR_USER\.n8n\.env` with:
-```
-NODES_EXCLUDE=[]
-```
-Then just run `npx n8n` as usual.
-
-**Docker:**
-```yaml
-environment:
-  - NODES_EXCLUDE=[]
-```
-
-### Verify Setup
-
-1. Start n8n
-2. Click **+** → search for **"Execute Command"**
-3. If the node appears → ✅ you're all set!
-
-> 📚 More details: [n8n 2.0 Breaking Changes](https://docs.n8n.io/2-0-breaking-changes/)
-
----
 
 
 
@@ -1350,7 +1283,6 @@ Maybe it’s time to go back to the essence: open, structured, and accessible da
 After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
 
 > **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
-https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 

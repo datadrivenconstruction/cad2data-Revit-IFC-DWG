@@ -63,7 +63,6 @@
 - [Ejecucion de los Conversores](#ejecucion-de-los-conversores)
 - [🖥️ Interfaz de Linea de Comandos (CLI)](#️-interfaz-de-linea-de-comandos-cli)
 - [Inicio Rapido](#inicio-rapido)
-- [⚠️ Configuracion de n8n 2.0+](#️-configuracion-de-n8n-20-requerida)
 - [📁 Flujos de Trabajo](#flujos-de-trabajo-n8n-para-trabajar-con-datos-cadbim)
   - [⚡️ 1. Conversion Basica de Revit, IFC, DWG, DGN](#️-1-conversion-basica-de-revit-ifc-dwg-dgn)
   - [⚡️ 2. Conversion de Revit con Configuracion Avanzada](#️-2-conversion-de-revit-con-configuracion-avanzada)
@@ -586,36 +585,6 @@ claude
 
 ---
 
-### ⚡ n8n + Dify + LangChain
-
-**Workflows n8n** — automatización visual sin código:
-- Bot de Telegram: enviar foto → IA reconoce → devuelve estimación de costos
-- Automatización de email: recibir BOQ → procesar → enviar presupuesto formateado
-- Pipeline BIM: Revit → Excel → DDC CWICR → informe 5D
-
-**Dify / LangChain** — crear aplicaciones LLM:
-- Conectar DDC CWICR como base de conocimiento
-- Configurar pipeline RAG con embeddings de OpenAI
-- Crear chatbot de estimación de costos
-
-**Plataformas compatibles:**
-LangChain, LlamaIndex, Flowise, Botpress, Voiceflow, Stack AI, Relevance AI, Sim AI
-
----
-
-### 📋 Casos de Uso Universales
-
-| Caso de Uso | Descripción |
-|-------------|-------------|
-| **Estimación instantánea** | Obtener estimaciones de costos de descripciones de texto o fotos |
-| **Generación de BOQ** | Creación automática de presupuestos de obra |
-| **Benchmarking de precios** | Comparar costos entre regiones |
-| **Planificación de recursos** | Calcular horas de trabajo, materiales y equipos |
-| **Integración BIM** | Estimación 4D/5D automatizada desde Revit/IFC |
-| **Entrenamiento de modelos IA** | Usar datos estructurados para fine-tuning de IA de construcción |
-
----
-
 ⭐ <b>Si encuentra utiles nuestras herramientas y le gustaria ver mas aplicaciones similares para la industria de la construccion, por favor de una estrella a nuestros repositorios.</b>
 De una estrella al flujo de trabajo DDC en GitHub y sea notificado instantaneamente de nuevas versiones.
 <p align="center">
@@ -623,19 +592,6 @@ De una estrella al flujo de trabajo DDC en GitHub y sea notificado instantaneame
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
-
-
-### ✅ Prerrequisito importante (v17 y posterior)
-
-A partir de **v17**, los conversores usan una linea base de runtime actualizada.
-Por favor instale **Microsoft Visual C++ Redistributable 2015–2022 (x64)** antes de ejecutar cualquier herramienta `.exe` (`RvtExporter.exe`, `RVT2IFCconverter.exe`, etc.).
-
-- Descarga oficial (Microsoft Learn): **Ultimo VC++ 2015–2022 soportado**.
-- Elija el paquete **x64** y ejecute `VC_redist.x64.exe`.
-
-> Sin este paquete, algunos sistemas (especialmente instalaciones frescas de Windows/VMs) fallaran al iniciar los conversores.
-
-**Por que lo necesita:** v17 cambio la linea base tecnica desde v16; el runtime VC++ es ahora una dependencia requerida.
 
 
 ## Inicio Rapido con n8n
@@ -659,45 +615,6 @@ Por favor instale **Microsoft Visual C++ Redistributable 2015–2022 (x64)** ant
 </p>
 
 ---
-
-## ⚠️ Configuracion de n8n 2.0+ Requerida
-
-> **A partir de la version 2.0 de n8n, el nodo Execute Command esta deshabilitado por defecto por razones de seguridad.**
->
-> Sin la configuracion a continuacion, los flujos de trabajo que usan Execute Command **no funcionaran** — los nodos se mostraran con un signo de interrogacion o no seran reconocidos.
-
-### Solucion Rapida
-
-**Windows (CMD) — ejecutar cada vez:**
-```cmd
-set NODES_EXCLUDE=[] && npx n8n
-```
-
-**Solucion permanente — crear una vez:**
-
-Crear archivo `C:\Users\SU_USUARIO\.n8n\.env` con:
-```
-NODES_EXCLUDE=[]
-```
-Luego simplemente ejecute `npx n8n` como siempre.
-
-**Docker:**
-```yaml
-environment:
-  - NODES_EXCLUDE=[]
-```
-
-### Verificar Configuracion
-
-1. Inicie n8n
-2. Haga clic en **+** → busque **"Execute Command"**
-3. Si el nodo aparece → ✅ todo esta listo!
-
-> 📚 Mas detalles: [Cambios importantes de n8n 2.0](https://docs.n8n.io/2-0-breaking-changes/)
-
----
-
-
 
 ### ⚡️ 1. Conversion Basica de Revit, IFC, DWG, DGN
 **Archivo**: `n8n_1_Revit_IFC_DWG_Conversation_simple.json`
@@ -1308,7 +1225,6 @@ Quizas es hora de volver a la esencia: datos abiertos, estructurados y accesible
 Despues de transformar y enriquecer sus datos de Excel, puede facilmente enviar los datos modificados de vuelta a su proyecto Revit. Nuestra herramienta dedicada **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** hace este proceso transparente al importar directamente hojas de Excel actualizadas a parametros y familias de Revit.
 
 > **Simplifique su flujo de trabajo BIM:** Revit ➡️ Excel ➡️ Transformar ➡️ Excel ➡️ Revit.
-https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 

@@ -63,7 +63,6 @@
 - [运行转换器](#运行转换器)
 - [🖥️ 命令行界面 (CLI)](#️-命令行界面-cli)
 - [使用 n8n 快速入门](#使用-n8n-快速入门)
-- [⚠️ n8n 2.0+ 配置](#️-n8n-20-配置必需)
 - [📁 工作流](#用于处理-cadbim-数据的-n8n-工作流)
   - [⚡️ 1. Revit、IFC、DWG、DGN 基础转换](#️-1-revitifc dwgdgn-基础转换)
   - [⚡️ 2. Revit 高级设置转换](#️-2-revit-高级设置转换)
@@ -586,36 +585,6 @@ claude
 
 ---
 
-### ⚡ n8n + Dify + LangChain
-
-**n8n 工作流** — 无代码可视化自动化：
-- Telegram 机器人：发送照片 → AI 识别 → 返回成本估算
-- 邮件自动化：接收 BOQ → 处理 → 发送格式化报价
-- BIM 管道：Revit → Excel → DDC CWICR → 5D 报告
-
-**Dify / LangChain** — 构建 LLM 应用：
-- 将 DDC CWICR 连接为知识库
-- 配置带有 OpenAI 嵌入的 RAG 管道
-- 创建成本估算聊天机器人
-
-**兼容平台：**
-LangChain、LlamaIndex、Flowise、Botpress、Voiceflow、Stack AI、Relevance AI、Sim AI
-
----
-
-### 📋 通用应用场景
-
-| 应用场景 | 描述 |
-|----------|------|
-| **即时估算** | 从文字描述或照片获取成本估算 |
-| **BOQ 生成** | 自动创建工程量清单 |
-| **价格基准** | 跨地区比较成本 |
-| **资源规划** | 计算工时、材料和设备需求 |
-| **BIM 集成** | 从 Revit/IFC 自动进行 4D/5D 估算 |
-| **AI 模型训练** | 使用结构化数据微调建筑 AI |
-
----
-
 ⭐ <b>如果您觉得我们的工具有用，并希望看到更多类似的建筑行业应用，请给我们的仓库点个星。</b>
 在 GitHub 上给 DDC 工作流点星，即可第一时间收到新版本通知。
 <p align="center">
@@ -623,19 +592,6 @@ LangChain、LlamaIndex、Flowise、Botpress、Voiceflow、Stack AI、Relevance A
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
-
-
-### ✅ 重要前提条件（v17 及更高版本）
-
-从 **v17** 开始，转换器使用更新的运行时基础。
-在运行任何 `.exe` 工具（`RvtExporter.exe`、`RVT2IFCconverter.exe` 等）之前，请安装 **Microsoft Visual C++ Redistributable 2015–2022 (x64)**。
-
-- 官方下载（Microsoft Learn）：**最新支持的 VC++ 2015–2022**。
-- 选择 **x64** 包并运行 `VC_redist.x64.exe`。
-
-> 如果没有此包，某些系统（特别是全新安装的 Windows/虚拟机）将无法启动转换器。
-
-**为什么需要这个：** v17 从 v16 切换了技术基线；VC++ 运行时现在是必需的依赖项。
 
 
 ## 使用 n8n 快速入门
@@ -659,45 +615,6 @@ LangChain、LlamaIndex、Flowise、Botpress、Voiceflow、Stack AI、Relevance A
 </p>
 
 ---
-
-## ⚠️ n8n 2.0+ 配置（必需）
-
-> **从 n8n 2.0 版本开始，出于安全原因，Execute Command 节点默认被禁用。**
->
-> 如果没有以下配置，使用 Execute Command 的工作流**将无法工作** — 节点会显示问号或无法识别。
-
-### 快速修复
-
-**Windows (CMD) — 每次运行：**
-```cmd
-set NODES_EXCLUDE=[] && npx n8n
-```
-
-**永久解决方案 — 创建一次：**
-
-创建文件 `C:\Users\您的用户名\.n8n\.env`，内容为：
-```
-NODES_EXCLUDE=[]
-```
-然后像往常一样运行 `npx n8n`。
-
-**Docker：**
-```yaml
-environment:
-  - NODES_EXCLUDE=[]
-```
-
-### 验证设置
-
-1. 启动 n8n
-2. 点击 **+** → 搜索 **"Execute Command"**
-3. 如果节点出现 → ✅ 设置完成！
-
-> 📚 更多详情：[n8n 2.0 重大变更](https://docs.n8n.io/2-0-breaking-changes/)
-
----
-
-
 
 ### 用于处理 CAD/BIM 数据的 n8n 工作流
 
@@ -1310,7 +1227,6 @@ set NODES_EXCLUDE=[] && npx n8n
 在转换和丰富您的 Excel 数据后，您可以轻松地将修改后的数据推送回您的 Revit 项目。我们的专用工具 **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** 通过直接将更新的 Excel 表导入 Revit 参数和族，使这一过程无缝衔接。
 
 > **简化您的 BIM 工作流：** Revit ➡️ Excel ➡️ 转换 ➡️ Excel ➡️ Revit。
-https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel
 
 ![enter image description here](https://datadrivenconstruction.io/wp-content/uploads/2024/07/project-data-3.gif)
 
