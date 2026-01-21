@@ -216,6 +216,18 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 - Offline processing without internet, APIs, or licenses.
 - Extensible for custom post-processing.
 
+---
+
+⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>
+Star DDC workflow on GitHub and be instantly notified of new releases.
+<p align="center">
+  <br>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
+  <br></br>
+</p>
+
+---
+
 ## Running the Converters
 
 The DDC converters can be launched in different ways — **n8n is just one of the shells** for automation.  
@@ -648,28 +660,6 @@ LangChain, LlamaIndex, Flowise, Botpress, Voiceflow, Stack AI, Relevance AI, Sim
 | **AI Model Training** | Use structured data for fine-tuning construction AI |
 
 ---
-
-⭐ <b>If you find our tools useful and would like to see more similar applications for the construction industry, please give our repositories a star.</b>
-Star DDC workflow on GitHub and be instantly notified of new releases.
-<p align="center">
-  <br>
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
-  <br></br>
-</p>
-
-
-### ✅ Important prerequisite (v17 and later)
-
-Starting with **v17**, the converters use an updated runtime baseline.  
-Please install **Microsoft Visual C++ Redistributable 2015–2022 (x64)** before running any `.exe` tools (`RvtExporter.exe`, `RVT2IFCconverter.exe`, etc.).
-
-- Official download (Microsoft Learn): **Latest supported VC++ 2015–2022**.  
-- Choose the **x64** package and run `VC_redist.x64.exe`.
-
-> Without this package some systems (especially fresh Windows installs/VMs) will fail to start the converters.
-
-**Why you need this:** v17 switched the technical baseline from v16; the VC++ runtime is a required dependency now.
-
 
 ## Quick Start with n8n
 
@@ -1284,6 +1274,25 @@ graph LR;
 
 
 ## Troubleshooting
+
+### VC++ Runtime Missing (v17 and later)
+
+Starting with **v17**, the converters use an updated runtime baseline.
+Please install **Microsoft Visual C++ Redistributable 2015–2022 (x64)** before running any `.exe` tools (`RvtExporter.exe`, `RVT2IFCconverter.exe`, etc.).
+
+**Symptoms:**
+- Converters fail to start
+- Error messages about missing DLLs
+- Common on fresh Windows installs or VMs
+
+**Solution:**
+1. Download from Microsoft Learn: **Latest supported VC++ 2015–2022**
+2. Choose the **x64** package
+3. Run `VC_redist.x64.exe`
+
+> **Why you need this:** v17 switched the technical baseline from v16; the VC++ runtime is a required dependency now.
+
+---
 
 ### Execute Command Node Missing (n8n 2.0+)
 
