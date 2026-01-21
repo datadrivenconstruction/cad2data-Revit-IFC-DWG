@@ -62,6 +62,8 @@
 - [主要功能](#主要功能)
 - [运行转换器](#运行转换器)
 - [🖥️ 命令行界面 (CLI)](#️-命令行界面-cli)
+- [🚀 AI 集成](#-ai-集成--ai-产品的完美燃料)
+  - [📂 AI_INSTRUCTIONS 文件夹](#-ai_instructions-文件夹--为-ai-助手准备的上下文)
 - [使用 n8n 快速入门](#使用-n8n-快速入门)
 - [📁 工作流](#用于处理-cadbim-数据的-n8n-工作流)
   - [⚡️ 1. Revit、IFC、DWG、DGN 基础转换](#️-1-revitifc dwgdgn-基础转换)
@@ -593,6 +595,37 @@ claude
   <br></br>
 </p>
 
+---
+
+### 📂 AI_INSTRUCTIONS 文件夹 — 为 AI 助手准备的上下文
+
+本仓库包含一个专用的 **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** 文件夹，其中包含 AI 编程助手高效使用这些工具所需的所有内容。
+
+**包含内容：**
+
+| 文件 | 用途 |
+|------|------|
+| **INSTRUCTIONS.md** | 主要概述：仓库理念、输入/输出格式、CLI 示例 |
+| **CLAUDE.md** | Claude Code 的特定说明，包含详细的 CLI 语法 |
+| **OPENCODE.md** | Opencode 的说明 |
+| **ANTIGRAVITY.md** | Google Antigravity 的说明，包含 GCP 集成示例 |
+| **TOOLS_OVERVIEW.md** | 所有转换器和流程逻辑的完整参考 |
+| **DATA_DRIVEN_CONSTRUCTION_BOOK.txt** | "数据驱动建设"书籍 — 建设自动化的指导理念 |
+
+**为什么重要：**
+- AI 助手可以阅读这些文件以了解完整的上下文
+- 包含 CLI 语法、集成模式和最佳实践
+- 该书籍作为建设领域自动化决策的"指南针"
+- n8n 工作流被记录为**可视化流程逻辑模板** — 不是最终解决方案，而是可以用任何语言（Python、JavaScript、C#、Go、Rust）实现的基础
+
+**如何使用：**
+```bash
+# AI 助手在使用仓库时会自动读取 AI_INSTRUCTIONS
+# 或者直接指向它们：
+"阅读 AI_INSTRUCTIONS/CLAUDE.md 并帮我创建批量转换流程"
+```
+
+---
 
 ## 使用 n8n 快速入门
 

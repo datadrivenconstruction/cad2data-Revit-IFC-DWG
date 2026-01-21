@@ -62,6 +62,8 @@
 - [Caracteristicas Principales](#caracteristicas-principales)
 - [Ejecucion de los Conversores](#ejecucion-de-los-conversores)
 - [🖥️ Interfaz de Linea de Comandos (CLI)](#️-interfaz-de-linea-de-comandos-cli)
+- [🚀 Integracion con IA](#-integracion-con-ia--combustible-perfecto-para-productos-de-ia)
+  - [📂 Carpeta AI_INSTRUCTIONS](#-carpeta-ai_instructions--contexto-listo-para-asistentes-de-ia)
 - [Inicio Rapido](#inicio-rapido)
 - [📁 Flujos de Trabajo](#flujos-de-trabajo-n8n-para-trabajar-con-datos-cadbim)
   - [⚡️ 1. Conversion Basica de Revit, IFC, DWG, DGN](#️-1-conversion-basica-de-revit-ifc-dwg-dgn)
@@ -593,6 +595,37 @@ De una estrella al flujo de trabajo DDC en GitHub y sea notificado instantaneame
   <br></br>
 </p>
 
+---
+
+### 📂 Carpeta AI_INSTRUCTIONS — Contexto Listo para Asistentes de IA
+
+El repositorio incluye una carpeta dedicada **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** que contiene todo lo que los asistentes de codificacion de IA necesitan para trabajar eficazmente con estas herramientas.
+
+**Que contiene:**
+
+| Archivo | Proposito |
+|---------|-----------|
+| **INSTRUCTIONS.md** | Vision general principal: filosofia del repositorio, formatos de entrada/salida, ejemplos de CLI |
+| **CLAUDE.md** | Instrucciones especificas para Claude Code con sintaxis CLI detallada |
+| **OPENCODE.md** | Instrucciones para Opencode |
+| **ANTIGRAVITY.md** | Instrucciones para Google Antigravity con ejemplos de integracion GCP |
+| **TOOLS_OVERVIEW.md** | Referencia completa de todos los conversores y logica de procesos |
+| **DATA_DRIVEN_CONSTRUCTION_BOOK.txt** | El libro "Data-Driven Construction" — filosofia guia para la automatizacion de la construccion |
+
+**Por que es importante:**
+- Los asistentes de IA pueden leer estos archivos para entender el contexto completo
+- Contiene sintaxis CLI, patrones de integracion y mejores practicas
+- El libro sirve como "brujula" para decisiones de automatizacion en construccion
+- Los flujos de trabajo n8n estan documentados como **plantillas visuales de logica de procesos** — no la solucion final, sino una base que puede implementarse en cualquier lenguaje (Python, JavaScript, C#, Go, Rust)
+
+**Como usar:**
+```bash
+# Los asistentes de IA leen automaticamente AI_INSTRUCTIONS al trabajar con el repositorio
+# O dirigelos directamente:
+"Lee AI_INSTRUCTIONS/CLAUDE.md y ayudame a crear un pipeline de conversion por lotes"
+```
+
+---
 
 ## Inicio Rapido con n8n
 

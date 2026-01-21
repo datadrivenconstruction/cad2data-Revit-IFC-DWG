@@ -62,6 +62,8 @@
 - [Fonctionnalités Principales](#fonctionnalités-principales)
 - [Exécution des Convertisseurs](#exécution-des-convertisseurs)
 - [🖥️ Interface en Ligne de Commande (CLI)](#️-interface-en-ligne-de-commande-cli)
+- [🚀 Intégration IA](#-intégration-ia--carburant-parfait-pour-les-produits-ia)
+  - [📂 Dossier AI_INSTRUCTIONS](#-dossier-ai_instructions--contexte-prêt-pour-les-assistants-ia)
 - [Démarrage Rapide](#démarrage-rapide)
 - [📁 Workflows](#workflows-n8n-pour-travailler-avec-les-données-cadbim)
   - [⚡️ 1. Conversion Basique Revit, IFC, DWG, DGN](#️-1-conversion-basique-revit-ifc-dwg-dgn)
@@ -592,6 +594,37 @@ Ajoutez une étoile au workflow DDC sur GitHub et soyez instantanément notifié
   <br></br>
 </p>
 
+---
+
+### 📂 Dossier AI_INSTRUCTIONS — Contexte Prêt pour les Assistants IA
+
+Le dépôt inclut un dossier dédié **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** contenant tout ce dont les assistants de codage IA ont besoin pour travailler efficacement avec ces outils.
+
+**Ce qu'il contient:**
+
+| Fichier | Objectif |
+|---------|----------|
+| **INSTRUCTIONS.md** | Aperçu principal: philosophie du dépôt, formats d'entrée/sortie, exemples CLI |
+| **CLAUDE.md** | Instructions spécifiques pour Claude Code avec syntaxe CLI détaillée |
+| **OPENCODE.md** | Instructions pour Opencode |
+| **ANTIGRAVITY.md** | Instructions pour Google Antigravity avec exemples d'intégration GCP |
+| **TOOLS_OVERVIEW.md** | Référence complète de tous les convertisseurs et logique de processus |
+| **DATA_DRIVEN_CONSTRUCTION_BOOK.txt** | Le livre "Data-Driven Construction" — philosophie directrice pour l'automatisation de la construction |
+
+**Pourquoi c'est important:**
+- Les assistants IA peuvent lire ces fichiers pour comprendre le contexte complet
+- Contient la syntaxe CLI, les modèles d'intégration et les meilleures pratiques
+- Le livre sert de "boussole" pour les décisions d'automatisation dans la construction
+- Les workflows n8n sont documentés comme **modèles visuels de logique de processus** — pas la solution finale, mais une base qui peut être implémentée dans n'importe quel langage (Python, JavaScript, C#, Go, Rust)
+
+**Comment utiliser:**
+```bash
+# Les assistants IA lisent automatiquement AI_INSTRUCTIONS en travaillant avec le dépôt
+# Ou dirigez-les directement:
+"Lis AI_INSTRUCTIONS/CLAUDE.md et aide-moi à créer un pipeline de conversion par lots"
+```
+
+---
 
 ## Démarrage Rapide avec n8n
 

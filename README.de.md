@@ -62,6 +62,8 @@
 - [Hauptfunktionen](#hauptfunktionen)
 - [Ausführung der Konverter](#ausführung-der-konverter)
 - [🖥️ Befehlszeilenschnittstelle (CLI)](#️-befehlszeilenschnittstelle-cli)
+- [🚀 KI-Integration](#-ki-integration--perfekter-treibstoff-für-ki-produkte)
+  - [📂 AI_INSTRUCTIONS-Ordner](#-ai_instructions-ordner--fertiger-kontext-für-ki-assistenten)
 - [Schnellstart](#schnellstart)
 - [📁 Workflows](#n8n-workflows-für-die-arbeit-mit-cadbim-daten)
   - [⚡️ 1. Revit, IFC, DWG, DGN Basiskonvertierung](#️-1-revit-ifc-dwg-dgn-basiskonvertierung)
@@ -593,6 +595,37 @@ DDC Workflow auf GitHub markieren und sofort über neue Releases benachrichtigt 
   <br></br>
 </p>
 
+---
+
+### 📂 AI_INSTRUCTIONS-Ordner — Fertiger Kontext für KI-Assistenten
+
+Das Repository enthält einen speziellen **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)**-Ordner mit allem, was KI-Coding-Assistenten für die effektive Arbeit mit diesen Werkzeugen benötigen.
+
+**Was enthalten ist:**
+
+| Datei | Zweck |
+|-------|-------|
+| **INSTRUCTIONS.md** | Hauptübersicht: Repository-Philosophie, Ein-/Ausgabeformate, CLI-Beispiele |
+| **CLAUDE.md** | Spezifische Anweisungen für Claude Code mit detaillierter CLI-Syntax |
+| **OPENCODE.md** | Anweisungen für Opencode |
+| **ANTIGRAVITY.md** | Anweisungen für Google Antigravity mit GCP-Integrationsbeispielen |
+| **TOOLS_OVERVIEW.md** | Vollständige Referenz für alle Konverter und Prozesslogik |
+| **DATA_DRIVEN_CONSTRUCTION_BOOK.txt** | Das Buch "Data-Driven Construction" — Leitphilosophie für Bauautomatisierung |
+
+**Warum das wichtig ist:**
+- KI-Assistenten können diese Dateien lesen, um den vollständigen Kontext zu verstehen
+- Enthält CLI-Syntax, Integrationsmuster und Best Practices
+- Das Buch dient als "Kompass" für Automatisierungsentscheidungen im Bauwesen
+- n8n-Workflows sind als **visuelle Prozesslogik-Vorlagen** dokumentiert — nicht die endgültige Lösung, sondern eine Grundlage für die Implementierung in jeder Sprache (Python, JavaScript, C#, Go, Rust)
+
+**Verwendung:**
+```bash
+# KI-Assistenten lesen AI_INSTRUCTIONS automatisch bei der Arbeit mit dem Repository
+# Oder verweisen Sie sie direkt:
+"Lies AI_INSTRUCTIONS/CLAUDE.md und hilf mir, eine Stapelkonvertierungs-Pipeline zu erstellen"
+```
+
+---
 
 ## Schnellstart mit n8n
 
