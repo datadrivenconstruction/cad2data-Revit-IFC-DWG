@@ -630,13 +630,13 @@ The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** fold
 
 ---
 
-## 🎯 DDC Skills — 172 Ready-to-Use AI Automations
+## 🎯 DDC Skills — 196 Ready-to-Use AI Automations
 
 > **New!** [DDC Skills for AI Agents in Construction](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — a complete automation toolkit for construction companies.
 
 <p align="center">
   <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
-    <img src="https://img.shields.io/badge/DDC_Skills-172_AI_Automations-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+    <img src="https://img.shields.io/badge/DDC_Skills-196_AI_Automations-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
   </a>
 </p>
 
@@ -672,7 +672,7 @@ No coding required. The AI assistant reads the skill definitions and walks you t
 
 The Skills repository combines **this CAD2Data pipeline** with the **CWICR cost database** — giving you end-to-end automation from model to estimate.
 
-**→ [Explore 172 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+**→ [Explore 196 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
 
 ---
 
@@ -1062,7 +1062,7 @@ flowchart TB
     S75 --> HTML & XLS
 
     style INPUT fill:#f4f4f5,stroke:#d4d4d8,color:#18181b
-    style EXTRACT fill:#e0f2fe,stroke:#bae6fd,color:#0f172a
+    style EXTRACT fill:#e0f2fe,stroke:#bae6fd,color:#0f196a
     style PREP fill:#ede9fe,stroke:#ddd6fe,color:#1e1b4b
     style STAGE_PLAN fill:#ecfdf5,stroke:#bbf7d0,color:#064e3b
     style STAGE4 fill:#fef9c3,stroke:#fef3c7,color:#78350f
