@@ -630,13 +630,13 @@ The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** fold
 
 ---
 
-## 🎯 DDC Skills — 167 Ready-to-Use AI Automations
+## 🎯 DDC Skills — 172 Ready-to-Use AI Automations
 
 > **New!** [DDC Skills for AI Agents in Construction](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — a complete automation toolkit for construction companies.
 
 <p align="center">
   <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
-    <img src="https://img.shields.io/badge/DDC_Skills-167_AI_Automations-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+    <img src="https://img.shields.io/badge/DDC_Skills-172_AI_Automations-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
   </a>
 </p>
 
@@ -672,7 +672,7 @@ No coding required. The AI assistant reads the skill definitions and walks you t
 
 The Skills repository combines **this CAD2Data pipeline** with the **CWICR cost database** — giving you end-to-end automation from model to estimate.
 
-**→ [Explore 167 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+**→ [Explore 172 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
 
 ---
 
