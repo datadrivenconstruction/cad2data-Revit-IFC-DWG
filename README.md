@@ -1062,7 +1062,7 @@ flowchart TB
     S75 --> HTML & XLS
 
     style INPUT fill:#f4f4f5,stroke:#d4d4d8,color:#18181b
-    style EXTRACT fill:#e0f2fe,stroke:#bae6fd,color:#0f196a
+    style EXTRACT fill:#e0f2fe,stroke:#bae6fd,color:#0f172a
     style PREP fill:#ede9fe,stroke:#ddd6fe,color:#1e1b4b
     style STAGE_PLAN fill:#ecfdf5,stroke:#bbf7d0,color:#064e3b
     style STAGE4 fill:#fef9c3,stroke:#fef3c7,color:#78350f
