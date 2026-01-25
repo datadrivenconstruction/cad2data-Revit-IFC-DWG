@@ -630,6 +630,52 @@ The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** fold
 
 ---
 
+## 🎯 DDC Skills — 167 Ready-to-Use AI Automations
+
+> **New!** [DDC Skills for AI Agents in Construction](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — a complete automation toolkit for construction companies.
+
+<p align="center">
+  <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
+    <img src="https://img.shields.io/badge/DDC_Skills-167_AI_Automations-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+  </a>
+</p>
+
+### How It Works
+
+```
+1. Clone the Skills repository
+2. Open with Claude Code, Cursor, or GitHub Copilot
+3. Describe what you want to automate — AI guides you step by step
+```
+
+No coding required. The AI assistant reads the skill definitions and walks you through the entire automation process.
+
+### Skills for CAD/BIM Workflows
+
+| Category | Capabilities |
+|----------|--------------|
+| **BIM Processing** | IFC parsing, Revit data extraction, DWG/DGN conversion |
+| **QTO Automation** | Quantity takeoffs, material schedules, cost linking |
+| **Validation** | Model checking, data quality reports, parameter fill rates |
+| **Reporting** | Daily reports, photo reports, progress tracking |
+| **Cost Estimation** | Automated estimates using DDC CWICR database |
+| **Integration** | n8n workflows, Excel sync, API connections |
+
+### Time Savings
+
+| Process | Reduction |
+|---------|-----------|
+| Rate lookups | 99% (15 min → 10 sec) |
+| Daily reports | 92% |
+| Cost estimates | 87% |
+| Budget tracking | 87% |
+
+The Skills repository combines **this CAD2Data pipeline** with the **CWICR cost database** — giving you end-to-end automation from model to estimate.
+
+**→ [Explore 167 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+
+---
+
 ## Quick Start with n8n
 
 ### Prerequisites
