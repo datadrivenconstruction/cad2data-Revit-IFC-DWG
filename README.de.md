@@ -627,6 +627,52 @@ Das Repository enthält einen speziellen **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)**
 
 ---
 
+## 🎯 DDC Skills — 196 Einsatzbereite KI-Automatisierungen
+
+> **Neu!** [DDC Skills für KI-Agenten im Bauwesen](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — ein komplettes Automatisierungs-Toolkit für Bauunternehmen.
+
+<p align="center">
+  <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
+    <img src="https://img.shields.io/badge/DDC_Skills-196_KI_Automatisierungen-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+  </a>
+</p>
+
+### So funktioniert es
+
+```
+1. Skills-Repository klonen
+2. Mit Claude Code, Cursor oder GitHub Copilot öffnen
+3. Beschreiben Sie, was Sie automatisieren möchten — KI führt Sie Schritt für Schritt
+```
+
+Keine Programmierung erforderlich. Der KI-Assistent liest die Skill-Definitionen und führt Sie durch den gesamten Automatisierungsprozess.
+
+### Skills für CAD/BIM-Workflows
+
+| Kategorie | Fähigkeiten |
+|-----------|-------------|
+| **BIM-Verarbeitung** | IFC-Parsing, Revit-Datenextraktion, DWG/DGN-Konvertierung |
+| **QTO-Automatisierung** | Mengenermittlung, Materialübersichten, Kostenverknüpfung |
+| **Validierung** | Modellprüfung, Datenqualitätsberichte, Parameterfüllraten |
+| **Berichterstattung** | Tagesberichte, Fotoberichte, Fortschrittsverfolgung |
+| **Kostenschätzung** | Automatisierte Schätzungen mit DDC CWICR-Datenbank |
+| **Integration** | n8n-Workflows, Excel-Synchronisierung, API-Verbindungen |
+
+### Zeitersparnis
+
+| Prozess | Reduzierung |
+|---------|-------------|
+| Preisrecherche | 99% (15 Min → 10 Sek) |
+| Tagesberichte | 92% |
+| Kostenschätzungen | 87% |
+| Budgetverfolgung | 87% |
+
+Das Skills-Repository kombiniert **diese CAD2Data-Pipeline** mit der **CWICR-Kostendatenbank** — für End-to-End-Automatisierung vom Modell bis zur Schätzung.
+
+**→ [196 DDC Skills entdecken](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+
+---
+
 ## Schnellstart mit n8n
 
 ### Voraussetzungen
@@ -1344,3 +1390,11 @@ Kontaktieren Sie uns für eine kostenlose Beratung, in der wir Ihre Herausforder
    <br>
      🚀 Wechseln Sie zum Vollzyklus-Datenmanagement, wo nur einheitliche <br /> strukturierte Daten & Prozesse verbleiben und wo 🔓 Ihre Daten Ihnen gehören
 </p>
+
+---
+
+## Markenzeichen
+
+Autodesk®, Revit®, AutoCAD® und DWG™ sind eingetragene Marken oder Marken von Autodesk, Inc. MicroStation® und DGN™ sind Marken von Bentley Systems, Incorporated. IFC ist eine Marke von buildingSMART International Ltd. OmniClass® und MasterFormat® sind Marken des Construction Specifications Institute (CSI). Alle anderen Markennamen, Produktnamen oder Markenzeichen gehören ihren jeweiligen Inhabern.
+
+Dieses Projekt ist nicht mit Autodesk, Bentley Systems, buildingSMART oder anderen oben genannten Markeninhabern verbunden, wird nicht von ihnen unterstützt oder gesponsert.

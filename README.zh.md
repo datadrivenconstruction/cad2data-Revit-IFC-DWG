@@ -627,6 +627,52 @@ claude
 
 ---
 
+## 🎯 DDC Skills — 196 个即用型 AI 自动化
+
+> **新功能！** [建筑行业 AI 代理 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — 建筑公司的完整自动化工具包。
+
+<p align="center">
+  <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
+    <img src="https://img.shields.io/badge/DDC_Skills-196_AI自动化-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+  </a>
+</p>
+
+### 工作原理
+
+```
+1. 克隆 Skills 仓库
+2. 使用 Claude Code、Cursor 或 GitHub Copilot 打开
+3. 描述您想自动化的内容 — AI 将逐步引导您
+```
+
+无需编程。AI 助手会读取技能定义并引导您完成整个自动化过程。
+
+### CAD/BIM 工作流技能
+
+| 类别 | 功能 |
+|------|------|
+| **BIM 处理** | IFC 解析、Revit 数据提取、DWG/DGN 转换 |
+| **QTO 自动化** | 工程量计算、材料清单、成本关联 |
+| **验证** | 模型检查、数据质量报告、参数填充率 |
+| **报告** | 日报、照片报告、进度跟踪 |
+| **成本估算** | 使用 DDC CWICR 数据库自动估算 |
+| **集成** | n8n 工作流、Excel 同步、API 连接 |
+
+### 时间节省
+
+| 流程 | 减少 |
+|------|------|
+| 价格查询 | 99%（15分钟 → 10秒）|
+| 日报 | 92% |
+| 成本估算 | 87% |
+| 预算跟踪 | 87% |
+
+Skills 仓库将**此 CAD2Data 管道**与 **CWICR 成本数据库**相结合 — 从模型到估算的端到端自动化。
+
+**→ [探索 196 个 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+
+---
+
 ## 使用 n8n 快速入门
 
 ### 先决条件
@@ -1348,3 +1394,11 @@ DDC CWICR（建设工作项、组件和资源）为准确、透明和可审计�
    <br>
      🚀 转向全周期数据管理，只保留统一的 <br /> 结构化数据和流程，🔓 您的数据属于您
 </p>
+
+---
+
+## 商标
+
+Autodesk®、Revit®、AutoCAD® 和 DWG™ 是 Autodesk, Inc. 的注册商标或商标。MicroStation® 和 DGN™ 是 Bentley Systems, Incorporated 的商标。IFC 是 buildingSMART International Ltd. 的商标。OmniClass® 和 MasterFormat® 是美国建筑规范协会 (CSI) 的商标。所有其他品牌名称、产品名称或商标均属于其各自所有者。
+
+本项目与 Autodesk、Bentley Systems、buildingSMART 或上述任何其他商标持有者无关联、未获其认可或赞助。

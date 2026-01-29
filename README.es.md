@@ -627,6 +627,52 @@ El repositorio incluye una carpeta dedicada **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/
 
 ---
 
+## 🎯 DDC Skills — 196 Automatizaciones de IA Listas para Usar
+
+> **¡Nuevo!** [DDC Skills para Agentes de IA en Construcción](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction) — un kit de herramientas de automatización completo para empresas constructoras.
+
+<p align="center">
+  <a href="https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction">
+    <img src="https://img.shields.io/badge/DDC_Skills-196_Automatizaciones_IA-blue?style=for-the-badge&logo=robot" alt="DDC Skills">
+  </a>
+</p>
+
+### Cómo Funciona
+
+```
+1. Clonar el repositorio de Skills
+2. Abrir con Claude Code, Cursor o GitHub Copilot
+3. Describir lo que quieres automatizar — la IA te guía paso a paso
+```
+
+No se requiere programación. El asistente de IA lee las definiciones de skills y te guía a través de todo el proceso de automatización.
+
+### Skills para Flujos de Trabajo CAD/BIM
+
+| Categoría | Capacidades |
+|-----------|-------------|
+| **Procesamiento BIM** | Análisis IFC, extracción de datos Revit, conversión DWG/DGN |
+| **Automatización QTO** | Mediciones, listas de materiales, vinculación de costos |
+| **Validación** | Verificación de modelos, informes de calidad de datos, tasas de llenado de parámetros |
+| **Informes** | Informes diarios, informes fotográficos, seguimiento de progreso |
+| **Estimación de Costos** | Estimaciones automatizadas usando la base de datos DDC CWICR |
+| **Integración** | Flujos n8n, sincronización Excel, conexiones API |
+
+### Ahorro de Tiempo
+
+| Proceso | Reducción |
+|---------|-----------|
+| Búsqueda de precios | 99% (15 min → 10 seg) |
+| Informes diarios | 92% |
+| Estimaciones de costos | 87% |
+| Seguimiento de presupuesto | 87% |
+
+El repositorio de Skills combina **este pipeline CAD2Data** con la **base de datos de costos CWICR** — automatización de extremo a extremo desde el modelo hasta la estimación.
+
+**→ [Explorar 196 DDC Skills](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)**
+
+---
+
 ## Inicio Rapido con n8n
 
 ### Prerrequisitos
@@ -1346,3 +1392,11 @@ Contactenos para una consulta gratuita donde discutiremos sus desafios y demostr
    <br>
      🚀 Pase a la gestion de datos de ciclo completo donde solo quedan <br /> datos y procesos estructurados unificados y donde  🔓 sus datos son suyos
 </p>
+
+---
+
+## Marcas Comerciales
+
+Autodesk®, Revit®, AutoCAD® y DWG™ son marcas registradas o marcas comerciales de Autodesk, Inc. MicroStation® y DGN™ son marcas comerciales de Bentley Systems, Incorporated. IFC es una marca comercial de buildingSMART International Ltd. OmniClass® y MasterFormat® son marcas comerciales del Construction Specifications Institute (CSI). Todos los demás nombres de marcas, nombres de productos o marcas comerciales pertenecen a sus respectivos propietarios.
+
+Este proyecto no está afiliado, respaldado ni patrocinado por Autodesk, Bentley Systems, buildingSMART ni ningún otro titular de marcas comerciales mencionado anteriormente.
