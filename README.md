@@ -1417,3 +1417,11 @@ Contact us for a free consultation where we'll discuss your challenges and demon
    <br>
      🚀 Move to full-cycle data management  where only unified <br /> structured data & processes remain and where  🔓 your data is yours
 </p>
+
+---
+
+## Trademarks
+
+Autodesk®, Revit®, AutoCAD®, and DWG™ are registered trademarks or trademarks of Autodesk, Inc. MicroStation® and DGN™ are trademarks of Bentley Systems, Incorporated. IFC is a trademark of buildingSMART International Ltd. OmniClass® and MasterFormat® are trademarks of The Construction Specifications Institute (CSI). All other brand names, product names, or trademarks belong to their respective holders.
+
+This project is not affiliated with, endorsed by, or sponsored by Autodesk, Bentley Systems, buildingSMART, or any other trademark holders mentioned above.
