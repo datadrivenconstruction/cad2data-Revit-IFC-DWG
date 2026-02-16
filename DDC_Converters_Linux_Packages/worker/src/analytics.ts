@@ -45,9 +45,9 @@ export async function logDownloadEvent(
       .prepare(
         `INSERT INTO download_events
           (package, version, arch, filename, ip_hash,
-           country, region, city, user_agent,
-           file_size, status_code)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+           country, region, city, latitude, longitude, asn_org,
+           user_agent, file_size, status_code)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(
         event.package,
@@ -58,6 +58,9 @@ export async function logDownloadEvent(
         event.country,
         event.region,
         event.city,
+        event.latitude,
+        event.longitude,
+        event.asn_org,
         event.user_agent,
         event.file_size,
         event.status_code

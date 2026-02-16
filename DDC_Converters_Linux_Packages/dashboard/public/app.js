@@ -250,8 +250,10 @@ async function loadGeography() {
       `)
       .join('');
 
-    // Cities
+    // Cities + city markers on map + organizations
     loadCities(days);
+    loadCityMarkers(days);
+    loadOrganizations(days);
   } catch (err) {
     console.error('Failed to load geography:', err);
   }
@@ -275,6 +277,47 @@ async function loadCities(days) {
       .join('');
   } catch (err) {
     console.error('Failed to load cities:', err);
+  }
+}
+
+// --- City Markers on Map ---
+async function loadCityMarkers(days) {
+  try {
+    const data = await apiFetch(`/citycoords?days=${days}`);
+    if (!worldMap || !data.data || data.data.length === 0) return;
+
+    const markers = data.data
+      .filter((d) => d.lat && d.lng)
+      .map((d) => ({
+        name: `${d.city}, ${countryName(d.country) || d.country} (${d.count})`,
+        coords: [d.lat, d.lng],
+      }));
+
+    if (markers.length > 0) {
+      worldMap.addMarkers(markers);
+    }
+  } catch (err) {
+    console.error('Failed to load city markers:', err);
+  }
+}
+
+// --- Organizations ---
+async function loadOrganizations(days) {
+  try {
+    const data = await apiFetch(`/organizations?days=${days}`);
+    const tbody = document.getElementById('orgsTable');
+    tbody.innerHTML = data.data
+      .map((d) => `
+        <tr>
+          <td><strong>${esc(d.asn_org)}</strong></td>
+          <td>${formatNumber(d.count)}</td>
+          <td>${formatNumber(d.unique_ips)}</td>
+          <td>${formatNumber(d.countries)}</td>
+        </tr>
+      `)
+      .join('');
+  } catch (err) {
+    console.error('Failed to load organizations:', err);
   }
 }
 
@@ -313,6 +356,19 @@ function renderWorldMap(geoData) {
         hover: {
           fillOpacity: 0.8,
           cursor: 'pointer',
+        },
+      },
+      markerStyle: {
+        initial: {
+          r: 5,
+          fill: '#ef4444',
+          stroke: '#ffffff',
+          strokeWidth: 1.5,
+          fillOpacity: 0.9,
+        },
+        hover: {
+          r: 7,
+          fill: '#dc2626',
         },
       },
       series: {

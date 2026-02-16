@@ -13,6 +13,9 @@ export interface DownloadEvent {
   country: string | null;
   region: string | null;
   city: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  asn_org: string | null;
   user_agent: string | null;
   file_size: number | null;
   status_code: number;
