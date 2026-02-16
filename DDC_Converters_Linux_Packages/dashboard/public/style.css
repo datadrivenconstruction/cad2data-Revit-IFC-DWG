@@ -1,17 +1,18 @@
 :root {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface-hover: #22263a;
-  --border: #2a2e3e;
-  --text: #e1e4ea;
-  --text-secondary: #8b8fa3;
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --surface-hover: #f8f9fb;
+  --border: #e5e7eb;
+  --text: #111827;
+  --text-secondary: #6b7280;
   --accent: #3b82f6;
   --accent-hover: #2563eb;
-  --green: #22c55e;
-  --red: #ef4444;
-  --orange: #f59e0b;
-  --purple: #a855f7;
+  --green: #16a34a;
+  --red: #dc2626;
+  --orange: #d97706;
+  --purple: #7c3aed;
   --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
 }
 
 * {
@@ -33,6 +34,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .login-box {
@@ -42,11 +44,13 @@ body {
   padding: 40px;
   width: 100%;
   max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
 
 .login-box h1 {
   font-size: 1.5rem;
   margin-bottom: 8px;
+  color: var(--text);
 }
 
 .login-box p {
@@ -69,6 +73,7 @@ body {
 
 .login-box input:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .login-box button {
@@ -110,6 +115,7 @@ header {
   padding: 16px 32px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 header h1 {
@@ -144,6 +150,7 @@ header .header-right {
   gap: 4px;
   padding: 16px 32px 0;
   border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .nav-tab {
@@ -190,6 +197,7 @@ header .header-right {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
+  box-shadow: var(--shadow);
 }
 
 .stat-card .label {
@@ -217,6 +225,7 @@ header .header-right {
   border-radius: var(--radius);
   padding: 24px;
   margin-bottom: 24px;
+  box-shadow: var(--shadow);
 }
 
 .chart-card h2 {
@@ -269,6 +278,11 @@ header .header-right {
   background: var(--surface-hover);
 }
 
+.table-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
 /* Controls */
 .controls {
   display: flex;
@@ -280,11 +294,26 @@ header .header-right {
 .controls select,
 .controls input {
   padding: 8px 12px;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text);
   font-size: 0.85rem;
+}
+
+.controls select:focus,
+.controls input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Map */
+#mapContainer {
+  width: 100%;
+  height: 420px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 /* Loading */

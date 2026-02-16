@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DDC Package Analytics</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap/dist/css/jsvectormap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsvectormap"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsvectormap/dist/maps/world.js"></script>
 </head>
 <body>
 
@@ -73,6 +76,17 @@
             <canvas id="chartTrend"></canvas>
           </div>
         </div>
+
+        <div class="grid-2">
+          <div class="chart-card">
+            <h2>Cumulative Downloads (30 days)</h2>
+            <canvas id="chartCumulative"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2>Package Share</h2>
+            <canvas id="chartShare"></canvas>
+          </div>
+        </div>
       </div>
 
       <!-- Packages Page -->
@@ -100,28 +114,37 @@
         <div class="controls">
           <select id="geoDays" onchange="loadGeography()">
             <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
             <option value="30" selected>Last 30 days</option>
+            <option value="60">Last 60 days</option>
             <option value="90">Last 90 days</option>
+            <option value="180">Last 6 months</option>
             <option value="365">Last year</option>
           </select>
         </div>
+        <div class="chart-card">
+          <h2>Download Map</h2>
+          <div id="mapContainer"></div>
+        </div>
         <div class="grid-2">
           <div class="chart-card">
-            <h2>Downloads by Country</h2>
+            <h2>Top Countries</h2>
             <canvas id="chartGeo"></canvas>
           </div>
           <div class="chart-card">
             <h2>Country Details</h2>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Country</th>
-                  <th>Downloads</th>
-                  <th>Unique IPs</th>
-                </tr>
-              </thead>
-              <tbody id="geoTable"></tbody>
-            </table>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Country</th>
+                    <th>Downloads</th>
+                    <th>Unique IPs</th>
+                  </tr>
+                </thead>
+                <tbody id="geoTable"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -136,7 +159,9 @@
           </select>
           <select id="tsDays" onchange="loadTimeseries()">
             <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
             <option value="30" selected>Last 30 days</option>
+            <option value="60">Last 60 days</option>
             <option value="90">Last 90 days</option>
             <option value="180">Last 6 months</option>
             <option value="365">Last year</option>

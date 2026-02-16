@@ -1,10 +1,11 @@
 // --- State ---
 let apiToken = sessionStorage.getItem('ddc_api_token') || '';
 const API_BASE = '/api';
-const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4', '#ec4899'];
+const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#ef4444', '#06b6d4', '#ec4899', '#14b8a6', '#f97316', '#8b5cf6'];
 
 // Chart instances (for cleanup on re-render)
 let charts = {};
+let worldMap = null;
 
 // --- Auth ---
 function login() {
@@ -110,7 +111,7 @@ async function loadOverview() {
     document.getElementById('lastUpdated').textContent =
       'Updated: ' + new Date().toLocaleTimeString();
 
-    // Package bar chart
+    // Package bar chart (horizontal)
     renderChart('chartPackages', 'bar', {
       labels: summary.per_package.map((p) => p.package),
       datasets: [{
@@ -122,6 +123,21 @@ async function loadOverview() {
     }, {
       indexAxis: 'y',
       plugins: { legend: { display: false } },
+    });
+
+    // Package share doughnut
+    renderChart('chartShare', 'doughnut', {
+      labels: summary.per_package.map((p) => p.package),
+      datasets: [{
+        data: summary.per_package.map((p) => p.count),
+        backgroundColor: COLORS.slice(0, summary.per_package.length),
+        borderWidth: 2,
+        borderColor: '#ffffff',
+      }],
+    }, {
+      plugins: {
+        legend: { position: 'right', labels: { boxWidth: 12, padding: 12 } },
+      },
     });
 
     // 30-day trend line chart
@@ -137,11 +153,38 @@ async function loadOverview() {
           return pt ? pt.count : 0;
         }),
         borderColor: COLORS[i % COLORS.length],
-        backgroundColor: COLORS[i % COLORS.length] + '20',
+        backgroundColor: COLORS[i % COLORS.length] + '15',
         fill: true,
         tension: 0.3,
         pointRadius: 2,
       })),
+    });
+
+    // Cumulative downloads line chart
+    const totalByPeriod = {};
+    trend.data.forEach((d) => {
+      totalByPeriod[d.period] = (totalByPeriod[d.period] || 0) + d.count;
+    });
+    let cumulative = 0;
+    const cumulativeData = allPeriods.map((p) => {
+      cumulative += (totalByPeriod[p] || 0);
+      return cumulative;
+    });
+
+    renderChart('chartCumulative', 'line', {
+      labels: allPeriods.map((p) => p.slice(5)),
+      datasets: [{
+        label: 'Cumulative Downloads',
+        data: cumulativeData,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 1,
+        borderWidth: 2,
+      }],
+    }, {
+      plugins: { legend: { display: false } },
     });
   } catch (err) {
     console.error('Failed to load overview:', err);
@@ -176,17 +219,22 @@ async function loadGeography() {
     const days = document.getElementById('geoDays').value;
     const data = await apiFetch(`/geography?days=${days}`);
 
-    // Pie chart (top 10)
+    // World map
+    renderWorldMap(data.data);
+
+    // Doughnut chart (top 10)
     const top10 = data.data.slice(0, 10);
     renderChart('chartGeo', 'doughnut', {
-      labels: top10.map((d) => d.country || 'Unknown'),
+      labels: top10.map((d) => countryName(d.country) || 'Unknown'),
       datasets: [{
         data: top10.map((d) => d.count),
-        backgroundColor: COLORS.concat(COLORS), // double for more colors
+        backgroundColor: COLORS,
+        borderWidth: 2,
+        borderColor: '#ffffff',
       }],
     }, {
       plugins: {
-        legend: { position: 'right', labels: { boxWidth: 12 } },
+        legend: { position: 'right', labels: { boxWidth: 12, padding: 10 } },
       },
     });
 
@@ -195,7 +243,7 @@ async function loadGeography() {
     tbody.innerHTML = data.data
       .map((d) => `
         <tr>
-          <td>${countryFlag(d.country)} ${esc(d.country || 'Unknown')}</td>
+          <td>${countryFlag(d.country)} ${esc(countryName(d.country) || d.country || 'Unknown')}</td>
           <td>${formatNumber(d.count)}</td>
           <td>${formatNumber(d.unique_ips)}</td>
         </tr>
@@ -203,6 +251,67 @@ async function loadGeography() {
       .join('');
   } catch (err) {
     console.error('Failed to load geography:', err);
+  }
+}
+
+// --- World Map ---
+function renderWorldMap(geoData) {
+  if (typeof jsVectorMap === 'undefined') {
+    document.getElementById('mapContainer').innerHTML =
+      '<p style="text-align:center;color:#6b7280;padding:60px;">Map library not available</p>';
+    return;
+  }
+
+  if (worldMap) {
+    worldMap.destroy();
+    worldMap = null;
+  }
+  document.getElementById('mapContainer').innerHTML = '';
+
+  const values = {};
+  geoData.forEach((d) => {
+    if (d.country && d.country.length === 2) {
+      values[d.country.toUpperCase()] = d.count;
+    }
+  });
+
+  try {
+    worldMap = new jsVectorMap({
+      selector: '#mapContainer',
+      map: 'world',
+      backgroundColor: 'transparent',
+      regionStyle: {
+        initial: {
+          fill: '#e5e7eb',
+          stroke: '#ffffff',
+          strokeWidth: 0.5,
+        },
+        hover: {
+          fillOpacity: 0.8,
+          cursor: 'pointer',
+        },
+      },
+      series: {
+        regions: [{
+          attribute: 'fill',
+          scale: ['#dbeafe', '#1d4ed8'],
+          values: values,
+          min: 0,
+        }],
+      },
+      onRegionTooltipShow(event, tooltip, code) {
+        try {
+          const count = values[code] || 0;
+          tooltip.text(
+            tooltip.text() + ': ' + count.toLocaleString() + ' downloads'
+          );
+        } catch (e) { /* ignore tooltip errors */ }
+      },
+    });
+  } catch (err) {
+    console.error('Failed to render map:', err);
+    document.getElementById('mapContainer').innerHTML =
+      '<p style="text-align:center;color:#6b7280;padding:60px;">Failed to load map</p>';
   }
 }
 
@@ -270,18 +379,18 @@ function renderChart(canvasId, type, data, extraOptions = {}) {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          labels: { color: '#8b8fa3', font: { size: 12 } },
+          labels: { color: '#4b5563', font: { size: 12 } },
         },
       },
       scales: type === 'doughnut' || type === 'pie' ? {} : {
         x: {
-          ticks: { color: '#8b8fa3' },
-          grid: { color: '#2a2e3e' },
+          ticks: { color: '#6b7280' },
+          grid: { color: '#f3f4f6' },
           ...(extraOptions.scales?.x || {}),
         },
         y: {
-          ticks: { color: '#8b8fa3' },
-          grid: { color: '#2a2e3e' },
+          ticks: { color: '#6b7280' },
+          grid: { color: '#f3f4f6' },
           ...(extraOptions.scales?.y || {}),
         },
       },
@@ -325,4 +434,39 @@ function countryFlag(code) {
     ...code.toUpperCase().split('').map((c) => c.charCodeAt(0) + offset)
   );
   return `<span class="country-flag">${flag}</span>`;
+}
+
+// Country code to name mapping
+const COUNTRY_NAMES = {
+  US: 'United States', GB: 'United Kingdom', DE: 'Germany', FR: 'France',
+  IT: 'Italy', ES: 'Spain', NL: 'Netherlands', BE: 'Belgium', AT: 'Austria',
+  CH: 'Switzerland', SE: 'Sweden', NO: 'Norway', DK: 'Denmark', FI: 'Finland',
+  PL: 'Poland', CZ: 'Czech Republic', RO: 'Romania', HU: 'Hungary',
+  PT: 'Portugal', IE: 'Ireland', GR: 'Greece', BG: 'Bulgaria', HR: 'Croatia',
+  SK: 'Slovakia', SI: 'Slovenia', LT: 'Lithuania', LV: 'Latvia', EE: 'Estonia',
+  CA: 'Canada', MX: 'Mexico', BR: 'Brazil', AR: 'Argentina', CL: 'Chile',
+  CO: 'Colombia', PE: 'Peru', VE: 'Venezuela', EC: 'Ecuador', UY: 'Uruguay',
+  CN: 'China', JP: 'Japan', KR: 'South Korea', IN: 'India', ID: 'Indonesia',
+  TH: 'Thailand', VN: 'Vietnam', PH: 'Philippines', MY: 'Malaysia', SG: 'Singapore',
+  TW: 'Taiwan', HK: 'Hong Kong', AU: 'Australia', NZ: 'New Zealand',
+  RU: 'Russia', UA: 'Ukraine', BY: 'Belarus', KZ: 'Kazakhstan',
+  TR: 'Turkey', IL: 'Israel', AE: 'UAE', SA: 'Saudi Arabia', QA: 'Qatar',
+  EG: 'Egypt', ZA: 'South Africa', NG: 'Nigeria', KE: 'Kenya', GH: 'Ghana',
+  LU: 'Luxembourg', CY: 'Cyprus', MT: 'Malta', IS: 'Iceland',
+  RS: 'Serbia', BA: 'Bosnia', ME: 'Montenegro', MK: 'North Macedonia', AL: 'Albania',
+  GE: 'Georgia', AM: 'Armenia', AZ: 'Azerbaijan', UZ: 'Uzbekistan',
+  PK: 'Pakistan', BD: 'Bangladesh', LK: 'Sri Lanka', MM: 'Myanmar', NP: 'Nepal',
+  KH: 'Cambodia', LA: 'Laos', MN: 'Mongolia',
+  MA: 'Morocco', TN: 'Tunisia', DZ: 'Algeria', LY: 'Libya',
+  JO: 'Jordan', LB: 'Lebanon', IQ: 'Iraq', KW: 'Kuwait', BH: 'Bahrain', OM: 'Oman',
+  CR: 'Costa Rica', PA: 'Panama', DO: 'Dominican Republic', PR: 'Puerto Rico',
+  GT: 'Guatemala', HN: 'Honduras', SV: 'El Salvador', NI: 'Nicaragua',
+  BO: 'Bolivia', PY: 'Paraguay', TT: 'Trinidad and Tobago', JM: 'Jamaica',
+  ET: 'Ethiopia', TZ: 'Tanzania', UG: 'Uganda', RW: 'Rwanda', SN: 'Senegal',
+  CI: 'Ivory Coast', CM: 'Cameroon', AO: 'Angola', MZ: 'Mozambique',
+};
+
+function countryName(code) {
+  if (!code) return null;
+  return COUNTRY_NAMES[code.toUpperCase()] || code;
 }
