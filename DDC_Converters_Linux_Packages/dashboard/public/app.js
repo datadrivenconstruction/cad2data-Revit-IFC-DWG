@@ -249,8 +249,32 @@ async function loadGeography() {
         </tr>
       `)
       .join('');
+
+    // Cities
+    loadCities(days);
   } catch (err) {
     console.error('Failed to load geography:', err);
+  }
+}
+
+// --- Cities ---
+async function loadCities(days) {
+  try {
+    const data = await apiFetch(`/cities?days=${days}`);
+    const tbody = document.getElementById('citiesTable');
+    tbody.innerHTML = data.data
+      .map((d) => `
+        <tr>
+          <td><strong>${esc(d.city)}</strong></td>
+          <td>${esc(d.region || '-')}</td>
+          <td>${countryFlag(d.country)} ${esc(countryName(d.country) || d.country || '-')}</td>
+          <td>${formatNumber(d.count)}</td>
+          <td>${formatNumber(d.unique_ips)}</td>
+        </tr>
+      `)
+      .join('');
+  } catch (err) {
+    console.error('Failed to load cities:', err);
   }
 }
 
