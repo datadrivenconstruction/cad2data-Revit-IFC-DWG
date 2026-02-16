@@ -1,0 +1,14 @@
+{
+  "name": "ddc-pkg-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "deploy": "wrangler pages deploy public --project-name ddc-pkg-dashboard"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250130.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^3.100.0"
+  }
+}

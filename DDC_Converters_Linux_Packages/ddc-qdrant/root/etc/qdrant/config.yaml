@@ -1,0 +1,18 @@
+log_level: INFO
+
+storage:
+  storage_path: /var/lib/qdrant/storage
+  snapshots_path: /var/lib/qdrant/snapshots
+  on_disk_payload: true
+
+service:
+  host: 0.0.0.0
+  http_port: 6333
+  grpc_port: 6334
+  enable_static_content: true
+  enable_cors: true
+
+cluster:
+  enabled: false
+
+telemetry_disabled: true

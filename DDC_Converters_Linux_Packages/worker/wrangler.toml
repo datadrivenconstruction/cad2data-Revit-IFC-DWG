@@ -1,0 +1,29 @@
+name = "ddc-pkg-analytics"
+main = "src/index.ts"
+compatibility_date = "2025-12-01"
+
+# Route: intercept all traffic to the package domain
+routes = [
+  { pattern = "pkg.datadrivenconstruction.io/*", zone_name = "datadrivenconstruction.io" }
+]
+
+# R2 bucket binding
+[[r2_buckets]]
+binding = "REPO_BUCKET"
+bucket_name = "ddc-packages"
+jurisdiction = "eu"
+
+# D1 database binding
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "ddc-pkg-analytics-db"
+database_id = "b35d5bab-5737-4be8-b1f5-71afa7921597"
+migrations_dir = "migrations"
+
+# Environment variables
+[vars]
+DAILY_SALT_PREFIX = "ddc-analytics-2025"
+
+# Daily aggregation cron (02:00 UTC)
+[triggers]
+crons = ["0 2 * * *"]

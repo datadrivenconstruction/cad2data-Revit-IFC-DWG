@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+COLLECTION="__COLLECTION__"
+QDRANT_URL="http://localhost:6333"
+
+case "$1" in
+    remove|purge)
+        # Remove collection from Qdrant
+        if curl -sf "${QDRANT_URL}/healthz" >/dev/null 2>&1; then
+            echo "Removing collection '${COLLECTION}' from Qdrant..."
+            curl -sf -X DELETE "${QDRANT_URL}/collections/${COLLECTION}" >/dev/null 2>&1 || true
+            echo "Collection '${COLLECTION}' removed."
+        else
+            echo "Qdrant is not running, skipping collection cleanup."
+        fi
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,410 @@
+#!/usr/bin/env python3
+"""
+ddc-search — Semantic search over DDC CWICR construction cost database.
+
+Usage:
+    ddc-search "reinforced concrete foundation"        # semantic search
+    ddc-search --keyword "concrete"                    # keyword filter
+    ddc-search --collection ddc_cwicr_de "Fundament"   # specific language
+    ddc-search --list                                  # list collections
+    ddc-search --json "floor tiles"                    # JSON output
+
+Requires:
+    - Qdrant running on localhost:6333 (installed via ddc-qdrant)
+    - OPENAI_API_KEY env variable (for semantic search only)
+
+Part of DDC CWICR — Open Construction Cost Database
+https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR
+"""
+
+import argparse
+import json
+import os
+import sys
+import urllib.request
+import urllib.error
+
+# ---------------------------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------------------------
+
+DEFAULT_QDRANT_URL = "http://localhost:6333"
+DEFAULT_OPENAI_MODEL = "text-embedding-3-large"
+DEFAULT_LIMIT = 5
+CONFIG_FILE = "/etc/ddc-cwicr/config"
+
+# ANSI colors
+C_RESET = "\033[0m"
+C_BOLD = "\033[1m"
+C_DIM = "\033[2m"
+C_BLUE = "\033[34m"
+C_GREEN = "\033[32m"
+C_YELLOW = "\033[33m"
+C_CYAN = "\033[36m"
+C_WHITE = "\033[37m"
+C_MAGENTA = "\033[35m"
+
+
+def load_config():
+    """Load configuration from file and environment."""
+    config = {
+        "qdrant_url": DEFAULT_QDRANT_URL,
+        "openai_api_key": "",
+        "openai_model": DEFAULT_OPENAI_MODEL,
+    }
+
+    # Read config file
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE) as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    key, value = line.split("=", 1)
+                    config[key.strip()] = value.strip().strip('"').strip("'")
+
+    # Environment overrides
+    config["qdrant_url"] = os.environ.get("QDRANT_URL", config["qdrant_url"])
+    config["openai_api_key"] = os.environ.get(
+        "OPENAI_API_KEY", config["openai_api_key"]
+    )
+
+    return config
+
+
+# ---------------------------------------------------------------------------
+# Qdrant API
+# ---------------------------------------------------------------------------
+
+
+def qdrant_request(url, method="GET", data=None):
+    """Make a request to Qdrant REST API."""
+    headers = {"Content-Type": "application/json"}
+    body = json.dumps(data).encode() if data else None
+
+    req = urllib.request.Request(url, data=body, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.URLError as e:
+        print(f"{C_BOLD}Error:{C_RESET} Cannot connect to Qdrant at {url}", file=sys.stderr)
+        print(f"Make sure Qdrant is running: sudo systemctl start qdrant", file=sys.stderr)
+        sys.exit(1)
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+        print(f"{C_BOLD}Qdrant error ({e.code}):{C_RESET} {body}", file=sys.stderr)
+        sys.exit(1)
+
+
+def list_collections(qdrant_url):
+    """List all Qdrant collections."""
+    result = qdrant_request(f"{qdrant_url}/collections")
+    collections = result.get("result", {}).get("collections", [])
+    return [c["name"] for c in collections]
+
+
+def get_collection_info(qdrant_url, collection):
+    """Get collection metadata."""
+    result = qdrant_request(f"{qdrant_url}/collections/{collection}")
+    return result.get("result", {})
+
+
+def search_vectors(qdrant_url, collection, vector, limit=5):
+    """Search by vector similarity."""
+    data = {
+        "vector": vector,
+        "limit": limit,
+        "with_payload": True,
+    }
+    result = qdrant_request(
+        f"{qdrant_url}/collections/{collection}/points/search",
+        method="POST",
+        data=data,
+    )
+    return result.get("result", [])
+
+
+def scroll_with_filter(qdrant_url, collection, keyword, limit=5):
+    """Scroll through points with keyword filter on payload."""
+    data = {
+        "filter": {
+            "should": [
+                {
+                    "key": "rate_original_name",
+                    "match": {"text": keyword},
+                },
+                {
+                    "key": "category_name",
+                    "match": {"text": keyword},
+                },
+            ]
+        },
+        "limit": limit,
+        "with_payload": True,
+        "with_vector": False,
+    }
+    result = qdrant_request(
+        f"{qdrant_url}/collections/{collection}/points/scroll",
+        method="POST",
+        data=data,
+    )
+    return result.get("result", {}).get("points", [])
+
+
+# ---------------------------------------------------------------------------
+# OpenAI Embedding
+# ---------------------------------------------------------------------------
+
+
+def get_embedding(text, api_key, model=DEFAULT_OPENAI_MODEL):
+    """Get text embedding from OpenAI API."""
+    url = "https://api.openai.com/v1/embeddings"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    data = json.dumps({"input": text, "model": model}).encode()
+
+    req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            result = json.loads(resp.read().decode())
+            return result["data"][0]["embedding"]
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+        if e.code == 401:
+            print(f"{C_BOLD}Error:{C_RESET} Invalid OpenAI API key.", file=sys.stderr)
+            print(f"Set your key: export OPENAI_API_KEY=sk-...", file=sys.stderr)
+        else:
+            print(f"{C_BOLD}OpenAI error ({e.code}):{C_RESET} {body}", file=sys.stderr)
+        sys.exit(1)
+    except urllib.error.URLError as e:
+        print(f"{C_BOLD}Error:{C_RESET} Cannot reach OpenAI API: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
+# Output Formatting
+# ---------------------------------------------------------------------------
+
+
+def format_cost(value):
+    """Format a cost value."""
+    if value is None or value == "" or value == 0:
+        return "-"
+    try:
+        return f"{float(value):,.2f}"
+    except (ValueError, TypeError):
+        return str(value)
+
+
+def print_result_table(results, is_json=False):
+    """Print search results as formatted table or JSON."""
+    if is_json:
+        output = []
+        for r in results:
+            p = r.get("payload", {})
+            score = r.get("score")
+            item = {
+                "score": score,
+                "rate_code": p.get("rate_code", ""),
+                "rate_original_name": p.get("rate_original_name", ""),
+                "rate_unit_of_measure": p.get("rate_unit_of_measure", ""),
+                "total_cost_per_position": p.get("total_cost_per_position"),
+                "total_material_cost": p.get("total_material_cost"),
+                "total_labor_cost": p.get("total_labor_cost"),
+                "total_machinery_cost": p.get("total_machinery_cost"),
+                "category_name": p.get("category_name", ""),
+                "currency_code": p.get("currency_code", ""),
+            }
+            output.append(item)
+        print(json.dumps(output, indent=2, ensure_ascii=False))
+        return
+
+    if not results:
+        print(f"\n{C_DIM}No results found.{C_RESET}\n")
+        return
+
+    # Get currency from first result
+    first_payload = results[0].get("payload", {})
+    currency = first_payload.get("currency_code", "")
+
+    print()
+    for i, r in enumerate(results, 1):
+        p = r.get("payload", {})
+        score = r.get("score")
+
+        code = p.get("rate_code", "N/A")
+        name = p.get("rate_original_name", "N/A")
+        unit = p.get("rate_unit_of_measure", "")
+        category = p.get("category_name", "")
+
+        total = p.get("total_cost_per_position")
+        materials = p.get("total_material_cost")
+        labor = p.get("total_labor_cost")
+        machinery = p.get("total_machinery_cost")
+
+        # Header
+        score_str = f"  {C_DIM}score: {score:.4f}{C_RESET}" if score else ""
+        print(f"  {C_BOLD}{C_BLUE}{i}.{C_RESET} {C_BOLD}[{code}]{C_RESET} {name}{score_str}")
+
+        # Details line
+        details = []
+        if unit:
+            details.append(f"{C_CYAN}Unit:{C_RESET} {unit}")
+        if category:
+            details.append(f"{C_CYAN}Category:{C_RESET} {category}")
+        if details:
+            print(f"     {' | '.join(details)}")
+
+        # Cost breakdown
+        costs = []
+        if total is not None:
+            costs.append(f"{C_GREEN}Total: {format_cost(total)} {currency}{C_RESET}")
+        if materials is not None:
+            costs.append(f"{C_YELLOW}Materials: {format_cost(materials)}{C_RESET}")
+        if labor is not None:
+            costs.append(f"{C_MAGENTA}Labor: {format_cost(labor)}{C_RESET}")
+        if machinery is not None:
+            costs.append(f"{C_DIM}Equipment: {format_cost(machinery)}{C_RESET}")
+        if costs:
+            print(f"     {' | '.join(costs)}")
+
+        print()
+
+
+def print_collections_table(qdrant_url, collections):
+    """Print installed collections."""
+    if not collections:
+        print(f"\n{C_DIM}No DDC CWICR collections found.{C_RESET}")
+        print(f"Install one: sudo apt install ddc-cwicr-en\n")
+        return
+
+    print(f"\n{C_BOLD}Installed DDC CWICR Collections:{C_RESET}\n")
+    print(f"  {'Collection':<25} {'Points':>10} {'Status':<10}")
+    print(f"  {'─' * 25} {'─' * 10} {'─' * 10}")
+
+    for name in sorted(collections):
+        if not name.startswith("ddc_cwicr_"):
+            continue
+        info = get_collection_info(qdrant_url, name)
+        count = info.get("points_count", "?")
+        status = info.get("status", "unknown")
+        status_color = C_GREEN if status == "green" else C_YELLOW
+        print(f"  {C_CYAN}{name:<25}{C_RESET} {count:>10} {status_color}{status}{C_RESET}")
+
+    print()
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="ddc-search",
+        description="Search DDC CWICR construction cost database",
+        epilog=(
+            "Examples:\n"
+            '  ddc-search "reinforced concrete foundation"\n'
+            '  ddc-search --keyword "concrete"\n'
+            '  ddc-search --collection ddc_cwicr_de "Stahlbetonfundament"\n'
+            "  ddc-search --list\n"
+            '  ddc-search --json --limit 10 "floor tiles"\n'
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    parser.add_argument("query", nargs="?", help="Search query text")
+    parser.add_argument(
+        "--keyword", "-k", action="store_true",
+        help="Use keyword filter instead of semantic search (no API key needed)",
+    )
+    parser.add_argument(
+        "--collection", "-c", metavar="NAME",
+        help="Qdrant collection name (default: auto-detect first installed)",
+    )
+    parser.add_argument(
+        "--limit", "-n", type=int, default=DEFAULT_LIMIT,
+        help=f"Maximum number of results (default: {DEFAULT_LIMIT})",
+    )
+    parser.add_argument(
+        "--list", "-l", action="store_true",
+        help="List installed DDC CWICR collections",
+    )
+    parser.add_argument(
+        "--json", "-j", action="store_true",
+        help="Output results as JSON",
+    )
+    parser.add_argument("--qdrant-url", metavar="URL", help="Qdrant API URL")
+    parser.add_argument("--version", "-v", action="version", version="ddc-search 1.0.0")
+
+    args = parser.parse_args()
+    config = load_config()
+
+    qdrant_url = args.qdrant_url or config["qdrant_url"]
+
+    # --- List collections ---
+    if args.list:
+        collections = list_collections(qdrant_url)
+        if args.json:
+            print(json.dumps(collections, indent=2))
+        else:
+            print_collections_table(qdrant_url, collections)
+        return
+
+    # --- Search ---
+    if not args.query:
+        parser.print_help()
+        sys.exit(1)
+
+    # Determine collection
+    collection = args.collection
+    if not collection:
+        collections = list_collections(qdrant_url)
+        cwicr = [c for c in collections if c.startswith("ddc_cwicr_")]
+        if not cwicr:
+            print(
+                f"{C_BOLD}Error:{C_RESET} No DDC CWICR collections found.",
+                file=sys.stderr,
+            )
+            print(
+                "Install one: sudo apt install ddc-cwicr-en", file=sys.stderr
+            )
+            sys.exit(1)
+        collection = cwicr[0]
+        if not args.json:
+            print(f"{C_DIM}Using collection: {collection}{C_RESET}")
+
+    # --- Keyword search ---
+    if args.keyword:
+        results = scroll_with_filter(qdrant_url, collection, args.query, args.limit)
+        print_result_table(results, is_json=args.json)
+        return
+
+    # --- Semantic search ---
+    api_key = config["openai_api_key"]
+    if not api_key:
+        print(
+            f"{C_BOLD}Error:{C_RESET} OPENAI_API_KEY is required for semantic search.",
+            file=sys.stderr,
+        )
+        print("Set it:  export OPENAI_API_KEY=sk-...", file=sys.stderr)
+        print(
+            "Or use keyword search:  ddc-search --keyword \"your query\"",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    if not args.json:
+        print(f"{C_DIM}Getting embedding for: \"{args.query}\"...{C_RESET}")
+
+    vector = get_embedding(args.query, api_key, config["openai_model"])
+    results = search_vectors(qdrant_url, collection, vector, args.limit)
+    print_result_table(results, is_json=args.json)
+
+
+if __name__ == "__main__":
+    main()

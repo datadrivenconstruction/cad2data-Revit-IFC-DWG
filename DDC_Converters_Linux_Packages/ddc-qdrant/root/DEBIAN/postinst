@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    configure)
+        # Create qdrant system user
+        if ! id -u qdrant >/dev/null 2>&1; then
+            useradd --system \
+                --home-dir /var/lib/qdrant \
+                --shell /usr/sbin/nologin \
+                --comment "Qdrant Vector Database" \
+                qdrant
+        fi
+
+        # Create data directories
+        mkdir -p /var/lib/qdrant/storage
+        mkdir -p /var/lib/qdrant/snapshots
+        chown -R qdrant:qdrant /var/lib/qdrant
+        chown -R qdrant:qdrant /etc/qdrant
+
+        # Enable and start service
+        systemctl daemon-reload
+        systemctl enable qdrant.service
+        systemctl start qdrant.service
+
+        echo ""
+        echo "============================================"
+        echo "  Qdrant vector database is running"
+        echo "  REST API:   http://localhost:6333"
+        echo "  Dashboard:  http://localhost:6333/dashboard"
+        echo "============================================"
+        echo ""
+        ;;
+esac
+
+exit 0

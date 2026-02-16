@@ -1,0 +1,22 @@
+Package: ddc-cwicr-__LANG__
+Version: 0.1.0
+Architecture: all
+Section: database
+Priority: optional
+Depends: ddc-qdrant, curl
+Recommends: ddc-cwicr-cli
+Maintainer: DataDrivenConstruction.io
+Homepage: https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR
+Description: DDC CWICR construction cost database (__REGION__)
+ Open-source construction cost database with 55,719 work items
+ and 27,672 resources for __REGION__.
+ .
+ Includes pre-computed OpenAI embeddings (3072 dimensions) for
+ semantic search via Qdrant vector database.
+ .
+ Fields: materials, labor, equipment, cost aggregates,
+ price statistics, physical properties.
+ Currency: __CURRENCY__
+ .
+ Data is downloaded from GitHub (~1 GB) during installation.
+Installed-Size: 10

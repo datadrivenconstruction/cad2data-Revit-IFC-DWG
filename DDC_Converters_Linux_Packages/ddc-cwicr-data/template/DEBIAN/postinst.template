@@ -1,0 +1,85 @@
+#!/bin/bash
+set -e
+
+COLLECTION="__COLLECTION__"
+SNAPSHOT_FILE="__SNAPSHOT__"
+RELEASE_TAG="v0.1.0"
+REPO="datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR"
+QDRANT_URL="http://localhost:6333"
+
+case "$1" in
+    configure)
+        echo ""
+        echo "=== DDC CWICR: Loading __REGION__ data ==="
+        echo ""
+
+        # Wait for Qdrant to be ready (up to 30 seconds)
+        echo "Waiting for Qdrant..."
+        READY=0
+        for i in $(seq 1 30); do
+            if curl -sf "${QDRANT_URL}/healthz" >/dev/null 2>&1; then
+                READY=1
+                break
+            fi
+            sleep 1
+        done
+
+        if [ "$READY" -eq 0 ]; then
+            echo "WARNING: Qdrant is not running on ${QDRANT_URL}"
+            echo "Start Qdrant and run manually:"
+            echo "  sudo systemctl start qdrant"
+            echo "  sudo dpkg --configure ddc-cwicr-__LANG__"
+            exit 1
+        fi
+
+        # Build download URL (GitHub Releases)
+        SNAPSHOT_URL="https://github.com/${REPO}/releases/download/${RELEASE_TAG}/${SNAPSHOT_FILE}"
+
+        echo "Restoring collection '${COLLECTION}' from GitHub..."
+        echo "Source: ${SNAPSHOT_URL}"
+        echo "This will download ~1 GB of data. Please wait..."
+        echo ""
+
+        # Restore snapshot via Qdrant API
+        # Qdrant fetches the snapshot from the URL directly
+        HTTP_CODE=$(curl -s -o /tmp/ddc-cwicr-restore.log -w "%{http_code}" \
+            -X PUT "${QDRANT_URL}/collections/${COLLECTION}/snapshots/recover" \
+            -H "Content-Type: application/json" \
+            --max-time 600 \
+            -d "{\"location\": \"${SNAPSHOT_URL}\", \"priority\": \"snapshot\"}")
+
+        if [ "$HTTP_CODE" -eq 200 ] || [ "$HTTP_CODE" -eq 204 ]; then
+            # Verify collection was created
+            sleep 2
+            POINT_COUNT=$(curl -sf "${QDRANT_URL}/collections/${COLLECTION}" 2>/dev/null \
+                | grep -o '"points_count":[0-9]*' \
+                | grep -o '[0-9]*' || echo "?")
+
+            echo ""
+            echo "================================================"
+            echo "  DDC CWICR __REGION__ data loaded successfully"
+            echo "  Collection:  ${COLLECTION}"
+            echo "  Work items:  ${POINT_COUNT}"
+            echo "  Qdrant API:  ${QDRANT_URL}/collections/${COLLECTION}"
+            echo "================================================"
+            echo ""
+            echo "Try: ddc-search \"reinforced concrete foundation\""
+            echo ""
+        else
+            echo "ERROR: Snapshot restore failed (HTTP ${HTTP_CODE})"
+            echo "Response:"
+            cat /tmp/ddc-cwicr-restore.log 2>/dev/null || true
+            echo ""
+            echo "You can retry manually:"
+            echo "  curl -X PUT '${QDRANT_URL}/collections/${COLLECTION}/snapshots/recover' \\"
+            echo "    -H 'Content-Type: application/json' \\"
+            echo "    -d '{\"location\": \"${SNAPSHOT_URL}\"}'"
+            rm -f /tmp/ddc-cwicr-restore.log
+            exit 1
+        fi
+
+        rm -f /tmp/ddc-cwicr-restore.log
+        ;;
+esac
+
+exit 0

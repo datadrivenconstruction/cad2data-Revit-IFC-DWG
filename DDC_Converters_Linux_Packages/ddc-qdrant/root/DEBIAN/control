@@ -1,0 +1,16 @@
+Package: ddc-qdrant
+Version: 1.16.3
+Architecture: ARCH_PLACEHOLDER
+Section: database
+Priority: optional
+Depends: libc6 (>= 2.31), libssl3 | libssl1.1, curl
+Maintainer: DataDrivenConstruction.io
+Homepage: https://datadrivenconstruction.io
+Description: Qdrant vector database engine for DDC CWICR
+ High-performance vector similarity search engine packaged for
+ DDC Construction Work Items, Components & Resources (CWICR) database.
+ Provides semantic search over 55,719 construction work items
+ with pre-computed OpenAI embeddings (3072 dimensions).
+ .
+ Installs Qdrant as a systemd service on port 6333.
+ Web dashboard available at http://localhost:6333/dashboard

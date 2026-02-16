@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+        if systemctl is-active --quiet qdrant.service 2>/dev/null; then
+            systemctl stop qdrant.service
+        fi
+        if systemctl is-enabled --quiet qdrant.service 2>/dev/null; then
+            systemctl disable qdrant.service
+        fi
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,19 @@
+[Unit]
+Description=Qdrant Vector Database
+Documentation=https://qdrant.tech/documentation/
+After=network.target
+
+[Service]
+Type=simple
+User=qdrant
+Group=qdrant
+ExecStart=/usr/bin/qdrant --config-path /etc/qdrant/config.yaml
+WorkingDirectory=/var/lib/qdrant
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

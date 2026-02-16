@@ -1,0 +1,15 @@
+{
+  "name": "ddc-pkg-analytics-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "migrate": "wrangler d1 migrations apply ddc-pkg-analytics-db --remote"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250130.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^3.100.0"
+  }
+}

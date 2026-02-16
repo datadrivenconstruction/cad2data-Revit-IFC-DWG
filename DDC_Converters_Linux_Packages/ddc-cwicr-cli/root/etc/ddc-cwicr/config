@@ -1,0 +1,11 @@
+# DDC CWICR Search Configuration
+#
+# Qdrant connection
+qdrant_url = http://localhost:6333
+
+# OpenAI API key for semantic search
+# Set via environment variable (preferred) or uncomment below:
+# openai_api_key = sk-your-key-here
+
+# Embedding model
+openai_model = text-embedding-3-large

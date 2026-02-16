@@ -1,0 +1,20 @@
+Package: ddc-cwicr-cli
+Version: 1.0.0
+Architecture: all
+Section: utils
+Priority: optional
+Depends: python3 (>= 3.8), ddc-qdrant
+Recommends: ddc-cwicr-en | ddc-cwicr-de | ddc-cwicr-ru | ddc-cwicr-fr | ddc-cwicr-es | ddc-cwicr-ar | ddc-cwicr-zh | ddc-cwicr-pt | ddc-cwicr-hi
+Maintainer: DataDrivenConstruction.io
+Homepage: https://github.com/datadrivenconstruction/OpenConstructionEstimate-DDC-CWICR
+Description: CLI search tool for DDC CWICR construction cost database
+ Command-line interface for searching construction work items,
+ materials, labor rates, and equipment costs.
+ .
+ Supports semantic search (via OpenAI embeddings) and keyword search.
+ Auto-detects installed language collections.
+ .
+ Usage: ddc-search "reinforced concrete foundation"
+        ddc-search --keyword "concrete"
+        ddc-search --list
+Installed-Size: 24

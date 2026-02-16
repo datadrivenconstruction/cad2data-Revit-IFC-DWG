@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    purge)
+        # Remove data directories on purge
+        rm -rf /var/lib/qdrant
+        rm -rf /etc/qdrant
+
+        # Remove system user
+        if id -u qdrant >/dev/null 2>&1; then
+            userdel qdrant 2>/dev/null || true
+        fi
+        ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        systemctl daemon-reload
+        ;;
+esac
+
+exit 0

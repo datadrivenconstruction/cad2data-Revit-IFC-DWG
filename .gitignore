@@ -34,6 +34,13 @@ __pycache__/
 *_dgn.xlsx
 *_dgn.dae
 
+# === Node.js ===
+node_modules/
+package-lock.json
+
+# === Linux package build artifacts ===
+DDC_Converters_Linux_Packages/dist/
+
 # === Temporary / build ===
 *.tmp
 *.log

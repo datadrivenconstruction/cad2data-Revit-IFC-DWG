@@ -1,0 +1,11 @@
+name = "ddc-pkg-dashboard"
+compatibility_date = "2025-12-01"
+pages_build_output_dir = "public"
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "ddc-pkg-analytics-db"
+database_id = "b35d5bab-5737-4be8-b1f5-71afa7921597"
+
+[vars]
+API_TOKEN = "ddc-analytics-secret-2025"

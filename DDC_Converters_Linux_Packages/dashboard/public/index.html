@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DDC Package Analytics</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>DDC Package Analytics</h1>
+      <p>Enter your API token to access the dashboard</p>
+      <div class="login-error" id="loginError">Invalid API token</div>
+      <input type="password" id="tokenInput" placeholder="API Token" autofocus>
+      <button onclick="login()">Sign In</button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <header>
+      <h1>DDC Package Analytics</h1>
+      <div class="header-right">
+        <span class="last-updated" id="lastUpdated"></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="nav-tab" onclick="switchTab('packages')">Packages</button>
+      <button class="nav-tab" onclick="switchTab('geography')">Geography</button>
+      <button class="nav-tab" onclick="switchTab('timeseries')">Time Series</button>
+    </div>
+
+    <div class="content">
+      <!-- Overview Page -->
+      <div class="page active" id="page-overview">
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="label">Total Downloads</div>
+            <div class="value accent" id="statTotal">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Today</div>
+            <div class="value green" id="statToday">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">This Week</div>
+            <div class="value purple" id="statWeek">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">This Month</div>
+            <div class="value orange" id="statMonth">-</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Unique IPs Today</div>
+            <div class="value" id="statUniqueIPs">-</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="chart-card">
+            <h2>Downloads by Package</h2>
+            <canvas id="chartPackages"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2>30-Day Trend</h2>
+            <canvas id="chartTrend"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Packages Page -->
+      <div class="page" id="page-packages">
+        <div class="chart-card">
+          <h2>Package Details</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Package</th>
+                <th>Version</th>
+                <th>Arch</th>
+                <th>Total Downloads</th>
+                <th>Unique IPs</th>
+                <th>Last Downloaded</th>
+              </tr>
+            </thead>
+            <tbody id="packagesTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Geography Page -->
+      <div class="page" id="page-geography">
+        <div class="controls">
+          <select id="geoDays" onchange="loadGeography()">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="365">Last year</option>
+          </select>
+        </div>
+        <div class="grid-2">
+          <div class="chart-card">
+            <h2>Downloads by Country</h2>
+            <canvas id="chartGeo"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2>Country Details</h2>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Downloads</th>
+                  <th>Unique IPs</th>
+                </tr>
+              </thead>
+              <tbody id="geoTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Series Page -->
+      <div class="page" id="page-timeseries">
+        <div class="controls">
+          <select id="tsGranularity" onchange="loadTimeseries()">
+            <option value="day" selected>Daily</option>
+            <option value="week">Weekly</option>
+            <option value="month">Monthly</option>
+          </select>
+          <select id="tsDays" onchange="loadTimeseries()">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="180">Last 6 months</option>
+            <option value="365">Last year</option>
+          </select>
+          <select id="tsPackage" onchange="loadTimeseries()">
+            <option value="">All Packages</option>
+          </select>
+        </div>
+        <div class="chart-card">
+          <h2>Download Trends</h2>
+          <canvas id="chartTimeseries"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
