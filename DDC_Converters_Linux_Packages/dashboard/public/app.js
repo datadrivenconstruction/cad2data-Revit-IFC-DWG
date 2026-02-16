@@ -217,10 +217,13 @@ async function loadPackages() {
 async function loadGeography() {
   try {
     const days = document.getElementById('geoDays').value;
-    const data = await apiFetch(`/geography?days=${days}`);
+    const [data, cityCoords] = await Promise.all([
+      apiFetch(`/geography?days=${days}`),
+      apiFetch(`/citycoords?days=${days}`).catch(() => ({ data: [] })),
+    ]);
 
-    // World map
-    renderWorldMap(data.data);
+    // World map with scaled city markers
+    renderWorldMap(data.data, cityCoords.data || []);
 
     // Doughnut chart (top 10)
     const top10 = data.data.slice(0, 10);
@@ -250,9 +253,8 @@ async function loadGeography() {
       `)
       .join('');
 
-    // Cities + city markers on map + organizations
+    // Cities table + organizations
     loadCities(days);
-    loadCityMarkers(days);
     loadOrganizations(days);
   } catch (err) {
     console.error('Failed to load geography:', err);
@@ -280,27 +282,6 @@ async function loadCities(days) {
   }
 }
 
-// --- City Markers on Map ---
-async function loadCityMarkers(days) {
-  try {
-    const data = await apiFetch(`/citycoords?days=${days}`);
-    if (!worldMap || !data.data || data.data.length === 0) return;
-
-    const markers = data.data
-      .filter((d) => d.lat && d.lng)
-      .map((d) => ({
-        name: `${d.city}, ${countryName(d.country) || d.country} (${d.count})`,
-        coords: [d.lat, d.lng],
-      }));
-
-    if (markers.length > 0) {
-      worldMap.addMarkers(markers);
-    }
-  } catch (err) {
-    console.error('Failed to load city markers:', err);
-  }
-}
-
 // --- Organizations ---
 async function loadOrganizations(days) {
   try {
@@ -322,7 +303,7 @@ async function loadOrganizations(days) {
 }
 
 // --- World Map ---
-function renderWorldMap(geoData) {
+function renderWorldMap(geoData, cityData) {
   if (typeof jsVectorMap === 'undefined') {
     document.getElementById('mapContainer').innerHTML =
       '<p style="text-align:center;color:#6b7280;padding:60px;">Map library not available</p>';
@@ -335,18 +316,49 @@ function renderWorldMap(geoData) {
   }
   document.getElementById('mapContainer').innerHTML = '';
 
-  const values = {};
+  // Country choropleth values
+  const regionValues = {};
   geoData.forEach((d) => {
     if (d.country && d.country.length === 2) {
-      values[d.country.toUpperCase()] = d.count;
+      regionValues[d.country.toUpperCase()] = d.count;
     }
   });
 
+  // City markers with scaled radius
+  const cities = (cityData || []).filter((d) => d.lat && d.lng);
+  const maxCount = cities.reduce((max, d) => Math.max(max, d.count), 0);
+
+  const markers = cities.map((d) => ({
+    name: `${d.city}, ${countryName(d.country) || d.country}`,
+    coords: [d.lat, d.lng],
+  }));
+
+  const markerSizes = cities.map((d) => {
+    // Scale radius: sqrt for perceptual area scaling, range 4-22px
+    if (maxCount <= 0) return 6;
+    return 4 + 18 * Math.sqrt(d.count / maxCount);
+  });
+
+  const markerCounts = cities.map((d) => d.count);
+
   try {
-    worldMap = new jsVectorMap({
+    const mapConfig = {
       selector: '#mapContainer',
       map: 'world',
       backgroundColor: 'transparent',
+      markers: markers,
+      markerStyle: {
+        initial: {
+          fill: '#ef4444',
+          stroke: '#ffffff',
+          strokeWidth: 1.5,
+          fillOpacity: 0.75,
+        },
+        hover: {
+          fill: '#dc2626',
+          fillOpacity: 1,
+        },
+      },
       regionStyle: {
         initial: {
           fill: '#e5e7eb',
@@ -358,36 +370,54 @@ function renderWorldMap(geoData) {
           cursor: 'pointer',
         },
       },
-      markerStyle: {
-        initial: {
-          r: 5,
-          fill: '#ef4444',
-          stroke: '#ffffff',
-          strokeWidth: 1.5,
-          fillOpacity: 0.9,
-        },
-        hover: {
-          r: 7,
-          fill: '#dc2626',
-        },
-      },
       series: {
         regions: [{
           attribute: 'fill',
           scale: ['#dbeafe', '#1d4ed8'],
-          values: values,
+          values: regionValues,
           min: 0,
         }],
       },
       onRegionTooltipShow(event, tooltip, code) {
         try {
-          const count = values[code] || 0;
+          const count = regionValues[code] || 0;
           tooltip.text(
             tooltip.text() + ': ' + count.toLocaleString() + ' downloads'
           );
-        } catch (e) { /* ignore tooltip errors */ }
+        } catch (e) { /* ignore */ }
       },
-    });
+      onMarkerTooltipShow(event, tooltip, index) {
+        try {
+          const count = markerCounts[index] || 0;
+          tooltip.text(
+            tooltip.text() + ': ' + count.toLocaleString() + ' downloads'
+          );
+        } catch (e) { /* ignore */ }
+      },
+    };
+
+    // Add marker size series if we have markers
+    if (markers.length > 0) {
+      mapConfig.series.markers = [{
+        attribute: 'r',
+        scale: [4, 22],
+        values: markerCounts,
+      }];
+    }
+
+    worldMap = new jsVectorMap(mapConfig);
+
+    // Fallback: manually set radii if series didn't apply
+    if (markers.length > 0) {
+      try {
+        const svgMarkers = document.querySelectorAll('#mapContainer circle[data-index]');
+        svgMarkers.forEach((el, i) => {
+          if (i < markerSizes.length) {
+            el.setAttribute('r', markerSizes[i]);
+          }
+        });
+      } catch (e) { /* fallback failed, use default sizes */ }
+    }
   } catch (err) {
     console.error('Failed to render map:', err);
     document.getElementById('mapContainer').innerHTML =
