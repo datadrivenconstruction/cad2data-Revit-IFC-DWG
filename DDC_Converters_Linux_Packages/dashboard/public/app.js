@@ -302,127 +302,71 @@ async function loadOrganizations(days) {
   }
 }
 
-// --- World Map ---
+// --- World Map (Leaflet) ---
 function renderWorldMap(geoData, cityData) {
-  if (typeof jsVectorMap === 'undefined') {
+  if (typeof L === 'undefined') {
     document.getElementById('mapContainer').innerHTML =
       '<p style="text-align:center;color:#6b7280;padding:60px;">Map library not available</p>';
     return;
   }
 
+  // Destroy previous map
   if (worldMap) {
-    worldMap.destroy();
+    worldMap.remove();
     worldMap = null;
   }
-  document.getElementById('mapContainer').innerHTML = '';
 
-  // Country choropleth values
-  const regionValues = {};
-  geoData.forEach((d) => {
-    if (d.country && d.country.length === 2) {
-      regionValues[d.country.toUpperCase()] = d.count;
-    }
+  // Initialize Leaflet map
+  worldMap = L.map('mapContainer', {
+    center: [30, 10],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 12,
+    worldCopyJump: true,
   });
+
+  // CartoDB Positron tiles (light, clean look)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(worldMap);
 
   // City markers with scaled radius
   const cities = (cityData || []).filter((d) => d.lat && d.lng);
   const maxCount = cities.reduce((max, d) => Math.max(max, d.count), 0);
 
-  const markers = cities.map((d) => ({
-    name: `${d.city}, ${countryName(d.country) || d.country}`,
-    coords: [d.lat, d.lng],
-  }));
+  cities.forEach((d) => {
+    // sqrt scale for perceptual area scaling, range 5-25px
+    const radius = maxCount > 0 ? 5 + 20 * Math.sqrt(d.count / maxCount) : 7;
 
-  const markerSizes = cities.map((d) => {
-    // Scale radius: sqrt for perceptual area scaling, range 4-22px
-    if (maxCount <= 0) return 6;
-    return 4 + 18 * Math.sqrt(d.count / maxCount);
+    const marker = L.circleMarker([d.lat, d.lng], {
+      radius: radius,
+      fillColor: '#ef4444',
+      color: '#ffffff',
+      weight: 1.5,
+      fillOpacity: 0.7,
+      opacity: 0.9,
+    }).addTo(worldMap);
+
+    const cityName = d.city || 'Unknown';
+    const country = countryName(d.country) || d.country || '';
+    const ips = d.unique_ips || 0;
+
+    marker.bindPopup(
+      `<strong>${esc(cityName)}</strong>${country ? ', ' + esc(country) : ''}<br>` +
+      `Downloads: <strong>${d.count.toLocaleString()}</strong><br>` +
+      `Unique IPs: <strong>${ips.toLocaleString()}</strong>`
+    );
+
+    marker.bindTooltip(
+      `${esc(cityName)}: ${d.count.toLocaleString()}`,
+      { direction: 'top', offset: [0, -radius] }
+    );
   });
 
-  const markerCounts = cities.map((d) => d.count);
-
-  try {
-    const mapConfig = {
-      selector: '#mapContainer',
-      map: 'world',
-      backgroundColor: 'transparent',
-      markers: markers,
-      markerStyle: {
-        initial: {
-          fill: '#ef4444',
-          stroke: '#ffffff',
-          strokeWidth: 1.5,
-          fillOpacity: 0.75,
-        },
-        hover: {
-          fill: '#dc2626',
-          fillOpacity: 1,
-        },
-      },
-      regionStyle: {
-        initial: {
-          fill: '#e5e7eb',
-          stroke: '#ffffff',
-          strokeWidth: 0.5,
-        },
-        hover: {
-          fillOpacity: 0.8,
-          cursor: 'pointer',
-        },
-      },
-      series: {
-        regions: [{
-          attribute: 'fill',
-          scale: ['#dbeafe', '#1d4ed8'],
-          values: regionValues,
-          min: 0,
-        }],
-      },
-      onRegionTooltipShow(event, tooltip, code) {
-        try {
-          const count = regionValues[code] || 0;
-          tooltip.text(
-            tooltip.text() + ': ' + count.toLocaleString() + ' downloads'
-          );
-        } catch (e) { /* ignore */ }
-      },
-      onMarkerTooltipShow(event, tooltip, index) {
-        try {
-          const count = markerCounts[index] || 0;
-          tooltip.text(
-            tooltip.text() + ': ' + count.toLocaleString() + ' downloads'
-          );
-        } catch (e) { /* ignore */ }
-      },
-    };
-
-    // Add marker size series if we have markers
-    if (markers.length > 0) {
-      mapConfig.series.markers = [{
-        attribute: 'r',
-        scale: [4, 22],
-        values: markerCounts,
-      }];
-    }
-
-    worldMap = new jsVectorMap(mapConfig);
-
-    // Fallback: manually set radii if series didn't apply
-    if (markers.length > 0) {
-      try {
-        const svgMarkers = document.querySelectorAll('#mapContainer circle[data-index]');
-        svgMarkers.forEach((el, i) => {
-          if (i < markerSizes.length) {
-            el.setAttribute('r', markerSizes[i]);
-          }
-        });
-      } catch (e) { /* fallback failed, use default sizes */ }
-    }
-  } catch (err) {
-    console.error('Failed to render map:', err);
-    document.getElementById('mapContainer').innerHTML =
-      '<p style="text-align:center;color:#6b7280;padding:60px;">Failed to load map</p>';
-  }
+  // Force a size recalculation after render
+  setTimeout(() => { worldMap.invalidateSize(); }, 100);
 }
 
 // --- Time Series ---
