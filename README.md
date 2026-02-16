@@ -64,7 +64,7 @@
 - [Running the Converters](#running-the-converters)
 - [🖥️ Command Line Interface (CLI)](#️-command-line-interface-cli)
 - [🚀 AI Integration](#-ai-integration--perfect-fuel-for-ai-products)
-  - [📂 AI_INSTRUCTIONS Folder](#-ai_instructions-folder--ready-context-for-ai-assistants)
+  - [📂 AI_AGENTS_INSTRUCTIONS Folder](#-ai_agents_instructions-folder--ready-context-for-ai-assistants)
 - [Quick Start](#quick-start)
 - [📁 Workflows](#n8n-workflows-for-working-with-cadbim-data)
   - [⚡️ 1. Revit, IFC, DWG, DGN Basic Conversion](#️-1-revit-ifc-dwg-dgn-basic-conversion)
@@ -260,7 +260,7 @@ Depending on your workflow and technical background, you can choose between four
 4. **n8n Workflows** 
    - Best for companies seeking **full automation and system integration**.  
    - End-to-end pipelines where CAD (BIM) conversion becomes part of a seamless data flow.  
-   - Examples provided in the `DDC_n8n_workflows` folder.
+   - Examples provided in the `DDC_n8n_Workflows&Pipelines` folder.
   <p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
@@ -508,7 +508,7 @@ convert:
 
 #### 🔹 Docker (Windows Container)
 ```dockerfile
-COPY DDC_CONVERTER_Revit /app/DDC
+COPY DDC_Converters_Windows_Packages/DDC_CONVERTER_Revit /app/DDC
 RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
 ```
 
@@ -600,9 +600,9 @@ claude
 
 ---
 
-### 📂 AI_INSTRUCTIONS Folder — Ready Context for AI Assistants
+### 📂 AI_AGENTS_INSTRUCTIONS Folder — Ready Context for AI Assistants
 
-The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** folder containing everything AI coding assistants need to work effectively with these tools.
+The repository includes a dedicated **[AI_AGENTS_INSTRUCTIONS](AI_AGENTS_INSTRUCTIONS/)** folder containing everything AI coding assistants need to work effectively with these tools.
 
 **What's inside:**
 
@@ -623,9 +623,9 @@ The repository includes a dedicated **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** fold
 
 **How to use:**
 ```bash
-# AI assistants automatically read AI_INSTRUCTIONS when working with the repo
+# AI assistants automatically read AI_AGENTS_INSTRUCTIONS when working with the repo
 # Or point them directly:
-"Read AI_INSTRUCTIONS/CLAUDE.md and help me build a batch conversion pipeline"
+"Read AI_AGENTS_INSTRUCTIONS/CLAUDE.md and help me build a batch conversion pipeline"
 ```
 
 ---
@@ -1326,7 +1326,7 @@ Maybe it’s time to go back to the essence: open, structured, and accessible da
 
 ## Excel to Revit Update Project from Excel
 
-After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
+After transforming and enriching your Excel data, you can effortlessly push the modified data back into your Revit project. Our dedicated tool **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** makes this process seamless by directly importing updated Excel sheets into Revit parameters and families.
 
 > **Simplify your BIM workflow:** Revit ➡️ Excel ➡️ Transform ➡️ Excel ➡️ Revit.
 

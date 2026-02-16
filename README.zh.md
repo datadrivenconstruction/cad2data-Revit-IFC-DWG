@@ -63,7 +63,7 @@
 - [运行转换器](#运行转换器)
 - [🖥️ 命令行界面 (CLI)](#️-命令行界面-cli)
 - [🚀 AI 集成](#-ai-集成--ai-产品的完美燃料)
-  - [📂 AI_INSTRUCTIONS 文件夹](#-ai_instructions-文件夹--为-ai-助手准备的上下文)
+  - [📂 AI_AGENTS_INSTRUCTIONS 文件夹](#-ai_agents_instructions-文件夹--为-ai-助手准备的上下文)
 - [使用 n8n 快速入门](#使用-n8n-快速入门)
 - [📁 工作流](#用于处理-cadbim-数据的-n8n-工作流)
   - [⚡️ 1. Revit、IFC、DWG、DGN 基础转换](#️-1-revitifc dwgdgn-基础转换)
@@ -247,7 +247,7 @@ DDC 转换器可以通过不同方式启动 — **n8n 只是自动化的选项�
 4. **n8n 工作流**
    - 适合寻求**完全自动化和系统集成**的企业。
    - 端到端流程，CAD (BIM) 转换成为无缝数据流的一部分。
-   - `DDC_n8n_workflows` 文件夹中有示例。
+   - `DDC_n8n_Workflows&Pipelines` 文件夹中有示例。
   <p align="center">
   <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
@@ -495,7 +495,7 @@ convert:
 
 #### 🔹 Docker（Windows 容器）
 ```dockerfile
-COPY DDC_CONVERTER_Revit /app/DDC
+COPY DDC_Converters_Windows_Packages/DDC_CONVERTER_Revit /app/DDC
 RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
 ```
 
@@ -597,9 +597,9 @@ claude
 
 ---
 
-### 📂 AI_INSTRUCTIONS 文件夹 — 为 AI 助手准备的上下文
+### 📂 AI_AGENTS_INSTRUCTIONS 文件夹 — 为 AI 助手准备的上下文
 
-本仓库包含一个专用的 **[AI_INSTRUCTIONS](AI_INSTRUCTIONS/)** 文件夹，其中包含 AI 编程助手高效使用这些工具所需的所有内容。
+本仓库包含一个专用的 **[AI_AGENTS_INSTRUCTIONS](AI_AGENTS_INSTRUCTIONS/)** 文件夹，其中包含 AI 编程助手高效使用这些工具所需的所有内容。
 
 **包含内容：**
 
@@ -620,9 +620,9 @@ claude
 
 **如何使用：**
 ```bash
-# AI 助手在使用仓库时会自动读取 AI_INSTRUCTIONS
+# AI 助手在使用仓库时会自动读取 AI_AGENTS_INSTRUCTIONS
 # 或者直接指向它们：
-"阅读 AI_INSTRUCTIONS/CLAUDE.md 并帮我创建批量转换流程"
+"阅读 AI_AGENTS_INSTRUCTIONS/CLAUDE.md 并帮我创建批量转换流程"
 ```
 
 ---
@@ -1303,7 +1303,7 @@ set NODES_EXCLUDE=[] && npx n8n
 
 ## Excel 导入 Revit：从 Excel 更新项目
 
-在转换和丰富您的 Excel 数据后，您可以轻松地将修改后的数据推送回您的 Revit 项目。我们的专用工具 **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Update_Revit_from_Excel)** 通过直接将更新的 Excel 表导入 Revit 参数和族，使这一过程无缝衔接。
+在转换和丰富您的 Excel 数据后，您可以轻松地将修改后的数据推送回您的 Revit 项目。我们的专用工具 **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** 通过直接将更新的 Excel 表导入 Revit 参数和族，使这一过程无缝衔接。
 
 > **简化您的 BIM 工作流：** Revit ➡️ Excel ➡️ 转换 ➡️ Excel ➡️ Revit。
 
