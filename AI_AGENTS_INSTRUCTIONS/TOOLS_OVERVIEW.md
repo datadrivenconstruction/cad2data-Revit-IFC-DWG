@@ -12,11 +12,38 @@ This document provides a comprehensive overview of all tools in the CAD2DATA rep
 
 ---
 
+## Platforms
+
+All DDC converters are available for both **Windows** and **Linux**:
+
+| Platform | Format | Install Method | CLI Commands |
+|----------|--------|---------------|--------------|
+| **Windows** | `.exe` executables | Download from repository | `RvtExporter.exe`, `IfcExporter.exe`, etc. |
+| **Linux** | `.deb` packages | APT repository | `ddc-rvtconverter`, `ddc-ifcconverter`, etc. |
+
+### Linux APT Installation
+
+```bash
+# Add DDC repository
+echo "deb [trusted=yes] https://pkg.datadrivenconstruction.io stable main" \
+  | sudo tee /etc/apt/sources.list.d/ddc.list
+sudo apt update
+
+# Install all converters (SDK dependencies auto-installed)
+sudo apt install ddc-rvtconverter ddc-dwgconverter ddc-ifcconverter \
+  ddc-dgnconverter ddc-rvt2ifcconverter
+```
+
+**System requirements:** Ubuntu 20.04+ / Debian 11+ (amd64), `libc6 (>= 2.31)`, `libssl3 | libssl1.1`
+
+---
+
 ## Converters
 
-### RvtExporter.exe - Revit Data Extractor
+### RvtExporter / ddc-rvtconverter - Revit Data Extractor
 
-**Location**: `DDC_CONVERTER_REVIT/datadrivenlibs/RvtExporter.exe`
+**Windows**: `DDC_Converters_Windows_Packages/DDC_CONVERTER_REVIT/datadrivenlibs/RvtExporter.exe`
+**Linux**: `sudo apt install ddc-rvtconverter` → command `ddc-rvtconverter`
 
 **Purpose**: Extract data and geometry from Autodesk Revit files
 
@@ -49,24 +76,22 @@ RvtExporter.exe <input.rvt> [output.dae] [output.xlsx] [export_mode] [options]
 
 **Examples**:
 ```bash
-# Basic conversion (XLSX + DAE)
+# Windows:
 RvtExporter.exe "C:\Projects\Building.rvt"
-
-# Full export with all options
 RvtExporter.exe "C:\Projects\Building.rvt" complete bbox schedule sheets2pdf
-
-# XLSX only (no 3D geometry)
 RvtExporter.exe "C:\Projects\Building.rvt" -no-collada
-
-# Custom categories
 RvtExporter.exe "C:\Projects\Building.rvt" custom "C:\Config\my_categories.txt"
+
+# Linux:
+ddc-rvtconverter input.rvt output_dir/
 ```
 
 ---
 
-### RVT2IFCconverter.exe - Revit to IFC Converter
+### RVT2IFCconverter / ddc-rvt2ifcconverter - Revit to IFC Converter
 
-**Location**: `DDC_CONVERTER_Revit2IFC/datadrivenlibs/RVT2IFCconverter.exe`
+**Windows**: `DDC_Converters_Windows_Packages/DDC_CONVERTER_Revit2IFC/datadrivenlibs/RVT2IFCconverter.exe`
+**Linux**: `sudo apt install ddc-rvt2ifcconverter` → command `ddc-rvt2ifcconverter`
 
 **Purpose**: Convert Revit files to IFC format
 
@@ -83,24 +108,22 @@ RVT2IFCconverter.exe <input.rvt> [output.ifc] [preset=name] [config="..."] [key=
 
 **Examples**:
 ```bash
-# Standard IFC export
+# Windows:
 RVT2IFCconverter.exe "C:\Projects\Building.rvt"
-
-# Extended export with more detail
 RVT2IFCconverter.exe "C:\Projects\Building.rvt" preset=extended
-
-# Custom output path
 RVT2IFCconverter.exe "C:\Projects\Building.rvt" "D:\Output\model.ifc"
-
-# Custom configuration
 RVT2IFCconverter.exe "C:\Projects\Building.rvt" config="ExportBaseQuantities=true; SitePlacement=Shared"
+
+# Linux:
+ddc-rvt2ifcconverter input.rvt output_dir/
 ```
 
 ---
 
-### IfcExporter.exe - IFC Data Extractor
+### IfcExporter / ddc-ifcconverter - IFC Data Extractor
 
-**Location**: `DDC_CONVERTER_IFC/datadrivenlibs/IfcExporter.exe`
+**Windows**: `DDC_Converters_Windows_Packages/DDC_CONVERTER_IFC/datadrivenlibs/IfcExporter.exe`
+**Linux**: `sudo apt install ddc-ifcconverter` → command `ddc-ifcconverter`
 
 **Purpose**: Extract data and geometry from IFC files
 
@@ -115,16 +138,21 @@ RVT2IFCconverter.exe "C:\Projects\Building.rvt" config="ExportBaseQuantities=tru
 IfcExporter.exe <input.ifc>
 ```
 
-**Example**:
+**Examples**:
 ```bash
+# Windows:
 IfcExporter.exe "C:\Projects\Model.ifc"
+
+# Linux:
+ddc-ifcconverter input.ifc output_dir/
 ```
 
 ---
 
-### DwgExporter.exe - DWG Data Extractor
+### DwgExporter / ddc-dwgconverter - DWG Data Extractor
 
-**Location**: `DDC_CONVERTER_DWG/datadrivenlibs/DwgExporter.exe`
+**Windows**: `DDC_Converters_Windows_Packages/DDC_CONVERTER_DWG/datadrivenlibs/DwgExporter.exe`
+**Linux**: `sudo apt install ddc-dwgconverter` → command `ddc-dwgconverter`
 
 **Purpose**: Extract data from AutoCAD DWG files
 
@@ -139,16 +167,21 @@ IfcExporter.exe "C:\Projects\Model.ifc"
 DwgExporter.exe <input.dwg>
 ```
 
-**Example**:
+**Examples**:
 ```bash
+# Windows:
 DwgExporter.exe "C:\Projects\Plan.dwg"
+
+# Linux:
+ddc-dwgconverter input.dwg output_dir/
 ```
 
 ---
 
-### DgnExporter.exe - DGN Data Extractor
+### DgnExporter / ddc-dgnconverter - DGN Data Extractor
 
-**Location**: `DDC_CONVERTER_DGN/datadrivenlibs/DgnExporter.exe`
+**Windows**: `DDC_Converters_Windows_Packages/DDC_CONVERTER_DGN/datadrivenlibs/DgnExporter.exe`
+**Linux**: `sudo apt install ddc-dgnconverter` → command `ddc-dgnconverter`
 
 **Purpose**: Extract data from Bentley MicroStation DGN files
 
@@ -161,16 +194,68 @@ DwgExporter.exe "C:\Projects\Plan.dwg"
 DgnExporter.exe <input.dgn>
 ```
 
-**Example**:
+**Examples**:
 ```bash
+# Windows:
 DgnExporter.exe "C:\Projects\Bridge.dgn"
+
+# Linux:
+ddc-dgnconverter input.dgn output_dir/
 ```
+
+---
+
+## DDC CWICR — Semantic Search for Construction Work Items (Linux)
+
+**Install**: APT packages (`ddc-qdrant`, `ddc-cwicr-cli`, `ddc-cwicr-{lang}`)
+
+**Purpose**: Search 55,719 construction work items with costs and resources using keyword or semantic (AI-powered) search across 9 languages.
+
+**Available languages**: `en` (CAD), `de` (EUR), `ru` (RUB), `fr` (EUR), `es` (EUR), `ar` (AED), `zh` (CNY), `pt` (BRL), `hi` (INR)
+
+**Installation**:
+```bash
+# Qdrant vector database (runs as systemd service on port 6333)
+sudo apt install ddc-qdrant
+
+# Language data (each ~1 GB of pre-computed OpenAI embeddings)
+sudo apt install ddc-cwicr-en ddc-cwicr-de ddc-cwicr-ru
+
+# Search CLI
+sudo apt install ddc-cwicr-cli
+```
+
+**CLI Usage**:
+```bash
+# Keyword search (no API key needed)
+ddc-search --keyword "concrete foundation"
+
+# Semantic search (requires OpenAI API key)
+export OPENAI_API_KEY=sk-...
+ddc-search "reinforced concrete foundation"
+
+# JSON output with limit
+ddc-search --json --limit 10 "floor tiles"
+
+# Search in specific language
+ddc-search --collection ddc_cwicr_de "Stahlbetonfundament"
+
+# List installed collections
+ddc-search --list
+```
+
+**Dependencies**:
+| Package | Depends On |
+|---------|-----------|
+| `ddc-qdrant` | `libc6 (>= 2.31)`, `libssl3 \| libssl1.1`, `curl` |
+| `ddc-cwicr-cli` | `python3 (>= 3.8)`, `ddc-qdrant` |
+| `ddc-cwicr-{lang}` | `ddc-qdrant`, `curl` |
 
 ---
 
 ## Excel to Revit Update Tool
 
-**Location**: `DDC_Update_Revit_from_Excel/`
+**Location**: `DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel/`
 
 **Purpose**: Sync data from Excel back to Revit
 
@@ -314,13 +399,15 @@ C:\DDC\RvtExporter.exe "{{ $json.filePath }}" complete bbox
 
 ## Prerequisites
 
-**For v17+**: Install Microsoft Visual C++ Redistributable 2015-2022 (x64)
+**Windows (v17+)**: Install Microsoft Visual C++ Redistributable 2015-2022 (x64)
+
+**Linux**: Ubuntu 20.04+ / Debian 11+ (amd64). Dependencies (`ddc-sdk-*`, `ddc-thirdparty`) are installed automatically via APT.
 
 ---
 
 ## Documentation
 
-- **Book**: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` (in AI_INSTRUCTIONS folder)
+- **Book**: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` (in AI_AGENTS_INSTRUCTIONS folder)
 - **PDF Guide**: `GuideBook_DataDrivenConstruction_Book_2ndEdition_ArtemBoiko_2025_en-US.pdf`
 - **Sample Data**: `Sample_Projects/` folder
 

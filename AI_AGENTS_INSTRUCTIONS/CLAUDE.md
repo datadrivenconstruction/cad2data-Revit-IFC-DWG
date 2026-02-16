@@ -14,7 +14,11 @@ You are working with the **CAD2DATA Pipeline** - a comprehensive suite of open-s
 
 ## Converters & CLI Syntax
 
-### RvtExporter.exe - Revit to XLSX/DAE/PDF
+All converters are available for **Windows** (.exe) and **Linux** (.deb via APT).
+
+### Windows (.exe)
+
+#### RvtExporter.exe - Revit to XLSX/DAE/PDF
 
 ```bash
 RvtExporter.exe <input.rvt> [output.dae] [output.xlsx] [export_mode] [options]
@@ -28,7 +32,7 @@ RvtExporter.exe "C:\Projects\Building.rvt" complete bbox schedule sheets2pdf
 RvtExporter.exe "C:\Projects\Building.rvt" -no-collada  # XLSX only
 ```
 
-### RVT2IFCconverter.exe - Revit to IFC
+#### RVT2IFCconverter.exe - Revit to IFC
 
 ```bash
 RVT2IFCconverter.exe <input.rvt> [output.ifc] [preset=name] [config="..."]
@@ -42,7 +46,7 @@ RVT2IFCconverter.exe "C:\Projects\Building.rvt" preset=extended
 RVT2IFCconverter.exe "C:\Projects\Building.rvt" config="ExportBaseQuantities=true"
 ```
 
-### IfcExporter.exe - IFC to XLSX/DAE
+#### IfcExporter.exe - IFC to XLSX/DAE
 
 ```bash
 IfcExporter.exe <input.ifc>
@@ -54,7 +58,7 @@ IfcExporter.exe <input.ifc>
 IfcExporter.exe "C:\Projects\Model.ifc"
 ```
 
-### DwgExporter.exe - DWG to XLSX/PDF
+#### DwgExporter.exe - DWG to XLSX/PDF
 
 ```bash
 DwgExporter.exe <input.dwg>
@@ -66,7 +70,7 @@ DwgExporter.exe <input.dwg>
 DwgExporter.exe "C:\Projects\Plan.dwg"
 ```
 
-### DgnExporter.exe - DGN to XLSX
+#### DgnExporter.exe - DGN to XLSX
 
 ```bash
 DgnExporter.exe <input.dgn>
@@ -76,6 +80,59 @@ DgnExporter.exe <input.dgn>
 
 # Example:
 DgnExporter.exe "C:\Projects\Bridge.dgn"
+```
+
+### Linux (.deb packages)
+
+**Install from APT:**
+```bash
+# Add DDC APT repository
+echo "deb [trusted=yes] https://pkg.datadrivenconstruction.io stable main" \
+  | sudo tee /etc/apt/sources.list.d/ddc.list
+sudo apt update
+
+# Install converters (SDK dependencies auto-installed)
+sudo apt install ddc-rvtconverter ddc-dwgconverter ddc-ifcconverter \
+  ddc-dgnconverter ddc-rvt2ifcconverter
+```
+
+**Run converters:**
+```bash
+ddc-rvtconverter input.rvt output_dir/       # Revit → XLSX + DAE
+ddc-dwgconverter input.dwg output_dir/       # DWG → XLSX
+ddc-ifcconverter input.ifc output_dir/       # IFC → XLSX + DAE
+ddc-dgnconverter input.dgn output_dir/       # DGN → XLSX + DAE
+ddc-rvt2ifcconverter input.rvt output_dir/   # Revit → IFC
+```
+
+**System requirements:** Ubuntu 20.04+ / Debian 11+ (amd64)
+
+### Linux — DDC CWICR Semantic Search
+
+55,719 construction work items with costs across 9 languages, searchable via keyword or AI-powered semantic search.
+
+```bash
+# Install Qdrant vector database
+sudo apt install ddc-qdrant
+
+# Install language data (~1 GB each, pre-computed OpenAI embeddings)
+sudo apt install ddc-cwicr-en  # English (CAD, Toronto)
+sudo apt install ddc-cwicr-de  # German (EUR, Berlin)
+sudo apt install ddc-cwicr-ru  # Russian (RUB, St. Petersburg)
+# Available: en, de, ru, fr, es, ar, zh, pt, hi
+
+# Install search CLI
+sudo apt install ddc-cwicr-cli
+
+# Keyword search (no API key needed)
+ddc-search --keyword "concrete foundation"
+
+# Semantic search (requires OpenAI API key)
+export OPENAI_API_KEY=sk-...
+ddc-search "reinforced concrete foundation"
+
+# JSON output
+ddc-search --json --limit 10 "floor tiles"
 ```
 
 ## Output Formats
@@ -95,9 +152,15 @@ DgnExporter.exe "C:\Projects\Bridge.dgn"
 import subprocess
 from pathlib import Path
 
+# Windows:
 def batch_convert_revit(folder, converter_path):
     for rvt in Path(folder).glob("*.rvt"):
         subprocess.run([converter_path, str(rvt), "complete", "bbox"])
+
+# Linux:
+def batch_convert_revit_linux(folder, output_dir):
+    for rvt in Path(folder).glob("*.rvt"):
+        subprocess.run(["ddc-rvtconverter", str(rvt), output_dir])
 ```
 
 ### 2. Data Analysis Pipeline

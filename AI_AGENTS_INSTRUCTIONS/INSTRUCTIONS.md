@@ -28,16 +28,22 @@ This repository follows the **Data-Driven Construction** approach as described i
 
 ```
 cad2data-Revit-IFC-DWG-DGN-pipeline/
-├── AI_INSTRUCTIONS/              # Instructions for AI assistants
-├── DDC_CONVERTER_DGN/            # DGN converter (DgnExporter.exe)
-├── DDC_CONVERTER_DWG/            # DWG converter (DwgExporter.exe)
-├── DDC_CONVERTER_IFC/            # IFC converter (IfcExporter.exe)
-├── DDC_CONVERTER_REVIT/          # Revit converter (RvtExporter.exe)
-├── DDC_CONVERTER_Revit2IFC/      # Revit to IFC (RVT2IFCconverter.exe)
-├── DDC_Update_Revit_from_Excel/  # Excel to Revit sync
-├── DDC_in_additon/               # Additional utilities
-├── Sample_Projects/              # Test data
-└── n8n_*.json                    # n8n automation workflows (9 workflows)
+├── AI_AGENTS_INSTRUCTIONS/              # Instructions for AI assistants
+├── DDC_Converters_Windows_Packages/     # Windows converters (.exe)
+│   ├── DDC_CONVERTER_DGN/              # DGN converter (DgnExporter.exe)
+│   ├── DDC_CONVERTER_DWG/              # DWG converter (DwgExporter.exe)
+│   ├── DDC_CONVERTER_IFC/              # IFC converter (IfcExporter.exe)
+│   ├── DDC_CONVERTER_REVIT/            # Revit converter (RvtExporter.exe)
+│   ├── DDC_CONVERTER_Revit2IFC/        # Revit to IFC (RVT2IFCconverter.exe)
+│   └── DDC_Update_Revit_from_Excel/    # Excel to Revit sync
+├── DDC_Converters_Linux_Packages/       # Linux converters (.deb)
+│   ├── ddc-qdrant/                     # Qdrant vector DB package
+│   ├── ddc-cwicr-cli/                  # Semantic search CLI
+│   └── ddc-cwicr-data/                 # Language data packages (9 languages)
+├── DDC_n8n_Workflows&Pipelines/         # n8n automation workflows (9 workflows)
+├── DDC_Python_pipelines/                # Python pipeline examples
+├── DDC_in_additon/                      # Additional utilities
+└── Sample_Projects/                     # Test data
 ```
 
 ## Supported Input/Output Formats
@@ -81,6 +87,7 @@ When working with this repository:
 
 ## Quick CLI Examples
 
+### Windows (.exe)
 ```bash
 # Convert Revit to XLSX + DAE
 RvtExporter.exe "C:\Projects\Building.rvt"
@@ -100,6 +107,67 @@ DwgExporter.exe "C:\Projects\Plan.dwg"
 # Convert DGN to XLSX
 DgnExporter.exe "C:\Projects\Bridge.dgn"
 ```
+
+### Linux (.deb packages)
+
+**Install from APT repository:**
+```bash
+# Add DDC APT repository
+echo "deb [trusted=yes] https://pkg.datadrivenconstruction.io stable main" \
+  | sudo tee /etc/apt/sources.list.d/ddc.list
+sudo apt update
+
+# Install converters (SDK dependencies are installed automatically)
+sudo apt install ddc-rvtconverter ddc-dwgconverter ddc-ifcconverter \
+  ddc-dgnconverter ddc-rvt2ifcconverter
+```
+
+**Run converters:**
+```bash
+# Revit to XLSX + DAE
+ddc-rvtconverter input.rvt output_dir/
+
+# DWG to XLSX
+ddc-dwgconverter input.dwg output_dir/
+
+# IFC to XLSX + DAE
+ddc-ifcconverter input.ifc output_dir/
+
+# DGN to XLSX + DAE
+ddc-dgnconverter input.dgn output_dir/
+
+# Revit to IFC
+ddc-rvt2ifcconverter input.rvt output_dir/
+```
+
+**System requirements:** Ubuntu 20.04+ / Debian 11+ (amd64)
+
+### Linux — DDC CWICR Semantic Search
+
+```bash
+# Install Qdrant vector database
+sudo apt install ddc-qdrant
+
+# Install language data (each ~1 GB of pre-computed embeddings)
+sudo apt install ddc-cwicr-en  # English (CAD, Toronto)
+sudo apt install ddc-cwicr-de  # German (EUR, Berlin)
+sudo apt install ddc-cwicr-ru  # Russian (RUB, St. Petersburg)
+
+# Install search CLI
+sudo apt install ddc-cwicr-cli
+
+# Search (keyword — no API key needed)
+ddc-search --keyword "concrete foundation"
+
+# Search (semantic — requires OpenAI API key)
+export OPENAI_API_KEY=sk-...
+ddc-search "reinforced concrete foundation"
+
+# JSON output
+ddc-search --json --limit 10 "floor tiles"
+```
+
+Available CWICR languages: `en`, `de`, `ru`, `fr`, `es`, `ar`, `zh`, `pt`, `hi` (55,719 work items per language)
 
 ## n8n Workflows - Visual Process Templates
 
