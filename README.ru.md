@@ -9,12 +9,12 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Обзор пайплайна" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Обзор пайплайна" width="100%"/>
 </p>
 <p align="center">
 
   <a href="LICENSE">
-  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue&label=workflows%20licence" alt="Лицензия воркфлоу: MIT">
+  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN?color=blue&label=workflows%20licence" alt="Лицензия воркфлоу: MIT">
 </a>
 <a href="https://datadrivenconstruction.io">
   <img src="https://img.shields.io/badge/powered%20by-DataDrivenConstruction.io-orange" alt="Powered by DataDrivenConstruction.io">
@@ -37,7 +37,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_GithubLogo.jpg" alt="Обзор пайплайна" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_GithubLogo.jpg" alt="Обзор пайплайна" width="100%"/>
 </p>
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/bandicam-2025-09-14-13-05-05-897.gif" width="100%"/>
@@ -45,7 +45,7 @@
  Клиенты и пользователи DataDrivenConstruction
   <br>
   <a href="https://datadrivenconstruction.io/">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Clients_DataDrivenConstruction_logos.png" width="95%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Clients_DataDrivenConstruction_logos.png" width="95%"/>
   </a>
   <br></br>
 </p>
@@ -177,12 +177,12 @@
 
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Обзор пайплайна" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Обзор пайплайна" width="100%"/>
 </p>
 
 </p>
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Обзор пайплайна" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Обзор пайплайна" width="100%"/>
    <br></br>
 </p>
 
@@ -219,7 +219,7 @@
    - Лучше всего подходит для нетехнических пользователей и быстрых разовых конвертаций.
    - Интуитивно понятный интерфейс, настройка не требуется — просто выберите папку и начните.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/UI%20Converter%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/UI%20Converter%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -227,7 +227,7 @@
    - Подходит для продвинутых пользователей, разработчиков и технических команд.
    - Гибкий и скриптуемый, можно интегрировать в скрипты автоматизации или пакетные процессы.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Terminal%20Version%20CMD%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Terminal%20Version%20CMD%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -236,7 +236,7 @@
    - Масштабируемая параллельная обработка сотен файлов CAD (BIM).
    - Готовые примеры в папке `DDC_Python_pipelines`.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Code%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Code%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -245,7 +245,7 @@
    - Сквозные пайплайны, где конвертация CAD (BIM) становится частью бесшовного потока данных.
    - Примеры в папке `DDC_n8n_Workflows&Pipelines`.
   <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -552,10 +552,10 @@ RUN C:\app\DDC\RvtExporter.exe "C:\data\model.rvt"
 **Начало работы:**
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto.git
+git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN.git
 
 # Откройте с Claude Code
-cd cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto
+cd cad2data-Revit-IFC-DWG-DGN
 claude
 ```
 
@@ -581,7 +581,7 @@ claude
 Поставьте звезду DDC workflow на GitHub и получайте мгновенные уведомления о новых релизах.
 <p align="center">
   <br>
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
 
@@ -982,7 +982,7 @@ graph LR;
 
 <p align="left">
   <a href="https://datadrivenconstruction.io">
-    <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20(Revit)%20to%205D-4D%20Cost%20and%20Time%20Estimate.jpg" alt="CAD в 5D-4D оценку стоимости" width="100%">
+    <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20(Revit)%20to%205D-4D%20Cost%20and%20Time%20Estimate.jpg" alt="CAD в 5D-4D оценку стоимости" width="100%">
   </a>
 </p>
 
@@ -1093,7 +1093,7 @@ project_YYYY-MM-DD.xls    ← Excel-совместимая таблица
 ```
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/The%20generated%20report%20includes.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/The%20generated%20report%20includes.jpg" width="100%"/>
 </p>
 
 ##### Выбор модели LLM
@@ -1270,7 +1270,7 @@ set NODES_EXCLUDE=[] && npx n8n
 🔹 2003. В последний раз ADSK официально связала BIM с ИТ и базами данных. После этого база данных исчезла из нарратива — заменённая чистым маркетингом.
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
 </p>
 
 В реальности BIM всегда был прост: база данных элементов проекта, каждый со своими параметрами. Всё остальное — маркетинговые надстройки.
@@ -1285,7 +1285,7 @@ set NODES_EXCLUDE=[] && npx n8n
 
 ## Excel в Revit. Обновление проекта из Excel
 
-После преобразования и обогащения ваших данных Excel вы можете легко отправить изменённые данные обратно в ваш проект Revit. Наш специализированный инструмент **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** делает этот процесс бесшовным, напрямую импортируя обновлённые листы Excel в параметры и семейства Revit.
+После преобразования и обогащения ваших данных Excel вы можете легко отправить изменённые данные обратно в ваш проект Revit. Наш специализированный инструмент **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** делает этот процесс бесшовным, напрямую импортируя обновлённые листы Excel в параметры и семейства Revit.
 
 > **Упростите ваш BIM-воркфлоу:** Revit ➡️ Excel ➡️ Преобразование ➡️ Excel ➡️ Revit.
 

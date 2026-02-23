@@ -442,7 +442,7 @@
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "project_file",
-              "value": "C:\\Users\\Artem Boiko\\Documents\\GitHub\\cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\Users\\Artem Boiko\\Documents\\GitHub\\cad2data-Revit-IFC-DWG-DGN\\Sample_Projects\\2023 racbasicsampleproject.rvt",
               "type": "string"
             },
             {
@@ -902,7 +902,7 @@
     },
     {
       "parameters": {
-        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
+        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
         "height": 116,
         "width": 340
       },
@@ -917,7 +917,7 @@
     },
     {
       "parameters": {
-        "content": "# Carbon Footprint CO2 Estimator for Revit and IFC with AI (LLM)\nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto)",
+        "content": "# Carbon Footprint CO2 Estimator for Revit and IFC with AI (LLM)\nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN)",
         "height": 96,
         "width": 1064,
         "color": 5

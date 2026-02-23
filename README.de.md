@@ -9,12 +9,12 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Pipeline-Übersicht" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20BIM%20Pipeline%20and%20Workflow.jpg" alt="Pipeline-Übersicht" width="100%"/>
 </p>
 <p align="center">
 
   <a href="LICENSE">
-  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto?color=blue&label=workflows%20licence" alt="Workflows-Lizenz: MIT">
+  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN?color=blue&label=workflows%20licence" alt="Workflows-Lizenz: MIT">
 </a>
 <a href="https://datadrivenconstruction.io">
   <img src="https://img.shields.io/badge/powered%20by-DataDrivenConstruction.io-orange" alt="Powered by DataDrivenConstruction.io">
@@ -40,7 +40,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_GithubLogo.jpg" alt="Pipeline-Übersicht" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_GithubLogo.jpg" alt="Pipeline-Übersicht" width="100%"/>
 </p>
 <p align="center">
   <img src="https://datadrivenconstruction.io/wp-content/uploads/2025/09/bandicam-2025-09-14-13-05-05-897.gif" width="100%"/>
@@ -48,7 +48,7 @@
  DataDrivenConstruction Kunden und Nutzer
   <br>
   <a href="https://datadrivenconstruction.io/">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Clients_DataDrivenConstruction_logos.png" width="95%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Clients_DataDrivenConstruction_logos.png" width="95%"/>
   </a>
   <br></br>
 </p>
@@ -181,12 +181,12 @@
 
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline-Übersicht" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline-Übersicht" width="100%"/>
 </p>
 
 </p>
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline-Übersicht" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline-Übersicht" width="100%"/>
    <br></br>
 </p>
 
@@ -223,7 +223,7 @@ Je nach Workflow und technischem Hintergrund können Sie zwischen vier Methoden 
    - Am besten für nicht-technische Anwender und schnelle Einzelkonvertierungen.
    - Intuitive Oberfläche, keine Einrichtung erforderlich — einfach Ordner auswählen und starten.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/UI%20Converter%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/UI%20Converter%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -231,7 +231,7 @@ Je nach Workflow und technischem Hintergrund können Sie zwischen vier Methoden 
    - Geeignet für fortgeschrittene Benutzer, Entwickler und technische Teams.
    - Flexibel und skriptfähig, kann in Automatisierungsskripte oder Stapelprozesse integriert werden.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Terminal%20Version%20CMD%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Terminal%20Version%20CMD%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -240,7 +240,7 @@ Je nach Workflow und technischem Hintergrund können Sie zwischen vier Methoden 
    - Skalierbare Verarbeitung von Hunderten von CAD (BIM)-Dateien parallel.
    - Einsatzbereite Beispiele im Ordner `DDC_Python_pipelines` verfügbar.
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/Code%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/Code%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -249,7 +249,7 @@ Je nach Workflow und technischem Hintergrund können Sie zwischen vier Methoden 
    - End-to-End-Pipelines, bei denen CAD (BIM)-Konvertierung Teil eines nahtlosen Datenflusses wird.
    - Beispiele im Ordner `DDC_n8n_Workflows&Pipelines` bereitgestellt.
   <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/n8n%20pipeline%20DDC.jpg" width="100%"/>
   <br></br>
 </p>
 
@@ -562,10 +562,10 @@ Der schnellste Weg, mit DDC-Konvertern zu arbeiten. Öffnen Sie einfach das Repo
 **Erste Schritte:**
 ```bash
 # Repository klonen
-git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto.git
+git clone https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN.git
 
 # Mit Claude Code öffnen
-cd cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto
+cd cad2data-Revit-IFC-DWG-DGN
 claude
 ```
 
@@ -591,7 +591,7 @@ claude
 DDC Workflow auf GitHub markieren und sofort über neue Releases benachrichtigt werden.
 <p align="center">
   <br>
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/GitHub%20Star%20DDC.gif" width="100%"/>
   <br></br>
 </p>
 
@@ -994,7 +994,7 @@ Automatisierte Kostenschätzung aus Revit/IFC/DWG-Modellen. Extrahiert BIM-Daten
 
 <p align="left">
   <a href="https://datadrivenconstruction.io">
-    <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20(Revit)%20to%205D-4D%20Cost%20and%20Time%20Estimate.jpg" alt="CAD zu 5D-4D Kostenschätzung" width="100%">
+    <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20(Revit)%20to%205D-4D%20Cost%20and%20Time%20Estimate.jpg" alt="CAD zu 5D-4D Kostenschätzung" width="100%">
   </a>
 </p>
 
@@ -1105,7 +1105,7 @@ projekt_YYYY-MM-DD.xls    ← Excel-kompatible Tabelle
 ```
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/The%20generated%20report%20includes.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/The%20generated%20report%20includes.jpg" width="100%"/>
 </p>
 
 ##### LLM-Modellauswahl
@@ -1284,7 +1284,7 @@ Am Anfang ging es bei BIM nie um Schlagworte oder endlose Interoperabilitätsdeb
 🔹 2003. Zum letzten Mal verknüpfte ADSK offiziell BIM mit IT und Datenbanken. Danach verschwand die Datenbank aus dem Narrativ — ersetzt durch reines Marketing.
 
 <p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/CAD%20database.jpg" width="100%"/>
 </p>
 
 In Wirklichkeit war BIM immer einfach: eine Datenbank von Projektelementen, jedes mit seinen eigenen Parametern. Alles andere sind Marketing-Schichten.
@@ -1299,7 +1299,7 @@ Vielleicht ist es Zeit, zur Essenz zurückzukehren: offene, strukturierte und zu
 
 ## Excel zu Revit. Projekt aus Excel aktualisieren
 
-Nach der Transformation und Anreicherung Ihrer Excel-Daten können Sie die modifizierten Daten mühelos zurück in Ihr Revit-Projekt übertragen. Unser spezielles Werkzeug **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** macht diesen Prozess nahtlos, indem es aktualisierte Excel-Tabellen direkt in Revit-Parameter und -Familien importiert.
+Nach der Transformation und Anreicherung Ihrer Excel-Daten können Sie die modifizierten Daten mühelos zurück in Ihr Revit-Projekt übertragen. Unser spezielles Werkzeug **[ImportExcelToRevit](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/tree/main/DDC_Converters_Windows_Packages/DDC_Update_Revit_from_Excel)** macht diesen Prozess nahtlos, indem es aktualisierte Excel-Tabellen direkt in Revit-Parameter und -Familien importiert.
 
 > **Vereinfachen Sie Ihren BIM-Workflow:** Revit ➡️ Excel ➡️ Transformieren ➡️ Excel ➡️ Revit.
 

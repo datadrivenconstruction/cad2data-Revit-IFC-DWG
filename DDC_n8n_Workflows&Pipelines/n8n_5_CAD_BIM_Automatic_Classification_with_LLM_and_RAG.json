@@ -83,7 +83,7 @@
     },
     {
       "parameters": {
-        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
+        "content": "⭐ **If you find our tools helpful**, please consider **starring our repository** on [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN). \n\nYour support helps us improve and continue developing open solutions for the community!\n",
         "height": 148,
         "width": 292
       },
@@ -401,7 +401,7 @@
     },
     {
       "parameters": {
-        "content": "# LLM-CAD-BIM Classification Engine + RAG\nLarge Language Model Engine and RAG for UniverCAD-sal Classification BIM\nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN-pipeline-with-conversion-validation-qto)",
+        "content": "# LLM-CAD-BIM Classification Engine + RAG\nLarge Language Model Engine and RAG for UniverCAD-sal Classification BIM\nDataDrivenConstruction [GitHub](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN)",
         "height": 144,
         "width": 776,
         "color": 5
