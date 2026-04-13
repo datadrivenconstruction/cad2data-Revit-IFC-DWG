@@ -181,18 +181,6 @@
 </table>
 
 
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline Overview" width="100%"/>
-</p>
-
-</p>
-<p align="center">
-  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline Overview" width="100%"/>
-   <br></br>
-</p>
-
-
-
 ## Overview
 
 This pipeline automates the conversion of CAD/BIM files to Excel for quantity takeoffs, data analysis, and further processing. It supports offline operation and extensibility with Python or AI tools.
@@ -438,6 +426,20 @@ AI assistants with terminal access can directly execute DDC converters and build
 # Example: AI executes this command when you ask "convert my Revit file to Excel"
 RvtExporter.exe "C:\Projects\Model.rvt" complete bbox schedule
 ```
+
+
+
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_Github_Apps.jpg" alt="Pipeline Overview" width="100%"/>
+</p>
+
+</p>
+<p align="center">
+  <img src="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/blob/main/DDC_in_additon/DDC_readme_content/DDC_n8n_CAD_BIM.gif" alt="Pipeline Overview" width="100%"/>
+   <br></br>
+</p>
+
+
 
 **Real-world AI workflow scenarios:**
 
