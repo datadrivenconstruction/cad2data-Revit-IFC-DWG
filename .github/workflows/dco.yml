@@ -1,0 +1,54 @@
+name: DCO (Developer Certificate of Origin)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  merge_group:
+
+permissions:
+  contents: read
+
+jobs:
+  dco-check:
+    name: Verify Signed-off-by on all commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check DCO on every commit in the PR range
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            head_sha="${{ github.event.pull_request.head.sha }}"
+          else
+            base_sha="${{ github.event.merge_group.base_sha }}"
+            head_sha="${{ github.event.merge_group.head_sha }}"
+          fi
+
+          echo "Checking commits ${base_sha}..${head_sha}"
+
+          missing=0
+          while read -r commit; do
+            if ! git log -1 --format=%B "${commit}" | grep -qiE "^Signed-off-by: .+ <.+@.+>$"; then
+              author="$(git log -1 --format='%an <%ae>' "${commit}")"
+              subject="$(git log -1 --format='%s' "${commit}")"
+              echo "::error ::Commit ${commit} ('${subject}' by ${author}) is missing a Signed-off-by trailer."
+              missing=$((missing + 1))
+            fi
+          done < <(git rev-list "${base_sha}..${head_sha}")
+
+          if [ "${missing}" -gt 0 ]; then
+            echo
+            echo "DCO check failed: ${missing} commit(s) without Signed-off-by."
+            echo
+            echo "Fix with: git commit --amend --signoff"
+            echo "Or:       git rebase --signoff ${base_sha}"
+            echo "See:      CONTRIBUTING.md and https://developercertificate.org/"
+            exit 1
+          fi
+
+          echo "All commits carry a Signed-off-by trailer."

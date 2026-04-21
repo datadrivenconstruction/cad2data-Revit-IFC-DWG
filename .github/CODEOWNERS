@@ -1,0 +1,31 @@
+# CODEOWNERS for cad2data-Revit-IFC-DWG-DGN
+#
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/managing-other-settings/about-code-owners
+#
+# Scope: legal, security, and licensing paths require explicit
+# approval from the repository owner. Ordinary source / workflow
+# / documentation contributions are free of this gate.
+
+# Root-level legal files
+/LICENSE                                        @datadrivenconstruction
+/LICENSE-PROPRIETARY                            @datadrivenconstruction
+/NOTICE                                         @datadrivenconstruction
+/SECURITY.md                                    @datadrivenconstruction
+/PATENTS.md                                     @datadrivenconstruction
+/TRADEMARK.md                                   @datadrivenconstruction
+/EXPORT-COMPLIANCE.md                           @datadrivenconstruction
+/CODE_OF_CONDUCT.md                             @datadrivenconstruction
+/CONTRIBUTING.md                                @datadrivenconstruction
+
+# GitHub configuration
+/.github/                                       @datadrivenconstruction
+
+# Per-converter proprietary and EULA documents
+/DDC_WINDOWS_Converters/LICENSE-PROPRIETARY.txt @datadrivenconstruction
+/DDC_WINDOWS_Converters/EULA.txt                @datadrivenconstruction
+/DDC_WINDOWS_Converters/README.md               @datadrivenconstruction
+/DDC_LINUX_Converters/LICENSE-PROPRIETARY.txt   @datadrivenconstruction
+/DDC_LINUX_Converters/EULA.txt                  @datadrivenconstruction
+
+# Root README - any change touches the first-party licensing block
+/README.md                                      @datadrivenconstruction
