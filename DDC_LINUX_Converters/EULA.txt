@@ -1,0 +1,75 @@
+DataDrivenConstruction End-User License Agreement
+================================================================
+
+The converter binaries and SDK packages distributed through this
+folder - whether installed via the APT repository at
+https://pkg.datadrivenconstruction.io (ddc-rvtconverter,
+ddc-dwgconverter, ddc-ifcconverter, ddc-dgnconverter,
+ddc-rvt2ifcconverter, ddc-collisiondetector, ddc-sdk-kernel,
+ddc-sdk-drawings, ddc-sdk-ifc, ddc-sdk-bimrv,
+ddc-sdk-architecture, ddc-thirdparty) or built from source in
+this directory - are distributed under TWO overlapping licence
+layers:
+
+1. The DataDrivenConstruction Proprietary Software License
+   (see LICENSE-PROPRIETARY.txt in this folder), and
+
+2. The DataDrivenConstruction Terms of Use and End-User License
+   Agreement, available at:
+   https://datadrivenconstruction.io/term-of-use-and-eula/
+
+By downloading, copying, installing, or executing any of these
+packages you agree to be bound by both layers.
+
+If you do not agree to these terms, you MUST NOT install the
+packages and must remove any previously installed copies.
+
+The build and installation scripts distributed in this folder
+(build-all.sh, upload-to-repo.sh, and any *.sh under scripts/)
+and the accompanying Markdown documentation are MIT-licensed -
+see the root LICENSE.
+
+================================================================
+KEY RESTRICTIONS (SUMMARY - NOT A SUBSTITUTE FOR THE FULL TEXT)
+================================================================
+
+ * No reverse engineering, decompilation, or extraction of the
+   embedded reference (reference) SDK components. The
+   ddc-sdk-* packages (kernel, drawings, ifc, bimrv,
+   architecture) are reference technology licensed
+   to DataDrivenConstruction under an reference Sustaining Membership.
+   (See Section 4 of LICENSE-PROPRIETARY.txt.)
+ * No redistribution of the packages outside the context of this
+   original repository/product without a separate commercial
+   licence.
+ * Commercial use in a revenue-generating capacity, use in a
+   software-as-a-service offering, or white-labelling requires a
+   separate commercial licence.
+ * Export-control compliance required: EAR99, EU Regulation
+   2021/821, German AWG/AWV. No use by or in jurisdictions
+   subject to comprehensive US or EU sanctions.
+
+================================================================
+THIRD-PARTY COMPONENTS
+================================================================
+
+The DDC converter and SDK packages bundle reference
+libraries, Qt runtime, libxl, ColladaData, and other third-party
+components. Each Debian package carries its own debian/copyright
+file listing the upstream licences that apply to the files inside
+the package. Those notices apply in addition to this EULA and to
+LICENSE-PROPRIETARY.txt.
+
+The Qdrant vector database (ddc-qdrant) and the data packages
+(ddc-cwicr-*) distributed via this folder have their own
+respective licences documented in their source repositories.
+
+================================================================
+CONTACT
+================================================================
+
+All enquiries (general, commercial licensing, security, privacy):
+  info@datadrivenconstruction.io
+
+Website:
+  https://datadrivenconstruction.io

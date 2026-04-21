@@ -1,0 +1,204 @@
+DataDrivenConstruction Proprietary Software License
+Version 1.0 - Effective 2026-04
+
+Copyright (c) 2022-2026 Artem Boiko / DataDrivenConstruction.io
+Licensor operates as a registered small business (Kleingewerbe /
+Einzelunternehmen) under German law.
+
+================================================================
+1. SCOPE
+================================================================
+
+This License applies to the binary executables and shared
+libraries distributed in this repository under the following
+directories and their sub-directories, hereinafter the
+"Binary Software":
+
+  - DDC_WINDOWS_Converters/ - including (without limitation):
+      RvtExporter.exe
+      RVT2IFCconverter.exe
+      IfcExporter.exe
+      DwgExporter.exe
+      DgnExporter.exe
+      DDC_Community_Revit(2015-2026)_converter.exe
+      All accompanying *.exe, *.dll files, and Qt runtime
+      libraries (Qt6Core.dll, Qt6Gui.dll, Qt6Widgets.dll, etc.)
+
+  - DDC_LINUX_Converters/ - including (without limitation):
+      All CLI binaries (ddc-cwicr-cli, ddc-qdrant, worker
+      binaries), container images built by build-all.sh, and
+      accompanying *.so shared libraries.
+
+================================================================
+2. LICENSE GRANT
+================================================================
+
+2.1 Subject to Licensee's acceptance of and continued compliance
+    with this License and with the DataDrivenConstruction Terms
+    of Use and End-User License Agreement ("EULA") available at
+    https://datadrivenconstruction.io/term-of-use-and-eula/,
+    Licensor grants Licensee a personal, non-exclusive,
+    non-transferable, revocable, royalty-free license to
+    download, install, and use the Binary Software for internal
+    evaluation and lawful personal or professional use.
+
+2.2 Commercial use in a revenue-generating capacity, use in a
+    software-as-a-service offering, or redistribution to third
+    parties requires a separate commercial license from Licensor.
+    Contact: info@datadrivenconstruction.io.
+
+================================================================
+3. RESTRICTIONS
+================================================================
+
+Licensee shall NOT:
+
+(a) reverse engineer, decompile, disassemble, or otherwise attempt
+    to derive the source code of the Binary Software, except to
+    the limited extent expressly permitted by mandatory
+    applicable law (including §§ 69d, 69e UrhG for European
+    users);
+
+(b) modify, translate, or create derivative works of the Binary
+    Software;
+
+(c) remove, alter, or obscure any proprietary notices, copyright
+    statements, or attribution markers;
+
+(d) rent, lease, lend, sell, sublicense, or otherwise transfer
+    the Binary Software;
+
+(e) use the Binary Software to develop a competing product;
+
+(f) redistribute the Binary Software as part of any product,
+    service, or offering without Licensor's prior written
+    consent.
+
+================================================================
+4. THIRD-PARTY COMPONENTS AND PASS-THROUGH OBLIGATIONS
+================================================================
+
+4.1 The Binary Software incorporates or is derived from
+    technology licensed to Licensor by the reference
+    (reference) under a Sustaining Membership. Licensee's use of the
+    Binary Software is subject to the following pass-through
+    restrictions, which are material terms of this License:
+
+    (a) no reverse engineering of the reference-derived portions;
+    (b) no extraction, isolation, or redistribution of the
+        reference-derived portions outside the Binary Software as a
+        whole;
+    (c) compliance with U.S. Export Administration Regulations
+        (15 CFR Parts 730-774), EU Regulation 2021/821, and
+        German Außenwirtschaftsgesetz / Außenwirtschafts-
+        verordnung;
+    (d) no use in embargoed countries or by sanctioned persons.
+
+4.2 Other third-party components incorporated into the Binary
+    Software (Qt runtime libraries, buildingSMART IFC toolkit,
+    and others) are covered by separate attribution notices
+    provided in the per-converter LICENSE files inside each
+    sub-directory of DDC_WINDOWS_Converters/ and
+    DDC_LINUX_Converters/. Licensee must comply with those
+    notices in addition to this License.
+
+4.3 TRADEMARKS. AUTODESK, REVIT, and AUTOCAD are registered
+    trademarks of Autodesk, Inc. BENTLEY and MICROSTATION are
+    registered trademarks of Bentley Systems, Incorporated. IFC
+    and buildingSMART are trademarks of buildingSMART
+    International. OPEN DESIGN ALLIANCE and reference are trademarks of
+    the reference. This software is not developed by,
+    endorsed by, or affiliated with any of those entities.
+
+================================================================
+5. TERM AND TERMINATION
+================================================================
+
+5.1 This License takes effect upon first download, copy, or use
+    of the Binary Software and continues until terminated.
+
+5.2 Licensor may terminate this License immediately upon material
+    breach. Upon termination, Licensee shall cease all use and
+    destroy all copies of the Binary Software.
+
+5.3 Sections 3, 4, 6, 7, and 8 survive termination.
+
+================================================================
+6. WARRANTY DISCLAIMER
+================================================================
+
+THE BINARY SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+OR NON-INFRINGEMENT. TO THE EXTENT PERMITTED BY LAW, LICENSOR
+DISCLAIMS ALL SUCH WARRANTIES. MANDATORY STATUTORY WARRANTIES
+UNDER GERMAN LAW (INCLUDING §§ 434 FF. BGB FOR CONSUMERS) REMAIN
+UNAFFECTED WHERE APPLICABLE.
+
+================================================================
+7. LIMITATION OF LIABILITY
+================================================================
+
+7.1 Licensor shall be liable without limitation only for
+    (i) damages caused by intent (Vorsatz) or gross negligence
+    (grobe Fahrlässigkeit); (ii) injury to life, body, or health;
+    (iii) claims under the German Product Liability Act
+    (Produkthaftungsgesetz) or Directive (EU) 2024/2853;
+    (iv) fraudulent concealment of defects; (v) any express
+    written guarantee (Garantie).
+
+7.2 For slight negligence (leichte Fahrlässigkeit) in breach of
+    cardinal contractual obligations (wesentliche
+    Vertragspflichten), Licensor's liability is limited to
+    damages typical and foreseeable for contracts of this type
+    and capped at EUR 1,000 per claim.
+
+7.3 Any further liability for slight negligence is excluded.
+
+7.4 The above limitations apply equally to Licensor's vicarious
+    agents and employees.
+
+================================================================
+8. GOVERNING LAW AND JURISDICTION
+================================================================
+
+8.1 This License is governed by the substantive laws of the
+    Federal Republic of Germany, excluding conflict-of-law rules
+    and the United Nations Convention on Contracts for the
+    International Sale of Goods (CISG).
+
+8.2 For merchants, legal persons under public law, and special
+    assets under public law, the exclusive place of jurisdiction
+    for all disputes arising from this License is the competent
+    court at Licensor's place of business. For consumers,
+    mandatory statutory jurisdiction rules apply.
+
+================================================================
+9. ASSIGNMENT
+================================================================
+
+Licensee may not assign this License without Licensor's prior
+written consent. Licensor may assign this License to any
+successor entity, including a German Unternehmergesellschaft
+(haftungsbeschränkt) (UG) or Gesellschaft mit beschränkter
+Haftung (GmbH) formed by the individual Artem Boiko, and
+Licensee consents in advance to such assignment.
+
+================================================================
+10. MISCELLANEOUS
+================================================================
+
+10.1 If any provision is found invalid, the remaining provisions
+     continue in full force. The parties shall replace the
+     invalid provision with a valid one closest in economic
+     effect (salvatorische Klausel).
+
+10.2 This License, together with the DataDrivenConstruction Terms
+     of Use and End-User License Agreement at
+     https://datadrivenconstruction.io/term-of-use-and-eula/,
+     constitutes the entire agreement regarding the Binary
+     Software.
+
+Contact: info@datadrivenconstruction.io
+
+END OF LICENSE
