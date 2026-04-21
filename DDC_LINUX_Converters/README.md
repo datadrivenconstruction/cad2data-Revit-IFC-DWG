@@ -2,6 +2,19 @@
 
 Linux (.deb) packages for DataDrivenConstruction converters and CWICR semantic search.
 
+> **Licensing notice — the converter binaries in this folder are NOT MIT-licensed.**
+> They are proprietary software licensed under the DataDrivenConstruction
+> Proprietary Software License and the DataDrivenConstruction Terms of Use and
+> EULA at <https://datadrivenconstruction.io/term-of-use-and-eula/>.
+> The DDC SDK packages (`ddc-sdk-*`) incorporate reference technology
+> licensed to DataDrivenConstruction under an reference Sustaining Membership and carry
+> pass-through restrictions (no reverse engineering, export-control compliance).
+>
+> See [LICENSE-PROPRIETARY.txt](./LICENSE-PROPRIETARY.txt) and [EULA.txt](./EULA.txt)
+> in this folder, and [NOTICE](../NOTICE) at the repository root, for the full terms.
+> The build / installation scripts and Markdown documentation in this folder are
+> MIT-licensed under the [root LICENSE](../LICENSE).
+
 ## Available Packages
 
 ### APT Repository — DDC Converters

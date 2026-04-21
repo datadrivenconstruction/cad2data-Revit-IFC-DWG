@@ -1,0 +1,105 @@
+DataDrivenConstruction cad2data Toolkit
+Copyright (c) 2022-2026 Artem Boiko / DataDrivenConstruction.io
+Licensor operates as a registered small business (Kleingewerbe /
+Einzelunternehmen) under German law.
+
+All rights reserved where not expressly licensed.
+
+================================================================
+LICENSING OVERVIEW
+================================================================
+
+This repository contains artifacts under different licenses. Read
+carefully before use.
+
+1. MIT-LICENSED COMPONENTS
+   Covered by ./LICENSE (MIT):
+     - n8n workflow files (DDC_n8n_Workflows&Pipelines/, *.json)
+     - AI agent instructions (AI_AGENTS_INSTRUCTIONS/)
+     - Python utility scripts
+     - Sample project files (Sample_Projects/)
+     - Additional assets under DDC_in_additon/
+     - Documentation (README.md and README.*.md in all languages,
+       other *.md files)
+
+2. PROPRIETARY COMPONENTS
+   Covered by ./LICENSE-PROPRIETARY and the DataDrivenConstruction
+   Terms of Use and End-User License Agreement at
+   https://datadrivenconstruction.io/term-of-use-and-eula/:
+     - All binary executables and shared libraries in
+       DDC_WINDOWS_Converters/ (RvtExporter.exe,
+       RVT2IFCconverter.exe, IfcExporter.exe, DwgExporter.exe,
+       DgnExporter.exe, DDC_Community_Revit converter, and all
+       accompanying *.exe, *.dll, Qt runtime libraries).
+     - All binary executables, shared libraries, and container
+       artifacts in DDC_LINUX_Converters/.
+
+3. THIRD-PARTY COMPONENT NOTICES
+   Per-converter LICENSE files inside each sub-directory of
+   DDC_WINDOWS_Converters/ and DDC_LINUX_Converters/ contain
+   upstream attributions for bundled components (reference
+   Alliance, Qt, and others). Those notices apply in addition to
+   the Proprietary Software License.
+
+================================================================
+THIRD-PARTY COMPONENTS AND ATTRIBUTIONS
+================================================================
+
+The proprietary binary converters include or are derived from
+technology licensed by the reference (reference) under a
+Sustaining Membership. End-user redistribution, reverse
+engineering, and export of those portions are restricted per the
+reference Member Agreement. Users of the binary converters accept
+pass-through obligations equivalent to those restrictions, as
+detailed in Section 4 of LICENSE-PROPRIETARY.
+
+Trademarks referenced in this repository are the property of
+their respective owners:
+
+  * AUTODESK(R), REVIT(R), AUTOCAD(R), DWG(TM) are trademarks or
+    registered trademarks of Autodesk, Inc.
+  * BENTLEY(R), MICROSTATION(R), DGN are trademarks or registered
+    trademarks of Bentley Systems, Incorporated.
+  * IFC and buildingSMART are trademarks of buildingSMART
+    International.
+  * OPEN DESIGN ALLIANCE and reference are trademarks of the Open
+    Design Alliance.
+  * Qt is a trademark of The Qt Company Ltd.
+
+DataDrivenConstruction.io is not affiliated with, endorsed by, or
+sponsored by any of the above entities. References to these
+trademarks in this repository are nominative and descriptive only.
+
+================================================================
+EXPORT CONTROL
+================================================================
+
+The Binary Software is classified as EAR99 under U.S. Export
+Administration Regulations (15 CFR Parts 730-774) and is subject
+to EU Regulation 2021/821 (dual-use items) and German
+Außenwirtschaftsgesetz / Außenwirtschaftsverordnung. Users must
+not export to jurisdictions subject to comprehensive U.S. or EU
+sanctions, or to sanctioned persons, without first obtaining any
+required licences. This includes but is not limited to Cuba,
+Iran, North Korea, Syria, and the Crimea/Donetsk/Luhansk regions
+of Ukraine.
+
+================================================================
+SECURITY AND VULNERABILITY DISCLOSURE
+================================================================
+
+Report vulnerabilities privately to:
+  info@datadrivenconstruction.io
+
+See SECURITY.md for the full coordinated-disclosure policy and
+timelines.
+
+================================================================
+CONTACT
+================================================================
+
+All enquiries (general, commercial licensing, security, privacy):
+  info@datadrivenconstruction.io
+
+Website:
+  https://datadrivenconstruction.io
