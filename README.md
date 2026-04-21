@@ -1385,6 +1385,40 @@ We welcome contributions! Please feel free to:
 📧 **Email**: info@datadrivenconstruction.io
   
 
+## License
+
+This repository is **dual-licensed**:
+
+| Artifact                                                                                | License                                                                                        | Location                                                                                              |
+|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| n8n workflows, AI agent instructions, Python scripts, samples, documentation            | **MIT**                                                                                        | [LICENSE](./LICENSE)                                                                                  |
+| Compiled binary converters (`DDC_WINDOWS_Converters/*` and `DDC_LINUX_Converters/*`)    | **Proprietary — DataDrivenConstruction EULA**                                                  | [LICENSE-PROPRIETARY](./LICENSE-PROPRIETARY) + [Terms of Use and EULA](https://datadrivenconstruction.io/term-of-use-and-eula/) |
+
+> **Please read before use.**
+> The MIT license applies ONLY to source code, n8n workflows,
+> AI instructions, samples, and documentation. The compiled
+> `.exe` / `.so` / `.deb` converters in `DDC_WINDOWS_Converters/`
+> and `DDC_LINUX_Converters/` are **proprietary software** and
+> require acceptance of the DataDrivenConstruction Terms of Use
+> and EULA. Commercial use in a revenue-generating capacity,
+> SaaS deployment, or redistribution of the binaries requires a
+> separate commercial licence.
+>
+> Contact: `info@datadrivenconstruction.io`
+
+See [NOTICE](./NOTICE) for third-party attributions (including
+reference, Autodesk, Bentley, buildingSMART, Qt) and
+export-control information.
+
+## Security
+
+**Do not open public GitHub issues for security vulnerabilities.**
+Report privately via
+[GitHub Security Advisories](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/security/advisories/new)
+or by email to `info@datadrivenconstruction.io`. See
+[SECURITY.md](./SECURITY.md) for the full coordinated-disclosure
+policy and response timelines.
+
 ## Consulting and Training
 
 We work with leading construction, engineering, consulting agencies and technology firms around the world to help them implement open data principles, automate CAD/BIM processing and build robust ETL pipelines.
