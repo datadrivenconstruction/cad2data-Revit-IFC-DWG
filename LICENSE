@@ -1,21 +1,76 @@
 MIT License
 
-Copyright (c) 2025 DataDrivenConstruction
+Copyright (c) 2022-2026 Artem Boiko / DataDrivenConstruction.io
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+================================================================
+IMPORTANT NOTICE - SCOPE OF THIS MIT LICENSE
+================================================================
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This MIT License applies ONLY to the following parts of this
+repository:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+  - n8n workflow JSON files (*.json) at repository root and under
+    DDC_n8n_Workflows&Pipelines/
+  - AI agent instruction files (AI_AGENTS_INSTRUCTIONS/)
+  - Python scripts and utilities (excluding any binaries)
+  - Sample project files (Sample_Projects/)
+  - Additional assets and scripts under DDC_in_additon/
+  - Documentation in all languages (README.md, README.*.md)
+  - Other Markdown documentation (*.md)
+
+The compiled binary executables and any shared libraries located
+in the following directories (and their sub-directories) are
+PROPRIETARY SOFTWARE and are NOT covered by this MIT License:
+
+  - DDC_WINDOWS_Converters/  (including RvtExporter.exe,
+    RVT2IFCconverter.exe, IfcExporter.exe, DwgExporter.exe,
+    DgnExporter.exe, and all accompanying *.exe, *.dll files)
+  - DDC_LINUX_Converters/    (including all *.so, *.bin, binary
+    CLI tools, and container images referenced by the build
+    scripts)
+
+Those files are licensed separately under the DataDrivenConstruction
+Proprietary Software License - see LICENSE-PROPRIETARY in the
+repository root and the DataDrivenConstruction Terms of Use and
+End-User License Agreement at:
+
+  https://datadrivenconstruction.io/term-of-use-and-eula/
+
+By downloading, copying, or using the binary executables, you
+accept the terms of the DataDrivenConstruction Terms of Use and
+End-User License Agreement. If you do not accept those terms, you
+must not use the binary executables.
+
+Per-converter LICENSE files located inside each converter
+sub-directory (e.g. DDC_WINDOWS_Converters/DDC_CONVERTER_REVIT/LICENSE)
+contain third-party component attributions (including reference
+Alliance, Qt, and other upstream notices) which apply to the
+binaries in addition to the Proprietary Software License.
+
+================================================================
+MIT LICENSE TEXT (applies to the MIT-scoped files defined above)
+================================================================
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software", defined for this MIT License as the
+MIT-scoped files listed above and expressly EXCLUDING the binary
+executables and shared libraries in DDC_WINDOWS_Converters/ and
+DDC_LINUX_Converters/), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
