@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a problem with the workflows, scripts, samples, or documentation
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report.
+
+        > **Security issues:** do NOT use this form. Report privately
+        > via [Security Advisories](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/security/advisories/new).
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected component
+      options:
+        - n8n workflow
+        - AI agent instruction
+        - Python utility script
+        - Sample project
+        - DDC Windows converter binary
+        - DDC Linux converter binary
+        - Documentation (README)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / release tag or commit hash
+      placeholder: "e.g. v18.0.0 or git sha"
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: "Windows 11 24H2 / Ubuntu 24.04 / Docker image tag"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal reproducible example. Include the exact command line and any input file metadata (format, size, source tool).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Logs, error messages, exit codes.
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: This report does NOT describe a security vulnerability. (If it does, I will close this and use Security Advisories instead.)
+          required: true
