@@ -14,7 +14,7 @@
 <p align="center">
 
   <a href="LICENSE">
-  <img src="https://img.shields.io/github/license/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN?color=blue&label=workflows%20licence" alt="Workflows Licence: MIT">
+  <img src="https://img.shields.io/badge/license-dual%3A%20MIT%20%2B%20proprietary-blue" alt="Dual License: MIT (workflows, scripts, docs) + Proprietary (binary converters)">
 </a>
 <a href="https://datadrivenconstruction.io">
   <img src="https://img.shields.io/badge/powered%20by-DataDrivenConstruction.io-orange" alt="Powered by DataDrivenConstruction.io">
@@ -195,6 +195,32 @@ This pipeline automates the conversion of CAD/BIM files to Excel for quantity ta
 | IFC (2x3, 4x1, 4x4, 4x, 4.3) | `.ifc` | IfcExporter.exe | XLSX database + DAE geometry |
 | AutoCAD (1983-2026) | `.dwg` | DwgExporter.exe | XLSX database + PDF Drawings |
 | MicroStation (v7-v8) | `.dgn` | DgnExporter.exe | XLSX database |
+
+## Licensing
+
+This repository contains components under **different licenses** — please read
+before use:
+
+- **Workflows, AI instructions, Python scripts, samples, documentation** →
+  **MIT License** (see [LICENSE](./LICENSE))
+- **Compiled binary converters** (`DDC_WINDOWS_Converters/`,
+  `DDC_LINUX_Converters/`) → **Proprietary**, Community tier for personal
+  and research use only (see [LICENSE-PROPRIETARY](./LICENSE-PROPRIETARY),
+  [NOTICE](./NOTICE), and the folder-level
+  [`EULA.txt`](./DDC_WINDOWS_Converters/EULA.txt))
+- **Commercial SaaS, third-party file processing, or production redistribution**
+  → requires a **Commercial License** —
+  contact [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io)
+  or see the full [Terms of Use and EULA](https://datadrivenconstruction.io/term-of-use-and-eula/)
+
+> The binary converters incorporate technology licensed from the
+> **reference (reference)**. reference pass-through obligations apply to every
+> downstream user — see [NOTICE](./NOTICE) and EULA § 13 before redistributing
+> or integrating the binaries into a commercial product.
+
+For security disclosures see [SECURITY.md](./SECURITY.md). Patent,
+trademark, and export-control notices are in [PATENTS.md](./PATENTS.md),
+[TRADEMARK.md](./TRADEMARK.md), and [EXPORT-COMPLIANCE.md](./EXPORT-COMPLIANCE.md).
 
 ## Key Features
 
