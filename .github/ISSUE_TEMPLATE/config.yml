@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/security/advisories/new
+    about: Report security issues privately via GitHub Security Advisories. DO NOT open a public issue.
+  - name: Commercial licensing
+    url: mailto:info@datadrivenconstruction.io?subject=cad2data%20commercial%20licence
+    about: Questions about redistribution, OEM, or SaaS use of the converter binaries.
+  - name: Discussion and community
+    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/discussions
+    about: Usage questions, ideas, and general conversation.

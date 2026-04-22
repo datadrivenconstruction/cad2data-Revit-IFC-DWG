@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+title: "[Feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - New n8n workflow
+        - New AI agent instruction
+        - Converter output format
+        - Documentation improvement
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the user scenario or the limitation you hit with the current version.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like the project to do? Include examples if helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and discussions for similar proposals.
+          required: true
+        - label: I understand that the compiled converter binaries are proprietary and accept that feature requests for them may be declined or routed to a commercial-licence conversation.
+          required: true
