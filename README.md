@@ -288,8 +288,6 @@ Depending on your workflow and technical background, you can choose between four
 
 ---
 
----
-
 <h2 align="center">🏗️ OpenConstructionERP — One-Click Use of CAD/BIM Data You Extract Here</h2>
 
 <p align="center">
@@ -321,35 +319,15 @@ pip install --upgrade openconstructionerp
 openestimate                # launches the desktop ERP, pre-loaded with DDC CWICR data
 ```
 
-<table align="center">
-  <tr>
-    <td align="center" width="50%">
-      <a href="https://github.com/datadrivenconstruction/OpenConstructionERP">
-        <img src="https://github.com/datadrivenconstruction/OpenConstructionERP/raw/main/docs/screenshots/02_AI_Photo_to_Estimate.gif" width="100%"/>
-      </a><br>
-      <sub><b>AI Photo → Estimate</b></sub>
-    </td>
-    <td align="center" width="50%">
-      <a href="https://github.com/datadrivenconstruction/OpenConstructionERP">
-        <img src="https://github.com/datadrivenconstruction/OpenConstructionERP/raw/main/docs/screenshots/15_BoQ_Editor.gif" width="100%"/>
-      </a><br>
-      <sub><b>Professional BoQ Editor</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/datadrivenconstruction/OpenConstructionERP">
-        <img src="https://github.com/datadrivenconstruction/OpenConstructionERP/raw/main/docs/screenshots/16_PDF_Takeoff_v2.gif" width="100%"/>
-      </a><br>
-      <sub><b>PDF Takeoff (drawings → BoQ)</b></sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/datadrivenconstruction/OpenConstructionERP">
-        <img src="https://github.com/datadrivenconstruction/OpenConstructionERP/raw/main/docs/screenshots/12_Tasks_Linked_To_BIM.gif" width="100%"/>
-      </a><br>
-      <sub><b>4D Schedule × BIM</b></sub>
-    </td>
-  </tr>
+<table>
+<tr>
+<td align="center" width="16.66%"><b>55K+</b><br/><sub>cost&nbsp;items</sub></td>
+<td align="center" width="16.66%"><b>24</b><br/><sub>languages</sub></td>
+<td align="center" width="16.66%"><b>48</b><br/><sub>regions</sub></td>
+<td align="center" width="16.66%"><b>6</b><br/><sub>CAD&nbsp;formats</sub></td>
+<td align="center" width="16.66%"><b>100+</b><br/><sub>modules</sub></td>
+<td align="center" width="16.66%"><b>12</b><br/><sub>sections</sub></td>
+</tr>
 </table>
 
 <p align="center">
