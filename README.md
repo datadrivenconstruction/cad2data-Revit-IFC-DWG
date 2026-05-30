@@ -318,7 +318,7 @@ Depending on your workflow and technical background, you can choose between four
 pip install --upgrade openconstructionerp
 openestimate                # launches the desktop ERP, pre-loaded with DDC CWICR data
 ```
-
+<div align="center">
 <table>
 <tr>
 <td align="center" width="16.66%"><b>55K+</b><br/><sub>cost&nbsp;items</sub></td>
@@ -329,7 +329,7 @@ openestimate                # launches the desktop ERP, pre-loaded with DDC CWIC
 <td align="center" width="16.66%"><b>12</b><br/><sub>sections</sub></td>
 </tr>
 </table>
-
+</div>
 <p align="center">
   <a href="https://openconstructionerp.com/docs">
     <img src="https://img.shields.io/badge/📖%20Docs-openconstructionerp.com/docs-2b7a78?style=flat-square" alt="Docs">
