@@ -71,8 +71,8 @@ What this means for you:
 
 | Package | Version | Reads | Writes | Interface |
 |---|---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4 (experimental), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same CLI engine) |
+| **DDC RVT Converter** | 0.6.9 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4 (experimental), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
+| **DDC RVT to IFC** | 0.6.9 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same CLI engine) |
 | **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + Python CLI (bundled runtime) |
 | **DDC DWG to Excel** | 0.4.1 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
 | **DDC Data Viewer** | 0.1.2 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
@@ -99,7 +99,7 @@ viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/
    and download the package you need — a `*-Setup.exe` (per-user installer) or a `*-portable.zip`.
 2. Verify the download against `SHA256SUMS.txt` from the same release:
    ```powershell
-   Get-FileHash .\DDC-RVT-Converter-0.6.8-portable.zip -Algorithm SHA256
+   Get-FileHash .\DDC-RVT-Converter-0.6.9-portable.zip -Algorithm SHA256
    ```
 3. Unzip the portable package to a folder of your choice, for example `C:\DDC\RVT-Converter\`,
    `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`. Keep the folder structure as it is.

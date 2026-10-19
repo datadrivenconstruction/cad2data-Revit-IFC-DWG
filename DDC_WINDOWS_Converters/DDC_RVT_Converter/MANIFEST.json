@@ -1,89 +1,84 @@
 {
-  "dotnet_sdk": "8.0.206",
-  "version": "0.6.8",
-  "dotnet_runtime": "8.0.31",
-  "engine_sha256": "97d971456fb81d22c7c7f449d005c9bbcff86a05a09cc5bb8d83a5914b6b35ae",
-  "engine_commit": "7c34865d23eabda2e183151dda5eeb4eb8ae103e",
-  "schema": "rvt_desktop_distribution/1",
-  "created_utc": "2026-10-16T15:18:24.0602360Z",
-  "runtime_deployment": "embedded and app-local",
-  "product_name": "RVT Converter",
-  "runtime_sha256": "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc",
-  "platform": "win-x64",
-  "files": [
-    {
-      "path": "Community/community.html",
-      "bytes": 3097,
-      "sha256": "40f8f9eb84f097944216d4438ccd175b8dc01b38cfe78c72486ecef6ef864fa6"
-    },
-    {
-      "path": "EULA.txt",
-      "bytes": 38897,
-      "sha256": "d30658ba583a2a08f4588291bdb4389571b3606086d6ae2e75d174f0b8210536"
-    },
-    {
-      "path": "README.html",
-      "bytes": 530068,
-      "sha256": "d7669ae0d5ebc18542648da4d77ccebad987f1c932f4a9b5eef57026da983725"
-    },
-    {
-      "path": "RVT Converter.exe",
-      "bytes": 78254750,
-      "sha256": "be0560497f5b9751846ab1c3f7b7c3fcdb1fab0d3041367390eb2511201f66f1"
-    },
-    {
-      "path": "cli/RVTconverter.exe",
-      "bytes": 17453568,
-      "sha256": "97d971456fb81d22c7c7f449d005c9bbcff86a05a09cc5bb8d83a5914b6b35ae"
-    },
-    {
-      "path": "cli/vcruntime140.dll",
-      "bytes": 109440,
-      "sha256": "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc"
-    },
-    {
-      "path": "licenses/DOTNET-LICENSE.txt",
-      "bytes": 1139,
-      "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
-    },
-    {
-      "path": "licenses/DOTNET-THIRD-PARTY-NOTICES.txt",
-      "bytes": 68910,
-      "sha256": "b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977"
-    },
-    {
-      "path": "licenses/MSVC-RUNTIME.txt",
-      "bytes": 1266,
-      "sha256": "f9dec702df1f5707baefdc7230c655ebf89c934100d8f1046344d99abf8f1971"
-    },
-    {
-      "path": "licenses/RUST-THIRD-PARTY-NOTICES.txt",
-      "bytes": 799787,
-      "sha256": "2ced57eae0a026a44381dfed41c1d72a97d330c2b417e958708041faf4480cf8"
-    },
-    {
-      "path": "licenses/THIRD_PARTY_NOTICES.txt",
-      "bytes": 897774,
-      "sha256": "e91f6d86e8baa897af701ac55124c0f3e44e93d28743512e3c067b0e0020c502"
-    },
-    {
-      "path": "licenses/WPF-LICENSE.txt",
-      "bytes": 1137,
-      "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab"
-    },
-    {
-      "path": "licenses/licenses.json",
-      "bytes": 39093,
-      "sha256": "4af5f7df835bcec436dcac4e762d7c2bf33c0c33d40713999d0e1ceb69b31188"
-    }
-  ],
-  "product": "rvt-converter",
-  "languages": 20,
-  "source_commit": "e6a5f6e126e1e93d7fe3c4e2582b5cb286e5d5e0",
-  "quality": "preview; geometry completeness unverified",
-  "status": "dev_shell_rebuild_pending_owner_approval",
-  "release_ready": false,
-  "change": "Shell only vs 0.6.8-shell01: translated About with licence section; Community ad page (bundled local Community/community.html) after every third accepted conversion, none for verified Paid; failed/cancelled runs leave no partial output; crash logging and DDC_QA_FORCE_CRASH QA hook; product-specific dialog titles; About scrolls on small screens at high scaling. Engine and cli byte-identical to 0.6.8-shell01. shell02-shell05 superseded.",
-  "base_release_manifest_sha256": "c2ef26bc39345b8989e83afbf746e8f9d368a6d2ae9ffcf446524d824da306e6",
-  "base_release": "releases/RVT-Converter/0.6.8-shell01"
+    "dotnet_sdk":  "8.0.206",
+    "version":  "0.6.9",
+    "dotnet_runtime":  "8.0.31",
+    "engine_sha256":  "8c02836a70bb85bc897ccaa15787d812fdfde2d5738f3715e39dc6460c29fa1f",
+    "engine_commit":  "1430d4dc5b9e99e227c6143e461f1a8917fd67e5",
+    "schema":  "rvt_desktop_distribution/1",
+    "created_utc":  "2026-10-19T21:24:15.8836659Z",
+    "runtime_deployment":  "embedded and app-local",
+    "product_name":  "RVT Converter",
+    "runtime_sha256":  "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc",
+    "platform":  "win-x64",
+    "files":  [
+                  {
+                      "path":  "cli/RVTconverter.exe",
+                      "sha256":  "8c02836a70bb85bc897ccaa15787d812fdfde2d5738f3715e39dc6460c29fa1f",
+                      "bytes":  12723200
+                  },
+                  {
+                      "path":  "cli/vcruntime140.dll",
+                      "sha256":  "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc",
+                      "bytes":  109440
+                  },
+                  {
+                      "path":  "Community/community.html",
+                      "sha256":  "b44bcb5124cabaa944d1296601d27b55e3ee11c92e275a9cc75e5775405a1649",
+                      "bytes":  3445
+                  },
+                  {
+                      "path":  "licenses/DOTNET-LICENSE.txt",
+                      "sha256":  "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b",
+                      "bytes":  1139
+                  },
+                  {
+                      "path":  "licenses/DOTNET-THIRD-PARTY-NOTICES.txt",
+                      "sha256":  "b60b2912da28eaa6518593c9e2efb5334ee062d3c42e80d8fdfa806b3dc52977",
+                      "bytes":  68910
+                  },
+                  {
+                      "path":  "licenses/EULA.txt",
+                      "sha256":  "d30658ba583a2a08f4588291bdb4389571b3606086d6ae2e75d174f0b8210536",
+                      "bytes":  38897
+                  },
+                  {
+                      "path":  "licenses/FLUENT-UI-SYSTEM-ICONS-LICENSE.txt",
+                      "sha256":  "1db34073cf1468890a75e36439273b0f5ba1c447c96f9c7b77dd1d0872fa7157",
+                      "bytes":  1238
+                  },
+                  {
+                      "path":  "licenses/MSVC-RUNTIME.txt",
+                      "sha256":  "f9dec702df1f5707baefdc7230c655ebf89c934100d8f1046344d99abf8f1971",
+                      "bytes":  1266
+                  },
+                  {
+                      "path":  "licenses/RUST-THIRD-PARTY-NOTICES.txt",
+                      "sha256":  "2ced57eae0a026a44381dfed41c1d72a97d330c2b417e958708041faf4480cf8",
+                      "bytes":  799787
+                  },
+                  {
+                      "path":  "licenses/THIRD_PARTY_NOTICES.txt",
+                      "sha256":  "5d20feb437e7428c6322ba90f7baf0fe334a2dcfeaa456ccd603547f3c6b34c5",
+                      "bytes":  898030
+                  },
+                  {
+                      "path":  "licenses/WPF-LICENSE.txt",
+                      "sha256":  "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab",
+                      "bytes":  1137
+                  },
+                  {
+                      "path":  "README.html",
+                      "sha256":  "a2fecd3211cb6980f741355407a8f4fcb01abc18b42e8e29abcdb4c8df66d771",
+                      "bytes":  666682
+                  },
+                  {
+                      "path":  "RVT Converter.exe",
+                      "sha256":  "e208005e3ff5062611bd5eecd20a9ad5c945fa95766a71bf982b27806c673fb0",
+                      "bytes":  77846205
+                  }
+              ],
+    "product":  "rvt-converter",
+    "languages":  20,
+    "source_commit":  "ba8f354a4ac1802a216598904ecd47b821f872a0",
+    "quality":  "preview; geometry completeness unverified"
 }
