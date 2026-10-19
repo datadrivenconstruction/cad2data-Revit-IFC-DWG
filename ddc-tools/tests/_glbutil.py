@@ -42,3 +42,35 @@ def write_cubes(path, cubes, scale=0.3048, extras_key="element_id", name_prefix=
     total = 12 + 8 + len(js) + 8 + len(blob)
     Path(path).write_bytes(b"glTF" + struct.pack("<II", 2, total) + struct.pack("<I", len(js)) + b"JSON" + js
                            + struct.pack("<I", len(blob)) + b"BIN\x00" + blob)
+
+
+def write_boxes(path, boxes, extras_key="element_id", name_prefix="element_"):
+    """boxes: list of (element id, (x, y, z) corner, (sx, sy, sz) size) in metres, glTF axes (Y up)."""
+    pos_blob, idx_blob = b"", b""
+    views, accessors, meshes, nodes = [], [], [], []
+    idx = []
+    for a, b, c, d in QUADS:
+        idx += [a, b, c, a, c, d]
+    i_bytes = b"".join(struct.pack("<H", k) for k in idx)
+    i_bytes += b"\x00" * (-len(i_bytes) % 4)
+    # one shared unit-cube mesh, every box is a node with a scale + translation matrix
+    v = [(x, y, z) for x in (0, 1) for y in (0, 1) for z in (0, 1)]
+    p = b"".join(struct.pack("<3f", *q) for q in v)
+    views = [{"buffer": 0, "byteOffset": 0, "byteLength": len(p)},
+             {"buffer": 0, "byteOffset": len(p), "byteLength": len(i_bytes)}]
+    accessors = [{"bufferView": 0, "componentType": 5126, "count": 8, "type": "VEC3"},
+                 {"bufferView": 1, "componentType": 5123, "count": len(idx), "type": "SCALAR"}]
+    meshes = [{"primitives": [{"attributes": {"POSITION": 0}, "indices": 1, "material": 0, "mode": 4}]}]
+    for eid, (x, y, z), (sx, sy, sz) in boxes:
+        nodes.append({"name": f"{name_prefix}{eid}", "mesh": 0, "extras": {extras_key: eid},
+                      "matrix": [sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, x, y, z, 1]})
+    blob = p + i_bytes
+    g = {"asset": {"version": "2.0", "generator": "test"}, "buffers": [{"byteLength": len(blob)}],
+         "bufferViews": views, "accessors": accessors, "meshes": meshes, "nodes": nodes,
+         "materials": [{"name": "orig", "pbrMetallicRoughness": {"baseColorFactor": [0.6, 0.6, 0.65, 1]}}],
+         "scenes": [{"nodes": list(range(len(nodes)))}], "scene": 0}
+    js = json.dumps(g).encode()
+    js += b" " * (-len(js) % 4)
+    total = 12 + 8 + len(js) + 8 + len(blob)
+    Path(path).write_bytes(b"glTF" + struct.pack("<II", 2, total) + struct.pack("<I", len(js)) + b"JSON" + js
+                           + struct.pack("<I", len(blob)) + b"BIN\x00" + blob)

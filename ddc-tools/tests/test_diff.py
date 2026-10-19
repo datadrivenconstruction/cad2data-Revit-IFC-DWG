@@ -310,18 +310,18 @@ def rvt_pair(tmp_path):
     for ln in (a / "properties.jsonl").read_text(encoding="utf-8").splitlines():
         d = json.loads(ln)
         owner = str(d.get("owner"))
-        if owner == "2549":
-            continue                                           # wall 2549 is deleted in B
-        if owner == "2567" and d.get("row") == "parameter" and d.get("builtin_label") == "Unconnected Height":
-            assert _param_numbers(d["fields"], 7.5)             # wall 2567 gets a new height
+        if owner == "1001":
+            continue                                           # wall 1001 is deleted in B
+        if owner == "1002" and d.get("row") == "parameter" and d.get("builtin_label") == "Unconnected Height":
+            assert _param_numbers(d["fields"], 7.5)             # wall 1002 gets a new height
         lines_out.append(json.dumps(d))
-        if owner == "2567":                                    # wall 9000 is new: a copy of 2567
-            e = json.loads(json.dumps(d).replace('"2567"', '"9000"'))
+        if owner == "1002":                                    # wall 9000 is new: a copy of 1002
+            e = json.loads(json.dumps(d).replace('"1002"', '"9000"'))
             e["owner"] = "9000"
             lines_out.append(json.dumps(e))
     (b / "properties.jsonl").write_text("\n".join(lines_out) + "\n", encoding="utf-8")
-    write_cubes(a / "native_graph.glb", [(2549, 10, 0), (2567, 10, 20)])
-    write_cubes(b / "native_graph.glb", [(2567, 10, 20), (9000, 10, 40)])
+    write_cubes(a / "native_graph.glb", [(1001, 10, 0), (1002, 10, 20)])
+    write_cubes(b / "native_graph.glb", [(1002, 10, 20), (9000, 10, 40)])
     return a, b
 
 
@@ -330,26 +330,26 @@ def test_rvt_diff_and_glb_coloring(rvt_pair, tmp_path):
     r = diff.diff_tables(table.build_table(str(a)), table.build_table(str(b)))
     st = {e["key"]: e for e in r["elements"]}
     assert r["key"]["column"] == "GlobalId" or r["key"]["column"] == "ElementId"
-    assert {k: v["status"] for k, v in st.items() if k in ("2549", "2567", "9000")} ==         {"2549": "removed", "2567": "modified", "9000": "added"}
-    assert [c["field"] for c in st["2567"]["changes"]] == ["Unconnected Height"]
-    assert st["1"]["status"] == st["1679"]["status"] == "unchanged"
+    assert {k: v["status"] for k, v in st.items() if k in ("1001", "1002", "9000")} ==         {"1001": "removed", "1002": "modified", "9000": "added"}
+    assert [c["field"] for c in st["1002"]["changes"]] == ["Unconnected Height"]
+    assert st["1"]["status"] == st["501"]["status"] == "unchanged"
     out = tmp_path / "diff.glb"
     stats = glbdiff.colorize(str(b / "native_graph.glb"), str(a / "native_graph.glb"), r, str(out))
     assert (stats["base_version"], stats["linked"], stats["unlinked"], stats["removed"]) == ("B", 2, 0, 1)
     gltf, blob = glbdiff.read_glb(out)
     status = {n["extras"]["element_id"]: n["extras"]["ddc_diff_status"] for n in gltf["nodes"]}
-    assert status == {2567: "modified", 9000: "added", 2549: "removed"}
+    assert status == {1002: "modified", 9000: "added", 1001: "removed"}
     colors = {}
     for n in gltf["nodes"]:
         m = gltf["materials"][gltf["meshes"][n["mesh"]]["primitives"][0]["material"]]
         colors[n["extras"]["element_id"]] = m["pbrMetallicRoughness"]["baseColorFactor"][:3]
-    assert colors[2549][0] > 0.8 and colors[2549][1] < 0.3                      # red
+    assert colors[1001][0] > 0.8 and colors[1001][1] < 0.3                      # red
     assert colors[9000][1] > colors[9000][0] and colors[9000][1] > colors[9000][2]   # green
-    assert colors[2567][0] > 0.9 and 0.5 < colors[2567][1] < 0.7                # orange
+    assert colors[1002][0] > 0.9 and 0.5 < colors[1002][1] < 0.7                # orange
     # the geometry copied from A reads back through the table reader: a 10 ft cube in metres
     q = table.read_glb_quantities(out)
-    assert abs(q["2549"]["volume"]) == pytest.approx((10 * 0.3048) ** 3, rel=1e-5)
-    assert abs(q["2567"]["volume"]) == pytest.approx((10 * 0.3048) ** 3, rel=1e-5)
+    assert abs(q["1001"]["volume"]) == pytest.approx((10 * 0.3048) ** 3, rel=1e-5)
+    assert abs(q["1002"]["volume"]) == pytest.approx((10 * 0.3048) ** 3, rel=1e-5)
     assert gltf["buffers"][0]["byteLength"] == len(blob)
 
 

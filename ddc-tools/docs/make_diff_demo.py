@@ -1,18 +1,24 @@
-"""Make "version 2" of a real RVT Converter output folder for the ddc diff demo (README screenshots).
+"""Make two versions of a small synthetic RVT-style output for the ddc diff demo (README picture).
 
-    RVTconverter.exe Sample_R24.rvt -o R24 --properties --ifc
-    python make_diff_demo.py R24 R24_v2
+    python make_diff_demo.py DEMO_A DEMO_B
 
-Sample_R24.rvt is the DDC sample of this repository (DDC_Update_Revit_from_Excel/Samples). The copy is
-edited the way a designer edits a model between two issues: wall 2567 gets taller (stored height
-and a 25 % taller mesh), wall 2646 is deleted, a new wall 9100 appears (a copy of wall 2606 moved by 3 m)
-properties.jsonl and native_graph.glb are rewritten; native_graph.ifc is copied unchanged.
+Base: tests/data/rvt_converted/properties.jsonl (synthetic, RVT Converter layout). Its wall 1001 is cloned
+into eight walls that form a room with a partition; a box per wall is written as native_graph.glb (the
+converter's node layout: extras.element_id, one node per element). Version B: wall 1004 is taller (stored
+height and mesh), wall 1006 is deleted, wall 1009 is new (and lower). Not a model of anything real.
 """
 import json
 import shutil
-import struct
 import sys
 from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / "tests"))
+from _glbutil import write_boxes  # noqa: E402
+
+# id: (x, z, length, along) in metres, wall thickness 0.2, height 3 (glTF Y up)
+WALLS = {1001: (0, 0, 8, "x"), 1002: (0, 6, 8, "x"), 1003: (0, 0, 6, "z"), 1004: (8, 0, 6, "z"),
+         1005: (3, 0, 6, "z"), 1006: (3, 3, 3, "x"), 1007: (0, 3, 3, "x"), 1008: (5, 4.5, 3, "x")}
 
 
 def set_first_number(obj, new):
@@ -26,55 +32,34 @@ def set_first_number(obj, new):
     return False
 
 
-def edit_glb(src, dst, drop, scale_y, clone_from, clone_id, dx):
-    d = Path(src).read_bytes()
-    jl = struct.unpack("<I", d[12:16])[0]
-    g = json.loads(d[20:20 + jl])
-    off = 20 + jl
-    bl = struct.unpack("<I", d[off:off + 4])[0]
-    blob = d[off + 8: off + 8 + bl]
-    nodes = []
-    for n in g["nodes"]:
-        eid = n["extras"]["element_id"]
-        if eid == drop:
-            continue
-        if eid in scale_y:                       # glTF is Y-up, the matrix is column-major
-            m = n["matrix"]
-            m[9] *= scale_y[eid]
-        nodes.append(n)
-        if eid == clone_from:
-            c = json.loads(json.dumps(n))
-            c["extras"]["element_id"] = clone_id
-            c["name"] = f"element_{clone_id}"
-            c["matrix"][12] += dx
-            nodes.append(c)
-    g["nodes"] = nodes
-    g["scenes"][0]["nodes"] = list(range(len(nodes)))
-    js = json.dumps(g, separators=(",", ":")).encode()
-    js += b" " * (-len(js) % 4)
-    total = 12 + 8 + len(js) + 8 + len(blob)
-    Path(dst).write_bytes(b"glTF" + struct.pack("<II", 2, total) + struct.pack("<I", len(js)) + b"JSON" + js
-                          + struct.pack("<I", len(blob)) + b"BIN\x00" + blob)
+def box(eid, spec, height=3.0):
+    x, z, ln, along = spec
+    return (eid, (x, 0, z), (ln, height, 0.2) if along == "x" else (0.2, height, ln))
 
 
-def main(src, dst):
-    src, dst = Path(src), Path(dst)
+def write(dst, ids, heights=None):
+    heights = heights or {}
     dst.mkdir(parents=True)
-    shutil.copy(src / "native_graph.ifc", dst / "native_graph.ifc")
-    out = []
-    for ln in (src / "properties.jsonl").read_text(encoding="utf-8").splitlines():
-        d = json.loads(ln)
-        owner = str(d.get("owner"))
-        if owner == "2646":
-            continue
-        if owner == "2567" and d.get("row") == "parameter" and d.get("builtin_label") == "Unconnected Height":
-            set_first_number(d["fields"], 17.0)
-        out.append(ln if owner != "2567" or d.get("builtin_label") != "Unconnected Height" else json.dumps(d))
-        if owner == "2606":
-            out.append(json.dumps(json.loads(json.dumps(d).replace('"2606"', '"9100"'))))
-    (dst / "properties.jsonl").write_text("\n".join(out) + "\n", encoding="utf-8")
-    edit_glb(src / "native_graph.glb", dst / "native_graph.glb", drop=2646, scale_y={2567: 1.25},
-             clone_from=2606, clone_id=9100, dx=3.0)
+    base = [json.loads(l) for l in (HERE.parent / "tests/data/rvt_converted/properties.jsonl").read_text(encoding="utf-8").splitlines()]
+    out = [d for d in base if str(d.get("owner")) != "1001" and str(d.get("owner")) != "1002"]
+    wall = [d for d in base if str(d.get("owner")) == "1001"]
+    for i in ids:
+        for d in wall:
+            e = json.loads(json.dumps(d).replace('"1001"', f'"{i}"'))
+            if i in heights and e.get("row") == "parameter" and e.get("builtin_label") == "Unconnected Height":
+                set_first_number(e["fields"], heights[i] / 0.3048)
+            out.append(e)
+    (dst / "properties.jsonl").write_text("\n".join(json.dumps(d) for d in out) + "\n", encoding="utf-8")
+    boxes = [box(i, WALLS[i], heights.get(i, 3.0)) for i in ids]
+    write_boxes(dst / "native_graph.glb", boxes)
+
+
+def main(a, b):
+    ids = sorted(WALLS)
+    write(Path(a), ids)
+    new = [i for i in ids if i != 1006] + [1009]
+    WALLS[1009] = (5, 1.5, 3, "x")
+    write(Path(b), new, heights={1004: 4.5, 1009: 2.4})
 
 
 if __name__ == "__main__":
