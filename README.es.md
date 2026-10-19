@@ -26,7 +26,7 @@ Los convertidores se basan ahora en **lectores de formato propios de DataDrivenC
 | **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
 | **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
 | **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.1 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
 Todos los paquetes funcionan sin conexión en Windows 10/11 x64 y no requieren software de Autodesk, Excel ni Python.
 

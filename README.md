@@ -73,7 +73,7 @@ What this means for you:
 | **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same CLI engine) |
 | **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + Python CLI (bundled runtime) |
 | **DDC DWG to Excel** | 0.4.1 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
-| **DDC Data Viewer** | 0.1.1 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
+| **DDC Data Viewer** | 0.1.2 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
 joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Autodesk
@@ -204,7 +204,7 @@ status, output folder and decode statistics.
 A free desktop viewer for the converter output: virtualised grid for 100k+ rows, search, filters,
 grouping with sums, column chooser, export of the current view to XLSX/CSV and a 3D panel that links
 rows and elements both ways (GLB or DAE). English, German and Russian; light and dark theme.
-Download `DDC-Data-Viewer-0.1.1-Setup.exe` or the portable zip from the release.
+Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
 
 ## n8n workflows, notebooks and AI agents
 
