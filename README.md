@@ -44,7 +44,8 @@ What this means for you:
 
 - **New binaries, new command lines.** The old `RvtExporter.exe`, `IfcExporter.exe`, `DwgExporter.exe`,
   `DgnExporter.exe` and `RVT2IFCconverter.exe` (generation 18.x) are retired and are no longer in the
-  repository tree. The new converters are published as packages on the
+  repository tree. The new converters are in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready to run)
+  and are also published as installers and packages on the
   [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases).
 - **DGN is discontinued** for now — there is no first-party DGN reader yet.
 - **All new converters are previews.** Every run writes a machine-readable report with what was read,
@@ -277,7 +278,7 @@ confidential models.
 | `DDC_n8n_Workflows&Pipelines/` | n8n workflow JSON files |
 | `DDC_in_additon/` | notebooks, presentations, images |
 | `AI_AGENTS_INSTRUCTIONS/` | instructions for AI coding agents |
-| `DDC_WINDOWS_Converters/` | licence texts for the Windows converters and the Excel → Revit add-in documentation; binaries are on the Releases page |
+| `DDC_WINDOWS_Converters/` | portable Windows converters (RVT, RVT-to-IFC, IFC to Excel, DWG to Excel, Data Viewer), licence texts and the Excel → Revit add-in documentation; installers are on the Releases page |
 | `DDC_LINUX_Converters/` | CWICR data packages, Qdrant packaging and telemetry dashboard |
 | `Sample_Projects/` | open IFC sample files |
 
