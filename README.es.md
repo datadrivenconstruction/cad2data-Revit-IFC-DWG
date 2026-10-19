@@ -64,7 +64,7 @@ Los flujos n8n y los notebooks se escribieron para la línea de comandos 18.x (X
 
 ## Limitaciones
 
-RVT: integridad geométrica no certificada, sin texturas, IFC4 teselado. IFC: sin IFCXML. DWG: algunos tipos de objeto se notifican como no soportados en lugar de exportarse mal; revise `report.json`. Por ahora solo Windows x64.
+RVT: integridad geométrica no certificada, sin texturas, IFC4 teselado. IFC: sin IFCXML. DWG: algunos tipos de objeto se notifican como no soportados en lugar de exportarse mal; revise `report.json`. Por ahora solo Windows x64; Linux / macOS — coming soon.
 
 ## Licencia
 

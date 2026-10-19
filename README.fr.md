@@ -64,7 +64,7 @@ Les workflows n8n et les notebooks ont été écrits pour la ligne de commande 1
 
 ## Limites
 
-RVT : complétude géométrique non certifiée, pas de textures, IFC4 tessellé. IFC : pas d'IFCXML. DWG : certains types d'objets sont signalés comme non pris en charge plutôt que mal exportés ; consultez `report.json`. Windows x64 uniquement pour l'instant.
+RVT : complétude géométrique non certifiée, pas de textures, IFC4 tessellé. IFC : pas d'IFCXML. DWG : certains types d'objets sont signalés comme non pris en charge plutôt que mal exportés ; consultez `report.json`. Windows x64 uniquement pour l'instant ; Linux / macOS — coming soon.
 
 ## Licence
 

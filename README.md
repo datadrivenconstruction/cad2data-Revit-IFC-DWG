@@ -19,7 +19,7 @@
   <a href="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest"><img src="https://img.shields.io/github/v/release/datadrivenconstruction/cad2data-Revit-IFC-DWG?label=release" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/input-.rvt%20.rfa%20.ifc%20.ifczip%20.dwg-blue" alt="Input formats">
   <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.jsonl%20.glb%20.ifc%20.dxf%20.svg-green" alt="Output formats">
-  <img src="https://img.shields.io/badge/platform-Windows%20x64-lightgrey" alt="Windows x64">
+  <img src="https://img.shields.io/badge/platform-Windows%20x64%20%7C%20Linux%2FmacOS%20soon-lightgrey" alt="Windows x64; Linux and macOS coming soon">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT%20(workflows%2C%20docs)%20%2B%20freeware%20EULA%20(converters)-blue" alt="Licence"></a>
 </p>
 
@@ -77,7 +77,7 @@ What this means for you:
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
 joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Autodesk
-software, no Excel and no Python installation.
+software, no Excel and no Python installation. Linux / macOS builds — coming soon.
 
 ## Screenshots
 
@@ -238,7 +238,7 @@ The converters are honest previews. Specifically:
   multileaders, 3D solids, images) are reported as *unsupported* or *refused* instead of being exported
   incorrectly. Check `report.json` for every drawing.
 - **DGN:** not supported in the current generation.
-- Windows x64 only for now; Linux and macOS builds are in preparation.
+- **Platforms:** Windows 10/11 x64. **Linux / macOS — coming soon.**
 
 Bug reports with a small example file are very welcome — please use
 [GitHub Issues](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/issues) and do not attach
@@ -259,7 +259,7 @@ confidential models.
 ## Licensing
 
 - **Workflows, notebooks, scripts, AI instructions and documentation** — [MIT License](LICENSE).
-- **Converter packages** (Releases) — free of charge for private and commercial use under the
+- **Converter packages** (Releases) — one free edition (no paid tier), free of charge for private and commercial use under the
   DataDrivenConstruction EULA shipped in each package (`EULA.txt`); see also
   [LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) and [NOTICE](NOTICE). Third-party open-source components
   and their licences are listed in `licenses/` inside each package.
