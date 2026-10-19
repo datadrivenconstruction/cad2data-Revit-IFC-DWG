@@ -7,6 +7,8 @@
 ](https://www.youtube.com/watch?v=lMTcacVK-k4&ab_channel=DataDrivenConstruction) for more information.
 
 
+> **Note.** This is an independent add-in for Autodesk® Revit® that uses the public Revit API at runtime on the user's own licensed Revit installation. It is not affiliated with, endorsed by or certified by Autodesk, Inc. Installers are distributed separately and must not bundle any Autodesk files (Revit API or other Autodesk DLLs); the previous installers were withdrawn from this repository for repackaging.
+
 ## Supported Revit versions
 
 Revit 2020-2026
