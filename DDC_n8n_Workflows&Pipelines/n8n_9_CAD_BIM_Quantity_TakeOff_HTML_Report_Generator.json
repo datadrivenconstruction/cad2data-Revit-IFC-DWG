@@ -17,15 +17,21 @@
         "assignments": {
           "assignments": [
             {
-              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_revit_converter",
-              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
+              "id": "9760b78c-396c-513a-a85f-d6e5f5b85981",
+              "name": "path_to_ddc",
+              "value": "ddc",
+              "type": "string"
+            },
+            {
+              "id": "00cfab51-0245-50f3-a0c1-dd4ba00006c3",
+              "name": "path_to_converters",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\Project.rvt",
               "type": "string"
             }
           ]
@@ -43,7 +49,7 @@
     },
     {
       "parameters": {
-        "command": "=\"{{$json[\"path_to_revit_converter\"]}}\" \"{{$json[\"revit_file\"]}}\""
+        "command": "=\"{{$json[\"path_to_ddc\"]}}\" convert \"{{$json[\"revit_file\"]}}\" --converters \"{{$json[\"path_to_converters\"]}}\" --xlsx \"{{ $json[\"revit_file\"].slice(0, -4) + \"_rvt.xlsx\" }}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -171,7 +177,7 @@
         "conditions": {
           "string": [
             {
-              "value1": "={{ $json[\"Category : String\"] }}",
+              "value1": "={{ $json[\"Category\"] }}",
               "value2": "OST_Walls"
             }
           ]
@@ -193,13 +199,13 @@
             {
               "id": "wall-type-name",
               "name": "type_name",
-              "value": "={{ $json[\"Type Name : String\"] || \"Unknown Type\" }}",
+              "value": "={{ $json[\"Type Name\"] || \"Unknown Type\" }}",
               "type": "string"
             },
             {
               "id": "wall-volume",
               "name": "volume",
-              "value": "={{ parseFloat($json[\"Volume : Double\"]) || 0 }}",
+              "value": "={{ parseFloat($json[\"Volume\"]) || 0 }}",
               "type": "number"
             },
             {
@@ -298,7 +304,7 @@
     },
     {
       "parameters": {
-        "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run Revit converter (RVT → Excel)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
+        "content": "## 🔷 EXTRACT Phase\n\n**E**xtract data from Revit file:\n1. Setup file paths\n2. Run `ddc convert` (RVT converter + flat Excel table, sheet `Project_Data`)\n3. Check if conversion succeeded\n4. Read Excel file from disk\n5. Parse Excel into structured data",
         "height": 520,
         "width": 1512,
         "color": 6
@@ -314,7 +320,7 @@
     },
     {
       "parameters": {
-        "content": "## 🔷 TRANSFORM Phase\n\n**T**ransform raw data:\n1. Filter ONLY records with 'Category : String' = 'OST_Walls'\n2. Clean data: extract ID, Type Name, Volume\n3. Group by 'Type Name : String'\n4. Sum 'Volume : Double' for each group\n5. Calculate statistics per group",
+        "content": "## 🔷 TRANSFORM Phase\n\n**T**ransform raw data:\n1. Filter ONLY records with 'Category' = 'OST_Walls'\n2. Clean data: extract ID, Type Name, Volume\n3. Group by 'Type Name'\n4. Sum 'Volume' for each group\n5. Calculate statistics per group",
         "height": 520,
         "width": 992,
         "color": 5
@@ -395,7 +401,7 @@
         "conditions": {
           "boolean": [
             {
-              "value1": "={{ $json['On the standard 3D View : Boolean'] }}",
+              "value1": "={{ $json['On the standard 3D View'] }}",
               "value2": true
             }
           ]

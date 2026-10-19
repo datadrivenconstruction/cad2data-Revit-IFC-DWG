@@ -17,7 +17,7 @@ See `cli\dwg2excel.exe --help` (`--no-dxf`, `--no-svg`, `--no-xlsx`, `--timeout`
 ## Migrating from the retired `DwgExporter.exe`
 
 Same idea (file in, tables out) but different arguments and result names; DGN is discontinued.
-Steps that read old `<name>_dwg.xlsx` / `.dae` must be adapted.
+The old flat table is rebuilt from the `.jsonl` / `.csv` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert drawing.dwg` runs this converter and then `ddc table`.
 
 ## Updating
 

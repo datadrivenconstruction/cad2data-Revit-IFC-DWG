@@ -203,7 +203,7 @@
     },
     {
       "parameters": {
-        "command": "=\"{{$node[\"Setup - Define file paths1\"].json[\"path_to_converter\"]}}\" \"{{$node[\"Setup - Define file paths1\"].json[\"project_file\"]}}\""
+        "command": "=\"{{$node[\"Setup - Define file paths1\"].json[\"path_to_ddc\"]}}\" convert \"{{$node[\"Setup - Define file paths1\"].json[\"project_file\"]}}\" --converters \"{{$node[\"Setup - Define file paths1\"].json[\"path_to_converters\"]}}\" --xlsx \"{{$node[\"Create - Excel filename\"].json[\"xlsx_filename\"]}}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -417,7 +417,7 @@
     },
     {
       "parameters": {
-        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RVTconverter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to the `ddc` command and to the DDC_WINDOWS_Converters folder (path_to_ddc, path_to_converters)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcClass' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
         "height": 432,
         "width": 288
       },
@@ -1129,7 +1129,7 @@
     },
     {
       "parameters": {
-        "content": "## Block 1: Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\n\n\n\n\n\n\n\nSimply: Converts Revit file to Excel for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?: Verifies file\n- Extract - Run converter: Converts if needed\n\n\n\n\n\n\n\n",
+        "content": "## Block 1: Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\n\n\n\n\n\n\n\nSimply: Converts the model to the flat Excel table (ddc convert) for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?: Verifies file\n- Extract - Run converter: Converts if needed\n\n\n\n\n\n\n\n",
         "height": 580,
         "width": 1496,
         "color": 5
@@ -1240,7 +1240,7 @@
     },
     {
       "parameters": {
-        "content": "## Config here and run\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n### Configure File Paths here\nIn the **'Setup - Define file paths'** node, set:\n- `path_to_converter`: Full path to RVTconverter.exe (e.g., C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe)\n- `project_file`: Path to your CAD/BIM file (.rvt, .ifc, .dwg, .dgn)\n- `group_by`: Grouping parameter (e.g., 'Type Name', 'Category', 'IfcType')\n- `classification_name`: Target system (Omniclass, Uniclass, MasterFormat, etc.)\n- `optional_mapping_file`: Path to classification mapping file (Excel/CSV/PDF)\n- `optional_help_prompt`: Additional context for AI (e.g., \"Focus on structural elements\")\n",
+        "content": "## Config here and run\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n### Configure File Paths here\nIn the **'Setup - Define file paths'** node, set:\n- `path_to_ddc`: the `ddc` command (one-time install: `pip install \"C:\\DDC\\cad2data-Revit-IFC-DWG\\ddc-tools\"`)\n- `path_to_converters`: folder DDC_WINDOWS_Converters of this repository (e.g., C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters)\n- `project_file`: Path to your CAD/BIM file (.rvt, .ifc, .dwg, .dgn)\n- `group_by`: Grouping parameter (e.g., 'Type Name', 'Category', 'IfcClass')\n- `classification_name`: Target system (Omniclass, Uniclass, MasterFormat, etc.)\n- `optional_mapping_file`: Path to classification mapping file (Excel/CSV/PDF)\n- `optional_help_prompt`: Additional context for AI (e.g., \"Focus on structural elements\")\n",
         "height": 576,
         "width": 544,
         "color": 4
@@ -1259,15 +1259,21 @@
         "assignments": {
           "assignments": [
             {
-              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_converter",
-              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
+              "id": "9760b78c-396c-513a-a85f-d6e5f5b85981",
+              "name": "path_to_ddc",
+              "value": "ddc",
+              "type": "string"
+            },
+            {
+              "id": "00cfab51-0245-50f3-a0c1-dd4ba00006c3",
+              "name": "path_to_converters",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "project_file",
-              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\Project.rvt",
               "type": "string"
             },
             {
@@ -1405,8 +1411,14 @@
             },
             {
               "id": "path-to-converter-pass",
-              "name": "path_to_converter",
-              "value": "={{ $json[\"path_to_converter\"] }}",
+              "name": "path_to_ddc",
+              "value": "={{ $json[\"path_to_ddc\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "path-to-converter-pass-conv",
+              "name": "path_to_converters",
+              "value": "={{ $json[\"path_to_converters\"] }}",
               "type": "string"
             },
             {

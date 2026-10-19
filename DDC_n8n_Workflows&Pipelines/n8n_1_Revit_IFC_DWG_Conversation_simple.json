@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to point the converter path to the command-line executable `cli\\RVTconverter.exe` of the DDC RVT Converter, not to the desktop app `RVT Converter.exe`.",
+        "content": "## ⚠️ Troubleshooting\nThe conversion runs `ddc convert` (free tool `ddc-tools` of this repository). Install it once:\n`pip install \"C:\\DDC\\cad2data-Revit-IFC-DWG\\ddc-tools\"`\n`path_to_converters` must be the folder `DDC_WINDOWS_Converters` of this repository. `ddc convert` calls the command-line converters `cli\\RVTconverter.exe` (RVT), the IFC to Excel runtime (IFC) or `cli\\dwg2excel.exe` (DWG), never the desktop apps. Errors are printed by `ddc` in the output of the node.",
         "height": 300,
         "width": 560,
         "color": 7
@@ -48,15 +48,21 @@
         "assignments": {
           "assignments": [
             {
-              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_converter",
-              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
+              "id": "9760b78c-396c-513a-a85f-d6e5f5b85981",
+              "name": "path_to_ddc",
+              "value": "ddc",
+              "type": "string"
+            },
+            {
+              "id": "00cfab51-0245-50f3-a0c1-dd4ba00006c3",
+              "name": "path_to_converters",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "path_project_file",
-              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\Project.rvt",
               "type": "string"
             }
           ]
@@ -75,7 +81,7 @@
     {
       "parameters": {
         "executeOnce": "=",
-        "command": "=\"{{$json[\"path_to_converter\"]}}\" \"{{$json[\"path_project_file\"]}}\""
+        "command": "=\"{{$json[\"path_to_ddc\"]}}\" convert \"{{$json[\"path_project_file\"]}}\" --converters \"{{$json[\"path_to_converters\"]}}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -104,7 +110,7 @@
     },
     {
       "parameters": {
-        "content": "Simple n8n workflow",
+        "content": "Simple n8n workflow: model (.rvt, .ifc, .dwg) -> `ddc convert` -> converter result folder + the table `<model>_rvt.xlsx` / `_ifc.xlsx` / `_dwg.xlsx` next to the model (sheet `Project_Data`)",
         "height": 464,
         "width": 688,
         "color": 7

@@ -66,7 +66,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## سير عمل n8n والدفاتر ووكلاء الذكاء الاصطناعي
 
-كُتبت مسارات n8n ودفاتر Jupyter لسطر أوامر الجيل 18.x ‏(XLSX + DAE) ويجري نقلها إلى المحولات الجديدة. حتى ذلك الحين عدّل مسار المحول وخطوة التحليل (خصائص RVT في `properties.jsonl` والهندسة بصيغة GLB). يحتوي `AI_AGENTS_INSTRUCTIONS/` على الأوامر الجديدة.
+نُقلت مسارات n8n ‏(`DDC_n8n_Workflows&Pipelines/`) ودفاتر Jupyter إلى المحولات الجديدة: فهي تستدعي المحولات عبر `ddc convert` / `ddc table` (الأداة المجانية [`ddc-tools/`](ddc-tools/)) التي تبني من مخرجات المحولات الجدول المسطح بالتخطيط القديم (`*_rvt.xlsx`، ورقة `Project_Data`)، واستُبدل DAE بـ GLB. التثبيت لمرة واحدة: `pip install ddc-tools\`. ما جرى التحقق منه وما لا يغطيه النقل مذكور في `README.md` بجوار المسارات والدفاتر. يصف `AI_AGENTS_INSTRUCTIONS/` الأوامر الجديدة.
 
 ## القيود
 
