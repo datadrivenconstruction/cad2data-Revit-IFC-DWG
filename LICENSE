@@ -13,7 +13,9 @@ repository:
     DDC_n8n_Workflows&Pipelines/
   - AI agent instruction files (AI_AGENTS_INSTRUCTIONS/)
   - Python scripts and utilities (excluding any binaries)
-  - Sample project files (Sample_Projects/)
+  - Sample project files (Sample_Projects/) created by
+    DataDrivenConstruction (third-party sample files are NOT
+    included and remain subject to their owners' terms)
   - Additional assets and scripts under DDC_in_additon/
   - Documentation in all languages (README.md, README.*.md)
   - Other Markdown documentation (*.md)
