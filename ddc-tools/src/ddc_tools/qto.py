@@ -23,7 +23,9 @@ def _label(v: Any) -> str:
 
 def build_qto(rows: List[Dict[str, Any]], source: str = "", files: Optional[List[str]] = None,
               quantities: Optional[Sequence[str]] = None, category_filter: Optional[Sequence[str]] = None,
-              col_override: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
+              col_override: Optional[Dict[str, str]] = None,
+              quantity_hint: Optional[Sequence[str]] = None,
+              notes: Optional[Sequence[str]] = None) -> Dict[str, Any]:
     cols = C.all_columns(rows)
     ov = col_override or {}
     c_id = C.resolve(cols, "id", ov.get("id"))
@@ -39,6 +41,8 @@ def build_qto(rows: List[Dict[str, Any]], source: str = "", files: Optional[List
                 hit = next((c for c in cols if "." in c and C._norm(c.rsplit(".", 1)[1]) == C._norm(q)), None)
             if hit is not None:
                 qcols.append(hit)
+    elif quantity_hint is not None:
+        qcols = [c for c in quantity_hint if c in cols]
     else:
         qcols = C.quantity_columns(cols)
 
@@ -174,7 +178,7 @@ def build_qto(rows: List[Dict[str, Any]], source: str = "", files: Optional[List
         "tool": "ddc qto", "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "source": source, "source_files": files or [], "elements": len(rows),
         "columns_used": {"id": c_id, "category": c_cat, "type": c_typ, "level": c_lvl},
-        "quantity_columns": qcols,
+        "quantity_columns": qcols, "notes": list(notes or []),
         "by_category": pack(per_cat, ["category"]),
         "by_type": pack(by_type, ["category", "type"]),
         "by_level": pack(by_level, ["level", "category"]),
@@ -220,6 +224,7 @@ def write_xlsx(res: Dict[str, Any], path: str) -> None:
         ("Quantity columns", ", ".join(q) if q else "none found (counts only)"),
         ("Grouping columns", ", ".join(f"{k}={v}" for k, v in res["columns_used"].items() if v) or "none"),
         ("Warnings", f"{len(res['warnings'])} (see the Warnings sheet)"),
+        *[("Source note", n) for n in res.get("notes", [])],
         ("", ""),
         ("Sheets", "By Category, By Type, By Level, Detail (category + type + level), Warnings"),
         ("Units", "Values are summed exactly as exported. They are not converted; check the unit system "

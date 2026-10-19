@@ -28,7 +28,24 @@ A **folder** with converter output or a single file: `.xlsx` (first sheet, or `-
 the first present is used in this order: sqlite, jsonl, xlsx, csv, json (`--format xlsx` forces one).
 Helper files such as `geometry_index.jsonl` or `*manifest*` are skipped.
 
-Columns are found by common names, case-insensitive:
+### Converter outputs (no manual mapping)
+
+* **DDC IFC to Excel** writes a relational model (`Objects`, `Properties`, `Quantities`, `SpatialLinks`,
+  `TypeLinks` in `drawing.xlsx`, `data.jsonl` or `data.sqlite`). The tools join it into one row per object:
+  `ElementId` (STEP id), `GlobalId`, `Category` (IFC class), `Name`, `TypeName` (from the type
+  relation, else `ObjectType`), `Level` (storey by containment or aggregation; an opening takes the
+  storey of its host wall, Revit-style `Level` properties are the fallback) and one column per property or
+  quantity named `<Set>.<Property>`, for example `Pset_WallCommon.FireRating`. Stored `IfcElementQuantity`
+  values and length, area and volume measures of property sets count as quantities (property sets of
+  types, `PSet_Revit_Type_*`, are not summed). Type objects themselves are not rows.
+* **DDC RVT Converter** `--properties` writes `properties.jsonl` (saved graphs). The tools read it as one
+  row per element with its stored parameters by label (`Mark`, `Comments`, `Length`, ...). This output has
+  numeric category ids instead of names (`Category` shows the id), no level or type columns, and no
+  calculated quantities, so `ddc qto` gives counts and whatever stored values exist, with warnings.
+  Values are in the model's internal units.
+* **DWG to Excel** tables are plain sheets, CSV or JSONL and are read as they are.
+
+Columns of other tables are found by common names, case-insensitive:
 
 | Role | Recognised names |
 |---|---|
@@ -51,8 +68,10 @@ echo $?    # 0 = pass, 1 = failing rules, 2 = bad input or rules file
 
 ![Traffic-light summary](docs/check_summary.png)
 
-*The picture is drawn from the cell contents of the generated XLSX (`docs/render_xlsx_png.py`) using
-the synthetic sample in `examples/`.*
+*Real run on the IFC Duplex sample of this repository, converted by DDC IFC to Excel 0.3.1-preview
+(`examples/rules_ifc.yaml`). The picture is drawn from the cell contents of the generated XLSX
+(`docs/render_xlsx_png.py`), not a screenshot of Excel. The door fire ratings in that model hold the
+placeholder text "Fire Rating", which the rule `IFC-DOOR-FIRE-VALUE` flags.*
 
 Rules file (YAML):
 
@@ -93,16 +112,22 @@ CI example:
   with: { name: data-check, path: "check.*" }
 ```
 
-`examples/rules_ifc.yaml` shows rules for IFC-derived tables (`Pset_WallCommon.FireRating`, GlobalId).
+`examples/rules_ifc.yaml` works on the IFC to Excel output as it is. A short parameter name such as
+`FireRating` matches every property set that has it and the first non-empty value counts; use
+`Pset_DoorCommon.FireRating` to be specific.
 
 ## `ddc qto`
 
 ```bash
 ddc qto export_folder --xlsx qto.xlsx
 ddc qto model.xlsx --category "Wall*" --quantities Area,Volume --json qto.json
+# IFC to Excel output of the Duplex sample, walls, slabs and coverings only
+ddc qto Duplex.converted --category "IfcWall*" --category IfcSlab --category IfcCovering     --quantities "PSet_Revit_Dimensions.Length,PSet_Revit_Dimensions.Area,PSet_Revit_Dimensions.Volume" --xlsx qto.xlsx
 ```
 
 ![QTO by type](docs/qto_by_type.png)
+
+*Same run, walls, slabs and coverings of the Duplex model; quantities as stored in the IFC.*
 
 Workbook sheets: `Read me`, `By Category`, `By Type`, `By Level`, `Detail` (category + type + level),
 `Warnings`. Every table has filters, a frozen header and a `SUBTOTAL` total row that follows the filter.
@@ -133,8 +158,9 @@ pip install pytest openpyxl pyyaml
 python -m pytest -q          # run inside ddc-tools/
 ```
 
-Tests use a tiny synthetic table (`examples/make_sample.py`), not a real project. Regenerate the
-sample with `python examples/make_sample.py examples/data/sample_export`.
+Tests use a tiny synthetic table (`examples/make_sample.py`) and an excerpt of a real IFC to Excel run
+(`tests/fixtures/`, see its README; the RVT fixture keeps the real row layout with invented values).
+Regenerate the synthetic sample with `python examples/make_sample.py examples/data/sample_export`.
 
 ## Notes
 

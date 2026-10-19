@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from . import __version__, check, qto
-from .loader import LoadError, load
+from .loader import LoadError, load_ex
 
 
 def _common(p: argparse.ArgumentParser) -> None:
@@ -50,8 +50,8 @@ def _out(path: Optional[str]) -> Optional[Path]:
 
 def _run_check(a) -> int:
     spec = check.load_rules(a.rules)
-    rows, files = load(a.input, a.fmt, a.sheet, a.table)
-    res = check.run_checks(rows, spec, source=str(a.input), files=files)
+    ld = load_ex(a.input, a.fmt, a.sheet, a.table)
+    res = check.run_checks(ld.rows, spec, source=str(a.input), files=ld.files, notes=ld.notes)
     s = res["summary"]
     if a.xlsx:
         check.write_xlsx(res, str(_out(a.xlsx)))
@@ -68,9 +68,10 @@ def _run_check(a) -> int:
 
 
 def _run_qto(a) -> int:
-    rows, files = load(a.input, a.fmt, a.sheet, a.table)
+    ld = load_ex(a.input, a.fmt, a.sheet, a.table)
     qs = [x.strip() for x in a.quantities.split(",") if x.strip()] if a.quantities else None
-    res = qto.build_qto(rows, source=str(a.input), files=files, quantities=qs, category_filter=a.category)
+    res = qto.build_qto(ld.rows, source=str(a.input), files=ld.files, quantities=qs, category_filter=a.category,
+                        quantity_hint=ld.quantity_columns, notes=ld.notes)
     if a.xlsx:
         qto.write_xlsx(res, str(_out(a.xlsx)))
     if a.json_out:
