@@ -4,17 +4,44 @@ title: "[Feature] "
 labels: ["enhancement", "needs-triage"]
 body:
   - type: dropdown
-    id: scope
+    id: app
     attributes:
-      label: Scope
+      label: App name
       options:
-        - New n8n workflow
-        - New AI agent instruction
-        - Converter output format
-        - Documentation improvement
+        - RVT Converter
+        - RVT to IFC
+        - IFC to Excel
+        - DWG to Excel
+        - Data Viewer
+        - Command-line converter
+        - n8n workflow
+        - AI agent instruction
+        - Documentation
         - Other
     validations:
       required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Help > About shows it. Leave empty if the request is not tied to a version.
+      placeholder: "e.g. 0.6.8"
+    validations:
+      required: false
+  - type: input
+    id: os
+    attributes:
+      label: Windows version (or other OS)
+      placeholder: "Windows 11 24H2"
+    validations:
+      required: false
+  - type: input
+    id: input_format
+    attributes:
+      label: Input / output format concerned
+      placeholder: "e.g. RVT in, XLSX out"
+    validations:
+      required: false
   - type: textarea
     id: problem
     attributes:
@@ -25,14 +52,15 @@ body:
   - type: textarea
     id: proposal
     attributes:
-      label: Proposed solution
-      description: What would you like the project to do? Include examples if helpful.
+      label: Proposed solution (expected behaviour)
+      description: What would you like the app to do? Include examples if helpful.
     validations:
       required: true
   - type: textarea
     id: alternatives
     attributes:
       label: Alternatives considered
+      description: What you do today instead (actual behaviour or workaround).
     validations:
       required: false
   - type: checkboxes
@@ -42,5 +70,5 @@ body:
       options:
         - label: I have searched existing issues and discussions for similar proposals.
           required: true
-        - label: I understand that the compiled converter binaries are proprietary and accept that feature requests for them may be declined or routed to a commercial-licence conversation.
+        - label: I did not attach proprietary or confidential files.
           required: true

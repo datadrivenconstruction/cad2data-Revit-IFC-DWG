@@ -1,0 +1,102 @@
+name: Conversion problem
+description: A file does not convert, or the output is wrong or incomplete
+title: "[Conversion] "
+labels: ["conversion", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Please do NOT attach proprietary or confidential models, drawings or project files to this public issue.**
+        Describe the file instead (format, size, source tool and version, what is special about it).
+        If we need the file, we will ask you to send it privately by e-mail to info@datadrivenconstruction.io, and only if you are allowed to share it.
+        Public sample files are welcome (for example a model you made yourself or an open-data model).
+  - type: dropdown
+    id: app
+    attributes:
+      label: App name
+      options:
+        - RVT Converter
+        - RVT to IFC
+        - IFC to Excel
+        - DWG to Excel
+        - Data Viewer
+        - Command-line converter
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Help > About shows it.
+      placeholder: "e.g. 0.6.8"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Windows version
+      description: Press Win+R, type winver. Include the build number.
+      placeholder: "Windows 11 24H2 (build 26100)"
+    validations:
+      required: true
+  - type: input
+    id: input_format
+    attributes:
+      label: Input format and source tool
+      placeholder: "e.g. RVT created in Revit 2024.2 / IFC4 from ArchiCAD 27 / DWG 2018 from AutoCAD"
+    validations:
+      required: true
+  - type: input
+    id: file_size
+    attributes:
+      label: Input file size and rough content
+      placeholder: "e.g. 180 MB, architectural model, about 40 linked files"
+    validations:
+      required: false
+  - type: input
+    id: output_format
+    attributes:
+      label: Output format chosen
+      placeholder: "e.g. XLSX + DAE, IFC"
+    validations:
+      required: false
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps
+      description: What you did, in order. Mention options you changed from the defaults.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Error text ("Copy details" in the error dialog), what is missing or wrong in the output. Remove personal paths and project names first.
+    validations:
+      required: true
+  - type: dropdown
+    id: file_sharing
+    attributes:
+      label: Can you share the file?
+      options:
+        - No, it is confidential
+        - Yes, privately by e-mail on request
+        - Yes, a public sample is linked above
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I did not attach a proprietary or confidential file to this issue.
+          required: true
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
