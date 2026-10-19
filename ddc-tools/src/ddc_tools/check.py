@@ -118,12 +118,30 @@ def _find_col(columns: List[str], name: str) -> Optional[str]:
     return suff[0] if len(suff) == 1 else None
 
 
+def _find_cols(columns: List[str], name: str) -> List[str]:
+    """Exact column, else all columns whose name matches ('Pset_X.FireRating' for 'FireRating').
+    Several matches are read as one parameter: the first non-empty value counts."""
+    one = _find_col(columns, name)
+    if one is not None:
+        return [one]
+    n = C._norm(name)
+    return [c for c in columns if "." in c and C._norm(c.rsplit(".", 1)[1]) == n]
+
+
+def _first(row: Dict[str, Any], cols: List[str]) -> Any:
+    for c in cols:
+        v = row.get(c)
+        if not is_empty(v):
+            return v
+    return None
+
+
 def _fmt(v: Any) -> str:
     return "" if is_empty(v) else str(v)
 
 
 def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "",
-               files: Optional[List[str]] = None) -> Dict[str, Any]:
+               files: Optional[List[str]] = None, notes: Optional[List[str]] = None) -> Dict[str, Any]:
     cols = C.all_columns(rows)
     ov = spec.get("columns", {})
     c_id = C.resolve(cols, "id", ov.get("id"))
@@ -158,8 +176,8 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
         note = ""
         chk = rule["check"]
         for param in rule["params"]:
-            col = _find_col(cols, param)
-            if col is None:
+            pcols = _find_cols(cols, param)
+            if not pcols:
                 if chk == "required":
                     for row in applicable:
                         fails.append({"row": row, "param": param, "value": "",
@@ -170,13 +188,13 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
                 continue
             if chk in ("required", "not_empty"):
                 for row in applicable:
-                    if is_empty(row.get(col)):
+                    if is_empty(_first(row, pcols)):
                         fails.append({"row": row, "param": param, "value": "",
                                       "message": f"'{param}' is empty"})
             elif chk == "pattern":
                 rx = re.compile(str(rule["regex"]))
                 for row in applicable:
-                    v = row.get(col)
+                    v = _first(row, pcols)
                     if is_empty(v):
                         continue
                     if not rx.fullmatch(str(v)):
@@ -185,7 +203,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
             elif chk == "enum":
                 allowed = {str(x).lower() for x in _as_list(rule["values"])}
                 for row in applicable:
-                    v = row.get(col)
+                    v = _first(row, pcols)
                     if is_empty(v):
                         continue
                     if str(v).lower() not in allowed:
@@ -194,7 +212,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
             elif chk == "range":
                 lo, hi = rule.get("min"), rule.get("max")
                 for row in applicable:
-                    v = row.get(col)
+                    v = _first(row, pcols)
                     if is_empty(v):
                         continue
                     n = C.to_number(v)
@@ -209,7 +227,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
                 scope_col = _find_col(cols, rule["scope"]) if rule.get("scope") else None
                 groups: Dict[Any, List[Dict[str, Any]]] = defaultdict(list)
                 for row in applicable:
-                    v = row.get(col)
+                    v = _first(row, pcols)
                     if is_empty(v):
                         continue
                     key = (str(v), str(row.get(scope_col)) if scope_col else "")
@@ -227,7 +245,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
             status = "SKIP"
             note = (note + " no elements matched 'where'").strip()
         elif not fails and note and chk != "required" and all(
-                _find_col(cols, p) is None for p in rule["params"]):
+                not _find_cols(cols, p) for p in rule["params"]):
             status = "SKIP"
         elif not fails:
             status = "PASS"
@@ -273,7 +291,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
     return {
         "tool": "ddc check", "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "ruleset": spec.get("name"), "source": source, "source_files": files or [],
-        "columns_used": roles, "summary": summary, "rules": rule_results, "findings": findings,
+        "columns_used": roles, "notes": list(notes or []), "summary": summary, "rules": rule_results, "findings": findings,
     }
 
 
