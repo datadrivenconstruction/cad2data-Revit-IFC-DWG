@@ -13,7 +13,9 @@ repository:
     DDC_n8n_Workflows&Pipelines/
   - AI agent instruction files (AI_AGENTS_INSTRUCTIONS/)
   - Python scripts and utilities (excluding any binaries)
-  - Sample project files (Sample_Projects/)
+  - Sample project files (Sample_Projects/) created by
+    DataDrivenConstruction (third-party sample files are NOT
+    included and remain subject to their owners' terms)
   - Additional assets and scripts under DDC_in_additon/
   - Documentation in all languages (README.md, README.*.md)
   - Other Markdown documentation (*.md)
@@ -22,9 +24,10 @@ The compiled binary executables and any shared libraries located
 in the following directories (and their sub-directories) are
 PROPRIETARY SOFTWARE and are NOT covered by this MIT License:
 
-  - DDC_WINDOWS_Converters/  (including RvtExporter.exe,
-    RVT2IFCconverter.exe, IfcExporter.exe, DwgExporter.exe,
-    DgnExporter.exe, and all accompanying *.exe, *.dll files)
+  - converter packages published on the GitHub Releases page of
+    this repository (DDC RVT Converter, DDC RVT to IFC, DDC IFC to
+    Excel, DDC DWG to Excel, DDC Data Viewer) and any *.exe, *.dll
+    or *.msi files under DDC_WINDOWS_Converters/
   - DDC_LINUX_Converters/    (including all *.so, *.bin, binary
     CLI tools, and container images referenced by the build
     scripts)

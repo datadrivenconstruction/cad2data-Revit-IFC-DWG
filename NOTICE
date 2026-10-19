@@ -17,7 +17,9 @@ carefully before use.
      - n8n workflow files (DDC_n8n_Workflows&Pipelines/, *.json)
      - AI agent instructions (AI_AGENTS_INSTRUCTIONS/)
      - Python utility scripts
-     - Sample project files (Sample_Projects/)
+     - Sample project files (Sample_Projects/) created by
+    DataDrivenConstruction (third-party sample files are NOT
+    included and remain subject to their owners' terms)
      - Additional assets under DDC_in_additon/
      - Documentation (README.md and README.*.md in all languages,
        other *.md files)
@@ -26,32 +28,30 @@ carefully before use.
    Covered by ./LICENSE-PROPRIETARY and the DataDrivenConstruction
    Terms of Use and End-User License Agreement at
    https://datadrivenconstruction.io/term-of-use-and-eula/:
-     - All binary executables and shared libraries in
-       DDC_WINDOWS_Converters/ (RvtExporter.exe,
-       RVT2IFCconverter.exe, IfcExporter.exe, DwgExporter.exe,
-       DgnExporter.exe, DDC_Community_Revit converter, and all
-       accompanying *.exe, *.dll, Qt runtime libraries).
+     - All binary executables and shared libraries of the DDC
+       converters and tools distributed through GitHub Releases
+       (DDC RVT Converter, DDC RVT-to-IFC, DDC IFC to Excel,
+       DDC CAD drawing (.dwg) to Excel, DDC Data Viewer) and in
+       DDC_WINDOWS_Converters/.
      - All binary executables, shared libraries, and container
        artifacts in DDC_LINUX_Converters/.
 
 3. THIRD-PARTY COMPONENT NOTICES
    Per-converter LICENSE files inside each sub-directory of
    DDC_WINDOWS_Converters/ and DDC_LINUX_Converters/ contain
-   upstream attributions for bundled components (Open Design
-   Alliance, Qt, and others). Those notices apply in addition to
-   the Proprietary Software License.
+   upstream attributions for bundled components. Third-party
+   components of the release packages are listed in
+   THIRD_PARTY_NOTICES inside each release package. Those notices
+   apply in addition to the Proprietary Software License.
 
 ================================================================
 THIRD-PARTY COMPONENTS AND ATTRIBUTIONS
 ================================================================
 
-The proprietary binary converters include or are derived from
-technology licensed by the Open Design Alliance (ODA) under a
-Sustaining Membership. End-user redistribution, reverse
-engineering, and export of those portions are restricted per the
-ODA Member Agreement. Users of the binary converters accept
-pass-through obligations equivalent to those restrictions, as
-detailed in Section 4 of LICENSE-PROPRIETARY.
+Third-party components included in the proprietary binary
+converters are listed in THIRD_PARTY_NOTICES inside each release
+package and are covered by their own licenses (see Section 4 of
+LICENSE-PROPRIETARY).
 
 Trademarks referenced in this repository are the property of
 their respective owners:
@@ -62,9 +62,6 @@ their respective owners:
     trademarks of Bentley Systems, Incorporated.
   * IFC and buildingSMART are trademarks of buildingSMART
     International.
-  * OPEN DESIGN ALLIANCE and ODA are trademarks of the Open
-    Design Alliance.
-  * Qt is a trademark of The Qt Company Ltd.
 
 DataDrivenConstruction.io is not affiliated with, endorsed by, or
 sponsored by any of the above entities. References to these

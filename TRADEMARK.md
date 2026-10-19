@@ -75,7 +75,7 @@ and prohibited use is a trademark infringement under
 
 This repository references third-party trademarks descriptively
 (Autodesk®, Revit®, AutoCAD®, DWG™, Bentley®, MicroStation®,
-DGN, IFC, buildingSMART®, Open Design Alliance, Qt). Those
+DGN, IFC, buildingSMART®). Those
 marks remain the property of their respective owners. Licensor
 is not affiliated with, endorsed by, or sponsored by those
 entities. See [NOTICE](./NOTICE) for the full attributions.

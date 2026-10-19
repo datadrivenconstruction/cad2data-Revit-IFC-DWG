@@ -51,18 +51,13 @@ This mirrors the termination clause in Apache License 2.0 §3.
 
 This policy covers patents owned or controlled by Licensor only.
 
-The binary converters bundle or are derived from technology
-licensed to Licensor by the Open Design Alliance (ODA) under a
-Sustaining Membership. Patents covering ODA-derived portions
-remain governed by the ODA Member Agreement and the
-pass-through obligations in Section 4 of
-[LICENSE-PROPRIETARY](./LICENSE-PROPRIETARY). This policy does
-not purport to grant any licence under those third-party
+Third-party components bundled with the binaries are listed in
+THIRD_PARTY_NOTICES inside each release package and are governed
+by their own licences (see Section 4 of
+[LICENSE-PROPRIETARY](./LICENSE-PROPRIETARY)). This policy does
+not extend to those third-party components or their patents and
+does not purport to grant any licence under third-party
 patents.
-
-Qt components bundled with the binaries are governed by their
-own licence. This policy does not extend to Qt or other bundled
-third-party patents.
 
 ## 5. No Waiver of Trademark Rights
 

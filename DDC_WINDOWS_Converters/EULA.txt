@@ -1,11 +1,11 @@
 DataDrivenConstruction End-User License Agreement
 ================================================================
 
-The binaries in this folder (RvtExporter.exe, RVT2IFCconverter.exe,
-IfcExporter.exe, DwgExporter.exe, DgnExporter.exe, the
-DDC_Community_Revit converter, and all accompanying *.exe/*.dll
-files including the Qt runtime) are distributed under TWO
-overlapping licence layers:
+The DDC converters and tools (DDC RVT Converter, DDC RVT-to-IFC,
+DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel, DDC Data
+Viewer, and all accompanying executables and libraries),
+distributed through GitHub Releases or in this folder, are
+distributed under TWO overlapping licence layers:
 
 1. The DataDrivenConstruction Proprietary Software License
    (see LICENSE-PROPRIETARY.txt in this folder), and
@@ -25,8 +25,8 @@ KEY RESTRICTIONS (SUMMARY - NOT A SUBSTITUTE FOR THE FULL TEXT)
 ================================================================
 
  * No reverse engineering, decompilation, or extraction of the
-   embedded Open Design Alliance (ODA) SDK components. (See
-   Section 4 of LICENSE-PROPRIETARY.txt.)
+   binaries except to the limited extent permitted by mandatory
+   law. (See Section 3 of LICENSE-PROPRIETARY.txt.)
  * No redistribution of the binaries outside the context of this
    original repository/product without a separate commercial
    licence.
@@ -41,12 +41,9 @@ KEY RESTRICTIONS (SUMMARY - NOT A SUBSTITUTE FOR THE FULL TEXT)
 THIRD-PARTY COMPONENT NOTICES
 ================================================================
 
-Each converter sub-directory (DDC_CONVERTER_REVIT/,
-DDC_CONVERTER_DWG/, DDC_CONVERTER_DGN/, DDC_CONVERTER_IFC/,
-DDC_CONVERTER_Revit2IFC/, DDC_Update_Revit_from_Excel/) contains
-its own LICENSE file with upstream attributions for bundled
-third-party components (ODA, Qt, and others). Those notices
-apply in addition to this EULA and to LICENSE-PROPRIETARY.txt.
+Third-party components of each release package are listed in
+THIRD_PARTY_NOTICES inside that package. Those notices apply in
+addition to this EULA and to LICENSE-PROPRIETARY.txt.
 
 ================================================================
 CONTACT

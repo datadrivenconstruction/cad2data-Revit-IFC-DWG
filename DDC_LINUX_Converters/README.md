@@ -1,40 +1,35 @@
 # DDC Linux Packages
 
-Linux (.deb) packages for DataDrivenConstruction converters and CWICR semantic search.
+Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and supporting services.
 
-> **Licensing notice — the converter binaries in this folder are NOT MIT-licensed.**
+> **Licensing notice — the DDC binaries in this folder are NOT MIT-licensed.**
 > They are proprietary software licensed under the DataDrivenConstruction
 > Proprietary Software License and the DataDrivenConstruction Terms of Use and
 > EULA at <https://datadrivenconstruction.io/term-of-use-and-eula/>.
-> The DDC SDK packages (`ddc-sdk-*`) incorporate Open Design Alliance technology
-> licensed to DataDrivenConstruction under an ODA Sustaining Membership and carry
-> pass-through restrictions (no reverse engineering, export-control compliance).
 >
 > See [LICENSE-PROPRIETARY.txt](./LICENSE-PROPRIETARY.txt) and [EULA.txt](./EULA.txt)
 > in this folder, and [NOTICE](../NOTICE) at the repository root, for the full terms.
 > The build / installation scripts and Markdown documentation in this folder are
 > MIT-licensed under the [root LICENSE](../LICENSE).
 
+## Converters: Linux / macOS status
+
+The previous Linux converter packages (`ddc-rvtconverter`, `ddc-dwgconverter`,
+`ddc-ifcconverter`, `ddc-dgnconverter`, `ddc-rvt2ifcconverter`,
+`ddc-collisiondetector`, `ddc-thirdparty` and the `ddc-sdk-*` libraries) were
+based on the previous generation of converters and are **discontinued**. They
+are no longer built or distributed from this folder.
+
+The new first-party converters (DDC RVT Converter, DDC RVT-to-IFC,
+DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel, DDC Data Viewer) are
+currently released for Windows through GitHub Releases:
+<https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
+(see [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).
+**Linux and macOS builds of the new converters are in preparation.** The new
+converters are previews and their quality is not fully qualified yet.
+MicroStation DGN conversion is discontinued.
+
 ## Available Packages
-
-### APT Repository — DDC Converters
-
-Pre-built `.deb` packages are hosted at `https://pkg.datadrivenconstruction.io`
-
-| Package | Version | Description |
-|---------|---------|-------------|
-| `ddc-rvtconverter` | 18.0.0.0 | Revit RVT/RFA → XLSX + DAE converter |
-| `ddc-dwgconverter` | 18.0.0.0 | AutoCAD DWG → XLSX + DAE converter |
-| `ddc-ifcconverter` | 18.0.0.0 | IFC → XLSX + DAE converter |
-| `ddc-dgnconverter` | 18.0.0.0 | MicroStation DGN → XLSX + DAE converter |
-| `ddc-rvt2ifcconverter` | 18.0.0.0 | Revit RVT → IFC translator |
-| `ddc-collisiondetector` | 17.1.2.0 | BIM collision detection utility |
-| `ddc-sdk-kernel` | 26.12 | ODA Kernel libraries (shared) |
-| `ddc-sdk-drawings` | 26.12 | ODA Drawings libraries for DWG/DGN |
-| `ddc-sdk-ifc` | 26.12 | ODA IFC libraries |
-| `ddc-sdk-bimrv` | 26.12 | ODA BimRv libraries for Revit |
-| `ddc-sdk-architecture` | 26.12 | ODA Architecture libraries |
-| `ddc-thirdparty` | 18.0.0.0 | Third-party libraries (libxl, ColladaData) |
 
 ### Build-from-source — DDC CWICR (this directory)
 
@@ -43,59 +38,6 @@ Pre-built `.deb` packages are hosted at `https://pkg.datadrivenconstruction.io`
 | `ddc-qdrant` | Qdrant 1.16.3 vector database as a systemd service |
 | `ddc-cwicr-cli` | `ddc-search` CLI tool for semantic/keyword search |
 | `ddc-cwicr-{lang}` | Language data packages (9 languages) |
-
----
-
-## Quick Install — DDC Converters
-
-### 1. Add the DDC APT repository
-
-```bash
-# Add repository
-echo "deb [trusted=yes] https://pkg.datadrivenconstruction.io stable main" \
-  | sudo tee /etc/apt/sources.list.d/ddc.list
-
-# Update package index
-sudo apt update
-```
-
-### 2. Install converters
-
-```bash
-# Install a single converter
-sudo apt install ddc-rvtconverter
-
-# Or install all converters
-sudo apt install ddc-rvtconverter ddc-dwgconverter ddc-ifcconverter \
-  ddc-dgnconverter ddc-rvt2ifcconverter
-```
-
-SDK dependencies (`ddc-sdk-*`, `ddc-thirdparty`) are installed automatically.
-
-### 3. Run
-
-```bash
-# Revit to XLSX + DAE
-ddc-rvtconverter input.rvt output_dir/
-
-# DWG to XLSX
-ddc-dwgconverter input.dwg output_dir/
-
-# IFC to XLSX + DAE
-ddc-ifcconverter input.ifc output_dir/
-
-# DGN to XLSX + DAE
-ddc-dgnconverter input.dgn output_dir/
-
-# Revit to IFC
-ddc-rvt2ifcconverter input.rvt output_dir/
-```
-
-### System Requirements
-
-- **OS:** Ubuntu 20.04+ / Debian 11+ (amd64)
-- **Dependencies:** `libc6 (>= 2.31)`, `libssl3 | libssl1.1`
-- **Disk:** ~500 MB per converter
 
 ---
 
@@ -227,11 +169,6 @@ DDC_Converters_Linux_Packages/
 
 | Package | Depends On |
 |---------|-----------|
-| `ddc-rvtconverter` | `ddc-sdk-kernel`, `ddc-sdk-bimrv`, `ddc-thirdparty` |
-| `ddc-dwgconverter` | `ddc-sdk-kernel`, `ddc-sdk-drawings`, `ddc-thirdparty` |
-| `ddc-ifcconverter` | `ddc-sdk-kernel`, `ddc-sdk-ifc`, `ddc-thirdparty` |
-| `ddc-dgnconverter` | `ddc-sdk-kernel`, `ddc-sdk-drawings`, `ddc-sdk-architecture`, `ddc-thirdparty` |
-| `ddc-rvt2ifcconverter` | `ddc-sdk-kernel`, `ddc-sdk-bimrv`, `ddc-sdk-ifc`, `ddc-thirdparty` |
 | `ddc-qdrant` | `libc6 (>= 2.31)`, `libssl3 \| libssl1.1`, `curl` |
 | `ddc-cwicr-cli` | `python3 (>= 3.8)`, `ddc-qdrant` |
 | `ddc-cwicr-{lang}` | `ddc-qdrant`, `curl` |

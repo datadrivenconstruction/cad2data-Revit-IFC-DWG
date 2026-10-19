@@ -2,55 +2,55 @@
 
 ## What Is This Repository?
 
-**CAD2DATA Pipeline** - open-source toolkit for converting and extracting data from construction files (Revit, IFC, DWG, DGN) to open formats (XLSX, DAE, IFC, PDF, HTML).
+**CAD2DATA Pipeline** - toolkit and workflow templates for converting and extracting data from construction files (`.rvt`, IFC, `.dwg`) to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML). Workflows and scripts are MIT-licensed; the DDC converters are proprietary previews distributed via GitHub Releases.
 
 ## Key Value
 
 - Transform proprietary CAD/BIM files into structured, analyzable data
-- No vendor lock-in, no licenses required
-- All tools have CLI interfaces for direct execution
+- No vendor lock-in; no Autodesk licence required on the conversion machine
+- The converters have CLI interfaces for direct execution
 - Works offline
 
 ## Available Converters
 
-| Converter | Input | Output |
-|-----------|-------|--------|
-| RvtExporter.exe | Revit (.rvt, .rfa) 2015-2026 | XLSX + DAE + PDF + Schedules |
-| RVT2IFCconverter.exe | Revit (.rvt, .rfa) | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5 |
-| IfcExporter.exe | IFC (2x3, 4, 4x1, 4x3) | XLSX + DAE |
-| DwgExporter.exe | AutoCAD (.dwg) 1983-2026 | XLSX + PDF |
-| DgnExporter.exe | MicroStation (.dgn) V7, V8 | XLSX |
+| Tool | Input | Output |
+|------|-------|--------|
+| DDC RVT Converter 0.6.8 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4, experimental) |
+| DDC RVT-to-IFC 0.6.8 | `.rvt`, `.rfa` | Same engine and CLI, IFC defaults |
+| DDC IFC to Excel 0.3.1-preview | IFC2x3 / IFC4 (SPF, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
+| DDC CAD drawing (.dwg) to Excel 0.4.1 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
+| DDC Data Viewer 0.1.1 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
+
+All are **previews** (quality not fully qualified): check the reports they write. DGN conversion is discontinued. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
 
 ## CLI Syntax
 
 ```bash
-# Revit to Excel + 3D geometry
-RvtExporter.exe "building.rvt"
-RvtExporter.exe "building.rvt" complete bbox schedule sheets2pdf
+# .rvt -> GLB + summary/report (+ element properties)
+C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --properties
 
-# Revit to IFC
-RVT2IFCconverter.exe "building.rvt"
-RVT2IFCconverter.exe "building.rvt" preset=extended
+# .rvt -> IFC4 (experimental)
+C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m
 
-# IFC to Excel + 3D
-IfcExporter.exe "model.ifc"
+# IFC -> Excel + JSONL + SQLite
+cd C:\DDC\IFC-to-Excel
+runtime\python.exe sources\ifc-excel\converter.py "C:\Models\Model.ifc" --output "C:\Out\Model"
 
-# DWG to Excel + PDF
-DwgExporter.exe "plan.dwg"
+# .dwg -> Excel + CSV + JSONL + DXF + SVG
+C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 
-# DGN to Excel
-DgnExporter.exe "design.dgn"
+# RVT exit codes: 0 ok, 2 written with gaps / bad args, 1 failure
 ```
 
 ## Output Format Details
 
 | Format | Description | Use Case |
 |--------|-------------|----------|
-| **XLSX** | Elements as rows, properties as columns | BigQuery, pandas, databases |
-| **DAE** | Collada 3D with element IDs matching XLSX | 3D viewers, web visualization |
-| **IFC** | Open BIM standard | Interoperability, BIM tools |
-| **PDF** | Drawings and sheets | Documentation |
-| **HTML** | Interactive reports | Dashboards, sharing |
+| **XLSX / CSV** | Tables | BigQuery, pandas, databases |
+| **JSONL / SQLite** | Properties and tables | pandas, databases |
+| **GLB** | 3D model (`native_graph.glb`) | 3D viewers, web visualization |
+| **IFC** | IFC4, experimental | Interoperability, BIM tools |
+| **HTML** | Interactive reports (n8n) | Dashboards, sharing |
 
 ## Google Cloud Integration Examples
 
@@ -59,8 +59,10 @@ DgnExporter.exe "design.dgn"
 from google.cloud import storage
 import subprocess
 import tempfile
+from pathlib import Path
 
-def process_revit_from_gcs(bucket_name, blob_name, converter_path):
+def process_revit_from_gcs(bucket_name, blob_name,
+                           converter_path=r"C:\DDC\RVT-Converter\cli\RVTconverter.exe"):
     client = storage.Client()
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(blob_name)
@@ -69,10 +71,10 @@ def process_revit_from_gcs(bucket_name, blob_name, converter_path):
         local_file = f"{tmpdir}/{blob_name}"
         blob.download_to_filename(local_file)
 
-        subprocess.run([converter_path, local_file, "complete", "bbox"])
+        subprocess.run([converter_path, local_file, "-o", tmpdir, "--properties"])
 
         # Upload results
-        for output_file in Path(tmpdir).glob("*.xlsx"):
+        for output_file in Path(tmpdir).glob("*.converted/*.jsonl"):
             result_blob = bucket.blob(f"results/{output_file.name}")
             result_blob.upload_from_filename(str(output_file))
 ```
@@ -146,15 +148,15 @@ See `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` - explains data-driven approach to const
 
 ## Best Practices
 
-1. Use `complete` mode for full extraction (1209 categories)
-2. Enable `bbox` for spatial analysis
-3. Stream large files to Cloud Storage
-4. Use BigQuery for analytics
-5. Apply Vertex AI for classification tasks
+1. Check exit codes (RVT: 0 ok, 2 written with gaps, 1 failure) and read `report.json` / `REPORT.txt` / `result.json`
+2. Use `--properties` for RVT when element parameters are needed
+3. Treat all converter output as preview quality and verify before downstream use
+4. Stream large files to Cloud Storage
+5. Use BigQuery for analytics, Vertex AI for classification tasks
 
 ## License
 
-All tools are open-source (MIT). Can be freely integrated into Google Cloud workflows, Vertex AI pipelines, or any other solution.
+Workflows, scripts, and documentation are MIT-licensed and can be freely integrated into Google Cloud workflows, Vertex AI pipelines, or any other solution. The DDC converter binaries are proprietary (see LICENSE-PROPRIETARY).
 
 ---
 
