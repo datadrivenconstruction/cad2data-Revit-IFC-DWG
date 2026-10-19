@@ -60,7 +60,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## n8n 工作流、Notebook 与 AI 智能体
 
-n8n 工作流和 Jupyter Notebook 是为旧版 18.x 命令行（XLSX + DAE）编写的，正在迁移到新转换器。在此之前，请修改转换器路径并调整解析步骤（RVT 属性为 `properties.jsonl`，几何为 GLB）。`AI_AGENTS_INSTRUCTIONS/` 已包含新命令。
+n8n 工作流（`DDC_n8n_Workflows&Pipelines/`）和 Jupyter Notebook 已迁移到新转换器：它们通过 `ddc convert` / `ddc table`（免费工具 [`ddc-tools/`](ddc-tools/)）调用转换器，并由转换器输出重建旧版布局的平面表格（`*_rvt.xlsx`，工作表 `Project_Data`）；DAE 已替换为 GLB。一次性安装：`pip install ddc-tools\`。已验证的内容和未覆盖的内容见工作流和 Notebook 旁边的 `README.md`。`AI_AGENTS_INSTRUCTIONS/` 已包含新命令。
 
 ## 限制
 

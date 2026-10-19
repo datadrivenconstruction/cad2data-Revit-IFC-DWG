@@ -60,7 +60,7 @@ Options, fichiers de sortie et codes de retour : [README anglais](README.md#comm
 
 ## Workflows n8n, notebooks et agents IA
 
-Les workflows n8n et les notebooks ont été écrits pour la ligne de commande 18.x (XLSX + DAE) et sont en cours de portage. En attendant, adaptez le chemin du convertisseur et l'étape d'analyse (propriétés RVT dans `properties.jsonl`, géométrie en GLB). `AI_AGENTS_INSTRUCTIONS/` décrit déjà les nouvelles commandes.
+Les workflows n8n (`DDC_n8n_Workflows&Pipelines/`) et les notebooks Jupyter sont portés vers les nouveaux convertisseurs : ils appellent les convertisseurs via `ddc convert` / `ddc table` (outil gratuit [`ddc-tools/`](ddc-tools/)), qui reconstruit à partir de la sortie des convertisseurs le tableau plat de l'ancienne disposition (`*_rvt.xlsx`, feuille `Project_Data`) ; DAE est remplacé par GLB. Installation unique : `pip install ddc-tools\`. Ce qui a été vérifié et ce qui n'est pas couvert figure dans le `README.md` à côté des workflows et des notebooks. `AI_AGENTS_INSTRUCTIONS/` décrit déjà les nouvelles commandes.
 
 ## Limites
 

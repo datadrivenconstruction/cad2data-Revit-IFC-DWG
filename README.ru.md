@@ -60,7 +60,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## n8n-сценарии, ноутбуки и ИИ-агенты
 
-n8n-сценарии (`DDC_n8n_Workflows&Pipelines/`) и Jupyter-ноутбуки написаны для старой командной строки 18.x (XLSX + DAE) и переносятся на новые конвертеры. До этого укажите путь к новому исполняемому файлу и поправьте шаг разбора (свойства RVT — `properties.jsonl`, геометрия — GLB). В `AI_AGENTS_INSTRUCTIONS/` уже описаны новые команды.
+n8n-сценарии (`DDC_n8n_Workflows&Pipelines/`) и Jupyter-ноутбуки перенесены на новые конвертеры: они вызывают конвертеры через `ddc convert` / `ddc table` (бесплатный инструмент [`ddc-tools/`](ddc-tools/)), который собирает из выхода конвертеров плоскую таблицу в старой раскладке (`*_rvt.xlsx`, лист `Project_Data`); DAE заменён на GLB. Разовая установка: `pip install ddc-tools\`. Что проверено и что не покрыто, написано в `README.md` рядом со сценариями и ноутбуками. В `AI_AGENTS_INSTRUCTIONS/` уже описаны новые команды.
 
 ## Ограничения
 

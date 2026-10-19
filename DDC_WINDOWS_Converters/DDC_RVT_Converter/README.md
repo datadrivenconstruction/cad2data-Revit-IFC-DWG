@@ -36,7 +36,7 @@ Exit codes: 0 written, 2 written with reported gaps or invalid arguments, 1 fail
 - Same call shape: `converter "model.rvt"`. Point your script to `cli\RVTconverter.exe`.
 - Different output: a folder `<name>.converted` (GLB, JSON, optional `properties.jsonl`) instead of
   `<name>_rvt.xlsx` + `<name>_rvt.dae`. The old positional output arguments and `bbox` / `complete` /
-  `sheets` style switches do not exist. Steps that read the old XLSX/DAE must be adapted.
+  `sheets` style switches do not exist. The old flat table is rebuilt by `ddc convert` / `ddc table` (folder `ddc-tools` of this repository, which also runs this converter with `--properties --ifc`); the 3D model is the GLB.
 
 ## Updating
 
