@@ -53,7 +53,7 @@ def triangles(path):
 
 def render(glb, out, W=1100, H=700, legend=None):
     tris = triangles(glb)
-    az, el = math.radians(35), math.radians(28)
+    az, el = math.radians(-215), math.radians(32)
     ca, sa, ce, se = math.cos(az), math.sin(az), math.cos(el), math.sin(el)
 
     def proj(p):                                       # glTF Y-up -> screen
