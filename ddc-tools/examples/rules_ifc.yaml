@@ -1,5 +1,8 @@
-# Example for IFC-derived tables: Property-set values appear as columns such as
-# "Pset_WallCommon.FireRating". Short names also work when they are unambiguous.
+# Rules for the output of DDC IFC to Excel (folder with data.sqlite / data.jsonl / drawing.xlsx).
+# ddc check joins the tables into one row per object, so the columns are:
+#   ElementId (STEP id), GlobalId, Category (IFC class), Name, TypeName, Level (storey),
+#   and one column per property or quantity named "<Set>.<Property>", e.g. "Pset_WallCommon.FireRating".
+# A short name such as FireRating matches every set that has it; the first non-empty value counts.
 name: IFC handover (example)
 
 rules:
@@ -9,20 +12,56 @@ rules:
     param: GlobalId
 
   - id: IFC-NAME
-    title: Elements are named
+    title: Objects are named
     severity: warning
-    where: { category: "Ifc*" }
     check: not_empty
     param: Name
 
-  - id: IFC-WALL-FIRE
-    title: Walls carry a fire rating
-    where: { category: [IfcWall, IfcWallStandardCase] }
-    check: required
-    param: Pset_WallCommon.FireRating
-
-  - id: IFC-STOREY
-    title: Everything is assigned to a storey
+  - id: IFC-LEVEL
+    title: Building elements are assigned to a storey
     severity: warning
+    where: { category: ["IfcWall*", "IfcDoor", "IfcWindow", "IfcSlab", "IfcSpace", "IfcStair*", "IfcRoof"] }
     check: not_empty
-    param: BuildingStorey
+    param: Level
+
+  - id: IFC-DOOR-FIRE
+    title: Doors carry a fire rating
+    where: { category: IfcDoor }
+    check: required
+    param: FireRating
+
+  - id: IFC-DOOR-FIRE-VALUE
+    title: Door fire rating is a real class (EI 30, REI 60, E 90, R 120)
+    where: { category: IfcDoor }
+    check: pattern
+    param: FireRating
+    regex: '(EI|REI|E|R) ?\d{2,3}'
+
+  - id: IFC-MARK-UNIQUE
+    title: Door and window marks are unique
+    where: { category: [IfcDoor, IfcWindow] }
+    check: unique
+    param: Mark
+
+  - id: IFC-WALL-REF
+    title: "Wall Reference follows the pattern Basic Wall: ..."
+    severity: info
+    where: { category: [IfcWall, IfcWallStandardCase] }
+    check: pattern
+    param: Pset_WallCommon.Reference
+    regex: 'Basic Wall:.*'
+
+  - id: IFC-WALL-VOLUME
+    title: Wall volume is stored and positive
+    where: { category: [IfcWall, IfcWallStandardCase] }
+    check: range
+    param: PSet_Revit_Dimensions.Volume
+    min: 0.0001
+
+  - id: IFC-SPACE-AREA
+    title: Spaces carry an area between 1 and 200 (model units)
+    where: { category: IfcSpace }
+    check: range
+    param: GSA Space Areas.GSA BIM Area
+    min: 1
+    max: 200

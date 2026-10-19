@@ -10,7 +10,7 @@ from .loader import is_empty
 ALIASES: Dict[str, List[str]] = {
     "id": ["ElementId", "Element Id", "native_id", "Id", "ObjectId", "Handle", "STEP Id", "ExpressId"],
     "guid": ["GlobalId", "Global Id", "IfcGUID", "UniqueId", "unique_id", "Guid"],
-    "category": ["Category", "IfcClass", "IfcType", "Entity", "source_class", "Class", "Layer"],
+    "category": ["Category", "IfcClass", "IfcType", "Entity", "source_class", "Class", "Layer", "category_id"],
     "type": ["Type Name", "TypeName", "Family and Type", "Type", "ObjectType", "Family"],
     "level": ["Level", "Base Constraint", "Reference Level", "BuildingStorey", "Storey",
               "Building Storey", "Floor", "Schedule Level"],
