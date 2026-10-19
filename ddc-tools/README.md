@@ -1,6 +1,6 @@
 # DDC free tools
 
-Three small, free, offline tools for the tables written by the DDC converters (RVT, IFC, DWG to
+Small, free, offline tools for the tables written by the DDC converters (RVT, IFC, DWG to
 XLSX, CSV, JSONL, SQLite or JSON). Your data stays on your machine: no upload, no account, no cloud.
 
 | Tool | What it does |
@@ -8,6 +8,8 @@ XLSX, CSV, JSONL, SQLite or JSON). Your data stays on your machine: no upload, n
 | `ddc check` | Rule-based data quality check (required parameters, regex, uniqueness, ranges, allowed values). Traffic-light XLSX, JSON, exit code for CI. |
 | `ddc convert` | Runs the right DDC converter for a `.rvt` / `.ifc` / `.dwg` file and then `ddc table`: one command from model to the flat table. |
 | `ddc table` | Builds the flat one-row-per-element table (the old `*_rvt.xlsx` layout: ID, Category, Type Name, Level, Volume, ...) from RVT, IFC and DWG converter output. |
+| `ddc diff` | Compares two exports of a model (RVT, IFC, DWG outputs): added / removed / modified, old to new per property and quantity, changelog XLSX, JSON, GLB coloured by status, exit code for CI. |
+| `ddc bcf` | Turns `ddc check` / `ddc diff` findings into BCF 2.1 / 3.0 issue files and tabulates any BCF into XLSX. |
 | `ddc qto` | Quantity summary by category, type and level (count, length, area, volume, whichever the export has) with warnings about gaps. |
 | Power BI and Excel kit | Power Query (M) scripts and an Excel workbook that read a whole export folder. No Python needed. |
 
@@ -224,6 +226,148 @@ evaluation and no unit formatting; mesh volumes equal Revit's `Volume` only for 
 is only as good as the property and quantity sets in the file. Category codes (`OST_Walls`) come from a
 short list of certain ids and otherwise from the category name.
 
+## `ddc diff`
+
+What changed between two issues of a model? Both sides are read with the same adapters as `ddc table`
+(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, DWG to Excel table), so A and B can be
+folders or files in any supported format.
+
+```bash
+ddc diff Duplex_v1 Duplex_v2 --xlsx changes.xlsx --json changes.json
+ddc diff R24 R24_v2 --glb diff.glb --bcf issues.bcf        # RVT outputs with native_graph.glb
+ddc diff A B --fail-on removed,modified                    # CI: exit code 1 only for these statuses
+```
+
+```
+24 -> 24 elements, matched by key:GlobalId: 2 added, 2 removed, 4 modified, 18 unchanged (4 property, 7 quantity, 1 attribute changes)
+```
+
+**Matching.** By a key column: `GlobalId`, `UniqueId`, `ElementId` or `ID`, the first that is present in both
+versions with enough coverage and overlap (or `--key COLUMN`). Elements left over on both sides are then matched by a
+fingerprint (category, type, level, quantities and all properties, without names and ids); only an exact one-to-one
+match counts, and those elements are reported as unchanged with `matched_by = fingerprint`. Statuses: `added`
+(only in B), `removed` (only in A), `modified`, `unchanged`. Ids that are not the key (STEP ids, regenerated
+GlobalIds) are not counted as changes; a warning says how many differ.
+
+**Changes** are listed per field with old value, new value and, for numbers, delta and percent. Kinds: `quantity`
+(Length, Width, Height, Perimeter, Area, Volume, mesh volume/area, bounding box, `Pset` quantities), `attribute`
+(category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
+`--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
+
+![Summary sheet](docs/diff_summary.png)
+
+![Changelog sheet](docs/diff_changelog.png)
+
+The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
+`Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
+elements are left out unless `--include-unchanged`.
+
+**Exit code** (`--fail-on`, default `added,removed,modified`): 0 = none of the listed statuses occurs, 1 = at least one
+occurs, 2 = error. `--fail-on none` always gives 0 when the comparison ran.
+
+**GLB.** `--glb out.glb` writes the GLB of version B with every material replaced by a status material
+(added green, modified orange, unchanged translucent grey; `--glb-unchanged keep|hide`) and copies the geometry of
+removed elements from the GLB of A in red. GLBs are taken from `native_graph.glb` / `model.glb` next to the inputs or
+from `--glb-a` / `--glb-b`. A node is linked to an element like in the DDC Data Viewer: by `extras.element_id`,
+`extras.global_id` or a trailing id of the node name; children inherit the status of their parent. The IFC to Excel
+output has no GLB, so for IFC pass one with `--glb-b`. Without any GLB the option only prints a warning.
+
+![GLB coloured by status](docs/diff_glb.png)
+
+*The picture is a drawing of the output GLB made by `docs/render_glb_png.py`. The input is a small synthetic RVT-style output
+from `docs/make_diff_demo.py` (eight box walls): one wall taller (orange), one deleted (red), one added (green).*
+
+Limits, stated plainly: for RVT the table follows what the saved graph stores, which has no formula
+evaluation and no unit formatting; mesh volumes equal Revit's `Volume` only for closed meshes. The IFC table
+is only as good as the property and quantity sets in the file. Category codes (`OST_Walls`) come from a
+short list of certain ids and otherwise from the category name.
+
+## `ddc diff`
+
+What changed between two issues of a model? Both sides are read with the same adapters as `ddc table`
+(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, DWG to Excel table), so A and B can be
+folders or files in any supported format.
+
+```bash
+ddc diff Duplex_v1 Duplex_v2 --xlsx changes.xlsx --json changes.json
+ddc diff R24 R24_v2 --glb diff.glb --bcf issues.bcf        # RVT outputs with native_graph.glb
+ddc diff A B --fail-on removed,modified                    # CI: exit code 1 only for these statuses
+```
+
+```
+24 -> 24 elements, matched by key:GlobalId: 2 added, 2 removed, 4 modified, 18 unchanged (4 property, 7 quantity, 1 attribute changes)
+```
+
+**Matching.** By a key column: `GlobalId`, `UniqueId`, `ElementId` or `ID`, the first that is present in both
+versions with enough coverage and overlap (or `--key COLUMN`). Elements left over on both sides are then matched by a
+fingerprint (category, type, level, quantities and all properties, without names and ids); only an exact one-to-one
+match counts, and those elements are reported as unchanged with `matched_by = fingerprint`. Statuses: `added`
+(only in B), `removed` (only in A), `modified`, `unchanged`. Ids that are not the key (STEP ids, regenerated
+GlobalIds) are not counted as changes; a warning says how many differ.
+
+**Changes** are listed per field with old value, new value and, for numbers, delta and percent. Kinds: `quantity`
+(Length, Width, Height, Perimeter, Area, Volume, mesh volume/area, bounding box, `Pset` quantities), `attribute`
+(category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
+`--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
+
+![Summary sheet](docs/diff_summary.png)
+
+![Changelog sheet](docs/diff_changelog.png)
+
+The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
+`Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
+elements are left out unless `--include-unchanged`.
+
+**Exit code** (`--fail-on`, default `added,removed,modified`): 0 = none of the listed statuses occurs, 1 = at least one
+occurs, 2 = error. `--fail-on none` always gives 0 when the comparison ran.
+
+**GLB.** `--glb out.glb` writes the GLB of version B with every material replaced by a status material
+(added green, modified orange, unchanged translucent grey; `--glb-unchanged keep|hide`) and copies the geometry of
+removed elements from the GLB of A in red. GLBs are taken from `native_graph.glb` / `model.glb` next to the inputs or
+from `--glb-a` / `--glb-b`. A node is linked to an element like in the DDC Data Viewer: by `extras.element_id`,
+`extras.global_id` or a trailing id of the node name; children inherit the status of their parent. The IFC to Excel
+output has no GLB, so for IFC pass one with `--glb-b`. Without any GLB the option only prints a warning.
+
+![GLB coloured by status](docs/diff_glb.png)
+
+*The picture is a drawing of the output GLB made by `docs/render_glb_png.py` from a real RVT Converter run on
+`Sample_R24.rvt` and an edited copy (`docs/make_diff_demo.py`): one wall taller, one deleted, one added.*
+
+Limits, stated plainly: Revit ElementIds can change when a model is re-created and IFC STEP ids change on every
+export, so prefer `GlobalId`; a fingerprint cannot tell identical elements apart if they only moved; the RVT output has
+no placement, so a moved element of unchanged size shows as unchanged unless the GLB-derived columns differ;
+comparing outputs of different converters or Revit versions produces many attribute changes.
+
+## `ddc bcf`
+
+[BCF](https://technical.buildingsmart.org/standards/bcf/) is an open issue exchange format of buildingSMART
+International. `ddc bcf` writes BCF-XML 2.1 or 3.0 zip files and reads them back; it was written from the
+published specification and schemas and the files are validated against the official XSD in the tests. No
+certification of any kind is claimed.
+
+```bash
+ddc check Model --rules rules.yaml --json check.json --bcf check.bcf       # shortcut
+ddc diff A B --json diff.json --bcf diff.bcf --bcf-version 3.0              # shortcut
+ddc bcf export check.json -o check.bcf --version 2.1 --per-element          # from a saved report
+ddc bcf read check.bcf --xlsx bcf_summary.xlsx                              # any BCF 2.0 / 2.1 / 3.0
+```
+
+* One topic per rule (check) or per status and category (diff); `--per-element` gives one topic per element.
+  Title, description with examples and old to new values, priority (error = High), labels, status `Open`.
+* Each topic has a viewpoint with the affected components: `IfcGuid` when the element has an IFC GlobalId, otherwise
+  `AuthoringToolId` (ElementId or table id) with `OriginatingSystem`. Diff viewpoints colour the components by status.
+  At most `--max-components` (1000) are selected per viewpoint; the description says how many were left out.
+* No snapshot. No camera in 2.1 unless `--camera x,y,z,dx,dy,dz`; the 3.0 schema requires a camera in every
+  viewpoint, so 3.0 files carry a neutral default one that viewers replace when they zoom to the selection.
+* `ddc bcf read` writes `Summary`, `Topics`, `Comments` and `Components` sheets (and `--json`). Files with a
+  DOCTYPE or entity declaration are refused.
+
+![BCF topics](docs/bcf_topics.png)
+
+The buildingSMART XSD files are licensed CC BY-ND 4.0, not a permissive licence, so they are not part of this
+repository; the tests download them on demand (set `DDC_BCF_XSD_DIR` to reuse a folder) and skip when `lxml` or the
+network is missing.
+
 ## `ddc qto`
 
 ```bash
@@ -262,7 +406,7 @@ version. SQLite is not read by Power Query directly; use the xlsx, csv or jsonl 
 ## Tests
 
 ```bash
-pip install pytest openpyxl pyyaml
+pip install pytest openpyxl pyyaml lxml   # lxml: BCF schema validation (tests skip without it)
 python -m pytest -q          # run inside ddc-tools/
 ```
 
@@ -273,6 +417,6 @@ Regenerate the synthetic sample with `python examples/make_sample.py examples/da
 ## Notes
 
 Excel and Power BI are trademarks of Microsoft Corporation. Autodesk, Revit and AutoCAD are
-trademarks of Autodesk, Inc.; IFC and buildingSMART are trademarks of buildingSMART International.
+trademarks of Autodesk, Inc.; IFC, BCF and buildingSMART are trademarks of buildingSMART International.
 Format names are used only to say which files are read. These tools are independent software and are
 not affiliated with, endorsed by or certified by those companies. See [../TRADEMARK.md](../TRADEMARK.md).
