@@ -1,11 +1,17 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/security/advisories/new
+    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/security/advisories/new
     about: Report security issues privately via GitHub Security Advisories. DO NOT open a public issue.
+  - name: Support by e-mail
+    url: mailto:info@datadrivenconstruction.io?subject=DDC%20desktop%20app%20support
+    about: Private questions, or a confidential file that does not convert. Do not post proprietary files in public issues.
   - name: Commercial licensing
     url: mailto:info@datadrivenconstruction.io?subject=cad2data%20commercial%20licence
     about: Questions about redistribution, OEM, or SaaS use of the converter binaries.
   - name: Discussion and community
-    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/discussions
+    url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/discussions
     about: Usage questions, ideas, and general conversation.
+  - name: Contact form on the website
+    url: https://cadbimconverter.com/contact/
+    about: Licences, invoices, custom pipelines and workshops.
