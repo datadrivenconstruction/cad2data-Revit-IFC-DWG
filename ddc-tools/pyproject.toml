@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ddc-tools"
-version = "0.1.0"
-description = "Free offline tools on top of DDC converter output: data checks, quantity takeoff, Power BI / Excel kit"
+version = "0.2.0"
+description = "Free offline tools on top of DDC converter output: data checks, quantity takeoff, model diff, BCF issues, Power BI / Excel kit"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 dependencies = ["openpyxl>=3.1", "PyYAML>=6.0"]
 
 [project.optional-dependencies]
-test = ["pytest>=7"]
+test = ["pytest>=7", "lxml>=4.9"]
 
 [project.scripts]
 ddc = "ddc_tools.cli:main"
