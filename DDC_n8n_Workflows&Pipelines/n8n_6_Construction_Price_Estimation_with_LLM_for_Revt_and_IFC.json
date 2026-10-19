@@ -480,8 +480,14 @@
             },
             {
               "id": "path-to-converter-pass",
-              "name": "path_to_converter",
-              "value": "={{ $json[\"path_to_converter\"] }}",
+              "name": "path_to_ddc",
+              "value": "={{ $json[\"path_to_ddc\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "path-to-converter-pass-conv",
+              "name": "path_to_converters",
+              "value": "={{ $json[\"path_to_converters\"] }}",
               "type": "string"
             },
             {
@@ -553,7 +559,7 @@
     },
     {
       "parameters": {
-        "command": "=\"{{$node[\"Setup - Define file paths\"].json[\"path_to_converter\"]}}\" \"{{$node[\"Setup - Define file paths\"].json[\"project_file\"]}}\""
+        "command": "=\"{{$node[\"Setup - Define file paths\"].json[\"path_to_ddc\"]}}\" convert \"{{$node[\"Setup - Define file paths\"].json[\"project_file\"]}}\" --converters \"{{$node[\"Setup - Define file paths\"].json[\"path_to_converters\"]}}\" --xlsx \"{{$node[\"Create - Excel filename1\"].json[\"xlsx_filename\"]}}\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -782,7 +788,7 @@
     },
     {
       "parameters": {
-        "content": "## Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\nSimply: Converts Revit file to Excel for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?1: Verifies file\n- Extract - Run converter1: Converts if needed",
+        "content": "## Conversion Block\nThis block:\n- Checks if Excel file exists from Revit project\n- If not, runs converter to extract data\n- If yes, skips to save time\n\nSimply: Converts the model to the flat Excel table (ddc convert) for analysis.\n\nKey nodes:\n- Check - Does Excel file exist?1: Verifies file\n- Extract - Run converter1: Converts if needed",
         "height": 708,
         "width": 1912,
         "color": 5
@@ -814,7 +820,7 @@
     },
     {
       "parameters": {
-        "content": "## ⚠️ Important Information\n\n- Pipeline uses AI (OpenAI, Grok, Anthropic) - check credits and limits.\n- Revit converter requires downloaded DDC_Converter_Revit\n- Data is aggregated by groups, volumes are already summed - do not multiply by element count\n- Reports are generated in HTML and in Excel wfor detailed analysis",
+        "content": "## ⚠️ Important Information\n\n- Pipeline uses AI (OpenAI, Grok, Anthropic) - check credits and limits.\n- The converters come from DDC_WINDOWS_Converters of this repository; `ddc convert` (ddc-tools) builds the table\n- Data is aggregated by groups, volumes are already summed - do not multiply by element count\n- Reports are generated in HTML and in Excel wfor detailed analysis",
         "height": 288,
         "width": 336
       },
@@ -899,15 +905,21 @@
         "assignments": {
           "assignments": [
             {
-              "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
-              "name": "path_to_converter",
-              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
+              "id": "9760b78c-396c-513a-a85f-d6e5f5b85981",
+              "name": "path_to_ddc",
+              "value": "ddc",
+              "type": "string"
+            },
+            {
+              "id": "00cfab51-0245-50f3-a0c1-dd4ba00006c3",
+              "name": "path_to_converters",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "project_file",
-              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\Project.rvt",
               "type": "string"
             },
             {
@@ -953,7 +965,7 @@
     },
     {
       "parameters": {
-        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RVTconverter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to the `ddc` command and to the DDC_WINDOWS_Converters folder (path_to_ddc, path_to_converters)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcClass' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
         "height": 384,
         "width": 336
       },
