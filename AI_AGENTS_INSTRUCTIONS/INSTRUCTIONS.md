@@ -6,11 +6,11 @@ This folder contains instructions for AI coding assistants (Claude Code, Opencod
 
 ## Purpose
 
-All tools in this repository are **open-source** and designed to be:
+The MIT-licensed parts of this repository (workflows, scripts, instructions) are **open source**; the DDC converter binaries are proprietary previews distributed through GitHub Releases. The repository is designed to be:
 - Freely integrated into any solution
 - Extended and customized by AI assistants
 - Used as building blocks for construction automation workflows
-- Called directly from CLI by AI assistants
+- Called directly from CLI by AI assistants (the converters)
 
 ## Repository Philosophy
 
@@ -19,52 +19,53 @@ This repository follows the **Data-Driven Construction** approach as described i
 ## Key Principles
 
 1. **Data as Foundation**: Construction data is the new oil - extract, transform, and utilize it effectively
-2. **Open Formats**: Convert proprietary CAD/BIM to open formats (XLSX, DAE, IFC, CSV, HTML, PDF)
-3. **No Vendor Lock-in**: Works offline without Autodesk licenses or cloud APIs
+2. **Open Formats**: Convert proprietary CAD/BIM to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML)
+3. **No Vendor Lock-in**: Works offline; no Autodesk licence is required on the conversion machine and no cloud API is used
 4. **Automation First**: Every repetitive task should be automated
 5. **AI-Ready Pipelines**: Design workflows that can be enhanced by AI assistants
 
 ## Repository Structure
 
 ```
-cad2data-Revit-IFC-DWG-DGN-pipeline/
+cad2data-Revit-IFC-DWG/
 ├── AI_AGENTS_INSTRUCTIONS/              # Instructions for AI assistants
-├── DDC_Converters_Windows_Packages/     # Windows converters (.exe)
-│   ├── DDC_CONVERTER_DGN/              # DGN converter (DgnExporter.exe)
-│   ├── DDC_CONVERTER_DWG/              # DWG converter (DwgExporter.exe)
-│   ├── DDC_CONVERTER_IFC/              # IFC converter (IfcExporter.exe)
-│   ├── DDC_CONVERTER_REVIT/            # Revit converter (RvtExporter.exe)
-│   ├── DDC_CONVERTER_Revit2IFC/        # Revit to IFC (RVT2IFCconverter.exe)
-│   └── DDC_Update_Revit_from_Excel/    # Excel to Revit sync
-├── DDC_Converters_Linux_Packages/       # Linux converters (.deb)
+├── DDC_WINDOWS_Converters/              # Windows folder (converters now via GitHub Releases)
+│   └── DDC_Update_Revit_from_Excel/    # Add-in for Autodesk® Revit® (Excel to Revit sync)
+├── DDC_LINUX_Converters/                # CWICR search packages (.deb), Qdrant, dashboard, worker
 │   ├── ddc-qdrant/                     # Qdrant vector DB package
 │   ├── ddc-cwicr-cli/                  # Semantic search CLI
 │   └── ddc-cwicr-data/                 # Language data packages (9 languages)
 ├── DDC_n8n_Workflows&Pipelines/         # n8n automation workflows (9 workflows)
-├── DDC_Python_pipelines/                # Python pipeline examples
 ├── DDC_in_additon/                      # Additional utilities
 └── Sample_Projects/                     # Test data
 ```
 
+The converters themselves are distributed through GitHub Releases:
+<https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
+
 ## Supported Input/Output Formats
 
-### Input Formats
-| Format | Versions | Converter |
-|--------|----------|-----------|
-| Revit (.rvt, .rfa) | 2015-2026 | RvtExporter.exe, RVT2IFCconverter.exe |
-| IFC (.ifc) | IFC2x3, IFC4, IFC4x1, IFC4x3 | IfcExporter.exe |
-| AutoCAD (.dwg) | 1983-2026 | DwgExporter.exe |
-| MicroStation (.dgn) | V7, V8 | DgnExporter.exe |
+### Converters (previews - quality not fully qualified)
+
+| Tool | Input | Output |
+|------|-------|--------|
+| DDC RVT Converter 0.6.8 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4, experimental) |
+| DDC RVT-to-IFC 0.6.8 | `.rvt`, `.rfa` | Same engine and CLI, IFC defaults |
+| DDC IFC to Excel 0.3.1-preview | IFC2x3 / IFC4 (SPF, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
+| DDC CAD drawing (.dwg) to Excel 0.4.1 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
+| DDC Data Viewer 0.1.1 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
+
+All are **previews** (quality not fully qualified): check the reports they write. DGN conversion is discontinued. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
 
 ### Output Formats
 | Format | Description | Produced By |
 |--------|-------------|-------------|
-| **XLSX** | Excel database (elements as rows, properties as columns) | All converters |
-| **DAE** | Collada 3D geometry with element IDs matching XLSX | RvtExporter, IfcExporter |
-| **PDF** | Drawings and sheets | RvtExporter, DwgExporter |
-| **IFC** | IFC2x3, IFC4, IFC4.3, IFCXML, IFCZIP, HDF5 | RVT2IFCconverter |
+| **GLB** | 3D model (`native_graph.glb`) | DDC RVT Converter |
+| **XLSX / CSV** | Tables | DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel |
+| **JSONL / SQLite** | Properties and tables | DDC RVT Converter (`--properties`), DDC IFC to Excel |
+| **IFC** | IFC4, experimental | DDC RVT Converter / RVT-to-IFC (`--ifc`) |
+| **DXF / SVG** | Drawing geometry | DDC CAD drawing (.dwg) to Excel |
 | **HTML** | Interactive reports with charts | n8n workflows |
-| **CSV** | Simple tabular data | Post-processing |
 
 ## Available Instructions
 
@@ -80,67 +81,32 @@ cad2data-Revit-IFC-DWG-DGN-pipeline/
 When working with this repository:
 
 1. **Read the book** - `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` provides context for construction automation
-2. **Use CLI tools directly** - All converters have command-line interfaces that AI can execute
-3. **Respect open formats** - Output to XLSX, DAE, IFC, HTML, PDF
+2. **Use CLI tools directly** - The converters have command-line interfaces that AI can execute; read the report each tool writes
+3. **Respect open formats** - Output to XLSX, CSV, JSONL, GLB, IFC, HTML
 4. **Think data-first** - Extract structured data (DataFrames), not just geometry
 5. **Automate workflows** - Use n8n JSON templates as starting points
 
 ## Quick CLI Examples
 
-### Windows (.exe)
+### Windows
 ```bash
-# Convert Revit to XLSX + DAE
-RvtExporter.exe "C:\Projects\Building.rvt"
+# .rvt -> GLB + summary/report (+ element properties)
+C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --properties
 
-# Convert Revit with all options
-RvtExporter.exe "C:\Projects\Building.rvt" complete bbox schedule sheets2pdf
+# .rvt -> IFC4 (experimental)
+C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m
 
-# Convert Revit to IFC
-RVT2IFCconverter.exe "C:\Projects\Building.rvt"
+# IFC -> Excel + JSONL + SQLite
+cd C:\DDC\IFC-to-Excel
+runtime\python.exe sources\ifc-excel\converter.py "C:\Models\Model.ifc" --output "C:\Out\Model"
 
-# Convert IFC to XLSX + DAE
-IfcExporter.exe "C:\Projects\Model.ifc"
+# .dwg -> Excel + CSV + JSONL + DXF + SVG
+C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 
-# Convert DWG to XLSX + PDF
-DwgExporter.exe "C:\Projects\Plan.dwg"
-
-# Convert DGN to XLSX
-DgnExporter.exe "C:\Projects\Bridge.dgn"
+# RVT exit codes: 0 ok, 2 written with gaps / bad args, 1 failure
 ```
 
-### Linux (.deb packages)
-
-**Install from APT repository:**
-```bash
-# Add DDC APT repository
-echo "deb [trusted=yes] https://pkg.datadrivenconstruction.io stable main" \
-  | sudo tee /etc/apt/sources.list.d/ddc.list
-sudo apt update
-
-# Install converters (SDK dependencies are installed automatically)
-sudo apt install ddc-rvtconverter ddc-dwgconverter ddc-ifcconverter \
-  ddc-dgnconverter ddc-rvt2ifcconverter
-```
-
-**Run converters:**
-```bash
-# Revit to XLSX + DAE
-ddc-rvtconverter input.rvt output_dir/
-
-# DWG to XLSX
-ddc-dwgconverter input.dwg output_dir/
-
-# IFC to XLSX + DAE
-ddc-ifcconverter input.ifc output_dir/
-
-# DGN to XLSX + DAE
-ddc-dgnconverter input.dgn output_dir/
-
-# Revit to IFC
-ddc-rvt2ifcconverter input.rvt output_dir/
-```
-
-**System requirements:** Ubuntu 20.04+ / Debian 11+ (amd64)
+Linux and macOS builds of the new converters are in preparation; the old Linux converter packages (`ddc-*converter`, `ddc-sdk-*`) are discontinued. DGN conversion is discontinued.
 
 ### Linux — DDC CWICR Semantic Search
 
@@ -195,7 +161,7 @@ The `n8n_*.json` files are **visual representations of process logic** - not the
 
 ## License
 
-All tools are open-source (MIT). See LICENSE file for details.
+Workflows, scripts, and documentation are MIT-licensed (see LICENSE). The DDC converter binaries are proprietary (see LICENSE-PROPRIETARY and NOTICE).
 
 ---
 
