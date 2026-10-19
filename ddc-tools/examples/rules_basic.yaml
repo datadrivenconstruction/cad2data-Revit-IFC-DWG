@@ -1,0 +1,57 @@
+# Example rule set for `ddc check`.
+# check: required | not_empty | pattern | unique | range | enum
+# severity: error (default) | warning | info
+# where: optional filter, glob patterns (case-insensitive) on category / type / level,
+#        or category_regex / type_regex / level_regex (regex search).
+name: Handover basics
+
+# Optional: tell the tool which columns hold the identity, if auto-detection is wrong.
+# columns: { id: ElementId, guid: GlobalId, category: Category, type: "Type Name", level: Level }
+
+rules:
+  - id: WALL-FIRE
+    title: Walls must have a Fire Rating
+    where: { category: Walls }
+    check: required
+    param: Fire Rating
+
+  - id: ALL-LEVEL
+    title: Every element is assigned to a level
+    severity: warning
+    check: not_empty
+    param: Level
+
+  - id: MARK-FORMAT
+    title: Wall marks look like W-001
+    where: { category: Walls }
+    check: pattern
+    param: Mark
+    regex: 'W-\d{3}'
+
+  - id: MARK-UNIQUE
+    title: Marks are unique
+    where: { category: [Walls, Doors, Windows, Columns] }
+    check: unique
+    param: Mark
+
+  - id: WALL-WIDTH
+    title: Wall width between 0.10 and 0.50 m
+    where: { category: Walls }
+    check: range
+    param: Width
+    min: 0.1
+    max: 0.5
+
+  - id: FIRE-VALUES
+    title: Fire rating uses the approved vocabulary
+    severity: warning
+    check: enum
+    param: Fire Rating
+    values: ["EI 30", "EI 60", "EI 90", "R 90"]
+
+  - id: GENERIC-MARK
+    title: Generic models should carry a mark
+    severity: info
+    where: { category_regex: "^Generic" }
+    check: required
+    param: Mark

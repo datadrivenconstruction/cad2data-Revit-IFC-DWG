@@ -1,0 +1,19 @@
+ElementId,GlobalId,Category,Type Name,Level,Mark,Fire Rating,Length,Width,Area,Volume
+1001,3Xk01001AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 1,W-001,EI 60,5.0,0.2,14.0,2.8
+1002,3Xk01002AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 1,W-002,EI 60,3.5,0.2,9.8,1.96
+1003,3Xk01003AAAAAAAAAAAAAA,Walls,Basic Wall: Exterior - 300mm,Level 1,W-003,,8.0,0.3,22.4,6.72
+1004,3Xk01004AAAAAAAAAAAAAA,Doors,Single-Flush: 0915 x 2134mm,Level 1,D-001,EI 30,,0.915,1.95,
+1005,3Xk01005AAAAAAAAAAAAAA,Windows,Fixed: 1200 x 1500mm,Level 1,WIN-001,,,1.2,1.8,
+1006,3Xk01006AAAAAAAAAAAAAA,Floors,Floor: Concrete 250mm,Level 1,,,,0.25,48.0,12.0
+1007,3Xk01007AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 2,W-004,EI 60,5.0,0.2,14.0,2.8
+1008,3Xk01008AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 2,W-005,EI 60,3.5,0.2,9.8,1.96
+1009,3Xk01009AAAAAAAAAAAAAA,Walls,Basic Wall: Exterior - 300mm,Level 2,W-006,,8.0,0.3,22.4,6.72
+1010,3Xk01010AAAAAAAAAAAAAA,Doors,Single-Flush: 0915 x 2134mm,Level 2,D-002,EI 30,,0.915,1.95,
+1011,3Xk01011AAAAAAAAAAAAAA,Windows,Fixed: 1200 x 1500mm,Level 2,WIN-002,,,1.2,1.8,
+1012,3Xk01012AAAAAAAAAAAAAA,Floors,Floor: Concrete 250mm,Level 2,,,,0.25,48.0,12.0
+1013,3Xk01013AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 2,W-001,EI 60,4.0,0.2,11.2,2.24
+1014,3Xk01014AAAAAAAAAAAAAA,Walls,Basic Wall: Generic - 200mm,Level 1,wall7,EI 60,2.0,0.2,5.6,0
+1015,3Xk01015AAAAAAAAAAAAAA,Walls,Basic Wall: Partition - 100mm,,W-009,EI 30,3.0,1.5,8.4,0.84
+1016,3Xk01016AAAAAAAAAAAAAA,Columns,Concrete-Rectangular: 300 x 300,Level 1,C-001,R 90,3.0,,,0.27
+1017,3Xk01017AAAAAAAAAAAAAA,Columns,Concrete-Rectangular: 300 x 300,Level 2,C-002,R 90,3.0,,,n/a
+1018,3Xk01018AAAAAAAAAAAAAA,Generic Models,Placeholder,Level 1,,,,,,

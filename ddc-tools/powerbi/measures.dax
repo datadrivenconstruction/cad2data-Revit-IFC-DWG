@@ -1,0 +1,9 @@
+-- Power BI measures for the queries in this folder. Add them to the Elements / QuantitiesByType tables.
+Elements Count = COUNTROWS ( Elements )
+Categories = DISTINCTCOUNT ( Elements[Category] )
+Elements Without Level = CALCULATE ( COUNTROWS ( Elements ), ISBLANK ( Elements[Level] ) )
+Share Without Level = DIVIDE ( [Elements Without Level], [Elements Count] )
+Total Volume = SUM ( QuantitiesByType[Volume] )
+Total Area = SUM ( QuantitiesByType[Area] )
+Total Length = SUM ( QuantitiesByType[Length] )
+Avg Completeness = AVERAGE ( Completeness[Percent] )

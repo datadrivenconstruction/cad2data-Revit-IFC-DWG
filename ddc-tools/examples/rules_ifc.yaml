@@ -1,0 +1,28 @@
+# Example for IFC-derived tables: Property-set values appear as columns such as
+# "Pset_WallCommon.FireRating". Short names also work when they are unambiguous.
+name: IFC handover (example)
+
+rules:
+  - id: IFC-GUID
+    title: GlobalId is present and unique
+    check: unique
+    param: GlobalId
+
+  - id: IFC-NAME
+    title: Elements are named
+    severity: warning
+    where: { category: "Ifc*" }
+    check: not_empty
+    param: Name
+
+  - id: IFC-WALL-FIRE
+    title: Walls carry a fire rating
+    where: { category: [IfcWall, IfcWallStandardCase] }
+    check: required
+    param: Pset_WallCommon.FireRating
+
+  - id: IFC-STOREY
+    title: Everything is assigned to a storey
+    severity: warning
+    check: not_empty
+    param: BuildingStorey
