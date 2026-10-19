@@ -59,6 +59,7 @@ What this means for you:
 - [Command line](#command-line)
 - [Batch processing and automation](#batch-processing-and-automation)
 - [DDC Data Viewer](#ddc-data-viewer)
+- [Free tools: data check, quantity take-off, Power BI and Excel](#free-tools-data-check-quantity-take-off-power-bi-and-excel)
 - [n8n workflows, notebooks and AI agents](#n8n-workflows-notebooks-and-ai-agents)
 - [Limitations](#limitations)
 - [Repository layout](#repository-layout)
@@ -206,6 +207,28 @@ grouping with sums, column chooser, export of the current view to XLSX/CSV and a
 rows and elements both ways (GLB or DAE). English, German and Russian; light and dark theme.
 Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
 
+## Free tools: data check, quantity take-off, Power BI and Excel
+
+[`ddc-tools/`](ddc-tools/) (Python 3.9+, MIT, offline) works on the tables the converters write
+(XLSX, CSV, JSONL, SQLite, JSON):
+
+- `ddc check` validates an export against YAML rules (required parameters, regex, uniqueness, ranges,
+  allowed values) and writes a traffic-light XLSX with ElementId / GlobalId details, a JSON report and an
+  exit code for CI.
+- `ddc qto` sums count, length, area and volume by category, type and level into a formatted XLSX and warns
+  about missing or zero quantities.
+- [`ddc-tools/powerbi/`](ddc-tools/powerbi/) and [`ddc-tools/excel/`](ddc-tools/excel/): Power Query scripts
+  and an Excel workbook that read a whole export folder, no Python needed
+  ([steps](ddc-tools/docs/POWER_QUERY.md)).
+
+```bash
+pip install ./ddc-tools
+ddc check Project.converted --rules ddc-tools/examples/rules_basic.yaml --xlsx check.xlsx
+ddc qto Project.converted --xlsx qto.xlsx
+```
+
+Excel and Power BI are trademarks of Microsoft Corporation, used only to say what the files work with.
+
 ## n8n workflows, notebooks and AI agents
 
 - [`DDC_n8n_Workflows&Pipelines/`](DDC_n8n_Workflows&Pipelines/) — nine n8n workflows (conversion,
@@ -249,6 +272,7 @@ confidential models.
 | Path | Content |
 |---|---|
 | `docs/` | release notes, screenshots |
+| `ddc-tools/` | free data check, quantity take-off, Power BI and Excel kit |
 | `DDC_n8n_Workflows&Pipelines/` | n8n workflow JSON files |
 | `DDC_in_additon/` | notebooks, presentations, images |
 | `AI_AGENTS_INSTRUCTIONS/` | instructions for AI coding agents |
