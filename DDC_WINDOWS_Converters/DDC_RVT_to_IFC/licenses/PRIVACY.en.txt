@@ -1,0 +1,48 @@
+DRAFT — requires review by a lawyer in your jurisdiction
+
+PRIVACY NOTE — DataDrivenConstruction licence check (version 2026-10-15)
+This English version is binding; translations are for convenience.
+
+Controller (Art. 4(7) GDPR): Artem Boiko, sole proprietor, trading as
+DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+info@datadrivenconstruction.io, +49 (0) 15258901584.
+
+What is NOT sent: your drawings, models, spreadsheets, file names, paths,
+file contents, user name, computer name, hardware serial numbers, MAC
+addresses. The Community edition sends nothing; its conversion counter stays
+on your computer. Opening the advertising page is an ordinary browser visit
+to our website (the website's own privacy policy applies).
+
+When data is sent: only when you activate or renew a Paid licence and, if
+configured, when the Software requests trusted time from the licence server.
+
+Fields sent over HTTPS: activation code (first activation) or licence ID
+(renewal); product ID; device public key (a pseudonymous key generated on
+your device); server challenge ID and nonce; signature proving possession of
+the device key; for trusted time: protocol version, nonce, audience. The
+server also receives your IP address and the request time.
+
+Purposes and legal basis: issuing, verifying, renewing, transferring and
+revoking your licence (Art. 6(1)(b) GDPR, contract); preventing licence
+abuse and securing the service (Art. 6(1)(f) GDPR, legitimate interest);
+retaining records required by tax and commercial law (Art. 6(1)(c) GDPR).
+
+Retention: licence records for the licence term and then as long as statutory
+retention periods require (German tax/commercial law, up to 10 years for
+accounting records); connection logs with IP addresses for no longer than
+12 months.
+
+Recipients: our hosting provider as processor [NAME, COUNTRY — TO BE
+COMPLETED]; the payment provider for purchases (its own policy applies). No
+sale of data, no advertising profiles. Transfers outside the EU/EEA only with
+appropriate safeguards (Art. 44 et seq. GDPR).
+
+Your rights: access (Art. 15), rectification (16), erasure (17), restriction
+(18), data portability (20), objection to processing based on legitimate
+interest (21), and the right to lodge a complaint with a supervisory
+authority (Art. 77), e.g. the Landesbeauftragte für den Datenschutz und die
+Informationsfreiheit Baden-Württemberg. Contact: info@datadrivenconstruction.io.
+
+Providing the data is required to activate a Paid licence; without it the
+Software works as Community. No automated decision-making within the meaning
+of Art. 22 GDPR takes place.

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob: file:; connect-src 'self' data: blob: file:; img-src 'self' data: blob:">
+<title>DDC Viewer</title>
+<link rel="stylesheet" href="app/style.css">
+<script>window.addEventListener("unhandledrejection",function(e){var b=document.body;if(b){b.dataset.errors=(b.dataset.errors||"")+"|rejection:"+((e.reason&&(e.reason.stack||e.reason.message))||e.reason);}});window.addEventListener("error",function(e){var b=document.body;if(b){b.dataset.errors=(b.dataset.errors||"")+"|"+(e.message||"error")+"@"+(e.filename||"").split("/").pop()+":"+e.lineno;}});</script>
+</head>
+<body>
+<div id="app" class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m16 3 12 7v12l-12 7-12-7V10Z M4 10l12 7 12-7 M16 17v12"/></svg>
+      <span class="brand-name">DDC <b>Viewer</b></span>
+      <span class="offline" data-i18n="offline"></span>
+    </div>
+    <div class="doc-title" id="docTitle"></div>
+    <button class="badge" id="coverageBadge" hidden></button>
+    <div class="top-actions">
+      <button class="icon-btn" id="btnOpen" data-i18n-title="open"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3Z"/></svg></button>
+      <button class="icon-btn" id="btnShot" data-i18n-title="screenshot"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+      <button class="icon-btn" id="btnTheme" data-i18n-title="theme"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg></button>
+      <button class="pill" id="btnLang">RU</button>
+      <button class="icon-btn" id="btnHelp" data-i18n-title="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/></svg></button>
+      <input type="file" id="fileInput" accept=".js,.json" multiple hidden>
+    </div>
+  </header>
+
+  <aside class="panel left" id="leftPanel">
+    <div class="panel-head">
+      <div class="tabs" id="treeTabs"></div>
+      <button class="icon-btn small collapse" data-collapse="leftPanel" aria-label="collapse"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+    </div>
+    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg><input id="search" type="search" data-i18n-placeholder="search"></div>
+    <div class="filters" id="filters"></div>
+    <div class="tree" id="tree"></div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="viewport" id="viewport"></div>
+    <canvas class="overlay" id="overlay"></canvas>
+    <div class="viewcube" id="viewcube"></div>
+    <div class="sheet-tabs" id="sheetTabs" hidden></div>
+    <div class="toolbar" id="toolbar"></div>
+    <div class="tool-panel" id="toolPanel" hidden></div>
+    <div class="legend" id="legend" hidden></div>
+    <div class="hint" id="hint" hidden></div>
+    <div class="welcome" id="welcome">
+      <div class="welcome-card">
+        <svg class="welcome-logo" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m16 3 12 7v12l-12 7-12-7V10Z M4 10l12 7 12-7 M16 17v12"/></svg>
+        <h1>DDC Viewer</h1>
+        <p data-i18n="open_hint"></p>
+        <button class="primary" id="btnOpen2" data-i18n="open"></button>
+        <h2 data-i18n="samples"></h2>
+        <div class="sample-list" id="sampleList"></div>
+      </div>
+    </div>
+    <div class="progress" id="progress" hidden><div class="bar"><i id="progressBar"></i></div><span id="progressText"></span></div>
+    <div class="status" id="status"></div>
+  </main>
+
+  <aside class="panel right" id="rightPanel">
+    <div class="panel-head">
+      <h3 data-i18n="properties"></h3>
+      <button class="icon-btn small" id="btnCopyAll" data-i18n-title="copy_all"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
+      <button class="icon-btn small collapse" data-collapse="rightPanel" aria-label="collapse"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+    </div>
+    <div class="props" id="props"></div>
+  </aside>
+</div>
+<div class="modal" id="modal" hidden><div class="modal-card"><button class="icon-btn small modal-close" id="modalClose">✕</button><div id="modalBody"></div></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="vendor/three.classic.js"></script>
+<script src="app/i18n.js"></script>
+<script src="app/lib/util.js"></script>
+<script src="app/package.js"></script>
+<script src="app/engine.js"></script>
+<script src="app/viewcube.js"></script>
+<script src="app/ui.js"></script>
+<script src="samples/index.js" onerror="void 0"></script>
+</body>
+</html>

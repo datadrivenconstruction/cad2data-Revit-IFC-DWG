@@ -1,0 +1,17 @@
+Schema sources: official buildingSMART International IFC schema publications.
+Copyright (c) buildingSMART International Ltd. All rights reserved.
+
+The official release snapshots identify their license as Creative Commons
+Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0):
+https://creativecommons.org/licenses/by-nd/4.0/
+
+Official specification database:
+https://technical.buildingsmart.org/standards/ifc/ifc-schema-specifications/
+
+The EXPRESS files in this folder are unchanged byte-for-byte downloads of the
+buildingSMART Standards-builds official release snapshots. Their SHA-256
+digests and source URLs are recorded by schema_gen.py and in generated JSON.
+Generated metadata is mechanically extracted from entity/type declarations;
+the build does not endorse this application. Redistribution obligations for
+the generated data should be reviewed before external publication. This notice
+is attribution/provenance information, not legal advice.

@@ -1,0 +1,9 @@
+DDC Data Viewer uses the Microsoft Edge WebView2 Runtime (part of Windows 11 and of current Windows 10).
+If the program does not start, install the Evergreen runtime from Microsoft:
+https://go.microsoft.com/fwlink/p/?LinkId=2124703   (no administrator rights needed)
+
+DDC Data Viewer nutzt die Microsoft Edge WebView2 Runtime (Teil von Windows 11 und aktuellem Windows 10).
+Startet das Programm nicht, installieren Sie die Evergreen-Runtime von Microsoft (Link oben).
+
+DDC Data Viewer использует Microsoft Edge WebView2 Runtime (входит в Windows 11 и актуальные Windows 10).
+Если программа не запускается, установите Evergreen Runtime от Microsoft по ссылке выше.

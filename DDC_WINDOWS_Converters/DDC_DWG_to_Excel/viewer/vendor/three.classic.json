@@ -1,0 +1,15 @@
+{
+ "component": "three.js",
+ "version": "0.185.1",
+ "license": "MIT",
+ "origin": "npm package three@0.185.1 (build/three.core.min.js, build/three.module.min.js, LICENSE)",
+ "inputs": {
+  "three.core.min.js": "05b2609338c76cd65daf74f3ac515bc9a5045e1b3b33edc07d8c9bd55250fa90",
+  "three.module.min.js": "86bcee248b64f44bcfc23c331ae74619061957d59cab040171dcb6fb5900beb6",
+  "LICENSE": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+ },
+ "output": {
+  "three.classic.js": "b6031d00baf96978470c1a58a8e49cfac6588d56e26dc1e4d2f4d1fb72c0972b"
+ },
+ "generator": "tools/vendor_three.py"
+}

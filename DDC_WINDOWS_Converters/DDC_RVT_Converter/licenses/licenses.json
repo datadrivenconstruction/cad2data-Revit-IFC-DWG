@@ -1,0 +1,1127 @@
+{
+  "schema": "ddc-licenses/1",
+  "product": "rvt-converter",
+  "product_name": "RVT Converter",
+  "version": "0.6.7",
+  "status": "released_binary_present_release_ready_false",
+  "generated": "2026-10-15",
+  "review": "engineering inventory, not legal advice",
+  "components": [
+    {
+      "name": "rvt-open engine (own, clean-room)",
+      "version": "0.6.7 / 7c34865d",
+      "license_spdx": "LicenseRef-DDC-EULA",
+      "source_path_or_origin": "sources/revit-ifc",
+      "shipped_files": [
+        "cli/RVTconverter.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "none (own code)",
+      "flags": [
+        "Previously published 0.6.x builds remain Apache-2.0 for existing recipients (irrevocable); new versions are proprietary."
+      ]
+    },
+    {
+      "name": "Desktop shell (own, WPF)",
+      "version": "0.6.7",
+      "license_spdx": "LicenseRef-DDC-EULA",
+      "source_path_or_origin": "own",
+      "shipped_files": [
+        "RVT Converter.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "none (own code)",
+      "flags": []
+    },
+    {
+      "name": ".NET 8 runtime + WPF (self-contained in GUI exe)",
+      "version": "8.0.31",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "Microsoft .NET 8.0.31",
+      "shipped_files": [
+        "RVT Converter.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "Include .NET MIT licence and THIRD-PARTY-NOTICES.",
+      "flags": []
+    },
+    {
+      "name": "Microsoft Visual C++ runtime",
+      "version": "14.36.32532.0",
+      "license_spdx": "LicenseRef-Microsoft-VS2022-Distributable-Code",
+      "source_path_or_origin": "Visual Studio 2022 redist",
+      "shipped_files": [
+        "cli/vcruntime140.dll"
+      ],
+      "commercial_ok": true,
+      "obligations": "Unmodified, signed; distribute only with the app.",
+      "flags": [
+        "Owner must confirm Visual Studio licence held for commercial distribution."
+      ]
+    },
+    {
+      "name": "ezdxf (ACIS entity model adapted into Rust)",
+      "version": "n/a (adaptation)",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "https://github.com/mozman/ezdxf",
+      "shipped_files": [
+        "cli/RVTconverter.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain MIT notice (Copyright (c) 2020, Manfred Moitzi).",
+      "flags": [
+        "0.6.7 NOTICE refers to licenses/ezdxf-MIT.txt which is NOT in the package — text added here."
+      ]
+    },
+    {
+      "name": "earcut",
+      "version": "0.4.9",
+      "license_spdx": "ISC",
+      "source_path_or_origin": "https://github.com/ciscorn/earcut-rs",
+      "shipped_files": [
+        "cli/RVTconverter.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain ISC notice.",
+      "flags": [
+        "0.6.7 NOTICE refers to licenses/earcut-ISC.txt which is NOT in the package — text added here."
+      ]
+    },
+    {
+      "name": "Icons / fonts",
+      "version": "n/a",
+      "license_spdx": "unknown",
+      "source_path_or_origin": "embedded in GUI exe; WPF uses Windows system fonts (not shipped)",
+      "shipped_files": [
+        "RVT Converter.exe"
+      ],
+      "commercial_ok": "unclear",
+      "obligations": "Confirm the application icon is own artwork.",
+      "flags": [
+        "Confirm icon origin before sale."
+      ]
+    },
+    {
+      "name": "adler2",
+      "version": "2.0.1",
+      "license_spdx": "0BSD OR MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "aho-corasick",
+      "version": "1.1.4",
+      "license_spdx": "Unlicense OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anstream",
+      "version": "1.0.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anstyle",
+      "version": "1.0.14",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anstyle-parse",
+      "version": "1.0.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anstyle-query",
+      "version": "1.1.5",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anstyle-wincon",
+      "version": "3.0.11",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "anyhow",
+      "version": "1.0.104",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "array-init",
+      "version": "2.1.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "autocfg",
+      "version": "1.5.1",
+      "license_spdx": "Apache-2.0 OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "binrw",
+      "version": "0.14.2",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "binrw_derive",
+      "version": "0.14.2",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "block-buffer",
+      "version": "0.10.4",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "bytemuck",
+      "version": "1.25.2",
+      "license_spdx": "Zlib OR Apache-2.0 OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "license_spdx": "Unlicense OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "cfb",
+      "version": "0.10.0",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "cfg-if",
+      "version": "1.0.4",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "clap",
+      "version": "4.6.4",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "clap_builder",
+      "version": "4.6.2",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "clap_derive",
+      "version": "4.6.4",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "clap_lex",
+      "version": "1.1.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "colorchoice",
+      "version": "1.0.5",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "cpufeatures",
+      "version": "0.2.17",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "crc32fast",
+      "version": "1.5.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "crossbeam-deque",
+      "version": "0.8.7",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "crossbeam-epoch",
+      "version": "0.9.20",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "crossbeam-utils",
+      "version": "0.8.22",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "crypto-common",
+      "version": "0.1.7",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "digest",
+      "version": "0.10.7",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "earcut",
+      "version": "0.4.9",
+      "license_spdx": "ISC",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "either",
+      "version": "1.16.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "flate2",
+      "version": "1.1.9",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "fnv",
+      "version": "1.0.7",
+      "license_spdx": "Apache-2.0 / MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "generic-array",
+      "version": "0.14.7",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "heck",
+      "version": "0.5.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "is_terminal_polyfill",
+      "version": "1.70.2",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "lazy_static",
+      "version": "1.5.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "log",
+      "version": "0.4.33",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "matchers",
+      "version": "0.2.0",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "license_spdx": "Unlicense OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "miniz_oxide",
+      "version": "0.8.9",
+      "license_spdx": "MIT OR Zlib OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "nu-ansi-term",
+      "version": "0.50.3",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "num-traits",
+      "version": "0.2.19",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "once_cell",
+      "version": "1.21.4",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "once_cell_polyfill",
+      "version": "1.70.2",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "owo-colors",
+      "version": "3.5.0",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "pin-project-lite",
+      "version": "0.2.17",
+      "license_spdx": "Apache-2.0 OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "rayon",
+      "version": "1.12.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "rayon-core",
+      "version": "1.13.0",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "regex-automata",
+      "version": "0.4.16",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "regex-syntax",
+      "version": "0.8.11",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "rmp",
+      "version": "0.8.15",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "rmp-serde",
+      "version": "1.3.1",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "ryu",
+      "version": "1.0.23",
+      "license_spdx": "Apache-2.0 OR BSL-1.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "serde",
+      "version": "1.0.229",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "serde_bytes",
+      "version": "0.11.19",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "serde_derive",
+      "version": "1.0.229",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.133",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "sha2",
+      "version": "0.10.9",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "sharded-slab",
+      "version": "0.1.7",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "simd-adler32",
+      "version": "0.3.10",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "smallvec",
+      "version": "1.15.2",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "strsim",
+      "version": "0.11.1",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "syn",
+      "version": "1.0.109",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "syn",
+      "version": "2.0.119",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "syn",
+      "version": "3.0.3",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "thiserror",
+      "version": "2.0.19",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "thiserror-impl",
+      "version": "2.0.19",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "thread_local",
+      "version": "1.1.10",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "tracing",
+      "version": "0.1.44",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "tracing-attributes",
+      "version": "0.1.31",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "tracing-core",
+      "version": "0.1.36",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "tracing-log",
+      "version": "0.2.0",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "tracing-subscriber",
+      "version": "0.3.23",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "typenum",
+      "version": "1.20.1",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.24",
+      "license_spdx": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "utf8parse",
+      "version": "0.2.2",
+      "license_spdx": "Apache-2.0 OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "uuid",
+      "version": "1.24.0",
+      "license_spdx": "Apache-2.0 OR MIT",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "version_check",
+      "version": "0.9.5",
+      "license_spdx": "MIT/Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": [
+        "build-time only, not shipped"
+      ]
+    },
+    {
+      "name": "windows-link",
+      "version": "0.2.1",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    },
+    {
+      "name": "windows-sys",
+      "version": "0.61.2",
+      "license_spdx": "MIT OR Apache-2.0",
+      "source_path_or_origin": "crates.io via Cargo.lock (engine 7c34865d)",
+      "shipped_files": [
+        "cli/RVTconverter.exe (statically linked)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain copyright and licence notice (full texts in Rust section).",
+      "flags": []
+    }
+  ],
+  "licensor": "Artem Boiko, sole proprietor (Germany), trading as DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany",
+  "own_code_license": "LicenseRef-DDC-EULA (proprietary freeware-style EULA, EULA.txt; English binding)"
+}

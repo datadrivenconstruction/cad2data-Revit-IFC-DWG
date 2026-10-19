@@ -1,0 +1,163 @@
+{
+  "schema": "ddc-licenses/1",
+  "product": "dwg-excel",
+  "product_name": "DWG to Excel",
+  "version": "0.4.0",
+  "status": "dev_build_pending_owner_approval",
+  "generated": "2026-10-15",
+  "review": "engineering inventory, not legal advice",
+  "components": [
+    {
+      "name": "DDC DWG to Excel + own DWG reader (dwg-independent) + ddc_licensing",
+      "version": "0.4.0",
+      "license_spdx": "LicenseRef-DDC-EULA",
+      "source_path_or_origin": "sources/dwg-excel, sources/dwg-independent, sources/licensing",
+      "shipped_files": [
+        "DWG to Excel.exe",
+        "cli/dwg2excel.exe"
+      ],
+      "commercial_ok": true,
+      "obligations": "none (own code)",
+      "flags": []
+    },
+    {
+      "name": "CPython runtime",
+      "version": "3.13.1",
+      "license_spdx": "PSF-2.0",
+      "source_path_or_origin": "C:/Python313 (python.org Windows build) via Nuitka --standalone",
+      "shipped_files": [
+        "cli/python313.dll",
+        "GUI onefile payload"
+      ],
+      "commercial_ok": true,
+      "obligations": "Include PSF licence text and brief summary of changes (compiled with Nuitka, unmodified runtime).",
+      "flags": []
+    },
+    {
+      "name": "OpenSSL (libcrypto-3.dll, libssl-3.dll via _hashlib/_ssl)",
+      "version": "3.0.15",
+      "license_spdx": "Apache-2.0",
+      "source_path_or_origin": "CPython 3.13.1 Windows build",
+      "shipped_files": [
+        "cli/libcrypto-3.dll",
+        "libssl-3.dll if _ssl included"
+      ],
+      "commercial_ok": true,
+      "obligations": "Include Apache-2.0 text and notice (contained in Python LICENSE.txt section).",
+      "flags": []
+    },
+    {
+      "name": "libffi (_ctypes)",
+      "version": "3.4.x",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/libffi-8.dll"
+      ],
+      "commercial_ok": true,
+      "obligations": "Keep MIT notice.",
+      "flags": []
+    },
+    {
+      "name": "zlib (in python313.dll)",
+      "version": "1.3.1",
+      "license_spdx": "Zlib",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/python313.dll"
+      ],
+      "commercial_ok": true,
+      "obligations": "Notice appreciated, not required.",
+      "flags": []
+    },
+    {
+      "name": "bzip2 (_bz2)",
+      "version": "1.0.8",
+      "license_spdx": "bzip2-1.0.6",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/_bz2.pyd"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain notice in documentation.",
+      "flags": []
+    },
+    {
+      "name": "xz / liblzma (_lzma)",
+      "version": "5.x",
+      "license_spdx": "0BSD",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/_lzma.pyd"
+      ],
+      "commercial_ok": true,
+      "obligations": "None.",
+      "flags": []
+    },
+    {
+      "name": "mpdecimal (_decimal)",
+      "version": "2.5.x",
+      "license_spdx": "BSD-2-Clause",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/_decimal.pyd"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain notice.",
+      "flags": []
+    },
+    {
+      "name": "expat (pyexpat) if included",
+      "version": "2.6.4",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "pyexpat.pyd (only if included)"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain notice.",
+      "flags": []
+    },
+    {
+      "name": "HACL* hash implementations (in python313.dll)",
+      "version": "bundled",
+      "license_spdx": "MIT",
+      "source_path_or_origin": "CPython build",
+      "shipped_files": [
+        "cli/python313.dll"
+      ],
+      "commercial_ok": true,
+      "obligations": "Retain notice.",
+      "flags": []
+    },
+    {
+      "name": "Microsoft Visual C++ runtime",
+      "version": "14.4x",
+      "license_spdx": "LicenseRef-Microsoft-VS2022-Distributable-Code",
+      "source_path_or_origin": "Visual Studio 2022 redist",
+      "shipped_files": [
+        "cli/vcruntime140.dll",
+        "cli/vcruntime140_1.dll"
+      ],
+      "commercial_ok": true,
+      "obligations": "Unmodified, signed; distribute only with the app; requires the distributor to hold a valid Visual Studio licence.",
+      "flags": [
+        "Owner must confirm the Visual Studio edition/licence used for the build allows commercial distribution (Community edition: organisational limits apply)."
+      ]
+    },
+    {
+      "name": "Tcl/Tk",
+      "version": "8.6.15",
+      "license_spdx": "TCL",
+      "source_path_or_origin": "CPython 3.13.1 Windows build (tkinter, GUI only)",
+      "shipped_files": [
+        "GUI onefile payload: tcl86t.dll, tk86t.dll, tcl/tk library scripts"
+      ],
+      "commercial_ok": true,
+      "obligations": "Include license.terms verbatim.",
+      "flags": []
+    }
+  ],
+  "licensor": "Artem Boiko, sole proprietor (Germany), trading as DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany",
+  "own_code_license": "LicenseRef-DDC-EULA (proprietary freeware-style EULA, EULA.txt; English binding)"
+}

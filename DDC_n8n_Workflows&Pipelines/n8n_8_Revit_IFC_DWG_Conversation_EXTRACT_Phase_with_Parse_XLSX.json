@@ -19,13 +19,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_revit_converter",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\DDC_Converter_Revit\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
           ]

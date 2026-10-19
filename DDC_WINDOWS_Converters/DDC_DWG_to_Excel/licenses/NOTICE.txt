@@ -1,0 +1,19 @@
+DDC DWG to Excel - provenance and third-party notices
+
+DWG decoding is done by DataDrivenConstruction's own clean-room reader
+(dwg-independent). No ODA/Teigha/Open Design Alliance, Autodesk RealDWG,
+LibreDWG or any other external DWG implementation, code or specification
+text is used or bundled. "AutoCAD" and "DWG" are used only to describe the
+file format this software reads; no affiliation with Autodesk, Inc.
+
+The program is compiled with Nuitka (Apache-2.0), a build-time tool; no
+Python source files ship. Bundled runtime components and their licences:
+  - CPython runtime and standard library - PSF License (PYTHON-LICENSE.txt)
+  - Tcl/Tk 8.6 (GUI only) - BSD-style (TK-LICENSE.txt; full texts in THIRD_PARTY_NOTICES.txt)
+  - OpenSSL 3 via the CPython ssl module (HTTPS licence check) - Apache-2.0
+  - Microsoft Visual C++ runtime (redistributable files of the MSVC toolset)
+  - three.js 0.185.1 (DDC Viewer, app/viewer) - MIT (THREEJS-LICENSE.txt)
+
+Происхождение: декодирование DWG выполняет собственный «чистый» модуль
+DataDrivenConstruction. Никакой код или материалы ODA/Teigha, RealDWG,
+LibreDWG и других внешних реализаций DWG не используются и не поставляются.

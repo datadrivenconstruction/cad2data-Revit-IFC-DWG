@@ -1,0 +1,5 @@
+Lib
+DLLs
+.
+Lib/site-packages
+../sources/ifc-excel

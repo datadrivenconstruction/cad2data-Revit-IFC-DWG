@@ -1,0 +1,265 @@
+{
+  "schema": "dwg_desktop_distribution/1",
+  "product": "dwg-excel",
+  "product_name": "DWG to Excel",
+  "version": "0.4.1",
+  "platform": "win-x64",
+  "created_utc": "2026-10-16T14:58:01Z",
+  "status": "dev_unreleased_pending_owner_approval",
+  "source_commits": {
+    "dwg-independent": "98faf2ccc7f3e430817b25b3f191f922da616b9f",
+    "dwg-excel": "cb113e7be94e525bfdfacd33b0dc7f785b48e540",
+    "licensing": "8969b2a0abc2dca07b1161f1be58b94be348a4fb",
+    "ddc-viewer": "35d55e9df1ebc3e7a1a80c78f7e1b795cd080d11"
+  },
+  "source_dirty": {
+    "dwg-independent": false,
+    "dwg-excel": false
+  },
+  "reader_modules_embedded": 98,
+  "build": {
+    "compiler": "Nuitka 4.3 (Apache-2.0, build-time only)",
+    "c_compiler": "MSVC (latest installed)",
+    "python": "3.13.1",
+    "flags": [
+      "--standalone",
+      "--python-flag=no_docstrings",
+      "--python-flag=no_site"
+    ]
+  },
+  "runtime_components": [
+    "CPython 3.13.1 runtime (PSF License)",
+    "Tcl/Tk 8.6 (BSD-style, GUI only)",
+    "OpenSSL 3 via CPython ssl (Apache-2.0; HTTPS licence check only)",
+    "three.js 0.185.1 (MIT; DDC Viewer in app/viewer, runs in the local browser)",
+    "own: dwg-independent reader, dwg-excel converter/GUI, ddc_licensing (own Ed25519/P-256 verify)"
+  ],
+  "legal": {
+    "eula": "EULA.txt (DRAFT, lawyer review required)",
+    "notices": "licenses/THIRD_PARTY_NOTICES.txt"
+  },
+  "external_cad_engines": null,
+  "quality": "preview; partial decoding with per-file coverage report; not a complete DWG conversion",
+  "files": [
+    {
+      "path": "cli/_bz2.pyd",
+      "bytes": 85496,
+      "sha256": "55894b2b98d01f37b9a8cf4daf926d0161ff23c2fb31c56f9dbbac3a61932712"
+    },
+    {
+      "path": "cli/_ctypes.pyd",
+      "bytes": 132600,
+      "sha256": "5c4c489ac052795c27af063c96bc4db5ab250144d4839050cfa9bb3836b87c32"
+    },
+    {
+      "path": "cli/_decimal.pyd",
+      "bytes": 280808,
+      "sha256": "040f361f63204b55c17a100c260c7ddfadd00866cc055fbd641b83a6747547d5"
+    },
+    {
+      "path": "cli/_hashlib.pyd",
+      "bytes": 65528,
+      "sha256": "78223aef72777efc93c739f5308a3fc5de28b7d10e6975b8947552a62592772b"
+    },
+    {
+      "path": "cli/_lzma.pyd",
+      "bytes": 159224,
+      "sha256": "e44dea262a24df69fd9b50b08d09ae6f8b051137ce0834640c977091a6f9fca8"
+    },
+    {
+      "path": "cli/_socket.pyd",
+      "bytes": 84984,
+      "sha256": "62d0493ced6ca33e2fd8141649dd9889c23b2e9afc5fdf56edb4f888c88fb823"
+    },
+    {
+      "path": "cli/_uuid.pyd",
+      "bytes": 28016,
+      "sha256": "cde836ef0bde1c15c1c3750de54b50d2285864c512abbfc9e2c94f0ff5aa5ca2"
+    },
+    {
+      "path": "cli/_wmi.pyd",
+      "bytes": 40304,
+      "sha256": "afad80f9e62a57814779cf3e48352b583c1a0697b11a23cc9db3f4e43f7f8664"
+    },
+    {
+      "path": "cli/dwg2excel.exe",
+      "bytes": 15437824,
+      "sha256": "6a4cfe908cf148ada92032ceaeefa5a265016d60c3a225fe0ee6e79f510299d9"
+    },
+    {
+      "path": "cli/libcrypto-3.dll",
+      "bytes": 5232408,
+      "sha256": "4e5d5d20d6d31e72ab341c81e97b89e514326c4c861b48638243bdf0918cfa43"
+    },
+    {
+      "path": "cli/libffi-8.dll",
+      "bytes": 39696,
+      "sha256": "eff52743773eb550fcc6ce3efc37c85724502233b6b002a35496d828bd7b280a"
+    },
+    {
+      "path": "cli/python313.dll",
+      "bytes": 6093816,
+      "sha256": "78b1dd211c0e66a0603df48da2c9b67a915ab3258701b9285d3faa255ed8dc25"
+    },
+    {
+      "path": "cli/select.pyd",
+      "bytes": 32248,
+      "sha256": "81f124b01a85882e362a42e94a13c0eff2f4ccd72d461821dc5457a789554413"
+    },
+    {
+      "path": "cli/unicodedata.pyd",
+      "bytes": 711912,
+      "sha256": "3f462ee6e7743a87e5791181936539642e3761c55de3de980a125f91fe21f123"
+    },
+    {
+      "path": "cli/vcruntime140.dll",
+      "bytes": 120400,
+      "sha256": "36585912e5eaf83ba9fea0631534f690ccdc2d7ba91537166fe53e56c221e153"
+    },
+    {
+      "path": "cli/vcruntime140_1.dll",
+      "bytes": 49744,
+      "sha256": "82a2f9ae1e6146ae3cb0f4bc5a62b7227e0384209d9b1aef86bbcc105912f7cd"
+    },
+    {
+      "path": "ddc.ico",
+      "bytes": 3555,
+      "sha256": "8affb5a689d26a57c47c5e3858eb8bd6fe9132b7701fbd27af98dc50bea5fe95"
+    },
+    {
+      "path": "DWG to Excel.exe",
+      "bytes": 11297792,
+      "sha256": "4680f080a31106bfb831ddf607ea860f88999aa3944bbb7455bdeee0ba74b469"
+    },
+    {
+      "path": "EULA.txt",
+      "bytes": 38897,
+      "sha256": "d30658ba583a2a08f4588291bdb4389571b3606086d6ae2e75d174f0b8210536"
+    },
+    {
+      "path": "licenses/LICENSE.txt",
+      "bytes": 515,
+      "sha256": "8cd1f8d9dad1d3fef23495df61f676dfc0c29326d570225afa50f6709777316e"
+    },
+    {
+      "path": "licenses/licenses.json",
+      "bytes": 5302,
+      "sha256": "c180cb881a74db4ab68f086729fbb2aa301cb3c05a2452fbe1595a16fef5891d"
+    },
+    {
+      "path": "licenses/NOTICE.txt",
+      "bytes": 1331,
+      "sha256": "f5a4bd9d5b19efce5b29222e34ae2df6f09c97a1bb46b7ef2a04abf2c9213f39"
+    },
+    {
+      "path": "licenses/PRIVACY.de.txt",
+      "bytes": 2900,
+      "sha256": "78d596c515a831296bfe895f8b4c0cc9f67c178e59a9eadcb987eab55acf204e"
+    },
+    {
+      "path": "licenses/PRIVACY.en.txt",
+      "bytes": 2678,
+      "sha256": "3d03957ffabdffaa5b0eabdf5f0309b9b5436528fc1c9c6fa7245f1f9605c52c"
+    },
+    {
+      "path": "licenses/PRIVACY.ru.txt",
+      "bytes": 4610,
+      "sha256": "dbb433fa900b569d7a77796c8e71ed23573b5d0156ef31bdf4e8700062b4ca13"
+    },
+    {
+      "path": "licenses/PYTHON-LICENSE.txt",
+      "bytes": 33861,
+      "sha256": "62bec384df47b0328307db41455ff6ea2559e5546b394ac69148561b21703120"
+    },
+    {
+      "path": "licenses/THIRD_PARTY_NOTICES.txt",
+      "bytes": 39392,
+      "sha256": "3730ebfe422194ed1a499bc87682a6e706e32285aaae81d0f81d7db0a1ef9a69"
+    },
+    {
+      "path": "licenses/THREEJS-LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    {
+      "path": "licenses/TK-LICENSE.txt",
+      "bytes": 2307,
+      "sha256": "0d1e4405f6273f091732764ed89b57066be63ce64869be6c71ea337dc4f2f9b5"
+    },
+    {
+      "path": "README.html",
+      "bytes": 5599,
+      "sha256": "3259516fefad97b2577307d58d5094da30edcde1e6434ec8dd67bb13f0b2a752"
+    },
+    {
+      "path": "viewer/app/engine.js",
+      "bytes": 52524,
+      "sha256": "9c12fba2fab6abf93f2feb06e11154403a75dc7cf7f697168cce3fa94ac01bcb"
+    },
+    {
+      "path": "viewer/app/i18n.js",
+      "bytes": 7007,
+      "sha256": "70467f0336d0051f4330190a7cea49ad8f7bcc18d6c2c32417885676430ccc1c"
+    },
+    {
+      "path": "viewer/app/lib/util.js",
+      "bytes": 2027,
+      "sha256": "18ad33d158d6254c4815483a916b5b20e981f031d026d65ccd448d1739a10e6e"
+    },
+    {
+      "path": "viewer/app/package.js",
+      "bytes": 4245,
+      "sha256": "c710a746eca65ad0cbcf2fb7e6dcec4b6756b0b679cd536d14364c64bbc4da05"
+    },
+    {
+      "path": "viewer/app/style.css",
+      "bytes": 15631,
+      "sha256": "03ef632b59d966698ff5e2089b53acf3451161a357c04384efb0824e6fa59753"
+    },
+    {
+      "path": "viewer/app/ui.js",
+      "bytes": 50673,
+      "sha256": "65baa8c0ddc713abe33104f27db24ae5a8c1d9c5dcb391f0d38bdac2a2e4933c"
+    },
+    {
+      "path": "viewer/app/viewcube.js",
+      "bytes": 3781,
+      "sha256": "4c723b1840ae8a238d0448f218d06a70223b7672bba50d74b6b13a165565f4fd"
+    },
+    {
+      "path": "viewer/index.html",
+      "bytes": 5107,
+      "sha256": "1ef29756cb15a605c512b81e1dfe6fd66d1bba9dd8730358a9229fd8ac9beaa9"
+    },
+    {
+      "path": "viewer/PROVENANCE.json",
+      "bytes": 619,
+      "sha256": "475357678a8c6102fd1fa9ad10c72536dce580b5496e21b7e498e9641589d0e2"
+    },
+    {
+      "path": "viewer/samples/index.js",
+      "bytes": 27,
+      "sha256": "0040f2f5263cd9e94085026b230a1fbab7f306aadfd1f4e78b24cfaf19527b17"
+    },
+    {
+      "path": "viewer/THIRD_PARTY_NOTICES.md",
+      "bytes": 1857,
+      "sha256": "519e90561c904e24637d3da29b34e4b4f868a28d27ae734018f91cb6bfdf457b"
+    },
+    {
+      "path": "viewer/vendor/three-0.185.1-src/LICENSE",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    {
+      "path": "viewer/vendor/three.classic.js",
+      "bytes": 746342,
+      "sha256": "b6031d00baf96978470c1a58a8e49cfac6588d56e26dc1e4d2f4d1fb72c0972b"
+    },
+    {
+      "path": "viewer/vendor/three.classic.json",
+      "bytes": 614,
+      "sha256": "90a9d1b2ebba2a641fce7a3630525116b9c7f0427afa652689f2a386c2ec8c19"
+    }
+  ]
+}
