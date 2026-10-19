@@ -60,7 +60,7 @@ Alle Optionen, Ausgabedateien und Exit-Codes: siehe [englisches README](README.m
 
 ## n8n-Workflows, Notebooks und KI-Agenten
 
-Die n8n-Workflows (`DDC_n8n_Workflows&Pipelines/`) und Jupyter-Notebooks wurden für die alte 18.x-Kommandozeile (XLSX + DAE) geschrieben und werden auf die neuen Konverter portiert. Bis dahin den Konverterpfad anpassen und den Parsing-Schritt ändern (RVT-Eigenschaften als `properties.jsonl`, Geometrie als GLB). `AI_AGENTS_INSTRUCTIONS/` enthält bereits die neuen Befehle.
+Die n8n-Workflows (`DDC_n8n_Workflows&Pipelines/`) und Jupyter-Notebooks sind auf die neuen Konverter portiert: Sie rufen die Konverter über `ddc convert` / `ddc table` auf (kostenloses Werkzeug [`ddc-tools/`](ddc-tools/)), das aus der Konverterausgabe die flache Tabelle im alten Layout (`*_rvt.xlsx`, Blatt `Project_Data`) aufbaut; DAE ist durch GLB ersetzt. Einmalige Installation: `pip install ddc-tools\`. Was geprüft wurde und was nicht abgedeckt ist, steht im `README.md` neben den Workflows und Notebooks. `AI_AGENTS_INSTRUCTIONS/` enthält bereits die neuen Befehle.
 
 ## Einschränkungen
 

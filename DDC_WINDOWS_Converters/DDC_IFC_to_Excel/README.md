@@ -22,7 +22,7 @@ This is a Python entry point, not a stable CLI contract; it may change between p
 ## Migrating from the retired `IfcExporter.exe`
 
 The call shape differs: `--output` is required and the result is a folder, not `<name>_ifc.xlsx` beside
-the input. Steps that read the old XLSX/DAE names must be adapted; DAE is no longer produced.
+the input. DAE is no longer produced. The old flat table (one row per element, sheet `Project_Data`) is rebuilt from `data.jsonl` / `data.sqlite` / `drawing.xlsx` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert model.ifc` runs this converter and then `ddc table`.
 
 ## Updating
 

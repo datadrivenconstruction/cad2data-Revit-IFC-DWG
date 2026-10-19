@@ -237,12 +237,13 @@ Excel and Power BI are trademarks of Microsoft Corporation, used only to say wha
 - [`DDC_in_additon/DDC_python_pipelines/`](DDC_in_additon/DDC_python_pipelines/) — Jupyter notebooks for
   conversion, batch processing and analytics.
 
-> **Status:** these workflows and notebooks were written for the retired 18.x command line
-> (`RvtExporter.exe` producing XLSX + DAE). Their converter paths now point to the portable
-> converters in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/); the parsing steps are being ported (see the
-> `README.md` next to the workflows and notebooks for the per-file status).
-> RVT properties now come as `properties.jsonl` (or CSV from the desktop app) and geometry as GLB;
-> IFC and DWG tables are still Excel workbooks.
+> **Status:** the workflows and notebooks were written for the retired 18.x command line (`RvtExporter.exe` producing XLSX +
+> DAE). They are ported: they call the converters in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) through `ddc convert` /
+> `ddc table` (free tool [`ddc-tools/`](ddc-tools/)), which rebuilds the old flat table (`<name>_rvt.xlsx`, sheet `Project_Data`:
+> `ID`, `Category`, `Type Name`, `Level`, `Volume`, ...) from `properties.jsonl` / IFC / DWG output; DAE is replaced by GLB.
+> One-time setup: `pip install ddc-tools\`. The `README.md` next to the workflows and notebooks says what was checked and what is
+> not covered (for example: the AI steps of n8n 5-7 need your credentials and were not run; schedules, sheet PDFs and DGN have no
+> equivalent; Revit quantities come from IFC quantities or the GLB mesh, not from Revit's own values).
 
 - [`AI_AGENTS_INSTRUCTIONS/`](AI_AGENTS_INSTRUCTIONS/) — ready context for coding agents
   (Claude Code, OpenCode, Antigravity and others) with the new command lines. Open the repository in your
