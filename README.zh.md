@@ -64,7 +64,7 @@ n8n 工作流和 Jupyter Notebook 是为旧版 18.x 命令行（XLSX + DAE）编
 
 ## 限制
 
-RVT：几何完整性未经认证，不导出纹理，IFC4 为三角化几何。IFC：不支持 IFCXML。DWG：部分对象类型会被报告为不支持，而不是错误导出——请查看 `report.json`。目前仅支持 Windows x64。
+RVT：几何完整性未经认证，不导出纹理，IFC4 为三角化几何。IFC：不支持 IFCXML。DWG：部分对象类型会被报告为不支持，而不是错误导出——请查看 `report.json`。目前仅支持 Windows x64；Linux / macOS 即将推出（coming soon）。
 
 ## 许可
 

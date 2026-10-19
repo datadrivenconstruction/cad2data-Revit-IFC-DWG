@@ -64,7 +64,7 @@ Die n8n-Workflows (`DDC_n8n_Workflows&Pipelines/`) und Jupyter-Notebooks wurden 
 
 ## Einschränkungen
 
-RVT: Vollständigkeit der Geometrie nicht zertifiziert, keine Texturen, IFC4 tesselliert. IFC: kein IFCXML. DWG: einige Objekttypen werden als nicht unterstützt gemeldet statt falsch exportiert — `report.json` prüfen. Vorerst nur Windows x64.
+RVT: Vollständigkeit der Geometrie nicht zertifiziert, keine Texturen, IFC4 tesselliert. IFC: kein IFCXML. DWG: einige Objekttypen werden als nicht unterstützt gemeldet statt falsch exportiert — `report.json` prüfen. Vorerst nur Windows x64; Linux / macOS — coming soon.
 
 ## Lizenz
 
