@@ -6,13 +6,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'">
 <title>DataDrivenConstruction · Community</title>
 <style>
-body{margin:0;background:#eef2f5;color:#192735;font:17px/1.6 "Segoe UI",system-ui,sans-serif}
-main{max-width:760px;margin:32px auto;padding:36px 40px;background:#fff;border-radius:16px;box-shadow:0 8px 40px #19273514}
-.label{color:#526475;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
-h1{font-size:30px;line-height:1.2;margin:.3em 0 .5em}h2{font-size:20px;margin:1.6em 0 .3em}
-a.cta{display:inline-block;margin:14px 0 4px;padding:12px 22px;border-radius:10px;background:#2463eb;color:#fff;text-decoration:none;font-weight:600}
-ul{padding-left:1.2em}.note{color:#526475;font-size:14px}hr{border:0;border-top:1px solid #e2e9ed;margin:28px 0}
-@media (prefers-color-scheme:dark){body{background:#0f1720;color:#e6edf3}main{background:#17212b;box-shadow:none}.label,.note{color:#9fb0c0}hr{border-top-color:#2a3a48}}
+:root{--accent:#175DAB;--text:#1F1F1F;--muted:#5F6368;--bg:#F3F3F3;--surface:#FFFFFF;--border:#D0D0D0}
+@media (prefers-color-scheme:dark){:root{--accent:#7EB0E8;--text:#F0F0F0;--muted:#A8A8A8;--bg:#202020;--surface:#2B2B2B;--border:#404040}}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 "Segoe UI",system-ui,sans-serif}
+main{max-width:680px;margin:24px auto;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:4px}
+.label{color:var(--muted);font-size:12px;margin:0}
+h1{font-size:20px;font-weight:600;line-height:1.3;margin:4px 0 8px}h2{font-size:14px;font-weight:600;margin:16px 0 2px}
+a{color:var(--accent)}a.cta{display:inline-block;margin:8px 0 4px;padding:5px 14px;border-radius:2px;background:#175DAB;color:#fff;text-decoration:none;font-weight:600}
+a.cta:hover{background:#124C8C}a.cta:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+ul{padding-left:1.2em;margin:6px 0}.note{color:var(--muted);font-size:12px}hr{border:0;border-top:1px solid var(--border);margin:16px 0}
+@media (prefers-reduced-motion:no-preference){a.cta{transition:background .12s ease-out}}
 </style>
 <main>
 <p class="label">DataDrivenConstruction · Community edition</p>
@@ -24,12 +27,12 @@ ul{padding-left:1.2em}.note{color:#526475;font-size:14px}hr{border:0;border-top:
 <li>Consulting and training on data-driven construction</li>
 </ul>
 <a class="cta" href="https://datadrivenconstruction.io" rel="noopener noreferrer" target="_blank">datadrivenconstruction.io ↗</a>
-<p>A paid licence removes this page. Buy it in the application: <em>How it works → About → Buy licence</em>.</p>
+<p>A paid licence removes this page. Buy it in the application: <em>Help → Licence… → Buy licence</em>.</p>
 <hr>
 <h2 lang="ru">Откройте свои данные BIM с конвертерами DDC</h2>
-<p lang="ru">Вы используете бесплатную редакцию Community: все функции конвертации, без ограничений и водяных знаков. Эта страница открывается после каждой третьей успешной конвертации. Платная лицензия отключает её (О программе → Купить лицензию).</p>
+<p lang="ru">Вы используете бесплатную редакцию Community: все функции конвертации, без ограничений и водяных знаков. Эта страница открывается после каждой третьей успешной конвертации. Платная лицензия отключает её (Справка → Лицензия… → Купить лицензию).</p>
 <h2 lang="de">Öffnen Sie Ihre BIM-Daten mit DDC-Konvertern</h2>
-<p lang="de">Sie nutzen die kostenlose Community-Edition: alle Konvertierungsfunktionen, ohne Limits und Wasserzeichen. Diese Seite erscheint nach jeder dritten erfolgreichen Konvertierung. Eine kostenpflichtige Lizenz entfernt sie (Info → Lizenz kaufen).</p>
+<p lang="de">Sie nutzen die kostenlose Community-Edition: alle Konvertierungsfunktionen, ohne Limits und Wasserzeichen. Diese Seite erscheint nach jeder dritten erfolgreichen Konvertierung. Eine kostenpflichtige Lizenz entfernt sie (Hilfe → Lizenz… → Lizenz kaufen).</p>
 <hr>
 <p class="note">Local page bundled with the application. It loads nothing from the network and sends no data. Your conversion results are available in the application; you can close this tab.</p>
 </main>
