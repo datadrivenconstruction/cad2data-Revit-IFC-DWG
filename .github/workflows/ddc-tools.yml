@@ -1,0 +1,32 @@
+name: ddc-tools tests
+
+on:
+  push:
+    branches: [main]
+    paths: ["ddc-tools/**", ".github/workflows/ddc-tools.yml"]
+  pull_request:
+    paths: ["ddc-tools/**", ".github/workflows/ddc-tools.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.12"]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ddc-tools
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: ddc-tools
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -q -e . pytest lxml
+      - run: python -m pytest -q
