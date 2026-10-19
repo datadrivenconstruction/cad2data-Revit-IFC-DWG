@@ -139,12 +139,12 @@ def test_step_file_gives_revit_identity_rows():
     walls = [r for r in t.rows if r["IfcClass"] == "IfcWall"]
     assert len(walls) == 2
     w = walls[0]
-    assert (w["ID"], w["ElementId"]) == (2549, 2549)       # Revit ElementId, not the STEP id
+    assert (w["ID"], w["ElementId"]) == (1001, 1001)       # Revit ElementId, not the STEP id
     assert w["Category"] == "OST_Walls" and w["Category Name"] == "Walls"
-    assert (w["Family"], w["Type Name"], w["Level"]) == ("Basic Wall", "Wall 1", "Level 1")
-    assert w["Revit Class"] == "SWall" and w["Type Id"] == 1710
-    assert w["Length"] == pytest.approx(1.8) and w["Width"] == pytest.approx(0.2)
-    assert w["Material"] == "Default Wall"
+    assert (w["Family"], w["Type Name"], w["Level"]) == ("Test Wall", "Test Type A", "Level A")
+    assert w["Revit Class"] == "SWall" and w["Type Id"] == 601
+    assert w["Length"] == pytest.approx(2.5) and w["Width"] == pytest.approx(0.3)
+    assert w["Material"] == "Test Material"
     assert w["LoadBearing"] in (False, "False")
 
 
@@ -155,27 +155,27 @@ def test_rvt_properties_only_resolves_level_category_and_skips_types():
     t = table.build_table(str(folder), use_ifc=False)
     assert t.kind == "rvt"
     ids = [r["ID"] for r in t.rows]
-    assert 1710 not in ids                                  # the wall type is not an element row
-    wall = by_id(t, 2549)
+    assert 601 not in ids                                  # the wall type is not an element row
+    wall = by_id(t, 1001)
     assert wall["Category"] == "OST_Walls" and wall["Revit Class"] == "SWall"
-    assert wall["Level"] == "Level 1"                       # via the Level element's text
-    assert wall["Type Id"] == 1710
-    assert wall["Unconnected Height"] == pytest.approx(13.123359580052492)   # Revit feet
+    assert wall["Level"] == "Level A"                       # via the Level element's text
+    assert wall["Type Id"] == 601
+    assert wall["Unconnected Height"] == pytest.approx(9.84251968503937)   # Revit feet
     assert "feet" in wall["Parameter Units"]
     assert any("native_graph.ifc not found" in n for n in t.notes)
-    lvl = by_id(t, 1679)
-    assert lvl["Category"] == "OST_Levels" and lvl["Name"] == "Level 1"
+    lvl = by_id(t, 501)
+    assert lvl["Category"] == "OST_Levels" and lvl["Name"] == "Level A"
 
 
 def test_rvt_with_ifc_adds_names_and_metric_values():
     t = table.build_table(str(DATA / "rvt_converted"))
     assert t.kind == "rvt+ifc"
-    wall = by_id(t, 2549)
-    assert (wall["Family"], wall["Type Name"]) == ("Basic Wall", "Wall 1")
-    assert wall["Height"] == pytest.approx(4.0)             # metres from the IFC, not feet
+    wall = by_id(t, 1001)
+    assert (wall["Family"], wall["Type Name"]) == ("Test Wall", "Test Type A")
+    assert wall["Height"] == pytest.approx(3.0)             # metres from the IFC, not feet
     assert wall["Top Offset"] == 0
     # all four sources agree on the element ids
-    assert {r["ID"] for r in t.rows} >= {1, 1679, 2549, 2567}
+    assert {r["ID"] for r in t.rows} >= {1, 501, 1001, 1002}
 
 
 def _write_cube_glb(path: Path, element_id: int, edge_ft: float, scale=0.3048):
@@ -209,13 +209,13 @@ def test_glb_mesh_quantities_are_metric_and_fill_missing_volume(tmp_path):
     folder = tmp_path / "m.converted"
     shutil.copytree(DATA / "rvt_converted", folder)
     (folder / "native_graph.ifc").unlink()
-    _write_cube_glb(folder / "native_graph.glb", 2549, edge_ft=10.0)
-    q = table.read_glb_quantities(folder / "native_graph.glb")["2549"]
+    _write_cube_glb(folder / "native_graph.glb", 1001, edge_ft=10.0)
+    q = table.read_glb_quantities(folder / "native_graph.glb")["1001"]
     edge = 10.0 * 0.3048
     assert abs(q["volume"]) == pytest.approx(edge ** 3, rel=1e-5)
     assert q["area"] == pytest.approx(6 * edge ** 2, rel=1e-5)
     t = table.build_table(str(folder))
-    w = by_id(t, 2549)
+    w = by_id(t, 1001)
     assert w["Volume"] == pytest.approx(edge ** 3, rel=1e-5)
     assert w["Quantity Source"] == "Volume=glb-mesh; Area=glb-mesh"
     assert w["BBox X"] == pytest.approx(edge, rel=1e-5) and w["BBox Z"] == pytest.approx(edge, rel=1e-5)
@@ -309,8 +309,8 @@ def test_documented_columns_match_the_code():
 
 def test_3d_view_flag_for_the_old_workflows():
     t = table.build_table(str(DATA / "rvt_converted"))
-    assert by_id(t, 2549)["On the standard 3D View"] is True
-    assert by_id(t, 1679)["On the standard 3D View"] is False        # a level has no model geometry
+    assert by_id(t, 1001)["On the standard 3D View"] is True
+    assert by_id(t, 501)["On the standard 3D View"] is False        # a level has no model geometry
     assert all(r["On the standard 3D View"] for r in table.build_table(str(DATA / "ifc_excel")).rows)
     d = table.build_table(str(DATA / "dwg"))
     assert by_id(d, "2E2")["On the standard 3D View"] is True        # model space
