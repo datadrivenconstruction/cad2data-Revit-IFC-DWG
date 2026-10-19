@@ -19,7 +19,7 @@
 <a href="https://datadrivenconstruction.io">
   <img src="https://img.shields.io/badge/powered%20by-DataDrivenConstruction.io-orange" alt="Powered by DataDrivenConstruction.io">
 </a>
-<img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logo=autodesk&logoColor=white" alt="Input Formats"></br>
+<img src="https://img.shields.io/badge/input-.rvt%20.dwg%20.ifc%20.dgn-blue?logoColor=white" alt="Input Formats"></br>
 <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.dae%20.html%20.pdf%20.ifc-green?logo=microsoft-excel&logoColor=white" alt="Output Formats">
 <img src="https://img.shields.io/badge/ETL%20pipeline-Ready%20for%20CI/CD%20&%20Bots-success?logo=githubactions" alt="ETL Pipeline">
 
@@ -1540,6 +1540,6 @@ Contact us for a free consultation where we'll discuss your challenges and demon
 
 ## Trademarks
 
-Autodesk®, Revit®, AutoCAD®, and DWG™ are registered trademarks or trademarks of Autodesk, Inc. MicroStation® and DGN™ are trademarks of Bentley Systems, Incorporated. IFC is a trademark of buildingSMART International Ltd. OmniClass® and MasterFormat® are trademarks of The Construction Specifications Institute (CSI). All other brand names, product names, or trademarks belong to their respective holders.
+Autodesk®, Revit®, AutoCAD®, and Navisworks® are registered trademarks or trademarks of Autodesk, Inc. and/or its subsidiaries and/or affiliates in the USA and/or other countries. MicroStation® is a registered trademark of Bentley Systems, Incorporated. IFC and buildingSMART® are trademarks of buildingSMART International Ltd. OmniClass® and MasterFormat® are trademarks of The Construction Specifications Institute (CSI). All other brand names, product names, or trademarks belong to their respective holders. File-format names such as RVT, DWG, DXF and DGN are used solely to identify file formats.
 
-This project is not affiliated with, endorsed by, or sponsored by Autodesk, Bentley Systems, buildingSMART, or any other trademark holders mentioned above.
+These names are used only to describe compatibility (for example, "reads .rvt files created in Autodesk® Revit®"). DataDrivenConstruction is not affiliated with, endorsed by, sponsored by, or certified by Autodesk, Inc., Bentley Systems, buildingSMART, or any other trademark holder mentioned above. The DDC converters are independent implementations developed for interoperability; they do not contain or use Autodesk software, SDKs (including Revit API or RealDWG) or source code.

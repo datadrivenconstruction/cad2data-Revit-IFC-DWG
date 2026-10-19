@@ -17,7 +17,9 @@ carefully before use.
      - n8n workflow files (DDC_n8n_Workflows&Pipelines/, *.json)
      - AI agent instructions (AI_AGENTS_INSTRUCTIONS/)
      - Python utility scripts
-     - Sample project files (Sample_Projects/)
+     - Sample project files (Sample_Projects/) created by
+    DataDrivenConstruction (third-party sample files are NOT
+    included and remain subject to their owners' terms)
      - Additional assets under DDC_in_additon/
      - Documentation (README.md and README.*.md in all languages,
        other *.md files)
