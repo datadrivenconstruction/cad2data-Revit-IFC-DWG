@@ -208,7 +208,7 @@ grouping with sums, column chooser, export of the current view to XLSX/CSV and a
 rows and elements both ways (GLB or DAE). English, German and Russian; light and dark theme.
 Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
 
-## Free tools: data check, quantity take-off, Power BI and Excel
+## Free tools: data check, model diff, BCF issues, quantity take-off, Power BI and Excel
 
 [`ddc-tools/`](ddc-tools/) (Python 3.9+, MIT, offline) works on the tables the converters write
 (XLSX, CSV, JSONL, SQLite, JSON):
@@ -216,6 +216,10 @@ Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
 - `ddc check` validates an export against YAML rules (required parameters, regex, uniqueness, ranges,
   allowed values) and writes a traffic-light XLSX with ElementId / GlobalId details, a JSON report and an
   exit code for CI.
+- `ddc diff` compares two exports of a model (RVT, IFC or DWG converter output): added / removed / modified elements,
+  old to new values per property and quantity, changelog XLSX, JSON, a GLB coloured by change status and an exit code for CI.
+- `ddc bcf` writes the findings of `ddc check` and `ddc diff` as BCF 2.1 / 3.0 issue files (components by IFC GlobalId) and
+  tabulates any BCF file into XLSX. BCF is an open buildingSMART format; no certification is claimed.
 - `ddc qto` sums count, length, area and volume by category, type and level into a formatted XLSX and warns
   about missing or zero quantities.
 - [`ddc-tools/powerbi/`](ddc-tools/powerbi/) and [`ddc-tools/excel/`](ddc-tools/excel/): Power Query scripts
@@ -226,6 +230,7 @@ Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
 pip install ./ddc-tools
 ddc check Project.converted --rules ddc-tools/examples/rules_basic.yaml --xlsx check.xlsx
 ddc qto Project.converted --xlsx qto.xlsx
+ddc diff Model_v1.converted Model_v2.converted --xlsx changes.xlsx --glb diff.glb --bcf changes.bcf
 ```
 
 Excel and Power BI are trademarks of Microsoft Corporation, used only to say what the files work with.
@@ -275,7 +280,7 @@ confidential models.
 | Path | Content |
 |---|---|
 | `docs/` | release notes, screenshots |
-| `ddc-tools/` | free data check, quantity take-off, Power BI and Excel kit |
+| `ddc-tools/` | free data check, model diff, BCF issues, quantity take-off, Power BI and Excel kit |
 | `DDC_n8n_Workflows&Pipelines/` | n8n workflow JSON files |
 | `DDC_in_additon/` | notebooks, presentations, images |
 | `AI_AGENTS_INSTRUCTIONS/` | instructions for AI coding agents |

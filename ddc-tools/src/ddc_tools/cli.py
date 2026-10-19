@@ -1,4 +1,4 @@
-"""Command line: ddc check | ddc qto | ddc table | ddc convert."""
+"""Command line: ddc check | ddc qto | ddc table | ddc convert | ddc diff | ddc bcf."""
 from __future__ import annotations
 
 import argparse
@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from . import __version__, check, convert, qto, table
+from . import __version__, bcf, check, convert, diff, glbdiff, qto, table
 from .loader import LoadError, load_ex
 
 
@@ -21,6 +21,13 @@ def _common(p: argparse.ArgumentParser) -> None:
     p.add_argument("-q", "--quiet", action="store_true", help="print nothing except errors")
 
 
+def _bcf_opts(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--bcf", metavar="FILE", help="also write the findings as a BCF issue file (zip)")
+    p.add_argument("--bcf-version", choices=bcf.VERSIONS, default="2.1", help="BCF version to write (default: 2.1)")
+    p.add_argument("--bcf-per-element", action="store_true",
+                   help="one BCF topic per element instead of one per rule / status and category")
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="ddc", description="Free offline tools for DDC converter exports.")
     ap.add_argument("--version", action="version", version=f"ddc-tools {__version__}")
@@ -31,6 +38,7 @@ def build_parser() -> argparse.ArgumentParser:
     pc.add_argument("--rules", required=True, metavar="FILE", help="YAML rules file")
     pc.add_argument("--fail-on", choices=["error", "warning"], default="error",
                     help="exit code 1 when rules of this severity fail (default: error)")
+    _bcf_opts(pc)
 
     pq = sub.add_parser("qto", help="quantity summary by category / type / level")
     _common(pq)
@@ -67,6 +75,53 @@ def build_parser() -> argparse.ArgumentParser:
     pv.add_argument("--all", dest="include_all", action="store_true", help="keep rows normally left out (see ddc table --all)")
     pv.add_argument("--json", dest="json_out", action="store_true", help="print the result as one JSON line (for scripts and n8n)")
     pv.add_argument("-q", "--quiet", action="store_true", help="print nothing except errors")
+
+    pd = sub.add_parser("diff", help="compare two exports of a model: added / removed / modified, changelog XLSX, JSON, "
+                                     "status-coloured GLB")
+    pd.add_argument("a", help="old version: converter output folder or file (same inputs as `ddc table`)")
+    pd.add_argument("b", help="new version")
+    kinds = ["rvt", "ifc-excel", "ifc-step", "dwg"]
+    pd.add_argument("--kind-a", choices=kinds, help="force the input kind of A")
+    pd.add_argument("--kind-b", choices=kinds, help="force the input kind of B")
+    pd.add_argument("--key", metavar="COLUMN", help="match elements by this column (default: GlobalId, UniqueId, ElementId "
+                                                      "or ID, whichever fits; 'fingerprint' = no key)")
+    pd.add_argument("--ignore", action="append", default=[], metavar="GLOB", help="do not compare these columns (repeatable)")
+    pd.add_argument("--tolerance", type=float, default=1e-6, metavar="REL",
+                    help="relative tolerance for numbers (default: 1e-6)")
+    pd.add_argument("--no-fingerprint", action="store_true", help="do not try to match leftover elements by fingerprint")
+    pd.add_argument("--include-unchanged", action="store_true", help="list unchanged elements in the XLSX / JSON too")
+    pd.add_argument("--xlsx", metavar="FILE", help="write the changelog workbook here")
+    pd.add_argument("--json", dest="json_out", metavar="FILE", help="write the JSON report here")
+    pd.add_argument("--glb", metavar="FILE", help="write a GLB coloured by status (needs a GLB next to the inputs or --glb-b)")
+    pd.add_argument("--glb-a", metavar="FILE", help="GLB of version A (default: native_graph.glb / model.glb of A)")
+    pd.add_argument("--glb-b", metavar="FILE", help="GLB of version B (default: native_graph.glb / model.glb of B)")
+    pd.add_argument("--glb-unchanged", choices=["ghost", "keep", "hide"], default="ghost",
+                    help="unchanged elements in the GLB: translucent grey (default), opaque grey, or removed")
+    _bcf_opts(pd)
+    pd.add_argument("--fail-on", default="added,removed,modified", metavar="LIST",
+                    help="exit code 1 when any of these statuses occurs: comma list of added, removed, modified, or "
+                         "any / none (default: added,removed,modified)")
+    pd.add_argument("-q", "--quiet", action="store_true", help="print nothing except errors")
+
+    pb = sub.add_parser("bcf", help="BCF issue files: export findings of check / diff, read any BCF into a table")
+    bsub = pb.add_subparsers(dest="bcf_cmd", required=True)
+    pbe = bsub.add_parser("export", help="write a BCF zip from a `ddc check --json` or `ddc diff --json` report")
+    pbe.add_argument("report", help="JSON report of ddc check or ddc diff")
+    pbe.add_argument("-o", "--output", required=True, metavar="FILE", help="BCF file to write (.bcf / .bcfzip)")
+    pbe.add_argument("--version", choices=bcf.VERSIONS, default="2.1", help="BCF version (default: 2.1)")
+    pbe.add_argument("--author", default="ddc-tools", help="creation author of the topics (BCF expects an e-mail or user id)")
+    pbe.add_argument("--per-element", action="store_true",
+                     help="one topic per element instead of one per rule / status and category")
+    pbe.add_argument("--only", default="added,removed,modified", metavar="LIST",
+                     help="diff: statuses to export (default: added,removed,modified)")
+    pbe.add_argument("--max-components", type=int, default=1000, metavar="N", help="components selected per viewpoint (default: 1000)")
+    pbe.add_argument("--camera", metavar="X,Y,Z,DX,DY,DZ", help="camera position and direction (metres, Z up) for every viewpoint")
+    pbe.add_argument("--model-name", metavar="NAME", help="model file name written to the BCF header")
+    pbr = bsub.add_parser("read", help="tabulate a BCF file: summary, topics, comments, components")
+    pbr.add_argument("bcf", help="BCF zip (2.0, 2.1 or 3.0)")
+    pbr.add_argument("--xlsx", metavar="FILE", help="write the workbook here")
+    pbr.add_argument("--json", dest="json_out", metavar="FILE", help="write the JSON here")
+    pbr.add_argument("-q", "--quiet", action="store_true", help="print nothing except errors")
     return ap
 
 
@@ -87,6 +142,10 @@ def _run_check(a) -> int:
         check.write_xlsx(res, str(_out(a.xlsx)))
     if a.json_out:
         _out(a.json_out).write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
+    if a.bcf:
+        b = bcf.export_report(res, str(_out(a.bcf)), version=a.bcf_version, per_element=a.bcf_per_element)
+        if not a.quiet:
+            print(f"BCF {b['version']}: {b['topics']} topics, {b['components']} components -> {a.bcf}")
     if not a.quiet:
         print(f"{s['overall']}: {s['elements']} elements, {s['rules']} rules "
               f"({s['pass']} pass, {s['fail']} fail, {s['warn']} warn, {s['skipped']} skipped), "
@@ -157,6 +216,70 @@ def _run_convert(a) -> int:
     return 0 if res["elements"] else 1
 
 
+def _run_diff(a) -> int:
+    fail_on = diff.parse_fail_on(a.fail_on)
+    res = diff.diff_paths(a.a, a.b, kind_a=a.kind_a, kind_b=a.kind_b, key=a.key, ignore=a.ignore, tol=a.tolerance,
+                          fingerprint=not a.no_fingerprint)
+    s = res["summary"]
+    glb_stats = None
+    if a.glb:
+        found_b, found_a = diff.find_glb(a.b), diff.find_glb(a.a)
+        gb = a.glb_b or (str(found_b) if found_b else None)
+        ga = a.glb_a or (str(found_a) if found_a else None)
+        if not (gb or ga):
+            print("ddc: warning: no GLB found next to the inputs (use --glb-a / --glb-b); GLB not written", file=sys.stderr)
+        else:
+            glb_stats = glbdiff.colorize(gb, ga, res, str(_out(a.glb)), unchanged=a.glb_unchanged)
+            res["glb"] = glb_stats
+    if a.xlsx:
+        diff.write_xlsx(res, str(_out(a.xlsx)), include_unchanged=a.include_unchanged)
+    if a.json_out:
+        _out(a.json_out).write_text(json.dumps(diff.public_result(res, a.include_unchanged), ensure_ascii=False, indent=2),
+                                    encoding="utf-8")
+    b = None
+    if a.bcf:
+        b = bcf.export_report(diff.public_result(res), str(_out(a.bcf)), version=a.bcf_version,
+                              per_element=a.bcf_per_element)
+    if not a.quiet:
+        print(f"{res['a']['elements']} -> {res['b']['elements']} elements, matched by {res['key']['method']}: "
+              f"{s['added']} added, {s['removed']} removed, {s['modified']} modified, {s['unchanged']} unchanged "
+              f"({s['property_changes']} property, {s['quantity_changes']} quantity, {s['attribute_changes']} attribute changes)")
+        for w in res["warnings"]:
+            print(f"  warning: {w}")
+        if glb_stats:
+            print(f"  GLB: {glb_stats['linked']} nodes linked, {glb_stats['unlinked']} not linked, "
+                  f"{glb_stats['removed']} removed elements copied from A -> {a.glb}")
+        if b:
+            print(f"  BCF {b['version']}: {b['topics']} topics, {b['components']} components -> {a.bcf}")
+    return diff.exit_code(res, fail_on)
+
+
+def _run_bcf(a) -> int:
+    if a.bcf_cmd == "export":
+        rep = bcf.load_report(a.report)
+        cam = bcf.parse_camera(a.camera) if a.camera else None
+        only = [x.strip() for x in a.only.split(",") if x.strip()]
+        res = bcf.export_report(rep, str(_out(a.output)), version=a.version, author=a.author, per_element=a.per_element,
+                                max_components=a.max_components, only=only, camera=cam, file_name=a.model_name)
+        print(f"BCF {res['version']} ({res['kind']}): {res['topics']} topics, {res['viewpoints']} viewpoints, "
+              f"{res['components']} components -> {a.output}")
+        return 0
+    res = bcf.read_bcf(a.bcf)
+    if a.xlsx:
+        bcf.write_read_xlsx(res, str(_out(a.xlsx)))
+    if a.json_out:
+        _out(a.json_out).write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
+    if not a.quiet:
+        s = res["summary"]
+        print(f"BCF {res['version'] or '?'}: {s['topics']} topics, {s['comments']} comments, {s['viewpoints']} viewpoints, "
+              f"{s['components']} components")
+        for t in res["topics"][:20]:
+            print(f"  [{t['status'] or '-'}] {t['title']}")
+        if len(res["topics"]) > 20:
+            print(f"  ... {len(res['topics']) - 20} more")
+    return 0
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     a = build_parser().parse_args(argv)
     try:
@@ -164,8 +287,12 @@ def main(argv: Optional[List[str]] = None) -> int:
             return _run_table(a)
         if a.cmd == "convert":
             return _run_convert(a)
+        if a.cmd == "diff":
+            return _run_diff(a)
+        if a.cmd == "bcf":
+            return _run_bcf(a)
         return _run_check(a) if a.cmd == "check" else _run_qto(a)
-    except (LoadError, check.RuleError, OSError) as e:
+    except (LoadError, check.RuleError, bcf.BcfError, glbdiff.GlbError, OSError) as e:
         print(f"ddc: error: {e}", file=sys.stderr)
         return 2
 
