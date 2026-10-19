@@ -1,0 +1,5 @@
+# The portable packages are stored as shipped (including Python bytecode caches).
+!__pycache__/
+!*.pyc
+!*.log
+!*.py[cod]

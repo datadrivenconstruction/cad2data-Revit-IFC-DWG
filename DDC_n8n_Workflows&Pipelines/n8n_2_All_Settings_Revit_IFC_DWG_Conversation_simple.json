@@ -8,7 +8,7 @@
         "formFields": {
           "values": [
             {
-              "fieldLabel": "Path to Revit Converter (RvtExporter.exe)",
+              "fieldLabel": "Path to Revit Converter (RVTconverter.exe)",
               "fieldType": "string",
               "requiredField": true
             },
@@ -89,7 +89,7 @@
     },
     {
       "parameters": {
-        "content": "\n## ⚠️ Troubleshooting\n\n### Browser Popup Issues\nIf the form doesn't open:\n1. Look for a popup blocker icon in your browser's address bar\n2. Click it and select \"Always allow popups from this site\"\n3. Refresh the page and try again\n\n### Executable Path Issues\nIf conversion fails, ensure you're using the correct path:\n\n✅ **Correct path:**\n```\nC:\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe\n```\n\n❌ **Incorrect path:**\n```\nC:\\Community\\DDC_Converter_Revit\\RvtExporter.exe",
+        "content": "\n## ⚠️ Troubleshooting\n\n### Browser Popup Issues\nIf the form doesn't open:\n1. Look for a popup blocker icon in your browser's address bar\n2. Click it and select \"Always allow popups from this site\"\n3. Refresh the page and try again\n\n### Executable Path Issues\nIf conversion fails, ensure you're using the correct path:\n\n✅ **Correct path:**\n```\nC:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe\n```\n\n❌ **Incorrect path:**\n```\nC:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
         "height": 540,
         "width": 524,
         "color": 7
@@ -110,13 +110,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_revit_converter",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\DDC_Converter_Revit\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "revit_file",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\Sample_Projects\\2022 rstadvancedsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\2022 rstadvancedsampleproject.rvt",
               "type": "string"
             },
             {
@@ -158,7 +158,7 @@
             {
               "id": "b513c17c-a174-44cf-b935-36b3855624ba",
               "name": "(optional) output_folder",
-              "value": "C:\\Users\\ars\\source\\repos\\DataDrivenConstruction\\test\\sample_files\\test",
+              "value": "C:\\DDC\\Models\\test",
               "type": "string"
             }
           ]
@@ -176,7 +176,7 @@
     },
     {
       "parameters": {
-        "content": "### Option 1: Manual Variables\n- Click **\"Manual Trigger\"** to use pre-configured variables\n- Modify the variables in the **\"Set Variables\"** node as needed\n\n## 🔧 Configuration\n- Update the **RvtExporter.exe** path in the form or variables\n- Ensure the path points to the executable inside the **`datadrivenlibs`** folder",
+        "content": "### Option 1: Manual Variables\n- Click **\"Manual Trigger\"** to use pre-configured variables\n- Modify the variables in the **\"Set Variables\"** node as needed\n\n## 🔧 Configuration\n- Update the **RVTconverter.exe** path in the form or variables\n- Ensure the path points to the executable inside the **`datadrivenlibs`** folder",
         "height": 420,
         "width": 428,
         "color": 4

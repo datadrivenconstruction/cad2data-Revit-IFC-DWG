@@ -1,0 +1,8 @@
+DDC DWG to Excel
+Copyright (c) 2026 Artem Boiko, trading as DataDrivenConstruction. All rights reserved.
+Kraichgaustrasse 3, 76676 Graben-Neudorf, Germany - info@datadrivenconstruction.io
+
+Proprietary, closed-source freeware. Use is governed by the End-User Licence
+Agreement in EULA.txt (English text binding; Russian and German translations).
+Redistribution, reverse engineering and decompilation are not permitted except
+as mandatory law allows. Third-party components: licenses/THIRD_PARTY_NOTICES.txt.

@@ -1,0 +1,55 @@
+ENTWURF — muss von einem Rechtsanwalt in Ihrer Rechtsordnung geprüft werden
+
+DATENSCHUTZHINWEIS — Lizenzprüfung von DataDrivenConstruction (Fassung vom
+15.10.2026). Verbindlich ist die englische Fassung; bei Abweichungen hat sie
+Vorrang.
+
+Verantwortlicher (Art. 4 Nr. 7 DSGVO): Artem Boiko, Einzelunternehmer,
+handelnd unter DataDrivenConstruction, Kraichgaustraße 3, 76676
+Graben-Neudorf, Deutschland, info@datadrivenconstruction.io,
++49 (0) 15258901584.
+
+Was NICHT übertragen wird: Zeichnungen, Modelle, Tabellen, Dateinamen,
+Pfade, Dateiinhalte, Benutzername, Computername, Hardware-Seriennummern,
+MAC-Adressen. Die Community-Edition sendet nichts; der Konvertierungszähler
+bleibt auf Ihrem Computer. Das Öffnen der Werbeseite ist ein normaler
+Browserbesuch unserer Website (es gilt deren Datenschutzerklärung).
+
+Wann Daten übertragen werden: nur bei Aktivierung oder Erneuerung einer
+Paid-Lizenz und, falls konfiguriert, bei Abfrage vertrauenswürdiger Zeit vom
+Lizenzserver.
+
+Per HTTPS übertragene Felder: Aktivierungscode (Erstaktivierung) oder
+Lizenz-ID (Erneuerung); Produkt-ID; öffentlicher Geräteschlüssel (ein auf
+Ihrem Gerät erzeugter pseudonymer Schlüssel); Challenge-ID und Nonce des
+Servers; Signatur als Nachweis des Geräteschlüssels; für die Zeitabfrage
+Protokollversion, Nonce, Audience. Der Server erhält zudem Ihre IP-Adresse
+und den Zeitpunkt der Anfrage.
+
+Zwecke und Rechtsgrundlagen: Ausstellung, Prüfung, Erneuerung, Übertragung
+und Widerruf Ihrer Lizenz (Art. 6 Abs. 1 lit. b DSGVO, Vertrag);
+Missbrauchsverhinderung und Sicherheit des Dienstes (Art. 6 Abs. 1 lit. f
+DSGVO, berechtigtes Interesse); Aufbewahrung nach Steuer- und Handelsrecht
+(Art. 6 Abs. 1 lit. c DSGVO).
+
+Speicherdauer: Lizenzdaten für die Laufzeit der Lizenz und danach im Rahmen
+gesetzlicher Aufbewahrungsfristen (bis zu 10 Jahre für Buchungsbelege);
+Verbindungsprotokolle mit IP-Adressen höchstens 12 Monate.
+
+Empfänger: unser Hosting-Anbieter als Auftragsverarbeiter [NAME, LAND — ZU
+ERGÄNZEN]; der Zahlungsdienstleister beim Kauf (es gilt dessen
+Datenschutzerklärung). Kein Verkauf von Daten, keine Werbeprofile.
+Übermittlungen außerhalb der EU/des EWR nur mit geeigneten Garantien
+(Art. 44 ff. DSGVO).
+
+Ihre Rechte: Auskunft (Art. 15), Berichtigung (16), Löschung (17),
+Einschränkung (18), Datenübertragbarkeit (20), Widerspruch gegen
+Verarbeitung auf Grundlage berechtigter Interessen (21) sowie Beschwerde bei
+einer Aufsichtsbehörde (Art. 77), z. B. beim Landesbeauftragten für den
+Datenschutz und die Informationsfreiheit Baden-Württemberg. Kontakt:
+info@datadrivenconstruction.io.
+
+Die Bereitstellung der Daten ist für die Aktivierung einer Paid-Lizenz
+erforderlich; ohne sie arbeitet die Software als Community. Eine
+automatisierte Entscheidungsfindung im Sinne von Art. 22 DSGVO findet nicht
+statt.

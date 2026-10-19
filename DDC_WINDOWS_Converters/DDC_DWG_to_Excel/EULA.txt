@@ -1,0 +1,574 @@
+﻿DRAFT — requires review by a lawyer in your jurisdiction
+
+DATADRIVENCONSTRUCTION END-USER LICENCE AGREEMENT (EULA)
+Version 2026-10-15 (draft). This English version is the binding version.
+Translations (Russian, German and others) are provided for convenience; if
+they differ, the English version prevails.
+
+1. LICENSOR
+Artem Boiko, sole proprietor (Einzelunternehmen / Kleingewerbe, Germany),
+trading as DataDrivenConstruction
+Kraichgaustraße 3, 76676 Graben-Neudorf, Germany
+E-mail: info@datadrivenconstruction.io · Phone: +49 (0) 15258901584
+Web: https://datadrivenconstruction.io
+("Licensor", "we").
+
+2. SCOPE
+This EULA applies to all DataDrivenConstruction desktop products, including
+DWG to Excel, RVT Converter, Revit to IFC, IFC to Excel and the DDC Excel
+add-in, with their updates, documentation and installers (the "Software").
+By installing or using the Software you ("you", the "User") accept this EULA.
+If you do not accept it, do not install or use the Software.
+
+3. LICENCE GRANT (FREEWARE-STYLE)
+3.1 Subject to this EULA, we grant you a free of charge, non-exclusive,
+non-transferable, non-sublicensable, worldwide licence, unlimited in time, to
+install and use the Software on any number of your own devices for private
+and commercial purposes, including commercial work on your own projects and
+for your clients.
+3.2 The output files you create with the Software (spreadsheets, DXF, SVG,
+IFC and other results) belong to you; we claim no rights in them.
+3.3 The Software is proprietary and closed source. All rights not expressly
+granted remain with the Licensor. The Software is licensed, not sold.
+
+4. RESTRICTIONS
+Except where mandatory law expressly permits it (in particular sections 69d
+and 69e of the German Copyright Act, UrhG, on observation, testing and
+decompilation for interoperability), you must not:
+a) reverse engineer, decompile, disassemble or otherwise attempt to derive
+   the source code of the Software;
+b) modify, translate or create derivative works of the Software;
+c) distribute, sell, rent, lend, publish or otherwise make the Software
+   available to third parties (including as a download mirror, bundle or
+   hosted service); point others to the official download page instead;
+d) remove or alter copyright notices, licence texts or third-party notices;
+e) circumvent, disable or tamper with the licence check, the edition
+   mechanism or the advertising page;
+f) use the Software in violation of applicable law or third-party rights.
+You may only process files you are entitled to use.
+
+5. EDITIONS: COMMUNITY AND PAID
+5.1 Community (free): all conversion functions, fully functional, works
+offline, no limits on files or rows, no watermarks and no changes to your
+data. After every third accepted conversion the Software opens an
+information/advertising page of the Licensor in your browser.
+5.2 Paid: the same functions; a valid Paid licence removes the advertising
+page. No other function depends on the edition.
+5.3 If a Paid licence expires, is revoked or cannot be verified, the Software
+continues to work as Community. Prices, terms and payment of Paid licences
+are governed by the separate order terms at the time of purchase.
+
+6. ACTIVATION AND DEVICE BINDING (PAID ONLY)
+6.1 A Paid licence is activated online with an activation code and bound to
+a device by a pseudonymous key pair generated on that device (where
+available, protected by Windows). The private key never leaves the device.
+6.2 The licence is periodically verified online. There is no offline grace
+period: if verification is not possible (for example without an internet
+connection), the Software runs as Community with all functions until the
+next successful verification; only the advertising page is shown again.
+6.3 Transfer of a licence to another device is possible within the limits of
+the order terms.
+
+7. DATA PROCESSING
+Community sends no data; its conversion counter stays on your device. For
+Paid activation and renewal (and trusted-time requests) the Software sends
+over HTTPS only: activation code or licence ID, product ID, the device public
+key, a server challenge ID and nonce, the signature proving possession of the
+device key, and for trusted time the protocol version, nonce and audience.
+The server receives your IP address and the request time. Your drawings,
+models, file names, paths or contents, user or computer names and hardware
+serial numbers are never sent. Details: privacy note (PRIVACY.en.txt).
+
+8. THIRD-PARTY COMPONENTS
+The Software contains third-party components licensed under their own
+licences (see licenses/THIRD_PARTY_NOTICES.txt and licenses.json). Those
+licences take precedence for the respective components. Autodesk, AutoCAD,
+DWG and Revit are trademarks of Autodesk, Inc.; the Software is independent
+and not affiliated with or endorsed by Autodesk. Other names belong to their
+owners.
+
+9. WARRANTY
+9.1 The Community edition is provided free of charge (gift-like). The
+Licensor is liable for defects in title and quality only if it fraudulently
+conceals a defect (sections 523, 524 BGB analogous).
+9.2 For Paid licences the statutory warranty rights apply; for consumers
+they cannot be excluded.
+9.3 The Software decodes proprietary formats from independent observation.
+Results may be incomplete; unread values are left empty and reported. Check
+results before relying on them for critical decisions.
+
+10. LIABILITY
+10.1 The Licensor is liable without limitation for intent and gross
+negligence, for injury to life, body or health, under the German Product
+Liability Act (ProdHaftG) and under any guarantee given.
+10.2 In all other cases, including slight negligence, the Licensor's total
+liability is limited to the amount you actually paid for the licence
+concerned. For the free Community edition (amount paid: zero) liability for
+slight negligence is therefore excluded (sections 521, 523, 524 BGB
+analogous), except under 10.1.
+10.3 You remain responsible for regular backups of your data.
+
+11. TERM AND TERMINATION
+This EULA applies while you use the Software. Your rights end automatically
+if you materially breach it; you must then delete the Software. Sections
+4, 8, 10 and 12 survive.
+
+12. GOVERNING LAW, CONSUMERS, MISCELLANEOUS
+12.1 German law applies, excluding the UN Convention on Contracts for the
+International Sale of Goods. If you are a consumer residing in the EU, the
+mandatory consumer-protection provisions of your country of residence remain
+applicable.
+12.2 If you are a merchant, legal entity under public law or have no general
+place of jurisdiction in Germany, the place of jurisdiction is the
+Licensor's registered place of business. Consumers may be sued only at their
+place of residence.
+12.3 EU online dispute resolution: https://ec.europa.eu/consumers/odr. The
+Licensor is not obliged and not willing to participate in dispute
+resolution proceedings before a consumer arbitration board.
+12.4 Should any provision be invalid, the remaining provisions stay
+effective. Changes to this EULA apply to new versions of the Software.
+12.5 Previously published releases that were distributed under an
+open-source licence remain under that licence for their recipients; this
+EULA applies to versions published with it.
+
+13. RIGHT OF WITHDRAWAL FOR CONSUMERS (PAID LICENCES)
+If you are a consumer (section 13 BGB) and purchase a Paid licence at a
+distance, you have a statutory right of withdrawal. The free Community
+edition involves no purchase. See Annex 1 (instructions on withdrawal) and
+Annex 2 (model withdrawal form).
+
+ANNEX 1 — INSTRUCTIONS ON WITHDRAWAL
+Right of withdrawal
+You have the right to withdraw from this contract within fourteen days
+without giving any reason. The withdrawal period is fourteen days from the
+day of the conclusion of the contract.
+To exercise the right of withdrawal, you must inform us
+(Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584)
+of your decision to withdraw from this contract by an unequivocal statement
+(e.g. a letter sent by post or e-mail). You may use the attached model
+withdrawal form, but it is not obligatory. To meet the withdrawal deadline,
+it is sufficient for you to send your communication concerning your exercise
+of the right of withdrawal before the withdrawal period has expired.
+Effects of withdrawal
+If you withdraw from this contract, we shall reimburse to you all payments
+received from you without undue delay and in any event not later than
+fourteen days from the day on which we are informed about your decision to
+withdraw from this contract. We will carry out such reimbursement using the
+same means of payment as you used for the initial transaction, unless you
+have expressly agreed otherwise; in any event, you will not incur any fees
+as a result of such reimbursement.
+Early expiry of the right of withdrawal
+For a contract for the supply of digital content not supplied on a tangible
+medium (such as the activation of a Paid licence), the right of withdrawal
+expires once we have begun performance of the contract (activation) after
+you have (1) expressly consented to our beginning performance before the
+end of the withdrawal period, (2) acknowledged that you thereby lose your
+right of withdrawal, and (3) received a confirmation of the contract on a
+durable medium (section 356(5) BGB).
+End of instructions on withdrawal
+
+ANNEX 2 — MODEL WITHDRAWAL FORM
+(Complete and return this form only if you wish to withdraw from the
+contract.)
+To: Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584
+I/We (*) hereby give notice that I/We (*) withdraw from my/our (*) contract
+for the supply of the following digital content / service (*):
+Ordered on (*) / received on (*):
+Name of consumer(s):
+Address of consumer(s):
+Signature of consumer(s) (only if this form is notified on paper):
+Date:
+(*) Delete as appropriate.
+
+© 2026 Artem Boiko, DataDrivenConstruction. All rights reserved.
+
+==============================================================================
+
+ПРОЕКТ — требует проверки юристом в вашей юрисдикции
+
+ЛИЦЕНЗИОННОЕ СОГЛАШЕНИЕ С КОНЕЧНЫМ ПОЛЬЗОВАТЕЛЕМ DATADRIVENCONSTRUCTION (EULA)
+Редакция от 15.10.2026 (проект). Обязательной является английская версия.
+Настоящий перевод предоставлен для удобства; при расхождениях
+преимущественную силу имеет английская версия.
+
+1. ЛИЦЕНЗИАР
+Artem Boiko (Артём Бойко), индивидуальный предприниматель (Einzelunternehmen /
+Kleingewerbe, Германия), действующий под наименованием DataDrivenConstruction
+Kraichgaustraße 3, 76676 Graben-Neudorf, Германия
+E-mail: info@datadrivenconstruction.io · Тел.: +49 (0) 15258901584
+Сайт: https://datadrivenconstruction.io
+(«Лицензиар», «мы»).
+
+2. ПРЕДМЕТ
+Соглашение распространяется на все настольные продукты DataDrivenConstruction,
+включая DWG to Excel, RVT Converter, Revit to IFC, IFC to Excel и надстройку
+DDC Excel, их обновления, документацию и установщики («Программа»).
+Устанавливая или используя Программу, вы («Пользователь») принимаете
+соглашение. Если вы его не принимаете, не устанавливайте и не используйте
+Программу.
+
+3. ПРЕДОСТАВЛЕНИЕ ЛИЦЕНЗИИ (БЕСПЛАТНО)
+3.1 На условиях соглашения мы предоставляем вам бесплатную, неисключительную,
+непередаваемую, без права сублицензирования, всемирную и бессрочную лицензию
+на установку и использование Программы на любом числе ваших устройств в
+личных и коммерческих целях, включая коммерческую работу над вашими
+проектами и для ваших клиентов.
+3.2 Созданные Программой файлы результатов (таблицы, DXF, SVG, IFC и др.)
+принадлежат вам; мы не претендуем на права на них.
+3.3 Программа является проприетарной, с закрытым исходным кодом. Все права,
+прямо не предоставленные, сохраняются за Лицензиаром. Программа
+лицензируется, а не продаётся.
+
+4. ОГРАНИЧЕНИЯ
+Если иное прямо не разрешено императивными нормами права (в частности,
+§§ 69d и 69e Закона Германии об авторском праве, UrhG — наблюдение,
+тестирование и декомпиляция для совместимости), запрещается:
+a) осуществлять обратную разработку, декомпиляцию, дизассемблирование или
+   иные попытки получить исходный код Программы;
+b) изменять, переводить Программу или создавать производные произведения;
+c) распространять, продавать, сдавать в аренду, передавать, публиковать или
+   иным образом предоставлять Программу третьим лицам (в том числе через
+   зеркала, сборки или как онлайн-сервис); вместо этого указывайте ссылку на
+   официальную страницу загрузки;
+d) удалять или изменять уведомления об авторских правах, тексты лицензий и
+   уведомления о сторонних компонентах;
+e) обходить, отключать или изменять проверку лицензии, механизм редакций или
+   рекламную страницу;
+f) использовать Программу в нарушение закона или прав третьих лиц.
+Обрабатывайте только файлы, которые вы вправе использовать.
+
+5. РЕДАКЦИИ: COMMUNITY И PAID
+5.1 Community (бесплатно): все функции конвертации, полностью рабочая,
+работает без интернета, без ограничений на число файлов и строк, без водяных
+знаков и без изменения ваших данных. После каждой третьей принятой
+конвертации Программа открывает в браузере информационную/рекламную страницу
+Лицензиара.
+5.2 Paid: те же функции; действующая лицензия Paid убирает рекламную
+страницу. Никакие другие функции от редакции не зависят.
+5.3 Если лицензия Paid истекла, отозвана или не может быть проверена,
+Программа продолжает работать как Community. Цены, сроки и оплата лицензий
+Paid определяются отдельными условиями заказа на момент покупки.
+
+6. АКТИВАЦИЯ И ПРИВЯЗКА К УСТРОЙСТВУ (ТОЛЬКО PAID)
+6.1 Лицензия Paid активируется онлайн кодом активации и привязывается к
+устройству псевдонимной парой ключей, созданной на этом устройстве (где
+возможно — под защитой Windows). Закрытый ключ не покидает устройство.
+6.2 Лицензия периодически проверяется онлайн. Льготного офлайн-периода нет:
+если проверка невозможна (например, без интернета), Программа работает как
+Community со всеми функциями до следующей успешной проверки; снова
+показывается только рекламная страница.
+6.3 Перенос лицензии на другое устройство возможен в пределах условий заказа.
+
+7. ОБРАБОТКА ДАННЫХ
+Community не передаёт никаких данных; счётчик конвертаций хранится на вашем
+устройстве. При активации и продлении Paid (и запросе доверенного времени)
+Программа передаёт по HTTPS только: код активации или ID лицензии, ID
+продукта, открытый ключ устройства, ID запроса и nonce сервера, подпись,
+подтверждающую владение ключом устройства, а для доверенного времени — версию
+протокола, nonce и audience. Сервер получает ваш IP-адрес и время запроса.
+Чертежи, модели, имена, пути и содержимое файлов, имена пользователя и
+компьютера, серийные номера оборудования никогда не передаются. Подробнее —
+уведомление о конфиденциальности (PRIVACY.ru.txt).
+
+8. СТОРОННИЕ КОМПОНЕНТЫ
+Программа содержит сторонние компоненты под их собственными лицензиями (см.
+licenses/THIRD_PARTY_NOTICES.txt и licenses.json); для этих компонентов
+приоритет имеют их лицензии. Autodesk, AutoCAD, DWG и Revit — товарные знаки
+Autodesk, Inc.; Программа независима и не связана с Autodesk и не одобрена
+ею. Прочие названия принадлежат их владельцам.
+
+9. ГАРАНТИЯ
+9.1 Редакция Community предоставляется бесплатно (по аналогии с дарением).
+Лицензиар отвечает за недостатки только при их умышленном сокрытии (по
+аналогии с §§ 523, 524 BGB).
+9.2 Для лицензий Paid действуют установленные законом права на гарантию; для
+потребителей они не могут быть исключены.
+9.3 Программа декодирует закрытые форматы на основе независимого
+наблюдения. Результаты могут быть неполными; непрочитанные значения остаются
+пустыми и указываются в отчёте. Проверяйте результаты перед принятием
+ответственных решений.
+
+10. ОТВЕТСТВЕННОСТЬ
+10.1 Лицензиар несёт неограниченную ответственность за умысел и грубую
+неосторожность, за вред жизни, телу или здоровью, по Закону ФРГ об
+ответственности за продукцию (ProdHaftG) и по данным гарантиям.
+10.2 Во всех остальных случаях, включая лёгкую неосторожность, общая
+ответственность Лицензиара ограничена суммой, фактически уплаченной вами за
+соответствующую лицензию. Для бесплатной редакции Community (уплачено: ноль)
+ответственность за лёгкую неосторожность поэтому исключена (§§ 521, 523, 524
+ГГУ по аналогии), кроме случаев п. 10.1.
+10.3 Вы отвечаете за регулярное резервное копирование своих данных.
+
+11. СРОК И ПРЕКРАЩЕНИЕ
+Соглашение действует, пока вы используете Программу. При существенном
+нарушении ваши права прекращаются автоматически, и Программу необходимо
+удалить. Разделы 4, 8, 10 и 12 продолжают действовать.
+
+12. ПРИМЕНИМОЕ ПРАВО, ПОТРЕБИТЕЛИ, ПРОЧЕЕ
+12.1 Применяется право Германии без Конвенции ООН о договорах
+международной купли-продажи товаров. Если вы потребитель с местом
+жительства в ЕС, сохраняется действие императивных норм о защите
+потребителей страны вашего проживания.
+12.2 Если вы коммерсант, юридическое лицо публичного права или не имеете
+общей подсудности в Германии, местом рассмотрения споров является место
+ведения деятельности Лицензиара. Иск к потребителю может быть предъявлен
+только по месту его жительства.
+12.3 Платформа ЕС для онлайн-урегулирования споров:
+https://ec.europa.eu/consumers/odr. Лицензиар не обязан и не готов
+участвовать в процедурах урегулирования споров в потребительской
+арбитражной комиссии.
+12.4 Недействительность отдельного положения не затрагивает остальные.
+Изменения соглашения применяются к новым версиям Программы.
+12.5 Ранее опубликованные выпуски, распространявшиеся под открытой
+лицензией, остаются под ней для их получателей; настоящее соглашение
+применяется к версиям, опубликованным вместе с ним.
+
+13. ПРАВО ОТКАЗА ДЛЯ ПОТРЕБИТЕЛЕЙ (ЛИЦЕНЗИИ PAID)
+Если вы потребитель (§ 13 ГГУ) и приобретаете лицензию Paid дистанционно,
+у вас есть установленное законом право отказа от договора. Бесплатная
+редакция Community покупки не предполагает. См. Приложение 1 (порядок
+отказа) и Приложение 2 (образец формы отказа).
+
+ПРИЛОЖЕНИЕ 1 — ПОРЯДОК ОТКАЗА ОТ ДОГОВОРА
+Право отказа
+Вы вправе отказаться от настоящего договора в течение четырнадцати дней без
+указания причин. Срок отказа составляет четырнадцать дней со дня заключения
+договора.
+Чтобы воспользоваться правом отказа, сообщите нам
+(Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584)
+о своём решении недвусмысленным заявлением (например, письмом по почте или
+по e-mail). Вы можете использовать прилагаемый образец формы, но это
+не обязательно. Для соблюдения срока достаточно отправить сообщение об
+отказе до истечения срока отказа.
+Последствия отказа
+При отказе от договора мы незамедлительно, но не позднее четырнадцати дней
+со дня получения сообщения об отказе, возвращаем все полученные от вас
+платежи тем же способом оплаты, который вы использовали, если иное прямо
+не согласовано; никаких сборов за возврат с вас не взимается.
+Досрочное прекращение права отказа
+По договору о предоставлении цифрового контента не на материальном носителе
+(например, активация лицензии Paid) право отказа прекращается, когда мы
+начали исполнение договора (активацию) после того, как вы (1) прямо
+согласились на начало исполнения до истечения срока отказа, (2) подтвердили,
+что тем самым теряете право отказа, и (3) получили подтверждение договора на
+долговременном носителе (§ 356 абз. 5 ГГУ).
+Конец порядка отказа
+
+ПРИЛОЖЕНИЕ 2 — ОБРАЗЕЦ ФОРМЫ ОТКАЗА
+(Заполните и отправьте эту форму, только если хотите отказаться от договора.)
+Кому: Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584
+Настоящим я/мы (*) отказываюсь/отказываемся (*) от заключённого мной/нами (*)
+договора о предоставлении следующего цифрового контента / услуги (*):
+Дата заказа (*) / получения (*):
+Имя потребителя(ей):
+Адрес потребителя(ей):
+Подпись потребителя(ей) (только при отправке на бумаге):
+Дата:
+(*) Ненужное зачеркнуть.
+
+© 2026 Artem Boiko, DataDrivenConstruction. Все права защищены.
+
+==============================================================================
+
+ENTWURF — muss von einem Rechtsanwalt in Ihrer Rechtsordnung geprüft werden
+
+DATADRIVENCONSTRUCTION ENDBENUTZER-LIZENZVERTRAG (EULA)
+Fassung vom 15.10.2026 (Entwurf). Verbindlich ist die englische Fassung.
+Diese Übersetzung dient der Information; bei Abweichungen hat die englische
+Fassung Vorrang.
+
+1. LIZENZGEBER
+Artem Boiko, Einzelunternehmer (Einzelunternehmen / Kleingewerbe,
+Deutschland), handelnd unter DataDrivenConstruction
+Kraichgaustraße 3, 76676 Graben-Neudorf, Deutschland
+E-Mail: info@datadrivenconstruction.io · Telefon: +49 (0) 15258901584
+Web: https://datadrivenconstruction.io
+(„Lizenzgeber", „wir").
+
+2. GEGENSTAND
+Dieser Vertrag gilt für alle Desktop-Produkte von DataDrivenConstruction,
+u. a. DWG to Excel, RVT Converter, Revit to IFC, IFC to Excel und das
+DDC-Excel-Add-in, einschließlich Updates, Dokumentation und Installern
+(„Software"). Mit Installation oder Nutzung der Software („Sie", „Nutzer")
+nehmen Sie diesen Vertrag an. Wenn Sie nicht zustimmen, installieren und
+nutzen Sie die Software nicht.
+
+3. LIZENZ (KOSTENLOS)
+3.1 Wir räumen Ihnen nach Maßgabe dieses Vertrags ein unentgeltliches,
+einfaches, nicht übertragbares, nicht unterlizenzierbares, weltweites und
+zeitlich unbeschränktes Recht ein, die Software auf beliebig vielen eigenen
+Geräten für private und gewerbliche Zwecke zu installieren und zu nutzen,
+einschließlich gewerblicher Arbeit an eigenen Projekten und für Ihre Kunden.
+3.2 Mit der Software erzeugte Ergebnisdateien (Tabellen, DXF, SVG, IFC u. a.)
+gehören Ihnen; wir beanspruchen daran keine Rechte.
+3.3 Die Software ist proprietär und nicht quelloffen. Alle nicht
+ausdrücklich eingeräumten Rechte verbleiben beim Lizenzgeber. Die Software
+wird lizenziert, nicht verkauft.
+
+4. EINSCHRÄNKUNGEN
+Soweit nicht zwingendes Recht es ausdrücklich erlaubt (insbesondere §§ 69d
+und 69e UrhG – Beobachten, Testen und Dekompilieren zur Herstellung der
+Interoperabilität), ist es untersagt,
+a) die Software zurückzuentwickeln, zu dekompilieren, zu disassemblieren
+   oder auf andere Weise den Quellcode zu ermitteln;
+b) die Software zu ändern, zu übersetzen oder abgeleitete Werke zu erstellen;
+c) die Software zu verbreiten, zu verkaufen, zu vermieten, zu verleihen, zu
+   veröffentlichen oder Dritten anderweitig zugänglich zu machen (auch als
+   Download-Spiegel, Bundle oder gehosteter Dienst); verweisen Sie stattdessen
+   auf die offizielle Download-Seite;
+d) Urheberrechtsvermerke, Lizenztexte oder Drittanbieterhinweise zu
+   entfernen oder zu verändern;
+e) die Lizenzprüfung, den Editionsmechanismus oder die Werbeseite zu umgehen,
+   zu deaktivieren oder zu manipulieren;
+f) die Software rechtswidrig oder unter Verletzung von Rechten Dritter zu
+   nutzen.
+Verarbeiten Sie nur Dateien, zu deren Nutzung Sie berechtigt sind.
+
+5. EDITIONEN: COMMUNITY UND PAID
+5.1 Community (kostenlos): alle Konvertierungsfunktionen, voll
+funktionsfähig, offline nutzbar, ohne Begrenzung von Dateien oder Zeilen,
+ohne Wasserzeichen und ohne Änderung Ihrer Daten. Nach jeder dritten
+angenommenen Konvertierung öffnet die Software eine Informations-/Werbeseite
+des Lizenzgebers im Browser.
+5.2 Paid: dieselben Funktionen; eine gültige Paid-Lizenz entfernt die
+Werbeseite. Keine andere Funktion hängt von der Edition ab.
+5.3 Läuft eine Paid-Lizenz ab, wird sie widerrufen oder kann sie nicht
+geprüft werden, arbeitet die Software als Community weiter. Preise,
+Laufzeiten und Zahlung der Paid-Lizenzen richten sich nach den gesonderten
+Bestellbedingungen zum Zeitpunkt des Kaufs.
+
+6. AKTIVIERUNG UND GERÄTEBINDUNG (NUR PAID)
+6.1 Eine Paid-Lizenz wird online mit einem Aktivierungscode aktiviert und
+über ein auf dem Gerät erzeugtes pseudonymes Schlüsselpaar (wo verfügbar
+durch Windows geschützt) an das Gerät gebunden. Der private Schlüssel
+verlässt das Gerät nicht.
+6.2 Die Lizenz wird regelmäßig online geprüft. Eine Offline-Kulanzzeit gibt
+es nicht: Ist die Prüfung nicht möglich (z. B. ohne Internetverbindung),
+läuft die Software als Community mit allen Funktionen bis zur nächsten
+erfolgreichen Prüfung; lediglich die Werbeseite wird wieder angezeigt.
+6.3 Eine Übertragung auf ein anderes Gerät ist im Rahmen der
+Bestellbedingungen möglich.
+
+7. DATENVERARBEITUNG
+Community sendet keine Daten; der Konvertierungszähler bleibt auf Ihrem
+Gerät. Bei Aktivierung und Erneuerung von Paid (sowie bei Anfragen
+vertrauenswürdiger Zeit) sendet die Software per HTTPS nur: Aktivierungscode
+oder Lizenz-ID, Produkt-ID, öffentlichen Geräteschlüssel, Challenge-ID und
+Nonce des Servers, die Signatur als Nachweis des Geräteschlüssels sowie für
+die Zeitabfrage Protokollversion, Nonce und Audience. Der Server erhält Ihre
+IP-Adresse und den Zeitpunkt der Anfrage. Zeichnungen, Modelle, Dateinamen,
+Pfade oder Inhalte, Benutzer- oder Computernamen und Hardware-Seriennummern
+werden nie übertragen. Einzelheiten: Datenschutzhinweis (PRIVACY.de.txt).
+
+8. DRITTANBIETERKOMPONENTEN
+Die Software enthält Drittanbieterkomponenten unter deren eigenen Lizenzen
+(siehe licenses/THIRD_PARTY_NOTICES.txt und licenses.json); für diese
+Komponenten gehen deren Lizenzen vor. Autodesk, AutoCAD, DWG und Revit sind
+Marken der Autodesk, Inc.; die Software ist unabhängig und weder mit
+Autodesk verbunden noch von Autodesk gebilligt. Andere Namen gehören ihren
+Inhabern.
+
+9. GEWÄHRLEISTUNG
+9.1 Die Community-Edition wird unentgeltlich überlassen. Der Lizenzgeber
+haftet für Sach- und Rechtsmängel nur bei arglistigem Verschweigen (§§ 523,
+524 BGB analog).
+9.2 Für Paid-Lizenzen gelten die gesetzlichen Gewährleistungsrechte; für
+Verbraucher können sie nicht ausgeschlossen werden.
+9.3 Die Software dekodiert proprietäre Formate auf Grundlage unabhängiger
+Beobachtung. Ergebnisse können unvollständig sein; nicht gelesene Werte
+bleiben leer und werden im Bericht ausgewiesen. Prüfen Sie Ergebnisse vor
+kritischen Entscheidungen.
+
+10. HAFTUNG
+10.1 Der Lizenzgeber haftet unbeschränkt bei Vorsatz und grober
+Fahrlässigkeit, bei Verletzung von Leben, Körper oder Gesundheit, nach dem
+Produkthaftungsgesetz (ProdHaftG) sowie aus übernommenen Garantien.
+10.2 In allen übrigen Fällen, einschließlich leichter Fahrlässigkeit, ist
+die Gesamthaftung des Lizenzgebers auf den Betrag begrenzt, den Sie für die
+betreffende Lizenz tatsächlich bezahlt haben. Für die unentgeltliche
+Community-Edition (bezahlter Betrag: null) ist die Haftung für leichte
+Fahrlässigkeit daher ausgeschlossen (§§ 521, 523, 524 BGB analog), außer
+nach Ziffer 10.1.
+10.3 Sie sind für regelmäßige Datensicherungen selbst verantwortlich.
+
+11. LAUFZEIT UND BEENDIGUNG
+Dieser Vertrag gilt, solange Sie die Software nutzen. Bei wesentlichen
+Verstößen enden Ihre Rechte automatisch; die Software ist dann zu löschen.
+Ziffern 4, 8, 10 und 12 gelten fort.
+
+12. RECHTSWAHL, VERBRAUCHER, SONSTIGES
+12.1 Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Sind Sie
+Verbraucher mit gewöhnlichem Aufenthalt in der EU, bleiben die zwingenden
+Verbraucherschutzvorschriften Ihres Aufenthaltsstaates anwendbar.
+12.2 Sind Sie Kaufmann, juristische Person des öffentlichen Rechts oder
+haben Sie keinen allgemeinen Gerichtsstand in Deutschland, ist Gerichtsstand
+der Geschäftssitz des Lizenzgebers. Verbraucher können nur an ihrem Wohnsitz
+verklagt werden.
+12.3 OS-Plattform der EU: https://ec.europa.eu/consumers/odr. Der
+Lizenzgeber ist zur Teilnahme an Streitbeilegungsverfahren vor einer
+Verbraucherschlichtungsstelle weder verpflichtet noch bereit.
+12.4 Sollte eine Bestimmung unwirksam sein, bleiben die übrigen wirksam.
+Änderungen dieses Vertrags gelten für neue Versionen der Software.
+12.5 Früher veröffentlichte Versionen, die unter einer Open-Source-Lizenz
+verbreitet wurden, bleiben für ihre Empfänger unter dieser Lizenz; dieser
+Vertrag gilt für die mit ihm veröffentlichten Versionen.
+
+13. WIDERRUFSRECHT FÜR VERBRAUCHER (PAID-LIZENZEN)
+Wenn Sie Verbraucher (§ 13 BGB) sind und eine Paid-Lizenz im Fernabsatz
+erwerben, steht Ihnen ein gesetzliches Widerrufsrecht zu. Die kostenlose
+Community-Edition ist kein Kauf. Siehe Anlage 1 (Widerrufsbelehrung) und
+Anlage 2 (Muster-Widerrufsformular).
+
+ANLAGE 1 — WIDERRUFSBELEHRUNG
+Widerrufsrecht
+Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen
+Vertrag zu widerrufen. Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag
+des Vertragsabschlusses.
+Um Ihr Widerrufsrecht auszuüben, müssen Sie uns
+(Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584)
+mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief
+oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen,
+informieren. Sie können dafür das beigefügte Muster-Widerrufsformular
+verwenden, das jedoch nicht vorgeschrieben ist. Zur Wahrung der
+Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des
+Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.
+Folgen des Widerrufs
+Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir
+von Ihnen erhalten haben, unverzüglich und spätestens binnen vierzehn Tagen
+ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses
+Vertrags bei uns eingegangen ist. Für diese Rückzahlung verwenden wir
+dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion
+eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes
+vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte
+berechnet.
+Vorzeitiges Erlöschen des Widerrufsrechts
+Bei einem Vertrag über die Bereitstellung nicht auf einem körperlichen
+Datenträger befindlicher digitaler Inhalte (z. B. Aktivierung einer
+Paid-Lizenz) erlischt das Widerrufsrecht, wenn wir mit der Vertragserfüllung
+(Aktivierung) begonnen haben, nachdem Sie (1) ausdrücklich zugestimmt haben,
+dass wir vor Ablauf der Widerrufsfrist mit der Ausführung beginnen,
+(2) Ihre Kenntnis davon bestätigt haben, dass Sie dadurch Ihr Widerrufsrecht
+verlieren, und (3) wir Ihnen eine Bestätigung des Vertrags auf einem
+dauerhaften Datenträger zur Verfügung gestellt haben (§ 356 Abs. 5 BGB).
+Ende der Widerrufsbelehrung
+
+ANLAGE 2 — MUSTER-WIDERRUFSFORMULAR
+(Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses
+Formular aus und senden Sie es zurück.)
+An: Artem Boiko, DataDrivenConstruction, Kraichgaustraße 3, 76676 Graben-Neudorf, Germany,
+e-mail info@datadrivenconstruction.io, phone +49 (0) 15258901584
+Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag
+über die Bereitstellung der folgenden digitalen Inhalte / Dienstleistung (*):
+Bestellt am (*) / erhalten am (*):
+Name des/der Verbraucher(s):
+Anschrift des/der Verbraucher(s):
+Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier):
+Datum:
+(*) Unzutreffendes streichen.
+
+© 2026 Artem Boiko, DataDrivenConstruction. Alle Rechte vorbehalten.

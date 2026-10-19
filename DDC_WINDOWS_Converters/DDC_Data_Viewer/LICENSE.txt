@@ -1,0 +1,16 @@
+DDC Data Viewer - Licence (free use)
+
+Copyright (c) 2026 Artem Boiko, DataDrivenConstruction, Kraichgaustrasse 3, 76676 Graben-Neudorf, Germany.
+info@datadrivenconstruction.io - https://datadrivenconstruction.io
+
+1. You may install and use DDC Data Viewer free of charge, for private and commercial purposes, on any
+   number of computers, and pass on the unmodified installer or portable archive.
+2. You may not sell the software, remove copyright or licence notices, or present modified copies as the
+   original.
+3. The software works offline. It does not collect, send or store data outside your computer.
+4. Third-party components are used under their own permissive licences, listed in
+   licenses\THIRD_PARTY_NOTICES.txt.
+5. The software is provided "as is", without warranty of any kind. To the extent permitted by law, the
+   licensor is liable only for intent and gross negligence; mandatory liability under German law
+   (Produkthaftungsgesetz, injury to life, body or health) remains unaffected.
+6. German law applies.

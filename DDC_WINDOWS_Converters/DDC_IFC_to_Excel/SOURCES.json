@@ -1,0 +1,285 @@
+{
+  "runtime": {
+    "path": "<build>\\quality\\continuation-20260927\\python-runtime01\\python-3.13.15-amd64.zip",
+    "bytes": 34324622,
+    "sha256": "6479223746cdfb79d25865110d6f524ac98de081324e119af1dc3ae36bddc7a5"
+  },
+  "runtime_origin": "https://www.python.org/ftp/python/3.13.15/windows-3.13.15.json",
+  "packages": [
+    {
+      "name": "openpyxl",
+      "version": "3.1.5",
+      "url": "https://files.pythonhosted.org/packages/c0/da/977ded879c29cbd04de313843e76868e6e13408a94ed6b987245dc7c8506/openpyxl-3.1.5-py2.py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/openpyxl/3.1.5/json",
+      "path": "<build>\\quality\\continuation-20260927\\ifc-portable03\\dependencies\\openpyxl-3.1.5-py2.py3-none-any.whl",
+      "bytes": 250910,
+      "sha256": "5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2"
+    },
+    {
+      "name": "et-xmlfile",
+      "version": "2.0.0",
+      "url": "https://files.pythonhosted.org/packages/c1/8b/5fe2cc11fee489817272089c4203e679c63b570a5aaeb18d852ae3cbba6a/et_xmlfile-2.0.0-py3-none-any.whl",
+      "metadata_url": "https://pypi.org/pypi/et-xmlfile/2.0.0/json",
+      "path": "<build>\\quality\\continuation-20260927\\ifc-portable03\\dependencies\\et_xmlfile-2.0.0-py3-none-any.whl",
+      "bytes": 18059,
+      "sha256": "7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa"
+    }
+  ],
+  "first_party_sources": [
+    {
+      "target": "sources/ifc-excel/batch.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\batch.py",
+        "bytes": 12776,
+        "sha256": "f9d3ffc4f28208e75e49bf3d81c97c07e5daf6bbf0947e52374ee5392cdc977f"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/community_support.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\community_support.py",
+        "bytes": 6547,
+        "sha256": "08dc3f5b6be12680b1cdbe8c67dce0892aa2fce96c888d6a134d0e4d660adc7b"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/converter.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\converter.py",
+        "bytes": 26321,
+        "sha256": "be010ca61cbbbe49f0f6401ecf956dbc287b71c964b6710cd26df593059a893c"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/file_pins.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\file_pins.py",
+        "bytes": 1901,
+        "sha256": "783b2f8485c40d5331ac048b8c1a0c19846a9cc263cc9f2e598e5d55be581ca1"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/gui.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\gui.py",
+        "bytes": 18166,
+        "sha256": "bd279205409b251af38bf92642fc3b4a51488e3912b0a6983387d0384fa22bf6"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/ifc_runtime.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\ifc_runtime.py",
+        "bytes": 2325,
+        "sha256": "7c633f3ad5fdb34911b82db3a13d51a45d9a8f9142c31219eae3b14e8752180f"
+      }
+    },
+    {
+      "target": "sources/ifc-excel/semantics.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-excel\\semantics.py",
+        "bytes": 16727,
+        "sha256": "d34ed989aaebd5001e17bb5033bd0dc5bce8e8a51177a920691df13c9e51b58d"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/model.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\model.py",
+        "bytes": 14192,
+        "sha256": "227491faef0555776999c0fedd0e20e3268cfafe9ece380f125f45df67d2ab82"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/reader.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\reader.py",
+        "bytes": 25261,
+        "sha256": "1637e429135382363dc0fd323f2120ebdf69d399aad095e09f23e357180293d3"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schema_gen.py",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schema_gen.py",
+        "bytes": 7770,
+        "sha256": "33a298c9f89e535f14a25068e1d43937f9386e9134c355bc9b6d66ab7c121335"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/generated/IFC2X3.json",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC2X3.json",
+        "bytes": 260593,
+        "sha256": "08d8b5a1313242f5ad5612e8636ab73138ae8bd9ce919bec5b8346cd604c58ea"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/generated/IFC4.json",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC4.json",
+        "bytes": 327065,
+        "sha256": "fab20db66ae4bfbc221b6ef92939d5fab34ecdd3b0337f91f8c9602bbcfaceab"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/generated/IFC4X3.json",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC4X3.json",
+        "bytes": 372469,
+        "sha256": "3edfd53f0654eca4c75a7c98f259ad5d008c4d4713dfff4b319567bc0841062c"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/official/IFC2X3_TC1.exp",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC2X3_TC1.exp",
+        "bytes": 257080,
+        "sha256": "bf89eda341bccec041df37dffb79f0b8d4e3d5411d07541560d05bf69d53fc3a"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/official/IFC4X3_ADD2.exp",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC4X3_ADD2.exp",
+        "bytes": 403825,
+        "sha256": "f67c8762b13a099c28082061e6f16b9ef1284ceec34069792afc702725675860"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/official/IFC4_ADD2_TC1.exp",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC4_ADD2_TC1.exp",
+        "bytes": 359976,
+        "sha256": "a3e46d39a85c2b683e7167572165d74b4ff6f8ef7e7c1e7f314a4980a63c9edb"
+      }
+    },
+    {
+      "target": "sources/ifc-independent/schemas/official/NOTICE.txt",
+      "source": {
+        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\NOTICE.txt",
+        "bytes": 957,
+        "sha256": "ccab35d1192e291ad05938d45c11a98812f64e58591971f4b7a1547757272859"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/__init__.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\__init__.py",
+        "bytes": 95,
+        "sha256": "7167232365643021871e7ac79baa1023a932bdaad827406dbc8634b1df123542"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/activation_ui.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\activation_ui.py",
+        "bytes": 14136,
+        "sha256": "310d9bfc6ae0bec53585d9cdc86f09081443b85b9775a1b1265a2464d9b09bef"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/assets/community.html",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\assets\\community.html",
+        "bytes": 1596,
+        "sha256": "4e0f3b460498d949b55e475b06c2fa564871332425ced8e0d7a4da7be13fd416"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/community.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\community.py",
+        "bytes": 18568,
+        "sha256": "957382d9d42a5cd66cc9db63923734e0d15c04aca4e7bebe0226755e46182649"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/community_ui.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\community_ui.py",
+        "bytes": 4637,
+        "sha256": "871a837e5987d6575869805502b6ae7b3c35f04251bc7812f06f0a3403cc9bbb"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/presentation.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\presentation.py",
+        "bytes": 1251,
+        "sha256": "45479121022baa009a439c6c839782f4bf824783a4f6cb38ec9984b5846f2d08"
+      }
+    },
+    {
+      "target": "sources/licensing/ddc_licensing/registration.py",
+      "source": {
+        "path": "<build>\\sources\\licensing\\ddc_licensing\\registration.py",
+        "bytes": 9063,
+        "sha256": "56f101cd2be662bc2875df648cf2119a750453f6f0b2fa5785247e2e397c02c2"
+      }
+    }
+  ],
+  "launcher_source": {
+    "path": "<build>\\tools\\ifc_portable_launcher.cs",
+    "bytes": 1704,
+    "sha256": "8844ed55aaf2f4cabf41c6e439472971c1799590b5aae03ce71e821f3135b188"
+  },
+  "launcher_compiler": {
+    "path": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe",
+    "bytes": 2569832,
+    "sha256": "46809206887326d2d24db1eff1f3064de972c3451abe766b49111450a5e08e00"
+  },
+  "schema_redistribution_review_pending": true,
+  "external_cad_runtime": false,
+  "local_stability_update": {
+    "version": "0.3.0-preview",
+    "copied_from_manifest": {
+      "path": "<build>\\quality\\develop-20261004-01\\ifc-portable029-01\\app\\MANIFEST.json",
+      "bytes": 709234,
+      "sha256": "7d2f1149d344cfcc00c833812fca1f4194790acd62765eb63eb1a39d32bb49cc"
+    },
+    "replaced_sources": [
+      "sources/ifc-excel/converter.py",
+      "sources/ifc-excel/ifc_runtime.py",
+      "sources/ifc-excel/semantics.py"
+    ],
+    "rebuilt_launcher_version": "0.3.0.0",
+    "ifc_runtime_adapter_version": "0.3.0-preview"
+  },
+  "source_refresh": {
+    "base_manifest": {
+      "path": "<build>\\quality\\continuation-20261007-03\\ifc-reader-package-prep01\\ifc-candidate01\\app\\MANIFEST.json",
+      "bytes": 709650,
+      "sha256": "c97abf00b9b9c199f96c6fe3a257d49f848815685c6cd432b40684a2952c13d2"
+    },
+    "build_id": "streaming-20261008-01",
+    "replacements": {
+      "sources/ifc-excel/converter.py": {
+        "path": "<build>\\sources\\ifc-excel\\converter.py",
+        "bytes": 26321,
+        "sha256": "be010ca61cbbbe49f0f6401ecf956dbc287b71c964b6710cd26df593059a893c"
+      },
+      "sources/ifc-excel/semantics.py": {
+        "path": "<build>\\sources\\ifc-excel\\semantics.py",
+        "bytes": 16727,
+        "sha256": "d34ed989aaebd5001e17bb5033bd0dc5bce8e8a51177a920691df13c9e51b58d"
+      }
+    },
+    "source_tests": [
+      {
+        "path": "<build>\\quality\\release-readiness-20261008\\ifc031\\run01\\consumer-source\\RESULT.json",
+        "bytes": 874,
+        "sha256": "701eac7024c789147806618f1ee585eafe35f2e376ad57135582ee96b436e1f8"
+      },
+      {
+        "path": "<build>\\quality\\release-readiness-20261008\\ifc031\\run01\\reader-source\\RESULT.json",
+        "bytes": 875,
+        "sha256": "99fe5fca795e1af3e5c3e338e3895bc5ffd370b20b086d793bd99b1566ae142f"
+      }
+    ],
+    "launcher_rebuilt": false,
+    "runtime_rebuilt": false,
+    "release_ready": false,
+    "production_activation_configured": false
+  }
+}

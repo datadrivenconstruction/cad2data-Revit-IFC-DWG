@@ -1,0 +1,21 @@
+Microsoft Visual C++ Runtime 14.36.32532.0 (x64)
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+This distribution includes the unmodified, Microsoft-signed vcruntime140.dll
+from Visual Studio 2022 VC/Redist/MSVC/14.36.32532/x64/Microsoft.VC143.CRT.
+SHA-256: 69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc
+The file is supplied solely to run RVT Converter. It is not licensed under the
+application's Apache-2.0 license. Microsoft's applicable license terms govern
+the redistributable code. This notice does not grant separate redistribution rights.
+
+Redistribution and app-local deployment documentation:
+https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files?view=msvc-170
+Visual Studio 2022 distributable code list:
+https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution
+Visual Studio 2022 license terms:
+https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/
+
+The application includes its .NET runtime. The Universal CRT and winsqlite3.dll
+are supplied by Windows 10/11 x64. App-local runtime updates require an updated
+RVT Converter distribution. Development-tool entitlement remains separate from
+runtime deployment; existing organizational entitlement audit limits remain.

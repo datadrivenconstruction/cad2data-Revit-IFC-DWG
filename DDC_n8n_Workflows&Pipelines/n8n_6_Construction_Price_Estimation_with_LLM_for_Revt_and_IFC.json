@@ -901,13 +901,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_converter",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\DS Workshop\\Anwendungen\\DDC_CONVERTER_REVIT\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "project_file",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\DS Workshop\\Anwendungen\\4_PW_n8n_Revit_Price\\Data\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
               "type": "string"
             },
             {
@@ -953,7 +953,7 @@
     },
     {
       "parameters": {
-        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RvtExporter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RVTconverter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
         "height": 384,
         "width": 336
       },

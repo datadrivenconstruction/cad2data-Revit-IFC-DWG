@@ -1,0 +1,8 @@
+{
+ "schema": "ddc-viewer-provenance/1",
+ "component": "DDC Viewer",
+ "ocerp": "no OCERP code reused",
+ "statement": "Owner instruction 2026-10-15: no code from OpenConstructionERP may be copied. An earlier draft port of four OCERP helpers was deleted and removed from git history before publication; the replacements (app/lib/util.js, view cube, walk keys) were written from scratch. Only general feature ideas (feature list, UX) were used.",
+ "code_origin": "own code of DataDrivenConstruction written for this repository, plus three.js 0.185.1 (MIT, see THIRD_PARTY_NOTICES.md)",
+ "checked_utc": "2026-10-15"
+}

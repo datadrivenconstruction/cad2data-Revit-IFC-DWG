@@ -1,0 +1,46 @@
+<!doctype html><html lang="ru"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DWG to Excel 0.4.1 · DataDrivenConstruction</title>
+<style>
+:root{--ink:#17304e;--muted:#5d7086;--blue:#175dab;--bg:#edf3f9;--card:#fff}
+@media (prefers-color-scheme: dark){:root{--ink:#e6eef7;--muted:#9fb2c6;--blue:#6aa7ea;--bg:#0f1b2a;--card:#16263a}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:24px 16px}
+header{background:var(--blue);color:#fff;border-radius:10px;padding:18px 20px}
+header h1{margin:0;font-size:26px}header p{margin:4px 0 0;opacity:.9}
+section{background:var(--card);border-radius:10px;padding:16px 20px;margin-top:14px}
+h2{margin:0 0 8px;font-size:18px}code,pre{font-family:Consolas,monospace;font-size:13px}
+pre{background:rgba(127,127,127,.12);padding:10px;border-radius:6px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+small{color:var(--muted)}table{border-collapse:collapse;width:100%}td{padding:3px 6px;border-top:1px solid rgba(127,127,127,.25)}
+</style>
+<main>
+<header><h1>DWG to Excel 0.4.1</h1><p>DataDrivenConstruction · Windows x64 · AutoCAD R11/R12 … 2018+ (AC1009–AC1032) · 2026-10-16</p></header>
+<div class="grid">
+<section><h2>Быстрый старт</h2>
+<ol><li>Запустите <b>DWG to Excel.exe</b>.</li><li>«Добавить файлы…» или «Добавить папку…».</li>
+<li>Выберите папку результатов и нажмите «Конвертировать».</li><li>Для каждого чертежа создаётся новая папка: Excel, CSV, JSONL, DXF, SVG и отчёт.</li></ol></section>
+<section><h2>Quick start</h2>
+<ol><li>Run <b>DWG to Excel.exe</b>.</li><li>Use “Add files…” or “Add folder…”.</li>
+<li>Choose the result folder and press “Convert”.</li><li>Each drawing gets a new folder: Excel, CSV, JSONL, DXF, SVG and a report.</li></ol></section>
+</div>
+<section><h2>Командная строка / Command line</h2>
+<pre>cli\dwg2excel.exe "drawing.dwg" --output "results"
+cli\dwg2excel.exe *.dwg -o results --json --no-svg</pre>
+<table><tr><td>0</td><td>все форматы созданы / all outputs written</td></tr>
+<tr><td>4</td><td>данные созданы, DXF или SVG — нет / data written, DXF or SVG failed</td></tr>
+<tr><td>3</td><td>файл не конвертирован (не DWG, повреждён, не поддерживается) / not converted (not DWG, damaged, unsupported)</td></tr>
+<tr><td>5 / 7</td><td>тайм-аут или отмена / нехватка памяти — timeout or cancel / out of memory</td></tr>
+<tr><td>2 / 6</td><td>ошибка параметров / внутренняя ошибка — usage error / internal error</td></tr></table></section>
+<div class="grid">
+<section><h2>Честное покрытие</h2><p>Каждая запись DWG попадает в таблицу с состоянием: <b>DECODED</b>, <b>PARTIAL</b>, <b>REFUSED</b> (причина сохранена), <b>ENVELOPE_ONLY</b> или <b>UNIMPLEMENTED</b>. Значения, которые не удалось прочитать надёжно, остаются пустыми — ничего не подставляется по умолчанию. Итоги — в <code>REPORT.txt</code> и <code>report.json</code>. Координаты — в системе объекта, без пересчёта единиц.</p></section>
+<section><h2>Honest coverage</h2><p>Every DWG record becomes a row with its state: <b>DECODED</b>, <b>PARTIAL</b>, <b>REFUSED</b> (reason kept), <b>ENVELOPE_ONLY</b> or <b>UNIMPLEMENTED</b>. Values that cannot be read reliably stay empty — nothing is filled in by default. Totals are in <code>REPORT.txt</code> and <code>report.json</code>. Coordinates are in the stored entity space, no unit conversion.</p></section>
+</div>
+<div class="grid">
+<section><h2>Редакции</h2><p>Community — все функции, без ключа, без интернета и без ограничений. Paid отличается только отсутствием рекламной страницы. Кнопка «Регистрация» активирует Paid, если сервис лицензий настроен (<code>license-config.json</code>); любая ошибка лицензии оставляет полную Community.</p></section>
+<section><h2>Editions</h2><p>Community has every feature, needs no key or internet and has no limits. Paid only removes the advertising page. “Registration” activates Paid when the licence service is configured (<code>license-config.json</code>); any licence problem keeps the full Community edition.</p></section>
+</div>
+<section><h2>Состав и проверка / Contents and verification</h2>
+<p><code>MANIFEST.json</code> и <code>SHA256SUMS.txt</code> — версия, коммиты исходников и SHA-256 каждого файла. Лицензии — в <code>licenses\</code>. Собственный декодер DWG; без ODA/Teigha, RealDWG и LibreDWG.<br>
+<small><code>MANIFEST.json</code> and <code>SHA256SUMS.txt</code> list the version, source commits and SHA-256 of every file. Licences are in <code>licenses\</code>. Own DWG decoder; no ODA/Teigha, RealDWG or LibreDWG.</small></p></section>
+</main></html>

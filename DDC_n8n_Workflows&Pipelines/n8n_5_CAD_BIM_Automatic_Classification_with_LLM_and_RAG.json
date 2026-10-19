@@ -417,7 +417,7 @@
     },
     {
       "parameters": {
-        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RvtExporter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
+        "content": "## 📝 Setup Instructions\n\n1. In the 'Setup - Define file paths' node, specify:\n   - Path to converter (RVTconverter.exe)\n   - Path to project file (.rvt)\n   - Grouping parameter (group_by, e.g. 'Type Name', 'IfcType' for IFC or other)\n   - Country (country for which the values will be calculated, e.g. 'Germany'or 'Brazil')\n\n2. Ensure API keys for OpenAI and Anthropic are set in credentials or just connect other models that you use in your work (of course, these can be open source LLMs)",
         "height": 432,
         "width": 288
       },
@@ -1240,7 +1240,7 @@
     },
     {
       "parameters": {
-        "content": "## Config here and run\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n### Configure File Paths here\nIn the **'Setup - Define file paths'** node, set:\n- `path_to_converter`: Full path to RvtExporter.exe (e.g., C:\\DDC_Converter\\RvtExporter.exe)\n- `project_file`: Path to your CAD/BIM file (.rvt, .ifc, .dwg, .dgn)\n- `group_by`: Grouping parameter (e.g., 'Type Name', 'Category', 'IfcType')\n- `classification_name`: Target system (Omniclass, Uniclass, MasterFormat, etc.)\n- `optional_mapping_file`: Path to classification mapping file (Excel/CSV/PDF)\n- `optional_help_prompt`: Additional context for AI (e.g., \"Focus on structural elements\")\n",
+        "content": "## Config here and run\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n### Configure File Paths here\nIn the **'Setup - Define file paths'** node, set:\n- `path_to_converter`: Full path to RVTconverter.exe (e.g., C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe)\n- `project_file`: Path to your CAD/BIM file (.rvt, .ifc, .dwg, .dgn)\n- `group_by`: Grouping parameter (e.g., 'Type Name', 'Category', 'IfcType')\n- `classification_name`: Target system (Omniclass, Uniclass, MasterFormat, etc.)\n- `optional_mapping_file`: Path to classification mapping file (Excel/CSV/PDF)\n- `optional_help_prompt`: Additional context for AI (e.g., \"Focus on structural elements\")\n",
         "height": 576,
         "width": 544,
         "color": 4
@@ -1261,13 +1261,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_converter",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n pipelines\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "project_file",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n pipelines\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
               "type": "string"
             },
             {

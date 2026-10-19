@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to reference the executable inside the **`datadrivenlibs`** folder. Use this path:\n\n```text\n\"DDC_Exporter_XXXXXXX\\datadrivenlibs\\XxxExporter.exe\"\n```\ninstead of:\n```text\n\"DDC_Exporter_XXXXXXX\\XxxExporter.exe\"\n```",
+        "content": "## ⚠️ Troubleshooting\nIf you encounter errors during conversion, be sure to point the converter path to the command-line executable `cli\\RVTconverter.exe` of the DDC RVT Converter, not to the desktop app `RVT Converter.exe`.",
         "height": 300,
         "width": 560,
         "color": 7
@@ -50,13 +50,13 @@
             {
               "id": "9cbd4ec9-df24-41e8-b47a-720a4cdb733b",
               "name": "path_to_converter",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "aa834467-80fb-476a-bac1-6728478834f0",
               "name": "path_project_file",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\Sample_Projects\\2023 racbasicsampleproject.rvt",
+              "value": "C:\\DDC\\Models\\2023 racbasicsampleproject.rvt",
               "type": "string"
             }
           ]

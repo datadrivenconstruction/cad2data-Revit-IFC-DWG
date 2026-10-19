@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## 📋 Quick Start Guide\n\n**1️⃣ Configure Settings**\nEdit \"Set Configuration Parameters\":\n- `converter_path`: Path to RvtExporter.exe\n- `source_folder`: Your CAD files location\n- `output_folder`: Where to save results\n- `file_extension`: .rvt, .ifc, .dwg, or .dgn\n\n**2️⃣ Run Pipeline**\nClick \"Execute Workflow\"\n\n**3️⃣ Get Results**\n✅ Excel data files\n✅ 3D DAE models\n✅ HTML report",
+        "content": "## 📋 Quick Start Guide\n\n**1️⃣ Configure Settings**\nEdit \"Set Configuration Parameters\":\n- `converter_path`: Path to RVTconverter.exe\n- `source_folder`: Your CAD files location\n- `output_folder`: Where to save results\n- `file_extension`: .rvt, .ifc, .dwg, or .dgn\n\n**2️⃣ Run Pipeline**\nClick \"Execute Workflow\"\n\n**3️⃣ Get Results**\n✅ Excel data files\n✅ 3D DAE models\n✅ HTML report",
         "height": 368,
         "width": 376
       },
@@ -140,19 +140,19 @@
             {
               "id": "converter-path",
               "name": "converter_path",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\DDC_Converter_Revit\\datadrivenlibs\\RvtExporter.exe",
+              "value": "C:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe",
               "type": "string"
             },
             {
               "id": "source-folder",
               "name": "source_folder",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\Sample_Projects",
+              "value": "C:\\DDC\\Models\\Sample_Projects",
               "type": "string"
             },
             {
               "id": "output-folder",
               "name": "output_folder",
-              "value": "C:\\Users\\Artem Boiko\\Desktop\\n8n\\cad2data-Revit-IFC-DWG-DGN-main\\cad2data-Revit-IFC-DWG-DGN-main\\Sample_Projects",
+              "value": "C:\\DDC\\Models\\Sample_Projects",
               "type": "string"
             },
             {
@@ -559,7 +559,7 @@
     },
     {
       "parameters": {
-        "content": "## ⚡ GROUP 4: CONVERSION EXECUTION\n\n**Nodes in this group:**\n• Capture Start Time\n• Small Delay\n• Execute Conversion\n• Calculate Conversion Time\n\n**What happens here:**\n1️⃣ Timestamp captured for each file\n2️⃣ Small delay prevents overload\n3️⃣ RvtExporter.exe runs the conversion\n4️⃣ Processing time calculated\n\n🔧 **Command:** \n`RvtExporter.exe [input] [output.xlsx] [output.dae]`\n\n⏱️ **Conversion Time:** 1 Minute per 100Mb.",
+        "content": "## ⚡ GROUP 4: CONVERSION EXECUTION\n\n**Nodes in this group:**\n• Capture Start Time\n• Small Delay\n• Execute Conversion\n• Calculate Conversion Time\n\n**What happens here:**\n1️⃣ Timestamp captured for each file\n2️⃣ Small delay prevents overload\n3️⃣ RVTconverter.exe runs the conversion\n4️⃣ Processing time calculated\n\n🔧 **Command:** \n`RVTconverter.exe [input] [output.xlsx] [output.dae]`\n\n⏱️ **Conversion Time:** 1 Minute per 100Mb.",
         "height": 840,
         "width": 800,
         "color": 5
@@ -621,7 +621,7 @@
     },
     {
       "parameters": {
-        "content": "## 📝 Configuration Example\n\n```\nconverter_path: \nC:\\DDC_Converter\\RvtExporter.exe\nsource_folder: \nC:\\Projects\\Building_A\noutput_folder: \nC:\\Projects\\Converted\nfile_extension: .rvt\ninclude_subfolders: false\n```",
+        "content": "## 📝 Configuration Example\n\n```\nconverter_path: \nC:\\DDC\\cad2data-Revit-IFC-DWG\\DDC_WINDOWS_Converters\\DDC_RVT_Converter\\cli\\RVTconverter.exe\nsource_folder: \nC:\\Projects\\Building_A\noutput_folder: \nC:\\Projects\\Converted\nfile_extension: .rvt\ninclude_subfolders: false\n```",
         "height": 308,
         "width": 488,
         "color": 4

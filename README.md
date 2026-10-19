@@ -237,8 +237,9 @@ Excel and Power BI are trademarks of Microsoft Corporation, used only to say wha
   conversion, batch processing and analytics.
 
 > **Status:** these workflows and notebooks were written for the retired 18.x command line
-> (`RvtExporter.exe` producing XLSX + DAE). They are being ported to the new converters. Until then,
-> point the *converter path* settings to the new executables and adapt the parsing step:
+> (`RvtExporter.exe` producing XLSX + DAE). Their converter paths now point to the portable
+> converters in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/); the parsing steps are being ported (see the
+> `README.md` next to the workflows and notebooks for the per-file status).
 > RVT properties now come as `properties.jsonl` (or CSV from the desktop app) and geometry as GLB;
 > IFC and DWG tables are still Excel workbooks.
 
