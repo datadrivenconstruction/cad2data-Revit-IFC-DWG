@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem with the workflows, scripts, samples, or documentation
+description: Report a problem with a DDC desktop app, converter, workflow or script
 title: "[Bug] "
 labels: ["bug", "needs-triage"]
 body:
@@ -9,18 +9,23 @@ body:
         Thanks for taking the time to file a bug report.
 
         > **Security issues:** do NOT use this form. Report privately
-        > via [Security Advisories](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG-DGN/security/advisories/new).
+        > via [Security Advisories](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/security/advisories/new).
+        >
+        > **Do not attach proprietary models or drawings.** Describe the file (format, size, source tool) instead.
   - type: dropdown
-    id: component
+    id: app
     attributes:
-      label: Affected component
+      label: App name
       options:
+        - RVT Converter
+        - RVT to IFC
+        - IFC to Excel
+        - DWG to Excel
+        - Data Viewer
+        - Command-line converter (DDC_WINDOWS_Converters / DDC_LINUX_Converters)
         - n8n workflow
         - AI agent instruction
         - Python utility script
-        - Sample project
-        - DDC Windows converter binary
-        - DDC Linux converter binary
         - Documentation (README)
         - Other
     validations:
@@ -28,22 +33,35 @@ body:
   - type: input
     id: version
     attributes:
-      label: Version / release tag or commit hash
-      placeholder: "e.g. v18.0.0 or git sha"
+      label: App version
+      description: Help > About shows it. For scripts and workflows give the release tag or commit hash.
+      placeholder: "e.g. 0.6.8"
     validations:
       required: true
   - type: input
-    id: platform
+    id: os
     attributes:
-      label: Platform
-      placeholder: "Windows 11 24H2 / Ubuntu 24.04 / Docker image tag"
+      label: Windows version (or other OS)
+      description: Press Win+R, type winver. Include the build number.
+      placeholder: "Windows 11 24H2 (build 26100) / Ubuntu 24.04"
     validations:
       required: true
+  - type: input
+    id: input_format
+    attributes:
+      label: Input format
+      description: File type and, if relevant, the source application version.
+      placeholder: "e.g. RVT (Revit 2024), IFC4, DWG 2018, none"
+    validations:
+      required: false
   - type: textarea
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: Minimal reproducible example. Include the exact command line and any input file metadata (format, size, source tool).
+      description: Minimal steps. Include the exact command line if you use the CLI.
+      placeholder: |
+        1. Open the app
+        2. ...
     validations:
       required: true
   - type: textarea
@@ -56,7 +74,7 @@ body:
     id: actual
     attributes:
       label: Actual behaviour
-      description: Logs, error messages, exit codes.
+      description: Error message, exit code, log excerpt. Use "Copy details" in the error dialog. Remove personal paths and project names first.
     validations:
       required: true
   - type: checkboxes
@@ -67,4 +85,6 @@ body:
         - label: I have searched existing issues and this is not a duplicate.
           required: true
         - label: This report does NOT describe a security vulnerability. (If it does, I will close this and use Security Advisories instead.)
+          required: true
+        - label: I did not attach proprietary or confidential files.
           required: true

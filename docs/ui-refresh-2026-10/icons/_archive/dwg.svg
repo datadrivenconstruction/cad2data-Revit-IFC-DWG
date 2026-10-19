@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16937F"/><stop offset="1" stop-color="#0B6457"/></linearGradient>
+<clipPath id="c"><rect x="2" y="2" width="60" height="60" rx="14"/></clipPath></defs>
+<rect x="2" y="2" width="60" height="60" rx="14" fill="url(#t)"/>
+<rect x="2" y="48" width="60" height="14" fill="#D6456B" clip-path="url(#c)"/>
+<path stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M9 37V13L26 37Z"/><path stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M9 30H16V37"/><path d="M32 19L38 25L32 31Z" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="41" y="15" width="15" height="20" rx="2.5" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="41" y="15" width="15" height="6.0" rx="2" fill="#fff"/><path stroke="#fff" stroke-width="2.72" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M48.5 21.0V35M41 28.0H56"/>
+</svg>
