@@ -56,6 +56,6 @@ def test_to_number():
 
 def test_csv_quoted_multiline_and_semicolon(tmp_path):
     p = tmp_path / "a.csv"
-    p.write_text('Id;Name\n1;"two\nlines; with semicolon"\n2;x\n', encoding="utf-8")
+    p.write_bytes('Id;Name\n1;"two\nlines; with semicolon"\n2;x\n'.encode("utf-8"))
     rows, _ = load(str(p))
     assert len(rows) == 2 and rows[0]["Name"] == "two\nlines; with semicolon"
