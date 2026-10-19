@@ -4,6 +4,61 @@ Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and writes GLB model, JS
 Preview quality: always check `report.json` and `summary.json` next to the result.
 The exact version is in `MANIFEST.json` in this folder. Licence: `EULA.txt`.
 
+> Screenshots show version 0.6.8. They will be updated with 0.6.9. Example model: a small open sample (McNeel Rhino.Inside.Revit "openings" sample, saved with Revit 2022); no Autodesk sample models are used.
+>
+> Sample model: rhino.inside-revit revit-openings_v22.rvt, MIT License, (c) 2019 Robert McNeel & Associates, https://github.com/mcneel/rhino.inside-revit
+
+## Quick start
+
+1. Open `RVT Converter.exe` (no installation; keep the whole folder together).
+2. Drop `.rvt` / `.rfa` files or a folder on the window, or use **Choose files** / **Choose folder** (Ctrl+O).
+3. Pick the outputs: the preset (data / 3D + properties), **Element properties**, **Export IFC4**, and under **More options** glTF / OBJ. Results go beside the source file unless you choose a folder.
+4. Press **Convert**. The bar at the bottom shows the current file and progress; **Stop** cancels.
+5. Press **Open folder** / **Open table** when the file is marked *Written*. Check `report.json` and `summary.json` (see Output files).
+
+| Start | File chosen | Progress |
+|---|---|---|
+| ![Main window](images/main.png) | ![File chosen](images/file-chosen.png) | ![Progress](images/progress.png) |
+
+| Summary | More options | Element properties |
+|---|---|---|
+| ![Summary](images/summary.png) | ![More options](images/options-expanded.png) | ![Element properties table](images/table.png) |
+
+| History | An error is shown in the queue row |
+|---|---|
+| ![History](images/history.png) | ![Error](images/error.png) |
+
+Licence: Community edition, free, no registration required (0.6.9 adds an optional registration in Help > Licence).
+
+## Output files
+
+Every model gets its own folder `<name>.converted` beside the source (or in the folder you chose). Example from the sample model:
+
+| File | What it is |
+|---|---|
+| `model.glb` | 3D model (binary glTF). Always written. |
+| `native_graph.glb` / `.gltf` + `.bin` / `.obj` + `.mtl` | Same geometry as glTF 2.0 / OBJ when enabled. |
+| `native_graph.ifc` | IFC4, when **Export IFC4** is on (`ifc.settings.json` records the settings used). |
+| `elements.csv`, `properties.jsonl`, `properties.sqlite` | Element property tables (format chosen next to **Element properties**). Large for big models. |
+| `summary.json` | Counts and status of the run. |
+| `report.json`, `conversion-report.html` | Per-element diagnostics; read these before trusting a result. |
+
+Example data views (Excel, Data Viewer, IFC viewer) will be added with the 0.6.9 screenshots.
+
+CLI example (real output for the sample model):
+
+```
+> cli\RVTconverter.exe "Project.rvt" -o "Out\Project" --ifc
+WRITTEN_QUALITY_UNVERIFIED | saved Revit 2022 | 2.155 s
+Active elements: 2474 | mesh elements: 15 | triangles: 1376 | category IDs: 102
+Omission counters: 0 | refused records: 0 | elements with issues: 0
+Model: Out\Project
+ative_graph.glb
+IFC4 model: Out\Project
+ative_graph.ifc | IFC_WRITTEN_SCHEMA_UNVALIDATED
+Geometry completeness/quality is unverified.
+```
+
 ## Layout
 
 ```
