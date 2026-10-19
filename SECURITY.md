@@ -15,7 +15,7 @@ Report vulnerabilities privately to:
 Please include in your report:
 
 - Product name and version
-  (e.g. `RvtExporter.exe` from `DDC_CONVERTER_REVIT`, git commit
+  (e.g. `RVTconverter.exe` from DDC RVT Converter 0.6.8, git commit
   hash or release tag)
 - Affected platform (Windows version, Linux distribution, CPU
   architecture, relevant dependencies)
@@ -52,8 +52,8 @@ publish a mitigation advisory as soon as one is available.
 
 - Binary converters distributed through this repository and via
   `https://datadrivenconstruction.io`
-  (RvtExporter, RVT2IFCconverter, IfcExporter, DwgExporter,
-  DgnExporter, and related CLI/worker binaries under
+  (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC DWG to
+  Excel, DDC Data Viewer, and related CLI/worker binaries under
   `DDC_LINUX_Converters/`).
 - n8n workflow templates in this repository.
 - AI agent instruction files under `AI_AGENTS_INSTRUCTIONS/`.

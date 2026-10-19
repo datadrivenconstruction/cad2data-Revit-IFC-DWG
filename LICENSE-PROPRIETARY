@@ -10,19 +10,22 @@ Einzelunternehmen) under German law.
 ================================================================
 
 This License applies to the binary executables and shared
-libraries distributed in this repository under the following
-directories and their sub-directories, hereinafter the
-"Binary Software":
+libraries of the DataDrivenConstruction converters and tools,
+distributed through the GitHub Releases of this repository
+(https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)
+and, where present, in the directories listed below
+(the "Binary Software"), including (without limitation):
+
+  - DDC RVT Converter and DDC RVT-to-IFC (desktop applications and
+    command-line tools)
+  - DDC IFC to Excel
+  - DDC CAD drawing (.dwg) to Excel
+  - DDC Data Viewer
+  - all accompanying executables and shared libraries
 
   - DDC_WINDOWS_Converters/ - including (without limitation):
-      RvtExporter.exe
-      RVT2IFCconverter.exe
-      IfcExporter.exe
-      DwgExporter.exe
-      DgnExporter.exe
-      DDC_Community_Revit(2015-2026)_converter.exe
-      All accompanying *.exe, *.dll files, and Qt runtime
-      libraries (Qt6Core.dll, Qt6Gui.dll, Qt6Widgets.dll, etc.)
+      DDC_Update_Revit_from_Excel (add-in for Autodesk(R) Revit(R);
+      installers are distributed separately)
 
   - DDC_LINUX_Converters/ - including (without limitation):
       All CLI binaries (ddc-cwicr-cli, ddc-qdrant, worker
@@ -78,37 +81,18 @@ Licensee shall NOT:
 4. THIRD-PARTY COMPONENTS AND PASS-THROUGH OBLIGATIONS
 ================================================================
 
-4.1 The Binary Software incorporates or is derived from
-    technology licensed to Licensor by the Open Design Alliance
-    (ODA) under a Sustaining Membership. Licensee's use of the
-    Binary Software is subject to the following pass-through
-    restrictions, which are material terms of this License:
-
-    (a) no reverse engineering of the ODA-derived portions;
-    (b) no extraction, isolation, or redistribution of the
-        ODA-derived portions outside the Binary Software as a
-        whole;
-    (c) compliance with U.S. Export Administration Regulations
-        (15 CFR Parts 730-774), EU Regulation 2021/821, and
-        German Außenwirtschaftsgesetz / Außenwirtschafts-
-        verordnung;
-    (d) no use in embargoed countries or by sanctioned persons.
-
-4.2 Other third-party components incorporated into the Binary
-    Software (Qt runtime libraries, buildingSMART IFC toolkit,
-    and others) are covered by separate attribution notices
-    provided in the per-converter LICENSE files inside each
-    sub-directory of DDC_WINDOWS_Converters/ and
-    DDC_LINUX_Converters/. Licensee must comply with those
+4.1 The Binary Software may include third-party components that
+    are covered by their own licenses and attribution notices.
+    Third-party components are listed in THIRD_PARTY_NOTICES
+    inside each release package. Licensee must comply with those
     notices in addition to this License.
 
-4.3 TRADEMARKS. AUTODESK, REVIT, and AUTOCAD are registered
+4.2 TRADEMARKS. AUTODESK, REVIT, and AUTOCAD are registered
     trademarks of Autodesk, Inc. BENTLEY and MICROSTATION are
     registered trademarks of Bentley Systems, Incorporated. IFC
     and buildingSMART are trademarks of buildingSMART
-    International. OPEN DESIGN ALLIANCE and ODA are trademarks of
-    the Open Design Alliance. This software is not developed by,
-    endorsed by, or affiliated with any of those entities.
+    International. This software is not developed by, endorsed
+    by, or affiliated with any of those entities.
 
 ================================================================
 5. TERM AND TERMINATION

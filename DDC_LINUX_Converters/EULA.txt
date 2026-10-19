@@ -1,15 +1,11 @@
 DataDrivenConstruction End-User License Agreement
 ================================================================
 
-The converter binaries and SDK packages distributed through this
-folder - whether installed via the APT repository at
-https://pkg.datadrivenconstruction.io (ddc-rvtconverter,
-ddc-dwgconverter, ddc-ifcconverter, ddc-dgnconverter,
-ddc-rvt2ifcconverter, ddc-collisiondetector, ddc-sdk-kernel,
-ddc-sdk-drawings, ddc-sdk-ifc, ddc-sdk-bimrv,
-ddc-sdk-architecture, ddc-thirdparty) or built from source in
-this directory - are distributed under TWO overlapping licence
-layers:
+The binaries and packages distributed through this folder
+(ddc-cwicr-cli, ddc-cwicr-data, ddc-qdrant, dashboard and worker
+components), whether installed from a package repository or built
+from source in this directory, are distributed under TWO
+overlapping licence layers:
 
 1. The DataDrivenConstruction Proprietary Software License
    (see LICENSE-PROPRIETARY.txt in this folder), and
@@ -34,11 +30,8 @@ KEY RESTRICTIONS (SUMMARY - NOT A SUBSTITUTE FOR THE FULL TEXT)
 ================================================================
 
  * No reverse engineering, decompilation, or extraction of the
-   embedded Open Design Alliance (ODA) SDK components. The
-   ddc-sdk-* packages (kernel, drawings, ifc, bimrv,
-   architecture) are Open Design Alliance technology licensed
-   to DataDrivenConstruction under an ODA Sustaining Membership.
-   (See Section 4 of LICENSE-PROPRIETARY.txt.)
+   binaries except to the limited extent permitted by mandatory
+   law. (See Section 3 of LICENSE-PROPRIETARY.txt.)
  * No redistribution of the packages outside the context of this
    original repository/product without a separate commercial
    licence.
@@ -53,12 +46,9 @@ KEY RESTRICTIONS (SUMMARY - NOT A SUBSTITUTE FOR THE FULL TEXT)
 THIRD-PARTY COMPONENTS
 ================================================================
 
-The DDC converter and SDK packages bundle Open Design Alliance
-libraries, Qt runtime, libxl, ColladaData, and other third-party
-components. Each Debian package carries its own debian/copyright
-file listing the upstream licences that apply to the files inside
-the package. Those notices apply in addition to this EULA and to
-LICENSE-PROPRIETARY.txt.
+Third-party components are listed in THIRD_PARTY_NOTICES inside
+each release package. Those notices apply in addition to this
+EULA and to LICENSE-PROPRIETARY.txt.
 
 The Qdrant vector database (ddc-qdrant) and the data packages
 (ddc-cwicr-*) distributed via this folder have their own
