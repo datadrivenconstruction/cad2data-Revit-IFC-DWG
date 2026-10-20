@@ -22,16 +22,15 @@ from contextlib import suppress
 from pathlib import PurePosixPath
 
 try:
-    import openpyxl
-    from openpyxl.cell import WriteOnlyCell
+    import xlsx_writer
     import semantics
-    import ifc_runtime
+    import core_runtime as ifc_runtime  # simplified mode (LEGAL_NOTE.md)
     import file_pins
     RUNTIME_IMPORT_ERROR = None
 except (ImportError, OSError) as error:
     RUNTIME_IMPORT_ERROR = str(error)
 
-VERSION = "0.3.1-preview"
+VERSION = "2.0.0"
 SCHEMA = "ddc_ifc_excel/1"
 MAX_ROWS = 1_048_576
 EXCEL_NUMERIC_COLUMNS = {"NormalizedMeasures": ["scale_to_si", "si_value"]}
@@ -130,7 +129,7 @@ def inspect_ifczip(source):
             raise ValueError("IFCZIP must contain exactly one IFC model member")
         model = models[0]
         if PurePosixPath(model.filename).suffix.lower() != ".ifc":
-            raise ValueError("IFCZIP contains IFCXML, which the DDC IFC reader does not support")
+            raise ValueError("IFCZIP contains IFCXML, which is not supported")
         if model.flag_bits & 0x1:
             raise ValueError("Encrypted IFCZIP members are not supported")
         if model.compress_type not in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED):
@@ -198,93 +197,191 @@ def validate_row_limit(row_limit):
         raise ValueError("Invalid sheet row limit: expected an integer from 2 to MAX_ROWS")
 
 
+STORED_TABLES = frozenset({"Properties", "Quantities", "TypeLinks"})  # semantic derivation inputs
+RAW_TABLES = ("Entities", "SourceReals")
+def element_id(tag):
+    """Integer ElementId of the authoring tool when the IFC Tag holds one (Revit and the
+    DDC RVT converter write the Revit ElementId into Tag); links rows to native_graph.glb
+    node extras.element_id and to DAE/GLB element keys."""
+    if isinstance(tag, str) and tag.strip().lstrip("-").isdigit():
+        return int(tag.strip())
+    return None
+
+
+SHEET_ORDER = ("Objects", "Properties", "Quantities", "EffectiveProperties", "NormalizedMeasures", "TypeLinks",
+               "SpatialLinks", "Relations", "Units", "Geometry", "Metadata") + RAW_TABLES
+MAX_CELL_CHARS = 32767
+_PART = re.compile(r"(.+)_(\d+)")
+
+
+def _candidate_ids(rows, key):
+    return [row.get(key) for row in rows or ()]
+
+
+def sheet_record(table, record):
+    """Workbook view of one record: redundant nested copies become references.
+
+    Objects drop StableKey (the source hash is in Metadata); property/quantity
+    rows drop the attribute dump that duplicates value/name/unit (description
+    kept); effective properties list candidate step ids instead of whole row
+    copies. The full record is unchanged in the optional raw data.jsonl.
+    """
+    if table == "Objects":
+        return {k: v for k, v in record.items() if k != "StableKey"}
+    if table in ("Properties", "Quantities") and "attributes" in record:
+        view = {k: v for k, v in record.items() if k != "attributes"}
+        view["description"] = (record.get("attributes") or {}).get("Description")
+        return view
+    if table == "EffectiveProperties" and "occurrence_candidates" in record:
+        view = {k: v for k, v in record.items() if k not in ("occurrence_candidates", "type_candidates", "type_relations")}
+        view["occurrence_candidate_ids"] = _candidate_ids(record["occurrence_candidates"], "property_step_id")
+        view["type_candidate_ids"] = _candidate_ids(record["type_candidates"], "property_step_id")
+        view["type_relation_ids"] = _candidate_ids(record["type_relations"], "relation_step_id")
+        return view
+    return record
+
+
+def cell_text(original):
+    """Text form of a non-numeric cell; empty containers are empty cells."""
+    if type(original) is str:
+        return original
+    if original is None:
+        return ""
+    if isinstance(original, (dict, list, tuple)):
+        return dumps(original) if original else ""
+    return str(original)
+
+
+def sheet_order(sheet):
+    """Objects -> Properties -> ... -> Metadata -> raw tables; split parts in order."""
+    match = _PART.fullmatch(sheet.title)
+    table, part = (match.group(1), int(match.group(2))) if match and match.group(1) in SHEET_ORDER else (sheet.title, 1)
+    rank = SHEET_ORDER.index(table) if table in SHEET_ORDER else SHEET_ORDER.index("Metadata")
+    return (rank, table, part)
+
+
+def unique_child(parent, stem, suffix=""):
+    """Create parent/<stem><suffix>, else <stem>_1, _2 ...; an existing name is never reused."""
+    for n in range(10_000):
+        candidate = parent / (stem + ("" if n == 0 else f"_{n}") + suffix)
+        try:
+            if suffix:
+                candidate.open("xb").close()
+            else:
+                candidate.mkdir()
+            return candidate
+        except FileExistsError:
+            continue
+    raise FileExistsError("No free output name for " + stem)
+
+
 class Tables:
-    """SQLite/JSONL authoritative values, XLSX explicit text and bounded sheets."""
-    def __init__(self, folder, row_limit=MAX_ROWS):
+    """Workbook tables streamed to XLSX; optional raw JSONL; private SQLite work store.
+
+    Only the tables the semantic derivation re-reads are kept, in a temporary
+    SQLite file inside the job folder that is removed when the job finishes.
+    With ``raw=True`` every record of every table (including the raw Entities
+    and SourceReals tables) is also streamed to data.jsonl, the authoritative
+    copy, and the raw tables get sheets (ordered last).
+    """
+    def __init__(self, folder, row_limit=MAX_ROWS, raw=False, workbook_name="drawing.xlsx"):
         validate_row_limit(row_limit)
         self.folder = folder
         self.limit = row_limit
+        self.raw = raw
+        self.workbook_path = folder / workbook_name
         self.stream = None
+        self.overflow = None
         self.book = None
-        self.db = sqlite3.connect(folder / "data.sqlite")
+        self.work_path = folder / (".work-" + uuid.uuid4().hex + ".sqlite")
+        self.db = sqlite3.connect(self.work_path)
         try:
+            self.db.execute("PRAGMA journal_mode=OFF")
+            self.db.execute("PRAGMA synchronous=OFF")
             self.db.execute("CREATE TABLE records(table_name TEXT NOT NULL, ordinal INTEGER NOT NULL, record_json TEXT NOT NULL, PRIMARY KEY(table_name,ordinal))")
-            self.stream = (folder / "data.jsonl").open("w", encoding="utf-8", newline="\n")
-            self.book = openpyxl.Workbook(write_only=True)
+            if raw:
+                self.stream = (folder / "data.jsonl").open("x", encoding="utf-8", newline="\n")
+            self.book = xlsx_writer.Workbook(folder)
         except Exception:
             self.abort()
             raise
+        self.sidecar = (folder / ("data.jsonl" if raw else "overflow.jsonl")).resolve()
         self.sheets = {}
         self.counts = Counter()
         self.cell_limits = Counter()
 
+    def reference(self, table, ordinal, key, value, reason=""):
+        """Sidecar reference text; without raw tables the value goes to overflow.jsonl."""
+        if not self.raw:
+            if self.overflow is None:
+                self.overflow = self.sidecar.open("x", encoding="utf-8", newline="\n")
+            self.overflow.write(dumps({"table": table, "ordinal": ordinal, "field": key, "value": value}) + "\n")
+        return f"[See {self.sidecar.name}: path={self.sidecar}; table={table} ordinal={ordinal} field={key}{reason}]"
+
     def emit(self, table, record):
         ordinal = self.counts[table] + 1
-        serialized = dumps(record)
-        self.db.execute("INSERT INTO records VALUES(?,?,?)", (table, ordinal, serialized))
-        self.stream.write(dumps({"table": table, "ordinal": ordinal, "record": record}) + "\n")
-        if table not in self.sheets or self.sheets[table][1] >= self.limit:
+        if table in STORED_TABLES:
+            self.db.execute("INSERT INTO records VALUES(?,?,?)", (table, ordinal, dumps(record)))
+        if self.stream is not None:
+            self.stream.write(dumps({"table": table, "ordinal": ordinal, "record": record}) + "\n")
+        self.counts[table] += 1
+        if table in RAW_TABLES and not self.raw:
+            return
+        view = sheet_record(table, record)
+        book = self.book
+        ws = self.sheets.get(table)
+        if ws is None or ws.rows >= self.limit:
             part = (ordinal - 1) // (self.limit - 1) + 1
-            ws = self.book.create_sheet(table if part == 1 else f"{table}_{part}")
-            ws.freeze_panes = "A2"
-            ws.append(list(record))
-            self.sheets[table] = [ws, 1]
-        ws = self.sheets[table][0]
+            ws = self.sheets[table] = book.create_sheet(table if part == 1 else f"{table}_{part}")
+            book.append(ws, [str(k) for k in view])
+        numeric = EXCEL_NUMERIC_COLUMNS.get(table, ())
         cells = []
-        for key, original in record.items():
-            if key in EXCEL_NUMERIC_COLUMNS.get(table, ()) and original is not None:
+        for key, original in view.items():
+            if numeric and key in numeric and original is not None:
                 if excel_safe_number(original):
-                    cell = WriteOnlyCell(ws, value=original)
-                    cell.number_format = "General"
-                    cells.append(cell)
+                    cells.append(original)
                     self.cell_limits["numeric_cells"] += 1
                     continue
                 if isinstance(original, (int, float)) and not isinstance(original, bool):
-                    original = f"[See data.jsonl: path={str((self.folder / 'data.jsonl').resolve())}; table={table} ordinal={ordinal} field={key}; numeric precision/range limit]"
+                    cells.append(self.reference(table, ordinal, key, original, "; numeric precision/range limit"))
                     self.cell_limits["numeric_precision_references"] += 1
-            text = "" if original is None else (dumps(original) if isinstance(original, (dict, list, tuple)) else str(original))
-            if "\r" in text or INVALID_XML.search(text) or len(text.encode("utf-16-le", errors="surrogatepass")) // 2 > 32767:
-                text = f"[See data.jsonl: path={str((self.folder / 'data.jsonl').resolve())}; table={table} ordinal={ordinal} field={key}]"
+                    continue
+            text = original if type(original) is str else cell_text(original)
+            if text and ((not text.isprintable() and ("\r" in text or INVALID_XML.search(text))) or (
+                    len(text) > MAX_CELL_CHARS // 2 and len(text.encode("utf-16-le", errors="surrogatepass")) // 2 > MAX_CELL_CHARS)):
+                text = self.reference(table, ordinal, key, original)
                 self.cell_limits["sidecar_cell_references"] += 1
-            cell = WriteOnlyCell(ws, value=text)
-            cell.data_type = "s"  # Never let '=...' become executable formula.
-            cell.number_format = "@"  # IDs, large integers and leading zeroes remain exact.
-            cells.append(cell)
-        ws.append(cells)
-        self.sheets[table][1] += 1
-        self.counts[table] += 1
+            cells.append(text)
+        book.append(ws, cells)
+
+    def artifacts(self):
+        paths = [self.workbook_path]
+        if self.raw or self.overflow is not None:
+            paths.append(self.sidecar)
+        return paths
 
     def close(self):
         try:
-            self.db.commit()
             self.db.close()
-            self.stream.close()
-            self.book.save(self.folder / "drawing.xlsx")
+            for stream in (self.stream, self.overflow):
+                if stream is not None:
+                    stream.close()
+            self.book.save(self.workbook_path, order=sheet_order)
         finally:
             self.abort()
 
     def abort(self):
-        """Release resources on every failure, preserving the original error.
-
-        openpyxl 3.1.5 write-only sheets own temporary XML writers; closing the
-        workbook alone does not close or remove these after an aborted save.
-        """
+        """Release every handle; remove the private work store and sheet fragments."""
         with suppress(Exception):
             self.db.close()
-        if self.stream is not None:
-            with suppress(Exception):
-                self.stream.close()
-        if self.book is not None:
-            for sheet in self.book.worksheets:
+        with suppress(OSError):
+            self.work_path.unlink()
+        for stream in (self.stream, self.overflow):
+            if stream is not None:
                 with suppress(Exception):
-                    if not sheet.closed:
-                        sheet.close()
-                writer = sheet._writer
-                if writer is not None and Path(writer.out).exists():
-                    with suppress(Exception):
-                        writer.cleanup()
-            with suppress(Exception):
-                self.book.close()
+                    stream.close()
+        if self.book is not None:
+            self.book.cleanup()
 
 
 def property_rows(owner, pset, scope, relation_id="", path=(), seen=frozenset(), root_id=None):
@@ -334,44 +431,66 @@ def property_rows(owner, pset, scope, relation_id="", path=(), seen=frozenset(),
                    "attributes": attrs, "source_real_values": prop.source_real_values(), "status": "SOURCE_VALUE"}
 
 
+# Per-class routing flags, computed once per IFC class name (inheritance-aware).
+CLASS_FLAGS = (("IfcObjectDefinition",), ("IfcTypeObject",), ("IfcRelationship",),
+               ("IfcUnitAssignment", "IfcNamedUnit", "IfcDerivedUnit", "IfcMonetaryUnit"),
+               ("IfcRelDefinesByProperties",), ("IfcRelDefinesByType",),
+               ("IfcRelContainedInSpatialStructure", "IfcRelReferencedInSpatialStructure"),
+               ("IfcRelAggregates", "IfcRelNests"))
+
+
 def extract(model, tables, source_hash):
     ids = Counter()
     object_ids = set()
+    raw = getattr(tables, "raw", True)
+    flags = {}
     for entity in model:
-        for source_real in entity.source_real_values():
-            # Source identity is bound by the job receipt/Metadata, like Entities.
-            # Keep equivalent IFC/IFCZIP semantic rows independent of container hash.
-            tables.emit("SourceReals", {"step_id": ref(entity), "ifc_class": entity.is_a(), **source_real})
-        attrs = attributes(entity)
-        tables.emit("Entities", {"step_id": ref(entity), "ifc_class": entity.is_a(), "attributes": attrs})
-        if entity.is_a("IfcObjectDefinition"):
+        cls = entity.is_a()
+        flag = flags.get(cls)
+        if flag is None:
+            flag = flags[cls] = tuple(any(entity.is_a(name) for name in group) for group in CLASS_FLAGS)
+        if not raw and not any(flag):
+            continue
+        if raw:
+            for source_real in entity.source_real_values():
+                # Source identity is bound by the job receipt/Metadata, like Entities.
+                # Keep equivalent IFC/IFCZIP semantic rows independent of container hash.
+                tables.emit("SourceReals", {"step_id": ref(entity), "ifc_class": cls, **source_real})
+            attrs = attributes(entity)
+            tables.emit("Entities", {"step_id": ref(entity), "ifc_class": cls, "attributes": attrs})
+        elif flag[0] or flag[2] or flag[3]:
+            attrs = attributes(entity)
+        is_object, is_type, is_relationship, is_unit, by_properties, by_type, spatial, aggregates = flag
+        if is_object:
             object_ids.add(entity.id())
             guid = getattr(entity, "GlobalId", None)
             ids[guid] += 1
-            tables.emit("Objects", {"ID": ref(entity), "GlobalId": guid,
+            tag = getattr(entity, "Tag", None)
+            tag = tag if isinstance(tag, (str, int)) else None
+            tables.emit("Objects", {"ID": ref(entity), "GlobalId": guid, "ElementId": element_id(tag), "Tag": tag,
                         "StableKey": f"sha256:{source_hash}#{entity.id()}", "Category": entity.is_a(),
                         "Name": getattr(entity, "Name", None), "Description": getattr(entity, "Description", None),
-                        "IsType": entity.is_a("IfcTypeObject"), "Attributes": attrs})
-            if entity.is_a("IfcTypeObject"):
+                        "IsType": is_type, "Attributes": attrs})
+            if is_type:
                 for definition in getattr(entity, "HasPropertySets", None) or ():
                     for row in property_rows(entity, definition, "TYPE_DEFINITION"):
                         tables.emit("Quantities" if row["ifc_class"].startswith("IfcQuantity") else "Properties", row)
-        if entity.is_a("IfcRelationship"):
+        if is_relationship:
             tables.emit("Relations", {"step_id": ref(entity), "ifc_class": entity.is_a(), "GlobalId": getattr(entity, "GlobalId", None), "attributes": attrs})
-        if entity.is_a("IfcUnitAssignment") or entity.is_a("IfcNamedUnit") or entity.is_a("IfcDerivedUnit") or entity.is_a("IfcMonetaryUnit"):
+        if is_unit:
             tables.emit("Units", {"step_id": ref(entity), "ifc_class": entity.is_a(), "attributes": attrs})
-        if entity.is_a("IfcRelDefinesByProperties"):
+        if by_properties:
             for owner in entity.RelatedObjects or ():
                 for definition in members(entity.RelatingPropertyDefinition):
                     for row in property_rows(owner, definition, "OCCURRENCE", ref(entity)):
                         tables.emit("Quantities" if row["ifc_class"].startswith("IfcQuantity") else "Properties", row)
-        if entity.is_a("IfcRelDefinesByType"):
+        if by_type:
             for owner in entity.RelatedObjects or ():
                 tables.emit("TypeLinks", {"owner_step_id": ref(owner), "type_step_id": ref(entity.RelatingType), "relation_step_id": ref(entity), "scope": "TYPE_ASSOCIATION_NOT_MERGED"})
-        if entity.is_a("IfcRelContainedInSpatialStructure") or entity.is_a("IfcRelReferencedInSpatialStructure"):
+        if spatial:
             for owner in entity.RelatedElements or ():
                 tables.emit("SpatialLinks", {"child_step_id": ref(owner), "parent_step_id": ref(entity.RelatingStructure), "relation_step_id": ref(entity), "kind": entity.is_a()})
-        if entity.is_a("IfcRelAggregates") or entity.is_a("IfcRelNests"):
+        if aggregates:
             for owner in entity.RelatedObjects or ():
                 tables.emit("SpatialLinks", {"child_step_id": ref(owner), "parent_step_id": ref(entity.RelatingObject), "relation_step_id": ref(entity), "kind": entity.is_a()})
     duplicates = {str(k): v for k, v in ids.items() if k is None or v > 1}
@@ -403,7 +522,8 @@ def failure_message(error):
     return str(error) or type(error).__name__
 
 
-def convert(source, output, *, row_limit=MAX_ROWS):
+def convert(source, output, *, row_limit=MAX_ROWS, raw=False):
+    """Write <output>/<stem>[_n]/<stem>.xlsx (+ result.json; data.jsonl only with raw=True)."""
     validate_row_limit(row_limit)
     if RUNTIME_IMPORT_ERROR is not None:
         raise RuntimeError("Converter dependency unavailable; install the pinned requirements.txt dependencies: " + RUNTIME_IMPORT_ERROR)
@@ -412,20 +532,20 @@ def convert(source, output, *, row_limit=MAX_ROWS):
         raise ValueError("Expected an existing IFC file")
     source_format = source.suffix.lower()
     if source_format == ".ifcxml":
-        raise ValueError("IFCXML is not supported by the DDC IFC reader; export IFC-SPF instead")
+        raise ValueError("IFCXML is not supported; export IFC-SPF instead")
     if source_format not in (".ifc", ".ifczip"):
         raise ValueError("Expected .ifc or .ifczip input")
     source_pin = pin(source)
     output.mkdir(parents=True, exist_ok=True)
-    job = output / (source.stem[:60] + "-" + uuid.uuid4().hex[:12])
-    job.mkdir()
+    stem = source.stem[:60].rstrip(". ") or "model"
+    job = unique_child(output, stem)
     started = datetime.now(timezone.utc).isoformat()
     result = {"schema": SCHEMA, "version": VERSION, "status": "FAILED", "folder": str(job), "started_utc": started,
               "source": source_pin, "engine": {"name": "DDC IFC Reader", "version": ifc_runtime.VERSION},
-              "converter": pin(__file__), "modules": [pin(Path(__file__).with_name(name)) for name in ("semantics.py", "file_pins.py")] + [pin(p) for p in ifc_runtime.source_paths()], "errors": [], "full_fidelity_qualified": False,
+              "converter": pin(__file__), "modules": [pin(Path(__file__).with_name(name)) for name in ("semantics.py", "file_pins.py", "geometry_table.py", "xlsx_writer.py")] + [pin(p) for p in ifc_runtime.source_paths()], "errors": [], "full_fidelity_qualified": False,
               "excel_numeric_columns": EXCEL_NUMERIC_COLUMNS,
-              "source_format": "IFCZIP" if source_format == ".ifczip" else "IFC-SPF",
-              "limitations": ["No geometry/tessellation or calculated quantities", "Effective properties resolve only unique exact name paths; ambiguous candidates retained without selection", "SI normalization only scalar length/area/volume with unambiguous compatible SI/conversion units", "Legacy numeric values retain binary64 behavior; exact source REAL tokens are text in SourceReals and property provenance", "Exact SI decimal text is separate from approximate numeric cells; unsupported units/source provenance or decimal resource limits remain unresolved", "Structural and attribute-arity checks only; full EXPRESS validation not performed", "IFCZIP imports one unambiguous IFC-SPF member; auxiliary archive members are reported but not imported", "IFCXML is not supported by the DDC IFC reader", "Only declared SI measure columns may be numeric; precision/range/size/XML limits reference JSONL", "No comparison benchmark against cad2data performed"]}
+              "source_format": "IFCZIP" if source_format == ".ifczip" else "IFC-SPF", "raw_tables": bool(raw),
+              "limitations": ["Geometry sheet: tessellated geometry with per-element status and counted refusals; no calculated quantities", "Mode: simplified (properties and quantities); other entities are exported generically (type name, STEP id, raw attributes Attr1..N)", "Effective properties resolve only unique exact name paths; ambiguous candidates retained without selection", "SI normalization only scalar length/area/volume with unambiguous compatible SI/conversion units", "Legacy numeric values retain binary64 behavior; exact source REAL tokens are text in SourceReals and property provenance", "Exact SI decimal text is separate from approximate numeric cells; unsupported units/source provenance or decimal resource limits remain unresolved", "STEP syntax checks only; no schema validation is performed", "IFCZIP imports one unambiguous IFC-SPF member; auxiliary archive members are reported but not imported", "IFCXML is not supported", "Only declared SI measure columns may be numeric; precision/range/size/XML limits reference a JSONL sidecar (data.jsonl with raw tables, else overflow.jsonl)", "Raw Entities/SourceReals tables and data.jsonl are written only with --raw-tables"]}
     phase = "inspect_source"
     try:
         if source_format == ".ifc":
@@ -440,10 +560,13 @@ def convert(source, output, *, row_limit=MAX_ROWS):
         if model.schema not in ("IFC2X3", "IFC4", "IFC4X3"):
             raise ValueError(f"Unqualified IFC schema: {model.schema}")
         phase = "create_tables"
-        tables = Tables(job, row_limit=row_limit)
+        tables = Tables(job, row_limit=row_limit, raw=raw, workbook_name=stem + ".xlsx")
         try:
             phase = "extract_tables"
             result["observations"] = extract(model, tables, source_pin["sha256"])
+            phase = "geometry"
+            import geometry_table  # shared tessellation (ifc-independent/geometry.py)
+            result["geometry"] = geometry_table.emit_geometry(model, tables, ref)
             tables.emit("Metadata", {"schema": SCHEMA, "source_sha256": source_pin["sha256"], "source_path": str(source), "source_format": result["source_format"], "source_container": result.get("source_container", {}), "ifc_schema": model.schema, "qualification": "SEMANTIC_TABLES_WITH_LIMITS", "limitations": result["limitations"], "excel_numeric_columns": EXCEL_NUMERIC_COLUMNS})
             phase = "finalize_tables"
             tables.close()
@@ -456,8 +579,8 @@ def convert(source, output, *, row_limit=MAX_ROWS):
         result["tables"] = dict(tables.counts)
         result["cell_limits"] = dict(tables.cell_limits)
         phase = "hash_artifacts"
-        result["artifacts"] = [pin(job / name) for name in ("drawing.xlsx", "data.sqlite", "data.jsonl")]
-        result["data"] = str(job / "drawing.xlsx")
+        result["artifacts"] = [pin(path) for path in tables.artifacts()]
+        result["data"] = str(tables.workbook_path)
         result["status"] = "CONVERTED_WITH_LIMITS"
     except Exception as exc:
         result["status"] = "FAILED"
@@ -474,9 +597,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="DDC IFC to Excel: open semantic extraction")
     parser.add_argument("source", type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--raw-tables", action="store_true",
+                        help="also write raw Entities/SourceReals sheets and the full data.jsonl record stream")
     args = parser.parse_args(argv)
     try:
-        result = convert(args.source, args.output)
+        result = convert(args.source, args.output, raw=args.raw_tables)
     except Exception as exc:
         result = {"schema": SCHEMA, "status": "FAILED", "errors": [{"type": type(exc).__name__, "message": failure_message(exc)}]}
     print(json.dumps({key: result[key] for key in ("schema", "status", "folder", "data", "errors") if key in result}, ensure_ascii=True))

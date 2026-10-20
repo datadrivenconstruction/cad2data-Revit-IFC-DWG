@@ -27,209 +27,441 @@
   ],
   "first_party_sources": [
     {
-      "target": "sources/ifc-excel/batch.py",
       "source": {
-        "path": "<build>\\sources\\ifc-excel\\batch.py",
-        "bytes": 12776,
-        "sha256": "f9d3ffc4f28208e75e49bf3d81c97c07e5daf6bbf0947e52374ee5392cdc977f"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\converter.py",
+        "bytes": 31712,
+        "sha256": "3ac8f43c582a8d6e08c8d5cde3dc6cbff9d4fdbb1a58c1d631fdcc89f279d984"
+      },
+      "target": "sources/ifc-excel/converter.py"
     },
     {
-      "target": "sources/ifc-excel/community_support.py",
       "source": {
-        "path": "<build>\\sources\\ifc-excel\\community_support.py",
-        "bytes": 6547,
-        "sha256": "08dc3f5b6be12680b1cdbe8c67dce0892aa2fce96c888d6a134d0e4d660adc7b"
-      }
-    },
-    {
-      "target": "sources/ifc-excel/converter.py",
-      "source": {
-        "path": "<build>\\sources\\ifc-excel\\converter.py",
-        "bytes": 26321,
-        "sha256": "be010ca61cbbbe49f0f6401ecf956dbc287b71c964b6710cd26df593059a893c"
-      }
-    },
-    {
-      "target": "sources/ifc-excel/file_pins.py",
-      "source": {
-        "path": "<build>\\sources\\ifc-excel\\file_pins.py",
-        "bytes": 1901,
-        "sha256": "783b2f8485c40d5331ac048b8c1a0c19846a9cc263cc9f2e598e5d55be581ca1"
-      }
-    },
-    {
-      "target": "sources/ifc-excel/gui.py",
-      "source": {
-        "path": "<build>\\sources\\ifc-excel\\gui.py",
-        "bytes": 18166,
-        "sha256": "bd279205409b251af38bf92642fc3b4a51488e3912b0a6983387d0384fa22bf6"
-      }
-    },
-    {
-      "target": "sources/ifc-excel/ifc_runtime.py",
-      "source": {
-        "path": "<build>\\sources\\ifc-excel\\ifc_runtime.py",
-        "bytes": 2325,
-        "sha256": "7c633f3ad5fdb34911b82db3a13d51a45d9a8f9142c31219eae3b14e8752180f"
-      }
-    },
-    {
-      "target": "sources/ifc-excel/semantics.py",
-      "source": {
-        "path": "<build>\\sources\\ifc-excel\\semantics.py",
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\semantics.py",
         "bytes": 16727,
         "sha256": "d34ed989aaebd5001e17bb5033bd0dc5bce8e8a51177a920691df13c9e51b58d"
-      }
+      },
+      "target": "sources/ifc-excel/semantics.py"
     },
     {
-      "target": "sources/ifc-independent/model.py",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\model.py",
-        "bytes": 14192,
-        "sha256": "227491faef0555776999c0fedd0e20e3268cfafe9ece380f125f45df67d2ab82"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\core_runtime.py",
+        "bytes": 1221,
+        "sha256": "073a3a90fb1f6687dc9afa07ae88f2b1ae890ad7855ea1ada1445878da6ab831"
+      },
+      "target": "sources/ifc-excel/core_runtime.py"
     },
     {
-      "target": "sources/ifc-independent/reader.py",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\reader.py",
-        "bytes": 25261,
-        "sha256": "1637e429135382363dc0fd323f2120ebdf69d399aad095e09f23e357180293d3"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\file_pins.py",
+        "bytes": 1901,
+        "sha256": "783b2f8485c40d5331ac048b8c1a0c19846a9cc263cc9f2e598e5d55be581ca1"
+      },
+      "target": "sources/ifc-excel/file_pins.py"
     },
     {
-      "target": "sources/ifc-independent/schema_gen.py",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schema_gen.py",
-        "bytes": 7770,
-        "sha256": "33a298c9f89e535f14a25068e1d43937f9386e9134c355bc9b6d66ab7c121335"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\batch.py",
+        "bytes": 19771,
+        "sha256": "3a148258a0b09a180cd55abdab49a5b74ca0fe57ff0a98a78b678a4d3c584694"
+      },
+      "target": "sources/ifc-excel/batch.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/generated/IFC2X3.json",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC2X3.json",
-        "bytes": 260593,
-        "sha256": "08d8b5a1313242f5ad5612e8636ab73138ae8bd9ce919bec5b8346cd604c58ea"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\gui.py",
+        "bytes": 91273,
+        "sha256": "c4cce3633e9881b5a720978fb0566debfcf5612094891a3c151f961c6c170fdf"
+      },
+      "target": "sources/ifc-excel/gui.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/generated/IFC4.json",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC4.json",
-        "bytes": 327065,
-        "sha256": "fab20db66ae4bfbc221b6ef92939d5fab34ecdd3b0337f91f8c9602bbcfaceab"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\cli_usage.py",
+        "bytes": 2999,
+        "sha256": "9a8ec156403d429fd320cf4aa7e10066c79973ef07fc249665b3eb590c8173bc"
+      },
+      "target": "sources/ifc-excel/cli_usage.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/generated/IFC4X3.json",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\generated\\IFC4X3.json",
-        "bytes": 372469,
-        "sha256": "3edfd53f0654eca4c75a7c98f259ad5d008c4d4713dfff4b319567bc0841062c"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\ui_i18n.py",
+        "bytes": 2731,
+        "sha256": "40add60ce9b0464d06518310e2a82548fd341b7dd2ea0f2e3ffbbcbba7acd5ed"
+      },
+      "target": "sources/ifc-excel/ui_i18n.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/official/IFC2X3_TC1.exp",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC2X3_TC1.exp",
-        "bytes": 257080,
-        "sha256": "bf89eda341bccec041df37dffb79f0b8d4e3d5411d07541560d05bf69d53fc3a"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\ui_theme.py",
+        "bytes": 2548,
+        "sha256": "c00fa932b3d3bf6b3ca8092c4f852ee9467f7ae2224e8820c4d4870bd671b8b6"
+      },
+      "target": "sources/ifc-excel/ui_theme.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/official/IFC4X3_ADD2.exp",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC4X3_ADD2.exp",
-        "bytes": 403825,
-        "sha256": "f67c8762b13a099c28082061e6f16b9ef1284ceec34069792afc702725675860"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\registration_store.py",
+        "bytes": 4669,
+        "sha256": "eae4f4f08574279fc8ddbf2f15e8d95b04b164857c5caae2ac3fe7ae53fd0643"
+      },
+      "target": "sources/ifc-excel/registration_store.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/official/IFC4_ADD2_TC1.exp",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\IFC4_ADD2_TC1.exp",
-        "bytes": 359976,
-        "sha256": "a3e46d39a85c2b683e7167572165d74b4ff6f8ef7e7c1e7f314a4980a63c9edb"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\dialogs.py",
+        "bytes": 14328,
+        "sha256": "0dd39e8281b79be8cf2fdb3c49b6c07f0d85d2652cc40b5b5b0d30be116511b8"
+      },
+      "target": "sources/ifc-excel/dialogs.py"
     },
     {
-      "target": "sources/ifc-independent/schemas/official/NOTICE.txt",
       "source": {
-        "path": "<build>\\sources\\ifc-independent\\schemas\\official\\NOTICE.txt",
-        "bytes": 957,
-        "sha256": "ccab35d1192e291ad05938d45c11a98812f64e58591971f4b7a1547757272859"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\feedback.py",
+        "bytes": 8134,
+        "sha256": "d75dab9805107dbe2adf9dee6709290bba29396bf1a97de53d6eeb8c16feb611"
+      },
+      "target": "sources/ifc-excel/feedback.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/__init__.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\__init__.py",
-        "bytes": 95,
-        "sha256": "7167232365643021871e7ac79baa1023a932bdaad827406dbc8634b1df123542"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\support_prompt.py",
+        "bytes": 7023,
+        "sha256": "6f28bd641c5511460d05a0a0a429e353670514408da01a26bdf217c3710968e7"
+      },
+      "target": "sources/ifc-excel/support_prompt.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/activation_ui.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\activation_ui.py",
-        "bytes": 14136,
-        "sha256": "310d9bfc6ae0bec53585d9cdc86f09081443b85b9775a1b1265a2464d9b09bef"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\geometry_table.py",
+        "bytes": 2635,
+        "sha256": "2f70b129f3b7f816a2ef1d484c149a8353de4eeb8af10323f5ab91f5b88b1a9d"
+      },
+      "target": "sources/ifc-excel/geometry_table.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/assets/community.html",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\assets\\community.html",
-        "bytes": 1596,
-        "sha256": "4e0f3b460498d949b55e475b06c2fa564871332425ced8e0d7a4da7be13fd416"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\xlsx_writer.py",
+        "bytes": 11378,
+        "sha256": "f98ab867443ac7efa07d4473f36b45f5bd3f2a930741b262780a3e88a64082be"
+      },
+      "target": "sources/ifc-excel/xlsx_writer.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/community.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\community.py",
-        "bytes": 18568,
-        "sha256": "957382d9d42a5cd66cc9db63923734e0d15c04aca4e7bebe0226755e46182649"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\viewer_support.py",
+        "bytes": 5075,
+        "sha256": "939c4ab6d12508accc177fc3f11c4505917cb010bc422589e86ac21391c91da1"
+      },
+      "target": "sources/ifc-excel/viewer_support.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/community_ui.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\community_ui.py",
-        "bytes": 4637,
-        "sha256": "871a837e5987d6575869805502b6ae7b3c35f04251bc7812f06f0a3403cc9bbb"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\viewer_worker.py",
+        "bytes": 2247,
+        "sha256": "fc1cf36be1bc9fe5272871605f55af9ca0b1add0cba781fd62bfe9656fa31521"
+      },
+      "target": "sources/ifc-excel/viewer_worker.py"
     },
     {
-      "target": "sources/licensing/ddc_licensing/presentation.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\presentation.py",
-        "bytes": 1251,
-        "sha256": "45479121022baa009a439c6c839782f4bf824783a4f6cb38ec9984b5846f2d08"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\LEGAL_NOTE.md",
+        "bytes": 2703,
+        "sha256": "6d50e9e5f1033c1ab96fdd143e752a0e6edee4e34e28b392f8f9039c4dd4dc0c"
+      },
+      "target": "sources/ifc-excel/LEGAL_NOTE.md"
     },
     {
-      "target": "sources/licensing/ddc_licensing/registration.py",
       "source": {
-        "path": "<build>\\sources\\licensing\\ddc_licensing\\registration.py",
-        "bytes": 9063,
-        "sha256": "56f101cd2be662bc2875df648cf2119a750453f6f0b2fa5785247e2e397c02c2"
-      }
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\assets\\ddc.ico",
+        "bytes": 45173,
+        "sha256": "9a4305ea734d09ae44874ea0ef19d4e060de244d7a509da2f9fdab52ca3ed937"
+      },
+      "target": "sources/ifc-excel/assets/ddc.ico"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\assets\\ddc_40.png",
+        "bytes": 3340,
+        "sha256": "d224fb8d25b20d091fee280cab87ef24573cba92f2fb3bef2aba5979979d8bac"
+      },
+      "target": "sources/ifc-excel/assets/ddc_40.png"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\en.json",
+        "bytes": 7806,
+        "sha256": "575cd939f31d6c332f23960e29370eecb93834795a2e195392bddc7a760fd90d"
+      },
+      "target": "sources/ifc-excel/locales/en.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\de.json",
+        "bytes": 8655,
+        "sha256": "fa9d029d8848af72a7f0cfb5ce180c8f71298a38064ccbc311383fd1b69b5388"
+      },
+      "target": "sources/ifc-excel/locales/de.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\es.json",
+        "bytes": 8613,
+        "sha256": "3ff889f3dbbebcda77f5bc6109bff2fd73101458c13e81bc401a47909e686737"
+      },
+      "target": "sources/ifc-excel/locales/es.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\fr.json",
+        "bytes": 8889,
+        "sha256": "c2f0671201f58ce8608cab721f3895b933e910d4709f7e704e57b105397d5be1"
+      },
+      "target": "sources/ifc-excel/locales/fr.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\ru.json",
+        "bytes": 11786,
+        "sha256": "173d729a9021c25a5da5719343e8a306469adfea21868b2c3c0a29e664c66fc3"
+      },
+      "target": "sources/ifc-excel/locales/ru.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\pt.json",
+        "bytes": 8504,
+        "sha256": "e94805844818e0349ab6ff5289118d2a320643d9ef5a5289127f5d2ad70cf01c"
+      },
+      "target": "sources/ifc-excel/locales/pt.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\it.json",
+        "bytes": 8448,
+        "sha256": "14d610158398116542d8bb8c314d7184930b20dd758efbec296310f3840ec8c2"
+      },
+      "target": "sources/ifc-excel/locales/it.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\zh.json",
+        "bytes": 7915,
+        "sha256": "c24600eee93903320a7b98a442f90fa87f314a9a567b0e973a827afafa6952cb"
+      },
+      "target": "sources/ifc-excel/locales/zh.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\ja.json",
+        "bytes": 10003,
+        "sha256": "29b6876522bee574b18a86f15bc17eb41433e3ab6c2dd408d683dd3b964d96dd"
+      },
+      "target": "sources/ifc-excel/locales/ja.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\ko.json",
+        "bytes": 9027,
+        "sha256": "973a5806d8cafa2b61989f04fc46eee03f91d07200fd259a53e963b812b00e72"
+      },
+      "target": "sources/ifc-excel/locales/ko.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\pl.json",
+        "bytes": 8569,
+        "sha256": "39b3930e5af48136e763f9bdd29415cc28c117927f49cd36a7fbfcf892b2ff42"
+      },
+      "target": "sources/ifc-excel/locales/pl.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\tr.json",
+        "bytes": 8790,
+        "sha256": "cd823ee75674b42e8d898519938404c8da925e946a4612f58592ef6fd094a9e0"
+      },
+      "target": "sources/ifc-excel/locales/tr.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\nl.json",
+        "bytes": 8317,
+        "sha256": "74f828eebdf7f62b1627c8e01ae02d91a8e8367fee54fd31e7fe9aca6d45eced"
+      },
+      "target": "sources/ifc-excel/locales/nl.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\cs.json",
+        "bytes": 8595,
+        "sha256": "06960538ade5f833cdd6f1c58e72bd3f104c185055a809195ec78961c577c6bc"
+      },
+      "target": "sources/ifc-excel/locales/cs.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\locales\\uk.json",
+        "bytes": 11844,
+        "sha256": "56c5addf0e524a63ddcf15e79f0b15122aef2bff5e19c2107b9ee49882cf8d90"
+      },
+      "target": "sources/ifc-excel/locales/uk.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-independent\\core_model.py",
+        "bytes": 34485,
+        "sha256": "e84c270cca744db15c5b3538921163c607dec4b0e385a3e203169c804a817dac"
+      },
+      "target": "sources/ifc-independent/core_model.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-independent\\geometry.py",
+        "bytes": 53037,
+        "sha256": "c16575e0b3e0cb242c0a0c708ce98571f90f826543a640cc3bbb25cb90ab7f40"
+      },
+      "target": "sources/ifc-independent/geometry.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-independent\\mesh_csg.py",
+        "bytes": 7300,
+        "sha256": "27f8ad0989f63e672687f31d67f1c2d26993240ee098cd640cbab94df1638c74"
+      },
+      "target": "sources/ifc-independent/mesh_csg.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-independent\\advanced_brep.py",
+        "bytes": 29860,
+        "sha256": "b3444fe67e62aa2e3eccb28f304b686a0e09b70d48558194cbe2e926e981757e"
+      },
+      "target": "sources/ifc-independent/advanced_brep.py"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\index.html",
+        "bytes": 4597,
+        "sha256": "8bd73b535f28f1476cab2c5fc371d3b58f42f51da271ea720251d7c0cfce989a"
+      },
+      "target": "sources/ddc-viewer/index.html"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\engine.js",
+        "bytes": 53415,
+        "sha256": "78dd2e1bb7928ea7a1a31e5f868e6fb8b642c403d42e1c1884ae6499692c783a"
+      },
+      "target": "sources/ddc-viewer/app/engine.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\ui.js",
+        "bytes": 52696,
+        "sha256": "e6eacfef3783e884110ec98a7c1043477773a86541676cd6a98ce18a494fdb8e"
+      },
+      "target": "sources/ddc-viewer/app/ui.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\viewcube.js",
+        "bytes": 3781,
+        "sha256": "4c723b1840ae8a238d0448f218d06a70223b7672bba50d74b6b13a165565f4fd"
+      },
+      "target": "sources/ddc-viewer/app/viewcube.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\package.js",
+        "bytes": 5637,
+        "sha256": "7005b35347aa950406c6ef6b59ff8d7c5e7e311d09e2422af57bead91c6ce253"
+      },
+      "target": "sources/ddc-viewer/app/package.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\i18n.js",
+        "bytes": 9777,
+        "sha256": "68788dc13ddd3f1ea5a4b3d575eb6d8b58b7350e18eb367ab9fe6dc89c761068"
+      },
+      "target": "sources/ddc-viewer/app/i18n.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\lib\\util.js",
+        "bytes": 2041,
+        "sha256": "b154296076f14671c540dd9c2ec82508e7b6ea7132f5cf1390d693af3eb50d37"
+      },
+      "target": "sources/ddc-viewer/app/lib/util.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\app\\style.css",
+        "bytes": 20429,
+        "sha256": "8335857469ffa4322368f0f8bfc8b24ae310fe7ecc1cdaccd8220b8acc5a33dc"
+      },
+      "target": "sources/ddc-viewer/app/style.css"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\vendor\\three.classic.js",
+        "bytes": 746342,
+        "sha256": "b6031d00baf96978470c1a58a8e49cfac6588d56e26dc1e4d2f4d1fb72c0972b"
+      },
+      "target": "sources/ddc-viewer/vendor/three.classic.js"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\vendor\\three.classic.json",
+        "bytes": 614,
+        "sha256": "90a9d1b2ebba2a641fce7a3630525116b9c7f0427afa652689f2a386c2ec8c19"
+      },
+      "target": "sources/ddc-viewer/vendor/three.classic.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\vendor\\three-0.185.1-src\\LICENSE",
+        "bytes": 1081,
+        "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      },
+      "target": "sources/ddc-viewer/vendor/three-0.185.1-src/LICENSE"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\THIRD_PARTY_NOTICES.md",
+        "bytes": 3274,
+        "sha256": "7d2a202f9523a876f4d00e9612eae4d7302b1b5d6bd7edae71756de842c04ce9"
+      },
+      "target": "sources/ddc-viewer/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\PROVENANCE.json",
+        "bytes": 661,
+        "sha256": "a6345c9d35a4bc1fe901090c1302c262587f45a54dc370ee6e0f955cc88a1740"
+      },
+      "target": "sources/ddc-viewer/PROVENANCE.json"
+    },
+    {
+      "source": {
+        "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ddc-viewer\\exporters\\ifc_viewer_export.py",
+        "bytes": 25903,
+        "sha256": "0320e82dfdb3a84f8431721e7176fb33eede49c857d1222ddaffbf7f25e4b4f2"
+      },
+      "target": "sources/ddc-viewer/exporters/ifc_viewer_export.py"
     }
   ],
   "launcher_source": {
-    "path": "<build>\\tools\\ifc_portable_launcher.cs",
-    "bytes": 1704,
-    "sha256": "8844ed55aaf2f4cabf41c6e439472971c1799590b5aae03ce71e821f3135b188"
+    "path": "C:\\Users\\Artem\\Desktop\\CC Projects\\DDC Converters\\sources\\ifc-excel\\launcher\\ifc_portable_launcher.cs",
+    "bytes": 4284,
+    "sha256": "ab4c7470e5ec5af66b32d1f0ca821e693d07841b87caec153abf5adffa9d908f"
   },
   "launcher_compiler": {
     "path": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe",
     "bytes": 2569832,
     "sha256": "46809206887326d2d24db1eff1f3064de972c3451abe766b49111450a5e08e00"
   },
-  "schema_redistribution_review_pending": true,
+  "schema_redistribution_review_pending": false,
   "external_cad_runtime": false,
   "local_stability_update": {
     "version": "0.3.0-preview",
@@ -281,5 +513,6 @@
     "runtime_rebuilt": false,
     "release_ready": false,
     "production_activation_configured": false
-  }
+  },
+  "schema_data_shipped": false
 }
