@@ -29,7 +29,7 @@ La versión de octubre de 2026 de toda la línea: RVT Converter 2.0, RVT to IFC 
 - **Un informe por ejecución.** `report.json` / `summary.json` indican con recuentos qué se leyó y qué se omitió.
 - **Aplicaciones de escritorio y línea de comandos** para cada convertidor, códigos de salida aptos para lotes y estado JSON en una línea para scripts.
 - **DDC Data Viewer 2.0:** visor gratuito de tablas y 3D con enlace bidireccional entre filas y elementos.
-- **Sin conexión y portátil.** Windows 10/11 x64; solo hay que instalar el paquete (instalador o zip portable). Compilaciones para Linux / macOS — coming soon.
+- **Sin conexión y portátil.** Windows 10/11 x64; solo hay que instalar el paquete (instalador o zip portable). Compilaciones de línea de comandos y Data Viewer para Linux (x64, arm64) y macOS (arm64, x64): véase Releases.
 
 Descargas: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portables, listos para usar) y la [página de releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (instaladores y paquetes).
 
@@ -43,7 +43,7 @@ Descargas: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portables, list
 | **DDC CAD Drawing to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
 | **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-Cada nodo de geometría escrito por RVT Converter conserva el ID nativo del elemento, de modo que tablas y 3D se unen por `ElementId`. Todos los paquetes funcionan sin conexión en Windows 10/11 x64 y no requieren software de Autodesk, Excel ni Python. Compilaciones para Linux / macOS — coming soon.
+Cada nodo de geometría escrito por RVT Converter conserva el ID nativo del elemento, de modo que tablas y 3D se unen por `ElementId`. Todos los paquetes funcionan sin conexión en Windows 10/11 x64 y no requieren software de Autodesk, Excel ni Python. Compilaciones de línea de comandos y Data Viewer para Linux (x64, arm64) y macOS (arm64, x64): véase Releases.
 
 ## Capturas
 
@@ -82,7 +82,7 @@ Los flujos n8n (`DDC_n8n_Workflows&Pipelines/`) y los notebooks de Jupyter llama
 - **RVT:** las texturas no se exportan; la exportación IFC escribe IFC4 teselado. Los elementos que no pueden representarse constan en el informe de la ejecución.
 - **IFC:** archivos IFC2x3 e IFC4 STEP y `.ifczip`; IFCXML no está soportado. Los registros originales permanecen siempre en `data.jsonl` / `data.sqlite`.
 - **DWG:** dibujos R13–2018. Algunos tipos de objeto (por ejemplo ciertas tablas, multiflechas, sólidos 3D, imágenes) figuran en `report.json` como *no soportados* en lugar de exportarse mal.
-- **Plataformas:** Windows 10/11 x64. **Linux / macOS — coming soon.**
+- **Plataformas:** Windows 10/11 x64. **Linux / macOS: línea de comandos y Data Viewer, véase Releases.**
 
 ## Licencia
 

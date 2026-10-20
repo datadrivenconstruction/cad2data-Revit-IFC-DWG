@@ -29,7 +29,7 @@ Third-party components are listed in `THIRD_PARTY_NOTICES` inside each release p
 | DDC CAD drawing (.dwg) to Excel | 2.0 | Windows (CLI) |
 | DDC Data Viewer | 2.0 (free) | Desktop |
 
-Linux and macOS builds are coming soon. DGN is not supported.
+Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `ifc2excel`, `dwg2excel` and the Data Viewer are in the v2026.10.0 release; see `DDC_LINUX_Converters/README.md`. DGN is not supported.
 
 ---
 

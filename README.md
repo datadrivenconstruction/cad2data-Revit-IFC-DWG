@@ -23,7 +23,7 @@
   <a href="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest"><img src="https://img.shields.io/github/v/release/datadrivenconstruction/cad2data-Revit-IFC-DWG?label=release" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/input-.rvt%20.rfa%20.ifc%20.ifczip%20.dwg-blue" alt="Input formats">
   <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.jsonl%20.glb%20.ifc%20.dxf%20.svg-green" alt="Output formats">
-  <img src="https://img.shields.io/badge/platform-Windows%20x64%20%7C%20Linux%2FmacOS%20soon-lightgrey" alt="Windows x64; Linux and macOS coming soon">
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey" alt="Windows x64; Linux x64 and arm64; macOS arm64 and x64">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT%20(workflows%2C%20docs)%20%2B%20non-commercial%20EULA%20(converters)-blue" alt="Licence"></a>
 </p>
 
@@ -48,7 +48,7 @@ IFC to Excel 2.0, CAD Drawing to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0
 - **Desktop apps and command line** for each converter, batch-friendly exit codes and one-line JSON status for scripts.
 - **DDC Data Viewer 2.0:** free table and 3D viewer with two-way linking between rows and elements.
 - **Offline and portable.** Windows 10/11 x64, nothing to install besides the package (installer or portable zip).
-  Linux / macOS builds are coming soon.
+  Linux (x64, arm64) and macOS (arm64, x64) command-line converters and the Data Viewer are in [Releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.0) (see [DDC_LINUX_Converters](DDC_LINUX_Converters/README.md)).
 
 Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready to run) and the
 [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (installers and packages).
@@ -80,7 +80,7 @@ Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
 joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Autodesk
-software, no Excel and no Python installation. Linux / macOS builds — coming soon.
+software, no Excel and no Python installation. Linux and macOS command-line builds are in the same [release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.0).
 
 ## Screenshots
 
@@ -264,7 +264,7 @@ Excel and Power BI are trademarks of Microsoft Corporation, used only to say wha
   `data.jsonl` / `data.sqlite`.
 - **DWG:** drawings R13–2018. Some object types (for example certain tables, multileaders, 3D solids,
   images) are listed as *unsupported* in `report.json` instead of being exported incorrectly.
-- **Platforms:** Windows 10/11 x64. **Linux / macOS — coming soon.**
+- **Platforms:** Windows 10/11 x64. **Linux (x64, arm64) and macOS (arm64, x64): command-line converters and Data Viewer, see [Releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.0).**
 
 Bug reports with a small example file are very welcome — please use
 [GitHub Issues](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/issues) and do not attach
