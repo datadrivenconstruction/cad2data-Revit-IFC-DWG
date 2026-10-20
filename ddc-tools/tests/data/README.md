@@ -7,7 +7,7 @@ Trimmed real converter output, a handful of elements each:
 * `rvt_converted/properties.jsonl`, `native_graph.ifc` - synthetic. The layout is that of RVT Converter 0.6.8 output
   (`--properties --ifc`), but every id, name, GUID and number is invented (two walls, a wall type, a level, one phase).
   Not derived from any real model.
-* `dwg/sample.jsonl` - DWG to Excel 0.4.1 run on `sample_AC1027.dwg` from the ACadSharp test files (MIT):
+* `dwg/sample.jsonl` - CAD Drawing to Excel 0.4.1 run on `sample_AC1027.dwg` from the ACadSharp test files (MIT):
   20 records (lines, polylines, circle, arc, text, insert, hatch, one envelope-only record).
 
 No Autodesk or other third-party Revit models are used. Local paths were removed from the metadata.

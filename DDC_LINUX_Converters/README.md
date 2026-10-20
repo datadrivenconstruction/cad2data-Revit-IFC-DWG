@@ -14,7 +14,7 @@ Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and suppo
 
 ## Converters: Linux / macOS status
 
-DDC Converters 2.0 (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC DWG to Excel, DDC Data Viewer)
+DDC Converters 2.0 (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC CAD Drawing to Excel, DDC Data Viewer)
 are released for Windows 10/11 x64 through GitHub Releases:
 <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
 (see [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).

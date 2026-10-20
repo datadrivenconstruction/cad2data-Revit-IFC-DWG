@@ -18,7 +18,7 @@ def conv(tmp_path):
     for rel in ("DDC_RVT_Converter/cli/RVTconverter.exe",
                 "DDC_IFC_to_Excel/runtime/python.exe",
                 "DDC_IFC_to_Excel/sources/ifc-excel/converter.py",
-                "DDC_DWG_to_Excel/cli/dwg2excel.exe"):
+                "DDC_CAD_Drawing_to_Excel/cli/dwg2excel.exe"):
         f = c / rel
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text("stub")
@@ -117,3 +117,16 @@ def test_cli_json_line_for_scripts(tmp_path, conv, calls, capsys):
     assert cli.main(["convert", str(m), "--converters", str(conv), "--json"]) == 0
     res = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
     assert res["kind"] == "rvt" and res["xlsx"].endswith("P_rvt.xlsx")
+
+
+def test_dwg_converter_found_under_old_and_new_folder_name(tmp_path):
+    new = tmp_path / "new"
+    old = tmp_path / "old"
+    for root, name in ((new, "DDC_CAD_Drawing_to_Excel"), (old, "DDC_DWG_to_Excel")):
+        exe = root / name / "cli" / "dwg2excel.exe"
+        exe.parent.mkdir(parents=True)
+        exe.write_text("stub")
+    m = tmp_path / "plan.dwg"
+    assert convert.command_for("dwg", m, tmp_path / "w", new)[0] == str(new / "DDC_CAD_Drawing_to_Excel/cli/dwg2excel.exe".replace("/", os.sep))
+    assert convert.command_for("dwg", m, tmp_path / "w", old)[0] == str(old / "DDC_DWG_to_Excel/cli/dwg2excel.exe".replace("/", os.sep))
+    assert convert.find_converters(str(old)) == old

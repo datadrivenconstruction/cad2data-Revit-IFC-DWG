@@ -1,7 +1,7 @@
 """``ddc diff A B``: what changed between two exports of a model.
 
 Both sides are read with the same adapters as ``ddc table`` (RVT ``properties.jsonl`` folder, DDC IFC to
-Excel output or a plain ``.ifc``, DWG to Excel table), so one version can be a folder and the other a
+Excel output or a plain ``.ifc``, CAD Drawing to Excel table), so one version can be a folder and the other a
 file, or even two different converters, although that gives a noisier result and a warning.
 
 Matching, in this order:
