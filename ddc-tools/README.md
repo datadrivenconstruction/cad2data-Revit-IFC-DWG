@@ -14,13 +14,14 @@ XLSX, CSV, JSONL, SQLite or JSON). Your data stays on your machine: no upload, n
 | Power BI and Excel kit | Power Query (M) scripts and an Excel workbook that read a whole export folder. No Python needed. |
 
 Python 3.9+, dependencies: `openpyxl` and `PyYAML` (both permissive licences). MIT licence, see the
-[repository licence](../LICENSE) for the scope.
+[repository licence](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/LICENSE) for the scope.
 
 ## Install
 
 ```bash
-cd ddc-tools
-pip install .          # gives the `ddc` command
+pip install ddc-tools        # gives the `ddc` command
+ddc --version
+# from a source checkout:  cd ddc-tools && pip install .
 # or run without installing:  PYTHONPATH=src python -m ddc_tools --help
 ```
 
@@ -70,7 +71,7 @@ ddc check export_folder --rules examples/rules_basic.yaml --xlsx report.xlsx --j
 echo $?    # 0 = pass, 1 = failing rules, 2 = bad input or rules file
 ```
 
-![Traffic-light summary](docs/check_summary.png)
+![Traffic-light summary](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/check_summary.png)
 
 *Real run on the IFC Duplex sample of this repository, converted by DDC IFC to Excel 2.0
 (`examples/rules_ifc.yaml`). The picture is drawn from the cell contents of the generated XLSX
@@ -253,9 +254,9 @@ GlobalIds) are not counted as changes; a warning says how many differ.
 (category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
 `--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
 
-![Summary sheet](docs/diff_summary.png)
+![Summary sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_summary.png)
 
-![Changelog sheet](docs/diff_changelog.png)
+![Changelog sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_changelog.png)
 
 The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
 `Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
@@ -271,7 +272,7 @@ from `--glb-a` / `--glb-b`. A node is linked to an element like in the DDC Data 
 `extras.global_id` or a trailing id of the node name; children inherit the status of their parent. The IFC to Excel
 output has no GLB, so for IFC pass one with `--glb-b`. Without any GLB the option only prints a warning.
 
-![GLB coloured by status](docs/diff_glb.png)
+![GLB coloured by status](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_glb.png)
 
 *The picture is a drawing of the output GLB made by `docs/render_glb_png.py`. The input is a small synthetic RVT-style output
 from `docs/make_diff_demo.py` (eight box walls): one wall taller (orange), one deleted (red), one added (green).*
@@ -309,9 +310,9 @@ GlobalIds) are not counted as changes; a warning says how many differ.
 (category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
 `--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
 
-![Summary sheet](docs/diff_summary.png)
+![Summary sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_summary.png)
 
-![Changelog sheet](docs/diff_changelog.png)
+![Changelog sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_changelog.png)
 
 The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
 `Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
@@ -327,7 +328,7 @@ from `--glb-a` / `--glb-b`. A node is linked to an element like in the DDC Data 
 `extras.global_id` or a trailing id of the node name; children inherit the status of their parent. The IFC to Excel
 output has no GLB, so for IFC pass one with `--glb-b`. Without any GLB the option only prints a warning.
 
-![GLB coloured by status](docs/diff_glb.png)
+![GLB coloured by status](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_glb.png)
 
 *The picture is a drawing of the output GLB made by `docs/render_glb_png.py` from a real RVT Converter run on
 `Sample_R24.rvt` and an edited copy (`docs/make_diff_demo.py`): one wall taller, one deleted, one added.*
@@ -361,7 +362,7 @@ ddc bcf read check.bcf --xlsx bcf_summary.xlsx                              # an
 * `ddc bcf read` writes `Summary`, `Topics`, `Comments` and `Components` sheets (and `--json`). Files with a
   DOCTYPE or entity declaration are refused.
 
-![BCF topics](docs/bcf_topics.png)
+![BCF topics](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/bcf_topics.png)
 
 The buildingSMART XSD files are licensed CC BY-ND 4.0, not a permissive licence, so they are not part of this
 repository; the tests download them on demand (set `DDC_BCF_XSD_DIR` to reuse a folder) and skip when `lxml` or the
@@ -376,7 +377,7 @@ ddc qto model.xlsx --category "Wall*" --quantities Area,Volume --json qto.json
 ddc qto Duplex.converted --category "IfcWall*" --category IfcSlab --category IfcCovering     --quantities "PSet_Revit_Dimensions.Length,PSet_Revit_Dimensions.Area,PSet_Revit_Dimensions.Volume" --xlsx qto.xlsx
 ```
 
-![QTO by type](docs/qto_by_type.png)
+![QTO by type](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/qto_by_type.png)
 
 *Same run, walls, slabs and coverings of the Duplex model; quantities as stored in the IFC.*
 
@@ -396,7 +397,7 @@ completeness before it goes into a bill of quantities, and compare against your 
 Folder `powerbi/` holds Power Query (M) scripts: `RawElements` (reads every `.xlsx`, `.csv` or `.jsonl`
 of the folder), `Elements` (standard column names), `QuantitiesByType`, `Completeness`, plus `measures.dax`.
 `excel/DDC_Excel_Kit.xlsx` carries the same code with a `Config` sheet for the folder path.
-Steps: [docs/POWER_QUERY.md](docs/POWER_QUERY.md).
+Steps: [docs/POWER_QUERY.md](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/ddc-tools/docs/POWER_QUERY.md).
 
 A ready `.pbit` is not included: it can only be produced reliably with Power BI Desktop, and the
 scripts were written without access to it, so please report anything that does not load on your
@@ -418,4 +419,4 @@ Regenerate the synthetic sample with `python examples/make_sample.py examples/da
 Excel and Power BI are trademarks of Microsoft Corporation. Autodesk, Revit and AutoCAD are
 trademarks of Autodesk, Inc.; IFC, BCF and buildingSMART are trademarks of buildingSMART International.
 Format names are used only to say which files are read. These tools are independent software and are
-not affiliated with, endorsed by or certified by those companies. See [../TRADEMARK.md](../TRADEMARK.md).
+not affiliated with, endorsed by or certified by those companies. See [../TRADEMARK.md](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/TRADEMARK.md).
