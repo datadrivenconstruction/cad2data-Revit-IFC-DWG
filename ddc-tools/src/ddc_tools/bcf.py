@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 from xml.etree import ElementTree as ET
 
+from .paths import fs
 from .diff import STATUS_COLORS, STATUSES
 from .xlsxutil import autosize, new_workbook, title_cell, write_table
 
@@ -313,9 +314,9 @@ def write_bcf(topics: Sequence[Topic], path: str, version: str = "2.1", author: 
         raise BcfError(f"BCF version must be one of {', '.join(VERSIONS)}")
     now = _now()
     project_id = _guid("project", seed or project_name)
-    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(fs(Path(path).parent)).mkdir(parents=True, exist_ok=True)
     n_vp = 0
-    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+    with zipfile.ZipFile(fs(path), "w", zipfile.ZIP_DEFLATED) as z:
         ver = ET.Element("Version", {"VersionId": version})
         if version == "2.1":
             _sub(ver, "DetailedVersion", "2.1")
@@ -373,7 +374,7 @@ def export_report(report: Dict[str, Any], path: str, version: str = "2.1", autho
 
 def load_report(path: str) -> Dict[str, Any]:
     try:
-        with open(path, encoding="utf-8-sig") as f:
+        with open(fs(path), encoding="utf-8-sig") as f:
             return json.load(f)
     except (OSError, ValueError) as e:
         raise BcfError(f"cannot read report {path}: {e}")
@@ -443,7 +444,7 @@ def _viewpoint_info(root: ET.Element) -> Dict[str, Any]:
 
 def read_bcf(path: str) -> Dict[str, Any]:
     try:
-        z = zipfile.ZipFile(path)
+        z = zipfile.ZipFile(fs(path))
     except (OSError, zipfile.BadZipFile) as e:
         raise BcfError(f"{path}: not a BCF zip file ({e})")
     with z:
@@ -601,4 +602,4 @@ def write_read_xlsx(res: Dict[str, Any], path: str) -> None:
                 krs.append([x(t["title"]), v["guid"], "visibility exception", c["IfcGuid"], c["AuthoringToolId"], c["OriginatingSystem"], ""])
     write_table(wk, ["Topic", "Viewpoint Guid", "Role", "IfcGuid", "AuthoringToolId", "OriginatingSystem", "Color"], krs)
     autosize(wk)
-    wb.save(path)
+    wb.save(fs(path))
