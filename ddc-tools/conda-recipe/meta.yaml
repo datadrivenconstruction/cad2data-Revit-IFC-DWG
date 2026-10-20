@@ -1,0 +1,55 @@
+{% set name = "ddc-tools" %}
+{% set version = "2.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  # Use the sdist from PyPI. Fill sha256 after the release is on PyPI:
+  #   curl -sL https://pypi.org/pypi/ddc-tools/{{ version }}/json | python -c "import sys,json;print([u['digests']['sha256'] for u in json.load(sys.stdin)['urls'] if u['packagetype']=='sdist'][0])"
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/ddc_tools-{{ version }}.tar.gz
+  sha256: REPLACE_WITH_SDIST_SHA256
+
+build:
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  entry_points:
+    - ddc = ddc_tools.cli:main
+
+requirements:
+  host:
+    - python >=3.9
+    - pip
+    - setuptools >=77
+  run:
+    - python >=3.9
+    - openpyxl >=3.1
+    - pyyaml >=6.0
+
+test:
+  imports:
+    - ddc_tools
+  commands:
+    - ddc --version
+    - ddc --help
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://cadbimconverter.com
+  summary: Free offline tools for DDC Converters 2.0 output - data checks, quantity takeoff, model diff, BCF issues
+  description: |
+    Command line tools (ddc check, ddc qto, ddc diff, ddc bcf, ddc table, ddc convert) that work on the
+    tables written by the DDC converters. Runs offline; no upload and no account.
+  license: MIT
+  license_file: LICENSE
+  doc_url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/ddc-tools/README.md
+  dev_url: https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/tree/main/ddc-tools
+
+extra:
+  recipe-maintainers:
+    # TODO owner: GitHub user name(s) of the maintainer(s); conda-forge needs personal accounts
+    - REPLACE_WITH_GITHUB_USERNAME
