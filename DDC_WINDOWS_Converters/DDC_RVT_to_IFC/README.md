@@ -1,5 +1,7 @@
 # DDC RVT to IFC 2.0 (portable, Windows x64)
 
+![DDC RVT to IFC main window](../../docs/images/rvt-to-ifc-main.png)
+
 Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and writes IFC export through the desktop app; the command line is the same as in DDC RVT Converter.
 Each run writes `report.json` and `summary.json` next to the result: they list what was read and what was skipped.
 The exact version is in `MANIFEST.json` in this folder. Licence: `EULA.txt`.

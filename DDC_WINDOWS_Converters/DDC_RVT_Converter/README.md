@@ -1,5 +1,7 @@
 # DDC RVT Converter 2.0 (portable, Windows x64)
 
+![DDC RVT Converter main window](../../docs/images/rvt-converter-main.png)
+
 Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and supports Revit 2019–2027 and writes a GLB model, JSON summary and report (IFC4 on request with `--ifc`).
 Each run writes `report.json` and `summary.json` next to the result: they list what was read and what was skipped.
 The exact version is in `MANIFEST.json` in this folder. Licence: `EULA.txt`.
