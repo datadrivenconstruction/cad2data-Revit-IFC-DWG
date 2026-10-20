@@ -129,7 +129,7 @@ RVT apps have no `Setup.exe`. The per-user installer is an MSI built by `tools/b
 Applies to all DDC desktop apps. Nothing here blocks conversion; every network call is user-initiated or a queued resend the user confirmed.
 
 ## Menu
-Help menu gets **Feedback...** and **Support the project...** (opens the support dialog on demand, never suppressed by cooldown). Order: About, Licence, Check for updates, Feedback..., Support the project....
+Help menu gets **Feedback...** and, in the free edition only, **Support the project...** (opens the support card on demand). Order: About, Licence, Check for updates, Feedback..., Support the project....
 
 ## Feedback form (modal, 480 x auto dip)
 | Field | Rule |
@@ -210,79 +210,123 @@ Query keys equal the field `id` values in `.github/ISSUE_TEMPLATE/*.yml` (`app`,
 
 Open all links in the system browser (`ShellExecute`), never in an embedded web view.
 
-## Support prompt (ported from OpenConstructionERP, adapted)
-Studied in repo datadrivenconstruction/OpenConstructionERP, `frontend/src`: `app/layout/SupportUsButton.tsx` (modal), `shared/ui/ReviewPromptCard.tsx` (corner card), `stores/useReviewPromptStore.ts` (cadence), texts in `app/locales/{en,de,ru}.ts` (keys `support.*`, `review_ask.*`).
+## Support prompt (free edition only) - rev 2026-10-20
+Supersedes the earlier "Support prompt (ported from OpenConstructionERP)" text. Nothing here blocks work; no network call except the optional newsletter sign-up.
 
-### What OCERP does
-* Support modal: header button "Support us". Auto-popup after 20 minutes of active (visible) tab time, at most once per 30 days (`localStorage oe_support_seen_at`, written on open and on close); skipped on the public demo and when the review card was shown within 4 days. Manual open is never suppressed. Rows: Star on GitHub, Review on G2, Share (Post on X, Post on LinkedIn, Copy text + link), case study by e-mail, Donate (PayPal, GitHub Sponsors). Esc closes.
-* Review card (non-modal, bottom right, no backdrop, never blocks work): buttons Star on GitHub, Review on G2, Share on LinkedIn, Post on X; footer "Don't ask again" (terminal) and "Maybe later" (decline); the close X is a decline. Following any link is terminal.
-* Cadence (`oe_review_prompt`): state `{firstSeenAt, activeDays[] (local YYYY-MM-DD, max 30), lastAskedAt, declineCount, status active|stopped}`. Eligible only if install age >= 7 days AND >= 5 distinct active days; >= 4 days since `lastAskedAt`; backoff by declines [4, 4, 14, 45] days; hard cap 4 declines, then never; `stopped` is terminal; not within 4 days of the support modal. `lastAskedAt` is stamped when shown, so a reload cannot replay. Unreadable storage fails closed (show nothing). The day counter runs unconditionally from the app shell.
+### 1. Counter (per app, offline)
+* File `%APPDATA%\DataDrivenConstruction\prompt_state.json` (UTF-8, no BOM; same atomic write/merge/corrupt-file rules as `registration.json`). One counter per product id, key `counters.<product-id>`; apps never read or change another app's counter. The file is shared only so that the newsletter flag is shared.
+* What counts (+1, once): one successful run = one increment, a batch run of N files is 1 (success = at least one file converted, not cancelled). Data Viewer: one successful file open = 1. Failures, cancels, CLI/headless runs, re-opening the same file in the same session still count only if it is a new successful open (Viewer) / new run (converters). CLI mode never increments and never shows.
+* Show rule: after the increment, show the card when `n % 5 == 0` (5, 10, 15, ...), once, after the summary/file is displayed and the UI is idle (never during a run, never over an error dialog, never at start). The shown flag is not stored; the next show is at the next multiple of 5. Counter is a non-negative int, clamp to 0..1,000,000,000; if the file cannot be read or written, show nothing (fail closed) and count in memory only.
+* Works fully offline; the card never waits for the network.
 
-### Adaptation for desktop apps
-Trigger (all must hold; evaluated once after a conversion run finishes successfully; never at start, never during a run, never in CLI mode, never over an error dialog or first-run screen):
-1. `successfulConversions >= N`, N = 5 (a run counts when at least one file converted and it was not cancelled; one increment per run; sum across all DDC apps).
-2. `now - firstSeenAt >= D`, D = 7 days, and `activeDays >= 3` distinct local days.
-3. Not stopped, `declineCount < 4`, and `now - lastShownAt >= backoff[declineCount]`, backoff `[7, 14, 30, 60]` days (longer than the web card: desktop use is bursty).
-4. Cross-app quiet period: no DDC app showed the prompt within 3 days (shared file, so five installed apps do not produce five asks).
-
-Presentation: non-modal card in the Summary area (bottom right, no backdrop, focus not stolen, Esc = Maybe later). It hides itself after 60 s without interaction and counts as shown, not as a decline.
-
-Buttons: **Star on GitHub**, **Share on LinkedIn** (`https://www.linkedin.com/sharing/share-offsite/?url=<urlencoded star target>`), **Post on X** (`https://twitter.com/intent/tweet?text=<share.text>&url=<urlencoded star target>`), **Send feedback** (opens the form), **Maybe later** (decline), **Don't ask again** (terminal). Following Star / LinkedIn / X is terminal, as in OCERP. Help > Support the project... always works regardless of state and also lists e-mail, YouTube and Telegram. The OCERP donate row (PayPal, GitHub Sponsors) is off by default: no payment links in the apps until the owner decides.
-
-### State file
-`%APPDATA%\DataDrivenConstruction\prompt_state.json`, shared by all DDC apps, UTF-8 no BOM, same atomic write and merge rules as `registration.json` (read, merge own keys, keep unknown fields, `.tmp` + replace; missing, corrupt, > 64 KB or wrong-typed means defaults and the file is left untouched; never throw; if the folder is not writable the prompt is silently disabled, fail closed).
 ```json
 {
-  "version": 1,
-  "firstSeenAt": "2026-10-19T21:30:00Z",
-  "activeDays": ["2026-10-19", "2026-10-21"],
-  "lastShownAt": "2026-10-26T09:12:00Z",
-  "declineCount": 1,
-  "status": "active",
-  "apps": { "rvt-converter": { "successfulConversions": 7, "lastShownAt": "2026-10-26T09:12:00Z" } },
-  "feedback": { "lastSentAt": "2026-10-20T10:00:00Z" }
+  "version": 2,
+  "counters": { "rvt-converter": 10, "data-viewer": 3 },
+  "newsletter": {
+    "subscribedAt": "2026-10-20T10:00:00Z",
+    "pending": { "email": "...", "consentAt": "...", "consentTextVersion": "updates-2026-10-20", "queuedAt": "..." }
+  }
 }
 ```
-`status` is `active` or `stopped` (set by Don't ask again or by following a link; shared by all apps). Times are UTC ISO 8601; `activeDays` are local calendar days (max 30 kept). If the system clock is earlier than `lastShownAt`, treat as "shown recently".
-Settings > General: checkbox "Show occasional support suggestions" (default on). Off writes `status: stopped`; on again resets `declineCount` to 0 and `status` to `active`. Disabling never affects the Feedback menu item.
+Unknown keys are kept. `pending` is also mirrored as a queue file (below). Earlier fields (`status`, `declineCount`, `activeDays`, `lastShownAt`, `apps`) are ignored and may be dropped on next write.
 
-### Texts (shipped in the app resource files; follow the app language)
+### 2. Commercial edition never shows it
+Contract: the licence file in the program folder, `licence.json` next to the executable, contains `"commercial_licence": true`, written only by the licensed (full) build. Rules:
+* The free build has no such file or the value is not the JSON boolean `true`: prompt enabled.
+* Read at start; missing/unreadable/invalid = free. Only the literal `true` counts (not "true", 1).
+* Alternative equivalent for a compiled constant: `BuildInfo.CommercialLicence` (bool) set by the licensed build pipeline; the app uses `constant || licence.json`.
+* If commercial: no counter increments, no card, no newsletter field, menu item "Support the project..." is hidden. "Send feedback" stays available.
+* Users cannot unlock it by editing the file in the free build because the free installer does not ship the file and the legal licence (not this flag) governs commercial use; the flag only controls UI.
+
+### 3. Card (free edition)
+Non-modal card in the summary area (bottom right of the window, no backdrop, focus not stolen). Contents, in order:
+1. Title and short text (neutral wording, no incentive, no filtering).
+2. **Star on GitHub** - https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG
+3. **Share a post** - split button/menu: LinkedIn `https://www.linkedin.com/sharing/share-offsite/?url=<urlencoded star target>` and X `https://twitter.com/intent/tweet?text=<share.text>&url=<urlencoded star target>`; text localised.
+4. **Review on G2** / **Review on Capterra** - only if a product profile URL is configured. Status 2026-10-20: **none yet for the converters -> both buttons hidden** (see section 4). Constants `G2_REVIEW_URL`, `CAPTERRA_REVIEW_URL` are `null`; the button renders only when non-null. Never use the OpenConstructionERP G2 page for the converters.
+5. **Send feedback** - opens the feedback form (kept).
+6. Newsletter row (unless subscribed): e-mail field, consent checkbox (unchecked), **Subscribe**.
+7. **Not now** and the window close X - hide the card. Esc = Not now. The card auto-hides after 60 s without interaction.
+
+Removed in the free edition: "Don't ask again", and the Settings checkbox "Show occasional support suggestions" (no opt-out). The legacy "terminal after clicking Star/Share/Review" rule is also removed: clicking a link does not stop future cards (wording stays neutral; every 5th success only).
+Review wording is neutral: no rewards, no "only if happy", no routing of unhappy users elsewhere; "Send feedback" sits next to, not instead of, the review buttons.
+
+### 4. G2 / Capterra findings (2026-10-20)
+* g2.com and capterra.com return 403 to automated fetch. Web searches (`DataDrivenConstruction`, `cad2data`, `DDC RVT Converter`, restricted to g2.com / capterra.com) returned no G2 or Capterra page; only GitHub, n8n, skill directories. Result: **no known profile for the DDC converters on either site**. Not proof of absence: the owner should check once in a browser. If a profile is created, add its URL to the two constants; no other change is needed.
+* Known G2 page https://www.g2.com/products/openconstructionerp/reviews belongs to a different product and must not be used.
+
+### 5. Newsletter sign-up
+Shown in the card only while `newsletter.subscribedAt` is absent. After success, set `newsletter.subscribedAt` (UTC ISO 8601), clear `pending`, and hide the field on all later cards (in all DDC apps, since the file is shared).
+* Consent checkbox: unchecked by default; Subscribe disabled until e-mail is valid (trim, one `@`, domain with a dot, <= 254) AND the box is ticked.
+* Privacy link: https://cadbimconverter.com/datenschutz-impressum/ (the page holds the English privacy notice, section "Product updates by e-mail (optional)"; German translation below it). Open in the system browser.
+* Endpoint (pending: endpoint). Existing site endpoint `POST https://cadbimconverter.com/api/subscribe` (verified 2026-10-20; handler in ddc-website branch `v4`, `services/downloads/app/main.py`): requires a browser Origin/Referer from cadbimconverter.com (otherwise 403 `bad_origin`), JSON body `{email, website (honeypot, empty), elapsed (ms, >= 1200), page}`, rate limit 5 per 10 min and 20 per day per address and 3 per hour per e-mail, e-mail syntax + MX + disposable-domain checks, always double opt-in (confirmation mail with a button, posted confirm page; nothing is sent before confirm), stored in the site's SQLite `leads` table with `consent_log` (action, text version, truncated IP), every mail carries a one-click unsubscribe. A desktop client sends no Origin, so it cannot use that route.
+* App route (PR https://github.com/datadrivenconstruction/ddc-website/pull/25, not deployed): `POST https://cadbimconverter.com/api/app/subscribe`, headers `Content-Type: application/json`, `X-DDC-App-Key: <key from app build config>`; body `{"email":"a@b.com","consent":true,"app":"rvt-converter","app_version":"2.0.1"}`; no Origin needed. Success `200 {"ok":true,"mail":true,"confirmationSent":true}` (same answer for new, pending, already confirmed). Errors: 400 `consent_required` / `email_invalid` / `email_disposable` / `email_nomx`, 403 `bad_key`, 503 `disabled` (until the site sets `APP_KEYS`), 429 `rate_limited` with `retry_after`. Until the PR is merged and deployed (steps in the PR), the app must treat any non-2xx/ok:false as "not subscribed" and use the queue; the key is not a secret, protection is rate limit + consent + double opt-in. "Subscribed" in the app means the request was accepted; the user still has to confirm by e-mail, and the UI text says so.
+* UI after Subscribe: "Please open the e-mail we sent and press the confirm button." Field hidden afterwards (state flag).
+* Offline or 5xx/timeout: store the request in `%APPDATA%\DataDrivenConstruction\feedback_queue\newsletter-<UTC>-<hex>.json` containing `email`, `consent: true`, `consentAt` (UTC), `consentTextVersion`, `app`, `app_version`; also mark `newsletter.pending` in prompt_state.json. The card shows "Saved. We will send it when you are online." The field stays hidden while `pending` exists. Resend at next start (after the main window is shown) and after the next successful conversion/open, one request per 2 s, at most 5 per hour; remove the file and set `subscribedAt` only after 2xx ok:true. On 400 `email_*` drop the file and show the field again. A queue item without `consentAt` is never sent. User can cancel the pending item from Help > Feedback > Pending.
+* No e-mail address is stored anywhere else in the app, and `registration.json` (Community registration) is a separate, offline-only feature; do not copy its address into the sign-up without the checkbox.
+
+### 6. Texts
+EN is the source. Placeholders `{n}` are not used here.
+
 | Key | EN | DE | RU |
 |---|---|---|---|
-| menu.feedback | Feedback... | Feedback... | Обратная связь... |
-| menu.support | Support the project... | Projekt unterstützen... | Поддержать проект... |
-| prompt.title | Enjoying DDC converters? | Gefallen Ihnen die DDC-Konverter? | Нравятся конвертеры DDC? |
-| prompt.body | A minute of honest feedback helps other construction teams find and trust the tools. It genuinely makes a difference to us. | Eine Minute ehrliches Feedback hilft anderen Bauteams, die Werkzeuge zu finden und ihnen zu vertrauen. Das bedeutet uns wirklich viel. | Минута честного отзыва помогает другим строительным командам найти инструменты и довериться им. Для нас это действительно много значит. |
-| prompt.star | Star on GitHub | Auf GitHub einen Stern geben | Поставить звезду на GitHub |
-| prompt.linkedin | Share on LinkedIn | Auf LinkedIn teilen | Поделиться в LinkedIn |
-| prompt.x | Post on X | Auf X posten | Опубликовать в X |
-| prompt.feedback | Send feedback | Feedback senden | Отправить отзыв |
-| prompt.later | Maybe later | Vielleicht später | Может быть, позже |
-| prompt.never | Don't ask again | Nicht mehr fragen | Больше не спрашивать |
-| prompt.aria | Rate DDC converters | DDC-Konverter bewerten | Оценить конвертеры DDC |
-| support.title | Help DDC converters grow | Helfen Sie den DDC-Konvertern zu wachsen | Помогите конвертерам DDC расти |
-| support.subtitle | We build this in the open and ship every feature for free. A few tiny actions from you keep development going. | Wir entwickeln dies offen und stellen jede Funktion kostenlos bereit. Ein paar kleine Aktionen Ihrerseits halten die Entwicklung am Laufen. | Мы разрабатываем это в открытом виде и выпускаем каждую функцию бесплатно. Несколько небольших действий с вашей стороны поддерживают разработку. |
-| support.star_body | 30 seconds. Stars are how new construction teams discover the project. | 30 Sekunden. Über Sterne entdecken neue Bauteams das Projekt. | 30 секунд. Через звёзды новые строительные команды узнают о проекте. |
-| support.share_body | One post on LinkedIn or X reaches dozens of estimators, planners and BIM managers. | Ein Beitrag auf LinkedIn oder X erreicht Dutzende Kalkulatoren, Planer und BIM-Manager. | Один пост в LinkedIn или X достигает десятков сметчиков, планировщиков и BIM-менеджеров. |
-| support.thanks | Thank you. Every star, share and story keeps this project alive. | Vielen Dank. Jeder Stern, jedes Teilen und jede Geschichte hält dieses Projekt am Leben. | Спасибо. Каждая звезда, репост и история поддерживает этот проект. |
-| share.text | DDC converters: free Revit, IFC and DWG converters for construction data. No registration. | DDC-Konverter: kostenlose Revit-, IFC- und DWG-Konverter für Bauwesen-Daten. Ohne Registrierung. | Конвертеры DDC: бесплатные конвертеры Revit, IFC и DWG для строительных данных. Без регистрации. |
-| fb.title | Send feedback | Feedback senden | Отправить отзыв |
-| fb.category | Category | Kategorie | Категория |
-| fb.cat.* | Bug / Conversion problem / Idea / Question / Other | Fehler / Konvertierungsproblem / Idee / Frage / Sonstiges | Ошибка / Проблема конвертации / Идея / Вопрос / Другое |
-| fb.message | Message | Nachricht | Сообщение |
-| fb.name | Your first name | Ihr Vorname | Ваше имя |
-| fb.email | E-mail (optional, only if you want a reply) | E-Mail (optional, nur für eine Antwort) | E-mail (необязательно, только для ответа) |
-| fb.consent | I agree that DataDrivenConstruction processes this message to answer it. | Ich bin einverstanden, dass DataDrivenConstruction diese Nachricht zur Beantwortung verarbeitet. | Я согласен, что DataDrivenConstruction обрабатывает это сообщение, чтобы ответить на него. |
-| fb.tech | Sent with your message: | Wird mit Ihrer Nachricht gesendet: | Отправляется вместе с сообщением: |
-| fb.nofiles | No files, file names or folders are sent. | Es werden keine Dateien, Dateinamen oder Ordner gesendet. | Файлы, имена файлов и папки не отправляются. |
-| fb.pathhint | Please remove personal paths and project names. | Bitte entfernen Sie persönliche Pfade und Projektnamen. | Удалите личные пути и названия проектов. |
-| fb.send | Send | Senden | Отправить |
-| fb.sent | Thank you, your message was sent. | Vielen Dank, Ihre Nachricht wurde gesendet. | Спасибо, сообщение отправлено. |
-| fb.queued | No connection. Saved on this PC; we will offer to send it at the next start. | Keine Verbindung. Auf diesem PC gespeichert; wir bieten das Senden beim nächsten Start an. | Нет соединения. Сохранено на этом компьютере; предложим отправить при следующем запуске. |
-| fb.ratelimit | Too many messages from your network. Try again in {n} minutes. | Zu viele Nachrichten aus Ihrem Netzwerk. Versuchen Sie es in {n} Minuten erneut. | Слишком много сообщений из вашей сети. Повторите через {n} мин. |
-| fb.github | Open GitHub issue instead | Stattdessen GitHub-Issue öffnen | Открыть issue на GitHub |
-| fb.mail | Write an e-mail | E-Mail schreiben | Написать письмо |
-| fb.pending | {n} unsent feedback message(s). | {n} nicht gesendete Feedback-Nachricht(en). | Неотправленных сообщений: {n}. |
-| fb.pending.actions | Send now / Review / Not now | Jetzt senden / Ansehen / Nicht jetzt | Отправить / Просмотреть / Не сейчас |
+| support.card.title | If DDC helps you | Wenn DDC Ihnen hilft | Если DDC вам помогает |
+| support.card.body | If DDC helps you, a short honest review helps others find it. | Wenn DDC Ihnen hilft, hilft eine kurze, ehrliche Bewertung anderen, es zu finden. | Если DDC вам помогает, короткий честный отзыв поможет другим найти его. |
+| support.card.aria | DDC support options | DDC-Unterstützungsoptionen | Способы поддержать DDC |
+| support.star | Star on GitHub | Auf GitHub einen Stern geben | Поставить звезду на GitHub |
+| support.share | Share a post | Beitrag teilen | Поделиться постом |
+| support.share.linkedin | LinkedIn | LinkedIn | LinkedIn |
+| support.share.x | X | X | X |
+| support.share.text | DDC converters: Revit, IFC and DWG to Excel and IFC for construction data. Free for non-commercial use. | DDC-Konverter: Revit, IFC und DWG nach Excel und IFC für Bauwesen-Daten. Kostenlos für nicht-kommerzielle Nutzung. | Конвертеры DDC: Revit, IFC и DWG в Excel и IFC для строительных данных. Бесплатно для некоммерческого использования. |
+| support.review.g2 | Review on G2 | Auf G2 bewerten | Отзыв на G2 |
+| support.review.capterra | Review on Capterra | Auf Capterra bewerten | Отзыв на Capterra |
+| support.feedback | Send feedback | Feedback senden | Отправить отзыв |
+| support.notnow | Not now | Jetzt nicht | Не сейчас |
+| support.close | Close | Schließen | Закрыть |
+| newsletter.title | Product updates by e-mail | Produkt-Updates per E-Mail | Новости продукта по e-mail |
+| newsletter.email | E-mail address | E-Mail-Adresse | Адрес e-mail |
+| newsletter.consent | I want to receive product updates (new releases and important fixes) from DataDrivenConstruction by e-mail. I can unsubscribe at any time. | Ich möchte Produkt-Updates (neue Versionen und wichtige Korrekturen) von DataDrivenConstruction per E-Mail erhalten. Ich kann mich jederzeit abmelden. | Я хочу получать по e-mail новости продукта от DataDrivenConstruction (новые версии и важные исправления). Отписаться можно в любой момент. |
+| newsletter.privacy | Privacy | Datenschutz | Конфиденциальность |
+| newsletter.note | We first send one e-mail to confirm (double opt-in). Your address is used only for these updates. | Wir senden zuerst eine Bestätigungs-E-Mail (Double-Opt-in). Ihre Adresse wird nur für diese Updates verwendet. | Сначала мы отправим одно письмо для подтверждения (double opt-in). Адрес используется только для этих новостей. |
+| newsletter.subscribe | Subscribe | Abonnieren | Подписаться |
+| newsletter.ok | Please open the e-mail we sent and press the confirm button. | Bitte öffnen Sie die gesendete E-Mail und klicken Sie auf Bestätigen. | Откройте отправленное письмо и нажмите кнопку подтверждения. |
+| newsletter.queued | Saved. We will send it when you are online. | Gespeichert. Wir senden es, sobald Sie online sind. | Сохранено. Отправим, когда появится соединение. |
+| newsletter.invalid | Please enter a valid e-mail address. | Bitte geben Sie eine gültige E-Mail-Adresse ein. | Введите корректный адрес e-mail. |
+| newsletter.ratelimit | Too many attempts. Please try again later. | Zu viele Versuche. Bitte versuchen Sie es später erneut. | Слишком много попыток. Повторите позже. |
 
-Do not port OCERP's sentence about subscriber counts and reach; no unverifiable claims in the apps.
+Consent text version string: `updates-2026-10-20` (bump whenever `newsletter.consent` changes in any language; the server stores it with the request).
+Key list for all 15 locales: every `support.*` and `newsletter.*` key above (25 keys, as listed); the 15 UI locales are those of the language menu (owner order: RU is the fifth entry; pt-BR is included; the exact list is owned by the language-menu spec, not repeated here). EN, DE and RU are translated above; the remaining locales get these keys and fall back to EN at runtime until translated. Review/Capterra keys exist even when the buttons are hidden.
+
+### 7. Test cases (unit tests on the pure logic, no UI)
+Counter / show rule `shouldShow(n)` after increment:
+| Case | Input | Expected |
+|---|---|---|
+| T1 | n 1..4 | no |
+| T2 | n = 5 | yes |
+| T3 | n = 6, 7, 8, 9 | no |
+| T4 | n = 10 | yes; 15, 20 yes; 11 no |
+| T5 | commercial_licence true, n = 5 | no; counter unchanged (stays 0) |
+| T6 | licence.json missing / `"true"` string / 1 / invalid JSON | free (card shows at n=5) |
+| T7 | failed run, cancelled run, CLI run | counter unchanged |
+| T8 | batch of 30 files, success | counter +1 only |
+| T9 | Viewer: 5 successful file opens | yes at 5th |
+| T10 | two apps, each 4 successes | no card in either (separate counters); app A 5th success shows only in A |
+| T11 | prompt_state.json corrupt / > 64 KB / unwritable | no card, no throw, file untouched |
+| T12 | unknown keys in the file | preserved after a counter write |
+| T13 | counter 10, card shown, app restarted, 11th | no card; 15th yes |
+Newsletter:
+| Case | Input | Expected |
+|---|---|---|
+| N1 | `subscribedAt` set | field not rendered |
+| N2 | consent unchecked or invalid e-mail | Subscribe disabled, no request |
+| N3 | consent checked, valid e-mail, server ok:true | `subscribedAt` set, field hidden, `pending` cleared |
+| N4 | offline | queue file created with `consentAt`, `pending` set, field hidden, "Saved" text |
+| N5 | queued item, online at next start | request sent, file removed, `subscribedAt` set |
+| N6 | queued item, server 400 `email_invalid` | file removed, field shown again |
+| N7 | queue item without `consentAt` | never sent |
+| N8 | 429 | queue kept, no retry before 60 s |
+| N9 | commercial | no newsletter field |
+Buttons:
+| B1 | G2/Capterra URLs null | no review buttons rendered |
+| B2 | free edition | no "Don't ask again", no Settings opt-out, "Send feedback" present, "Not now" and X hide the card |
