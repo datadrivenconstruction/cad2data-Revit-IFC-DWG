@@ -331,7 +331,7 @@ output has no GLB, so for IFC pass one with `--glb-b`. Without any GLB the optio
 ![GLB coloured by status](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_glb.png)
 
 *The picture is a drawing of the output GLB made by `docs/render_glb_png.py` from a real RVT Converter run on
-`Sample_R24.rvt` and an edited copy (`docs/make_diff_demo.py`): one wall taller, one deleted, one added.*
+a Revit sample model (your own `.rvt` file works the same) and an edited copy (`docs/make_diff_demo.py`): one wall taller, one deleted, one added.*
 
 Limits, stated plainly: Revit ElementIds can change when a model is re-created and IFC STEP ids change on every
 export, so prefer `GlobalId`; a fingerprint cannot tell identical elements apart if they only moved; the RVT output has
