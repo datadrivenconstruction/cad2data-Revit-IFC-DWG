@@ -5,7 +5,7 @@ Excel as a table with one row per element and works on that table: statistics, p
 QTO, version comparison, JSON / XML / CSV export, 3D view of the RVT geometry.
 
 Download: [DDC-Excel-AddIn-2026.10.0-unsigned.zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-Excel-AddIn-2026.10.0-unsigned.zip)
-(4.2 MB, SHA-256 `f53f8c63af5b2ccb5f8680a2f5c94d5a7ddc5662aa2310a40fac3bf69208d85c`, also in the release's `SHA256SUMS.txt`).
+(4.3 MB, SHA-256 `148b167eacb4bd8436b60adb7d636a96fbae0af9c39bd538a6351f81072fdcb7`, also in the release's `SHA256SUMS.txt`).
 This folder holds the documentation only; the package is a release asset.
 
 ![DDC tab in Excel](./images/ribbon.png)
@@ -36,6 +36,10 @@ beside the model. Set the registry value `HKCU\Software\DataDrivenConstruction\E
 write `native_graph.ifc` (IFC4, experimental) for Revit files.
 
 ![RVT table](./images/rvt-table.png)
+
+The 3D view of the RVT geometry (GLB) opens from **Project Geometry**:
+
+![3D viewer](./images/viewer-3d.png)
 
 ## What the table contains
 
