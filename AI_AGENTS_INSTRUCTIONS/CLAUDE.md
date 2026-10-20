@@ -114,9 +114,9 @@ ddc-search --json --limit 10 "floor tiles"
 |--------|-------------|-------------|----------|
 | **GLB** | 3D model (`native_graph.glb`) | DDC RVT Converter | 3D visualization, web viewers, DDC Data Viewer |
 | **JSONL / SQLite** | Element properties and tables | RVT Converter (`--properties`), IFC to Excel | Data analysis, pandas, databases |
-| **XLSX / CSV** | Tables (elements as rows, properties as columns) | IFC to Excel, .dwg to Excel | Data analysis, pandas, databases |
+| **XLSX / CSV** | Tables (elements as rows, properties as columns) | IFC to Excel, DDC CAD Drawing to Excel | Data analysis, pandas, databases |
 | **IFC** | IFC4 (`native_graph.ifc`) | RVT Converter / RVT-to-IFC (`--ifc`) | Interoperability, BIM software |
-| **DXF / SVG** | Drawing geometry | .dwg to Excel | CAD/vector tooling |
+| **DXF / SVG** | Drawing geometry | DDC CAD Drawing to Excel | CAD/vector tooling |
 | **JSON reports** | `report.json`, `summary.json`, `result.json`, `REPORT.txt` | all | Quality control of every conversion |
 | **HTML** | Interactive reports with charts | n8n workflows | Dashboards, sharing results |
 
