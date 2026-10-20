@@ -29,7 +29,7 @@
 - **每次运行都有报告。** `report.json` / `summary.json` 以计数列出已读取和已跳过的内容。
 - **桌面应用与命令行**，每个转换器均提供，退出码适合批处理，并为脚本输出单行 JSON 状态。
 - **DDC Data Viewer 2.0：** 免费的表格与 3D 查看器，行与元素双向联动。
-- **离线且便携。** Windows 10/11 x64；除软件包（安装程序或便携 zip）外无需安装任何内容。Linux / macOS 版本即将推出（coming soon）。
+- **离线且便携。** Windows 10/11 x64；除软件包（安装程序或便携 zip）外无需安装任何内容。Linux（x64、arm64）与 macOS（arm64、x64）的命令行版本和 Data Viewer 见 Releases。
 
 下载：[`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/)（便携版，开箱即用）以及 [Releases 页面](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（安装程序和软件包）。
 
@@ -43,7 +43,7 @@
 | **DDC CAD Drawing to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
 | **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-RVT Converter 写出的每个几何节点都保留原生元素 ID，表格与 3D 可通过 `ElementId` 关联。所有软件包均可在 Windows 10/11 x64 上离线运行，无需 Autodesk 软件、Excel 或 Python。Linux / macOS 版本即将推出（coming soon）。
+RVT Converter 写出的每个几何节点都保留原生元素 ID，表格与 3D 可通过 `ElementId` 关联。所有软件包均可在 Windows 10/11 x64 上离线运行，无需 Autodesk 软件、Excel 或 Python。Linux（x64、arm64）与 macOS（arm64、x64）的命令行版本和 Data Viewer 见 Releases。
 
 ## 截图
 
@@ -82,7 +82,7 @@ n8n 工作流（`DDC_n8n_Workflows&Pipelines/`）和 Jupyter Notebook 通过 `dd
 - **RVT：** 不导出纹理；IFC 导出写出三角化（tessellated）的 IFC4。无法表示的元素会列入运行报告。
 - **IFC：** 支持 IFC2x3 和 IFC4 STEP 文件以及 `.ifczip`；不支持 IFCXML。原始记录始终保留在 `data.jsonl` / `data.sqlite` 中。
 - **DWG：** 支持 R13–2018 图纸。部分对象类型（例如某些表格、多重引线、3D 实体、图像）会在 `report.json` 中列为*不支持*，而不是错误导出。
-- **平台：** Windows 10/11 x64。**Linux / macOS 即将推出（coming soon）。**
+- **平台：** Windows 10/11 x64。**Linux / macOS：命令行版本和 Data Viewer 见 Releases。**
 
 ## 许可
 

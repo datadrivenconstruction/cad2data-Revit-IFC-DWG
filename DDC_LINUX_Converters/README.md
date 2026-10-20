@@ -1,4 +1,4 @@
-# DDC Linux Packages
+# DDC Linux and macOS Packages
 
 Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and supporting services.
 
@@ -19,13 +19,34 @@ Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and suppo
 > research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../EULA.md) and
 > [LICENSE-PROPRIETARY](../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence.
 
-## Converters: Linux / macOS status
+## Converters: Linux and macOS (x64, arm64)
 
-DDC Converters 2.0 (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC CAD Drawing to Excel, DDC Data Viewer)
-are released for Windows 10/11 x64 through GitHub Releases:
-<https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
-(see [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).
-**Linux and macOS builds are coming soon.**
+DDC Converters 2.0 for Linux (x64, arm64) and macOS (Apple Silicon arm64, Intel x64) are published as binaries in
+[GitHub Releases, v2026.10.0](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.0)
+(Windows builds: [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).
+
+| Product | Version | Linux / macOS file |
+|---|---|---|
+| DDC RVT Converter (command line `rvt-decode`) | 2.0.0 | `rvt-decode-2.0.0-<platform>.tar.gz` |
+| DDC IFC to Excel (`ifc2excel`) | 2.0.1 | `ifc2excel-2.0.1-<platform>.tar.gz` |
+| DDC CAD Drawing to Excel (`dwg2excel`) | 2.0.0 | `dwg2excel-2.0.0-<platform>.tar.gz` |
+| DDC Data Viewer | 2.0.0 | `ddc-data-viewer-2.0.0-<platform>.AppImage` / `.deb` (Linux), `.dmg` / `.app.tar.gz` (macOS) |
+
+`<platform>` is one of `linux-x64`, `linux-arm64`, `macos-arm64`, `macos-x64`.
+
+```bash
+tar xzf ifc2excel-2.0.1-linux-x64.tar.gz
+./ifc2excel-2.0.1-linux-x64/ifc2excel Building.ifc --output out
+./dwg2excel-2.0.0-linux-x64/dwg2excel Plan.dwg --output out
+```
+
+- **Linux:** glibc 2.35 or newer (Ubuntu 22.04 or newer, Debian 12 or newer). The Data Viewer needs WebKitGTK 4.1.
+- **macOS:** the binaries are signed ad hoc and not notarized. Clear the download quarantine flag once after unpacking:
+  `xattr -dr com.apple.quarantine <unpacked folder or .app>`.
+- **Verify:** `sha256sum -c SHA256SUMS-linux-macos.txt` (macOS: `shasum -a 256 -c`). The file is signed with keyless
+  cosign (`SHA256SUMS-linux-macos.txt.cosign.bundle`); build provenance is attested by the public workflow in
+  [ddc-release-builds](https://github.com/datadrivenconstruction/ddc-release-builds).
+- Licence: free for non-commercial use only, see the notice above and the EULA included in each package.
 
 ## Available Packages
 
