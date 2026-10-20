@@ -28,6 +28,7 @@ from . import ifcmodel
 from .columns import to_number
 from .ifcmodel import Model, SKIP_BY_DEFAULT
 from .loader import LoadError, is_empty, read_file
+from .paths import fs
 
 # --------------------------------------------------------------------------- column contract
 
@@ -350,7 +351,7 @@ def read_rvt_properties(path: Path) -> Tuple[List[Dict[str, Any]], Dict[str, str
     names: Dict[str, str] = {}
     notes: List[str] = []
     saved_year = None
-    with open(path, encoding="utf-8-sig") as fh:
+    with open(fs(path), encoding="utf-8-sig") as fh:
         for line in fh:
             if not line.strip():
                 continue
@@ -760,15 +761,55 @@ def build_table(path: str, kind: Optional[str] = None, include_all: bool = False
 
 # --------------------------------------------------------------------------- writers
 
-def write_csv(t: Table, path: str, delimiter: str = ",") -> None:
-    with open(path, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.writer(f, delimiter=delimiter)
-        w.writerow(t.columns)
+def list_separator() -> str:
+    """The delimiter Excel expects in the user's regional settings: ';' where the decimal separator is a
+    comma (most of Europe, Latin America, Russia, Turkey), ',' elsewhere. The OS locale is read only to
+    choose the delimiter; numbers in the file are always written with a '.' decimal point."""
+    import locale
+    dp = "."
+    try:
+        old = locale.setlocale(locale.LC_NUMERIC)
+        try:
+            locale.setlocale(locale.LC_NUMERIC, "")
+            dp = locale.localeconv().get("decimal_point", ".")
+        finally:
+            locale.setlocale(locale.LC_NUMERIC, old)
+    except (locale.Error, ValueError):
+        pass
+    return ";" if dp == "," else ","
+
+
+DELIMITERS = {"comma": ",", "semicolon": ";", "tab": "\t"}
+
+
+def resolve_delimiter(delimiter: str) -> str:
+    d = (delimiter or ",").lower()
+    if d == "auto":
+        return list_separator()
+    return DELIMITERS.get(d, delimiter)
+
+
+UNITS = {"Length": "m", "Width": "m", "Height": "m", "Perimeter": "m", "Area": "m2", "Volume": "m3"}
+
+
+def header_with_units(col: str) -> str:
+    """'Area' -> 'Area [m2]'. The RVT mesh quantities and IFC SI quantities are metric (m, m2, m3)."""
+    return f"{col} [{UNITS[col]}]" if col in UNITS else col
+
+
+def write_csv(t: Table, path: str, delimiter: str = ",", bom: bool = True, unit_headers: bool = False) -> None:
+    """UTF-8 CSV. ``bom=True`` (default) lets Excel detect UTF-8, so Cyrillic/CJK/Arabic text opens correctly.
+    ``delimiter``: ',', ';', a tab, or comma/semicolon/tab/auto (auto = ';' when the user's locale uses a decimal
+    comma, the delimiter Excel then expects). Numbers always use '.' as the decimal point."""
+    delim = resolve_delimiter(delimiter)
+    with open(fs(path), "w", newline="", encoding="utf-8-sig" if bom else "utf-8") as f:
+        w = csv.writer(f, delimiter=delim)
+        w.writerow([header_with_units(c) for c in t.columns] if unit_headers else t.columns)
         for r in t.rows:
             w.writerow([r.get(c, "") if r.get(c) is not None else "" for c in t.columns])
 
 
-def write_xlsx(t: Table, path: str, sheet: str = "Project_Data") -> None:
+def write_xlsx(t: Table, path: str, sheet: str = "Project_Data", unit_headers: bool = False) -> None:
     """Sheet name Project_Data is the one the old exports used."""
     from openpyxl import Workbook
     from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
@@ -778,7 +819,7 @@ def write_xlsx(t: Table, path: str, sheet: str = "Project_Data") -> None:
     wb = Workbook(write_only=False)
     ws = wb.active
     ws.title = sheet
-    ws.append(t.columns)
+    ws.append([header_with_units(c) for c in t.columns] if unit_headers else t.columns)
     for r in t.rows:
         ws.append([_xl(r.get(c)) for c in t.columns])
     style_header(ws, 1, len(t.columns))
@@ -795,7 +836,7 @@ def write_xlsx(t: Table, path: str, sheet: str = "Project_Data") -> None:
         info.append(["Note", n])
     info.column_dimensions["A"].width = 14
     info.column_dimensions["B"].width = 110
-    wb.save(path)
+    wb.save(fs(path))
 
 
 def _xl(v: Any) -> Any:

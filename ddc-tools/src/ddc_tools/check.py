@@ -11,6 +11,7 @@ import yaml
 from openpyxl.styles import Font
 
 from . import columns as C
+from .paths import fs
 from .loader import is_empty
 from .xlsxutil import (FILLS, new_workbook, style_header, write_table, autosize, title_cell)
 
@@ -27,7 +28,7 @@ class RuleError(Exception):
 
 def load_rules(path: str) -> Dict[str, Any]:
     try:
-        with open(path, encoding="utf-8") as f:
+        with open(fs(path), encoding="utf-8") as f:
             spec = yaml.safe_load(f)
     except (OSError, yaml.YAMLError) as e:
         raise RuleError(f"cannot read rules file {path}: {e}")
@@ -289,7 +290,7 @@ def run_checks(rows: List[Dict[str, Any]], spec: Dict[str, Any], source: str = "
         "findings_total": sum(r["findings"] for r in rule_results),
     }
     return {
-        "tool": "ddc check", "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "tool": "ddc check", "generated": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "ruleset": spec.get("name"), "source": source, "source_files": files or [],
         "columns_used": roles, "notes": list(notes or []), "summary": summary, "rules": rule_results, "findings": findings,
     }
@@ -365,4 +366,4 @@ def write_xlsx(result: Dict[str, Any], path: str) -> None:
     if trunc:
         wd.cell(len(data) + 3, 1, "Listing truncated for: " + ", ".join(
             f"{t['id']} ({t['findings_listed']} of {t['findings']})" for t in trunc))
-    wb.save(path)
+    wb.save(fs(path))

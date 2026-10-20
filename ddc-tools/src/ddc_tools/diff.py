@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from . import columns as C
+from .paths import fs
 from .loader import LoadError, is_empty
 from .table import QUANTITY_COLUMNS, Table, build_table
 from .xlsxutil import FILLS, autosize, new_workbook, title_cell, write_table
@@ -593,4 +594,4 @@ def write_xlsx(result: Dict[str, Any], path: str, include_unchanged: bool = Fals
     write_table(ws5, head5, rows5)
     ws5.cell(len(rows5) + 3, 1, "Totals are sums over all elements of each version, so added and removed elements are included.")
     autosize(ws5)
-    wb.save(path)
+    wb.save(fs(path))

@@ -8,11 +8,14 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import sqlite3
+from urllib.parse import quote
 from pathlib import Path
 from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 
 from . import adapters as A
+from .paths import fs
 
 Row = Dict[str, Any]
 # rows, quantity-column hint (None = detect by name), notes
@@ -74,7 +77,7 @@ def _ws_rows(ws) -> List[Row]:
 def _read_xlsx(path: Path, sheet: Optional[str]) -> Extra:
     from openpyxl import load_workbook
 
-    wb = load_workbook(path, read_only=True, data_only=True)
+    wb = load_workbook(fs(path), read_only=True, data_only=True)
     try:
         if not sheet and A.is_ifc_tables(wb.sheetnames):
             tabs = {n: _ws_rows(wb[n]) for n in A.IFC_TABLES if n in wb.sheetnames}
@@ -90,9 +93,47 @@ def _read_xlsx(path: Path, sheet: Optional[str]) -> Extra:
         wb.close()
 
 
+_SBCS = ["cp1251", "cp1253", "cp1252"]
+
+
+def _ansi_codepage() -> str:
+    import locale
+    enc = str(locale.getpreferredencoding(False)).lower()
+    return enc if enc in _SBCS else ""
+
+
+def _csv_encoding(path: Path) -> str:
+    """UTF-8 (with or without BOM) first; then UTF-16 (Excel "Unicode Text"), then the Windows code pages
+    that Excel uses for "CSV (Comma delimited)" in Cyrillic, Greek and Western European locales."""
+    with open(fs(path), "rb") as fh:
+        raw = fh.read()
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return "utf-16"
+    try:
+        raw.decode("utf-8-sig")
+        return "utf-8-sig"
+    except UnicodeDecodeError:
+        pass
+    # The system's own ANSI code page first (what Excel wrote the file in), then the others.
+    ansi = _ansi_codepage()
+    order = ([ansi] if ansi in _SBCS else []) + [e for e in _SBCS if e != ansi]
+    words = {"cp1251": re.compile("[\u0400-\u04ff]{3,}"), "cp1253": re.compile("[\u0370-\u03ff]{3,}")}
+    for enc in order:
+        try:
+            text = raw.decode(enc)
+        except UnicodeDecodeError:
+            continue
+        # cp1251/cp1253 decode almost any byte: take them (unless they are the system code page) only when the
+        # text has real words in that script; accented Latin letters decoded that way are isolated letters.
+        if enc in words and enc != ansi and not words[enc].search(text):
+            continue
+        return enc
+    return "utf-8-sig"
+
+
 def _read_csv(path: Path) -> Extra:
     csv.field_size_limit(1 << 30)
-    with open(path, newline="", encoding="utf-8-sig") as f:
+    with open(fs(path), newline="", encoding=_csv_encoding(path)) as f:
         first = f.readline()
         f.seek(0)
         # delimiter from the header line only; quoting stays standard (no dialect guessing)
@@ -103,7 +144,7 @@ def _read_csv(path: Path) -> Extra:
 
 
 def _read_jsonl(path: Path) -> Extra:
-    with open(path, encoding="utf-8-sig") as f:
+    with open(fs(path), encoding="utf-8-sig") as f:
         head = ""
         for line in f:
             if line.strip():
@@ -127,7 +168,7 @@ def _read_jsonl(path: Path) -> Extra:
             rows, notes = A.rvt_properties_rows(f)
             return rows, None, notes
     rows: List[Row] = []
-    with open(path, encoding="utf-8-sig") as f:
+    with open(fs(path), encoding="utf-8-sig") as f:
         for n, line in enumerate(f, 1):
             line = line.strip()
             if not line:
@@ -142,7 +183,7 @@ def _read_jsonl(path: Path) -> Extra:
 
 
 def _read_json(path: Path) -> Extra:
-    with open(path, encoding="utf-8-sig") as f:
+    with open(fs(path), encoding="utf-8-sig") as f:
         data = json.load(f)
     if isinstance(data, dict):
         for k in ("elements", "rows", "data", "items"):
@@ -155,7 +196,8 @@ def _read_json(path: Path) -> Extra:
 
 
 def _read_sqlite(path: Path, table: Optional[str]) -> Extra:
-    con = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+    # percent-encode: a "#", "?" or "%" in the file name would otherwise end the URI path early
+    con = sqlite3.connect("file:" + quote(Path(fs(path)).as_posix(), safe="/:") + "?mode=ro", uri=True)
     try:
         con.row_factory = sqlite3.Row
         names = [r[0] for r in con.execute(
