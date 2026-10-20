@@ -82,7 +82,9 @@ Les workflows n8n (`DDC_n8n_Workflows&Pipelines/`) et les notebooks Jupyter appe
 
 ## Licence
 
-Workflows, notebooks, scripts et documentation : [MIT](LICENSE). Paquets de convertisseurs : gratuits pour un usage privé et commercial selon l'EULA DataDrivenConstruction fournie ; voir [LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) et [NOTICE](NOTICE).
+Workflows, notebooks, scripts, documentation et `ddc-tools` : [MIT](LICENSE) (open source, y compris pour un usage commercial). Paquets de convertisseurs (binaires DDC) : propriétaires et **gratuits uniquement pour un usage non commercial** ; l'usage commercial exige une licence sur demande : info@datadrivenconstruction.io. Voir [EULA](EULA.md), [LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) et [NOTICE](NOTICE). La licence MIT de `ddc-tools` ne s'étend pas aux convertisseurs qu'il appelle.
+
+**Usage commercial** : tout usage par ou pour une entreprise, un indépendant, une administration ou une autre organisation (y compris ses employés), dans un travail ou un service rémunéré (y compris le traitement de fichiers pour des clients), dans un projet générant ou destiné à générer des revenus, ou au sein d'un produit, service, pipeline ou offre SaaS destiné à des tiers. **Usage non commercial** : apprentissage personnel, recherche académique, enseignement et études, et évaluation par des organisations à but non lucratif, dans chaque cas sans paiement, revenu ni but professionnel.
 
 ## Marques
 

@@ -20,7 +20,7 @@
   <img src="https://img.shields.io/badge/input-.rvt%20.rfa%20.ifc%20.ifczip%20.dwg-blue" alt="Input formats">
   <img src="https://img.shields.io/badge/output-.xlsx%20.csv%20.jsonl%20.glb%20.ifc%20.dxf%20.svg-green" alt="Output formats">
   <img src="https://img.shields.io/badge/platform-Windows%20x64%20%7C%20Linux%2FmacOS%20soon-lightgrey" alt="Windows x64; Linux and macOS coming soon">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT%20(workflows%2C%20docs)%20%2B%20freeware%20EULA%20(converters)-blue" alt="Licence"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT%20(workflows%2C%20docs)%20%2B%20non-commercial%20EULA%20(converters)-blue" alt="Licence"></a>
 </p>
 
 <p align="center">
@@ -281,12 +281,23 @@ confidential models.
 
 ## Licensing
 
-- **Workflows, notebooks, scripts, AI instructions and documentation** — [MIT License](LICENSE).
-- **Converter packages** (Releases) — one free edition (no paid tier), free of charge for private and commercial use under the
-  DataDrivenConstruction EULA shipped in each package (`EULA.txt`); see also
+- **Workflows, notebooks, scripts, AI instructions, documentation and `ddc-tools`** — [MIT License](LICENSE).
+  Open source, commercial use allowed.
+- **DDC converters** (binary packages on Releases and in `DDC_WINDOWS_Converters/` / `DDC_LINUX_Converters/`) —
+  proprietary software, **free for non-commercial use only**. **Commercial use requires a licence on request:**
+  [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Terms: [EULA](EULA.md),
   [LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) and [NOTICE](NOTICE). Third-party open-source components
   and their licences are listed in `licenses/` inside each package.
-- Commercial redistribution, OEM or SaaS integration: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io).
+- The MIT licence of `ddc-tools` does not extend to the converters it calls.
+
+**Commercial use** means any use by or on behalf of a business, company, self-employed professional, public
+authority or other organisation (including its employees or contractors); in paid work or services, including
+processing files for clients; in a project that generates or is intended to generate revenue; or inside a
+product, service, pipeline or SaaS offering made available to others. Redistribution, OEM and SaaS integration
+are covered too.
+**Non-commercial use** means personal learning and hobby use, academic research, teaching and study by
+students and instructors, and evaluation by non-profit organisations, in each case without payment, revenue
+or business purpose.
 
 Security reports: see [SECURITY.md](SECURITY.md). Patents, trademarks and export control:
 [PATENTS.md](PATENTS.md), [TRADEMARK.md](TRADEMARK.md), [EXPORT-COMPLIANCE.md](EXPORT-COMPLIANCE.md).

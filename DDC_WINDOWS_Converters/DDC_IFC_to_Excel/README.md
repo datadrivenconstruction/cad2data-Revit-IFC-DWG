@@ -5,6 +5,13 @@ Reads IFC2x3 / IFC4 (STEP and IFCZIP) and writes `drawing.xlsx`,
 Everything needed is in the package; nothing else has to be installed.
 Licence: DDC EULA, <https://datadrivenconstruction.io/term-of-use-and-eula/>; third-party notices in `SOURCES.json`.
 
+> **Licence: free for non-commercial use only.** Commercial use of the DDC converters requires a licence on
+> request: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Commercial use means use by or
+> for a business or organisation, in paid work or services (including processing files for clients), in
+> revenue-generating projects, or inside a product, service or SaaS offered to others. Personal learning,
+> research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../../EULA.md) and
+> [LICENSE-PROPRIETARY](../../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence.
+
 ## Desktop app
 
 Double-click `IFC to Excel.exe` (or `Start IFC to Excel.cmd`), choose IFC file(s) and an output folder.

@@ -2,7 +2,14 @@
 
 Reads `.dwg` drawings. Per drawing writes `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`,
 `REPORT.txt` including counts of decoded / skipped / unsupported records. Version: `MANIFEST.json`.
-Licence: `EULA.txt`. Desktop app: `DWG to Excel.exe`.
+Licence: `EULA.txt`.
+
+> **Licence: free for non-commercial use only.** Commercial use of the DDC converters requires a licence on
+> request: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Commercial use means use by or
+> for a business or organisation, in paid work or services (including processing files for clients), in
+> revenue-generating projects, or inside a product, service or SaaS offered to others. Personal learning,
+> research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../../EULA.md) and
+> [LICENSE-PROPRIETARY](../../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence. Desktop app: `DWG to Excel.exe`.
 
 ## Command line
 

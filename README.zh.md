@@ -82,7 +82,9 @@ n8n 工作流（`DDC_n8n_Workflows&Pipelines/`）和 Jupyter Notebook 通过 `dd
 
 ## 许可
 
-工作流、Notebook、脚本和文档：[MIT](LICENSE)。转换器软件包：依据随附的 DataDrivenConstruction EULA 可免费用于个人和商业用途；另见 [LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) 和 [NOTICE](NOTICE)。
+工作流、Notebook、脚本、文档和 `ddc-tools`：[MIT](LICENSE)（开源，可用于商业用途）。转换器软件包（DDC 二进制文件）：专有软件，**仅限非商业用途免费**；商业用途需向我们申请许可：info@datadrivenconstruction.io。详见 [EULA](EULA.md)、[LICENSE-PROPRIETARY](LICENSE-PROPRIETARY) 和 [NOTICE](NOTICE)。`ddc-tools` 的 MIT 许可不适用于它所调用的转换器。
+
+**商业用途**指由企业、个体经营者、公共机构或其他组织（含其员工）使用或为其使用，用于有偿工作或服务（包括为客户处理文件）、产生或意图产生收入的项目，或用于向他人提供的产品、服务、流水线或 SaaS。**非商业用途**指个人学习、学术研究、师生教学与学习，以及非营利组织的评估，且均无报酬、收入或商业目的。
 
 ## 商标
 
