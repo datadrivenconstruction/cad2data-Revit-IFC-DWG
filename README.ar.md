@@ -31,7 +31,7 @@
 - **تقرير لكل تشغيل.** يسرد `report.json` / `summary.json` بالأعداد ما قُرئ وما تُخطّي.
 - **تطبيقات سطح المكتب وسطر الأوامر** لكل محول، مع رموز خروج مناسبة للمعالجة الدفعية وحالة JSON في سطر واحد للسكربتات.
 - **DDC Data Viewer 2.0:** عارض مجاني للجداول والنموذج ثلاثي الأبعاد مع ربط ثنائي الاتجاه بين الصفوف والعناصر.
-- **دون اتصال ومحمول.** Windows 10/11 x64؛ لا حاجة لتثبيت أي شيء سوى الحزمة (مثبّت أو zip محمول). إصدارات Linux / macOS قريبًا (coming soon).
+- **دون اتصال ومحمول.** Windows 10/11 x64؛ لا حاجة لتثبيت أي شيء سوى الحزمة (مثبّت أو zip محمول). إصدارات Linux (x64، arm64) وmacOS (arm64، x64) لسطر الأوامر ولـ Data Viewer ضمن Releases.
 
 التنزيل: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (محمولة وجاهزة للتشغيل) و[صفحة الإصدارات](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (المثبّتات والحزم).
 
@@ -45,7 +45,7 @@
 | **DDC CAD Drawing to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
 | **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-تحتفظ كل عقدة هندسية يكتبها RVT Converter بمعرّف العنصر الأصلي، فتُربط الجداول والنموذج ثلاثي الأبعاد عبر `ElementId`. تعمل جميع الحزم دون اتصال على Windows 10/11 x64 ولا تحتاج إلى برامج Autodesk أو Excel أو Python. إصدارات Linux / macOS قريبًا (coming soon).
+تحتفظ كل عقدة هندسية يكتبها RVT Converter بمعرّف العنصر الأصلي، فتُربط الجداول والنموذج ثلاثي الأبعاد عبر `ElementId`. تعمل جميع الحزم دون اتصال على Windows 10/11 x64 ولا تحتاج إلى برامج Autodesk أو Excel أو Python. إصدارات Linux (x64، arm64) وmacOS (arm64، x64) لسطر الأوامر ولـ Data Viewer ضمن Releases.
 
 ## لقطات الشاشة
 
@@ -88,7 +88,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 - **RVT:** لا تُصدَّر الخامات؛ ويكتب تصدير IFC ملف IFC4 بهندسة مثلثية. العناصر التي يتعذر تمثيلها مدرجة في تقرير التشغيل.
 - **IFC:** ملفات IFC2x3 وIFC4 STEP و`.ifczip`؛ ولا يُدعم IFCXML. تبقى السجلات الأصلية دائمًا في `data.jsonl` / `data.sqlite`.
 - **DWG:** رسومات R13–2018. تُدرج بعض أنواع الكائنات (مثل بعض الجداول والخطوط الإرشادية المتعددة والأجسام ثلاثية الأبعاد والصور) في `report.json` على أنها *غير مدعومة* بدلًا من تصديرها بشكل خاطئ.
-- **المنصات:** Windows 10/11 x64. **Linux / macOS قريبًا (coming soon).**
+- **المنصات:** Windows 10/11 x64. **Linux / macOS: متوفر ضمن Releases (سطر الأوامر وData Viewer).**
 
 ## الترخيص
 

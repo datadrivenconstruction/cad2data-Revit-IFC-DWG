@@ -29,7 +29,7 @@ Der Oktober-2026-Release der gesamten Produktlinie: RVT Converter 2.0, RVT to IF
 - **Ein Bericht pro Lauf.** `report.json` / `summary.json` listen mit Zählwerten auf, was gelesen und was übersprungen wurde.
 - **Desktop-Apps und Kommandozeile** für jeden Konverter, stapelfreundliche Exit-Codes und JSON-Statuszeile für Skripte.
 - **DDC Data Viewer 2.0:** kostenloser Tabellen- und 3D-Viewer mit wechselseitiger Verknüpfung von Zeilen und Elementen.
-- **Offline und portabel.** Windows 10/11 x64, außer dem Paket (Installer oder portables Zip) ist nichts zu installieren. Linux- / macOS-Builds — coming soon.
+- **Offline und portabel.** Windows 10/11 x64, außer dem Paket (Installer oder portables Zip) ist nichts zu installieren. Linux- (x64, arm64) und macOS-Builds (arm64, x64) für die Kommandozeile und den Data Viewer: siehe Releases.
 
 Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portabel, sofort startbereit) und die [Releases-Seite](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (Installer und Pakete).
 
@@ -82,7 +82,7 @@ Die n8n-Workflows (`DDC_n8n_Workflows&Pipelines/`) und Jupyter-Notebooks rufen d
 - **RVT:** Texturen werden nicht exportiert; der IFC-Export schreibt tessellierte IFC4. Nicht darstellbare Elemente stehen im Laufbericht.
 - **IFC:** IFC2x3- und IFC4-STEP-Dateien sowie `.ifczip`; IFCXML wird nicht unterstützt. Die Originaldatensätze bleiben stets in `data.jsonl` / `data.sqlite`.
 - **DWG:** Zeichnungen R13–2018. Einige Objekttypen (z. B. bestimmte Tabellen, Multileader, 3D-Volumenkörper, Bilder) stehen in `report.json` als *nicht unterstützt*, statt falsch exportiert zu werden.
-- **Plattformen:** Windows 10/11 x64. **Linux / macOS — coming soon.**
+- **Plattformen:** Windows 10/11 x64. **Linux / macOS: Kommandozeile und Data Viewer, siehe Releases.**
 
 ## Lizenz
 
