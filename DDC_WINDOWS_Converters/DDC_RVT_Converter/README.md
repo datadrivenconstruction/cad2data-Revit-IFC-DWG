@@ -1,52 +1,97 @@
-# DDC RVT Converter 2.0 (portable, Windows x64)
+# DDC RVT Converter 2.0 for Windows
 
-![DDC RVT Converter main window](../../docs/images/rvt-converter-main.png)
+Open the data inside Revit models without Revit: get a spreadsheet of every element, a 3D model and,
+if you need it, an IFC file. Made for estimators, BIM managers, analysts and anyone who receives `.rvt` files
+and wants to count, check or reuse what is inside them.
 
-Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and supports Revit 2019–2027 and writes a GLB model, JSON summary and report (IFC4 on request with `--ifc`).
-Each run writes `report.json` and `summary.json` next to the result: they list what was read and what was skipped.
-The exact version is in `MANIFEST.json` in this folder. Licence: `EULA.txt`.
+![DDC RVT Converter with a Revit model ready to convert](../../docs/images/rvt-converter-main.png)
+*A Revit model in the list; the buttons at the bottom choose what to write: properties, IFC4, glTF, OBJ.*
 
-> **Licence: free for non-commercial use only.** Commercial use of the DDC converters requires a licence on
-> request: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Commercial use means use by or
-> for a business or organisation, in paid work or services (including processing files for clients), in
-> revenue-generating projects, or inside a product, service or SaaS offered to others. Personal learning,
-> research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../../EULA.md) and
-> [LICENSE-PROPRIETARY](../../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence.
+## What you get
 
-## Layout
+For every model, the app creates a folder next to it (for example `Family House.converted`) with:
 
-```
-DDC_RVT_Converter\
-  RVT Converter.exe             desktop app
-  cli\RVTconverter.exe          command line (use this from scripts, n8n, notebooks)
-  MANIFEST.json, licenses\, EULA.txt, README.html
-```
+| File | What it is | Open it with |
+|---|---|---|
+| `elements.xlsx` | A spreadsheet of every element: category, family, type, level, length, area, volume and parameters | Excel, LibreOffice, Power BI, Python |
+| 3D model (`.glb`) | A lightweight 3D model; each part keeps the element id of the row in the spreadsheet | DDC Data Viewer, Windows 3D Viewer, any web viewer |
+| IFC file (`.ifc`), when *Export IFC4* is on | The model in the open IFC format for other BIM programs | Solibri, BIMcollab, Navisworks, Archicad, BlenderBIM and others |
+| Properties (`.jsonl`), when *Element properties* is on | All saved parameters of every element, for scripts and databases | Python, n8n, any JSON tool |
 
-Keep the whole folder together. Installer and zip of every version: [Releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases).
+## Supported Revit versions
+
+| Revit version the file was saved in | Supported |
+|---|---|
+| 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027 | Yes |
+| `.rvt` projects and `.rfa` families | Yes |
+| Older than 2019 | No — open and save the file in a newer Revit first |
+
+## Getting started
+
+1. **Download.** Get `DDC-RVT-Converter-…-portable.zip` (or the installer) from the
+   [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) and unzip it to any folder,
+   for example `C:\DDC\RVT-Converter\`. Nothing else needs to be installed.
+2. **Add your models.** Start `RVT Converter.exe`, then drag `.rvt` or `.rfa` files (or a whole folder) into the window,
+   or use **Add files…**.
+3. **Choose the outputs.** Switch on *Element properties* for all parameters and *Export IFC4* for an IFC file;
+   glTF and OBJ are there if your 3D tool needs them.
+4. **Press Convert** and wait until the status says *Written*.
+
+   ![Finished conversion with the result folder name](../../docs/images/rvt-converter-done.png)
+   *Done: the result folder is shown under Result; **Open output** in the status bar opens it.*
+
+5. **Open the result** in Excel, or open `elements.xlsx` in the free DDC Data Viewer to see the table and the 3D model together.
+
+   ![Element table of a family house with the 3D model next to it](../../docs/images/rvt-results-table.png)
+   *The element table of a two-storey house: 189 elements by category, family, type and level, with totals on the right.*
+
+   ![Windows filtered in the table and highlighted in the 3D model](../../docs/images/rvt-results-3d.png)
+   *Filter the table — here by Windows — and the matching elements light up in 3D.*
 
 ## Command line
 
+For batch jobs and scripts, use `cli\RVTconverter.exe` from the same folder:
+
 ```bat
-:: model -> GLB + summary.json + report.json in <name>.converted beside the input
-cli\RVTconverter.exe "C:\Models\Project.rvt"
+:: 3D model and reports into "Family House.converted" next to the file
+cli\RVTconverter.exe "C:\Projects\House\Family House.rvt"
 
-:: choose the output folder (it must not exist yet) and also write IFC4
-cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out\Project" --ifc
-
-:: property table (properties.jsonl), glTF, OBJ
-cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out\Project2" --properties --gltf --obj
+:: choose the output folder and also write all properties and an IFC file
+cli\RVTconverter.exe "C:\Projects\House\Family House.rvt" -o "C:\Projects\House\Export" --properties --ifc
 ```
 
-`cli\RVTconverter.exe --help` lists all options (IFC profiles, units, origin, category and phase filters).
-Exit codes: 0 written, 2 written with reported gaps or invalid arguments, 1 failure.
+`cli\RVTconverter.exe --help` lists every option. The program returns 0 when everything was written,
+2 when the result was written with notes in the report, and 1 when it failed.
 
-## Flat table for scripts
+## Frequently asked questions
 
-The output is a folder `<name>.converted` (GLB, JSON, optional `properties.jsonl`). A flat table (`<name>_rvt.xlsx`, sheet `Project_Data`) is built by `ddc convert` / `ddc table` (folder `ddc-tools` of this repository); the 3D model is the GLB.
+**Do I need Revit or an Autodesk account?** No. The app reads the files itself.
 
-## Updating
+**Which Revit versions are supported?** Files saved in Revit 2019 to 2027.
 
-This folder is replaced as a whole by a newer release: delete the folder contents except this
-`README.md`, then copy the contents of the new portable zip into it.
+**Is it free?** Yes, for non-commercial use: learning, research, teaching and personal projects.
+Using it in paid work, for clients, or inside a company product needs a commercial licence —
+write to [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Full terms: [EULA](../../EULA.md).
 
-Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with, endorsed by or certified by Autodesk. File-format names (RVT, RFA, DWG, DXF) identify file formats only.
+**Which Windows?** Windows 10 or 11, 64-bit. The portable version runs from any folder, even a USB stick.
+
+**Are my files uploaded anywhere?** No. Everything happens on your computer; models never leave it,
+and the app works without an internet connection.
+
+**I only need IFC.** Then [DDC RVT to IFC](../DDC_RVT_to_IFC/) is the simpler choice: it has the IFC settings up front.
+
+**How do I update?** Download the new zip from [Releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)
+and replace the contents of the folder. Keep the whole folder together: the app needs the `cli` folder next to it.
+
+## Help and feedback
+
+- Questions, ideas or a file that does not convert: [open an issue](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/issues)
+  or use **Help → Feedback…** in the app.
+- Commercial licences and projects: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io)
+- Website: [datadrivenconstruction.io](https://datadrivenconstruction.io)
+
+---
+
+<sub>Screenshots: the house model is `home1.rvt` (MIT licence); *Openings Study* is `revit-openings_v22.rvt` from McNeel's
+Rhino.Inside.Revit samples (MIT licence). Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with,
+endorsed by or certified by Autodesk. File-format names (RVT, RFA, IFC) identify file formats only.</sub>
