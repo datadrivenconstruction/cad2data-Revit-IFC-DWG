@@ -14,21 +14,32 @@
 
 <p align="center"><img src="docs/images/data-viewer-3d-grouped.png" width="100%" alt="DDC Data Viewer"></p>
 
-## Novedades de octubre de 2026
+## Novedades de DDC Converters 2.0
 
-Los convertidores se basan ahora en **lectores de formato propios de DataDrivenConstruction** (RVT: Rust; IFC y DWG: Python) y ya no dependen de ningún SDK CAD de terceros. Los programas de la generación 18.x (`RvtExporter.exe`, `IfcExporter.exe`, `DwgExporter.exe`, `DgnExporter.exe`, `RVT2IFCconverter.exe`) se han retirado del repositorio; los nuevos paquetes están en la [página de releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases). DGN no está soportado por ahora. Todos los convertidores nuevos son versiones preliminares y generan un informe de lo leído, omitido o rechazado.
+La versión de octubre de 2026 de toda la línea: RVT Converter 2.0, RVT to IFC 2.0, IFC to Excel 2.0, DWG to Excel 2.0, Data Viewer 2.0 y Excel Add-in 2.0.
+
+- **Una herramienta por familia de formatos.** `.rvt` / `.rfa` a GLB, glTF, OBJ, IFC4 y tablas JSONL / CSV / SQLite; `.ifc` / `.ifczip` a Excel, JSONL y SQLite; `.dwg` a Excel, CSV, JSONL, DXF y SVG.
+- **Revit 2019–2027** se lee directamente, sin software de Autodesk y sin licencias CAD.
+- **Exportación IFC4 desde Revit** con conjuntos de propiedades, cantidades, clasificación y materiales, y los perfiles `full`, `coordination` y `geometry`; unidades, origen, categorías y fases desde la línea de comandos.
+- **ID de elemento en todas partes.** Cada nodo de geometría conserva el ID nativo del elemento, de modo que tablas y 3D se unen por `ElementId`.
+- **Un informe por ejecución.** `report.json` / `summary.json` indican con recuentos qué se leyó y qué se omitió.
+- **Aplicaciones de escritorio y línea de comandos** para cada convertidor, códigos de salida aptos para lotes y estado JSON en una línea para scripts.
+- **DDC Data Viewer 2.0:** visor gratuito de tablas y 3D con enlace bidireccional entre filas y elementos.
+- **Sin conexión y portátil.** Windows 10/11 x64; solo hay que instalar el paquete (instalador o zip portable). Compilaciones para Linux / macOS — coming soon.
+
+Descargas: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portables, listos para usar) y la [página de releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (instaladores y paquetes).
 
 ## Convertidores
 
 | Paquete | Versión | Lee | Escribe |
 |---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 (conjuntos de propiedades, cantidades, clasificación, materiales) |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
+| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-Todos los paquetes funcionan sin conexión en Windows 10/11 x64 y no requieren software de Autodesk, Excel ni Python.
+Cada nodo de geometría escrito por RVT Converter conserva el ID nativo del elemento, de modo que tablas y 3D se unen por `ElementId`. Todos los paquetes funcionan sin conexión en Windows 10/11 x64 y no requieren software de Autodesk, Excel ni Python. Compilaciones para Linux / macOS — coming soon.
 
 ## Capturas
 
@@ -60,11 +71,14 @@ Opciones, archivos de salida y códigos de salida: [README en inglés](README.md
 
 ## Flujos n8n, notebooks y agentes de IA
 
-Los flujos n8n (`DDC_n8n_Workflows&Pipelines/`) y los notebooks de Jupyter están portados a los nuevos convertidores: llaman a los convertidores mediante `ddc convert` / `ddc table` (herramienta gratuita [`ddc-tools/`](ddc-tools/)), que reconstruye la tabla plana con el diseño antiguo (`*_rvt.xlsx`, hoja `Project_Data`) a partir de la salida de los convertidores; DAE se sustituye por GLB. Instalación única: `pip install ddc-tools\`. Lo comprobado y lo no cubierto figura en el `README.md` junto a los flujos y notebooks. `AI_AGENTS_INSTRUCTIONS/` ya describe los nuevos comandos.
+Los flujos n8n (`DDC_n8n_Workflows&Pipelines/`) y los notebooks de Jupyter llaman a los convertidores mediante `ddc convert` / `ddc table` (herramienta gratuita [`ddc-tools/`](ddc-tools/)), que construye la tabla plana (`*_rvt.xlsx`, hoja `Project_Data`) a partir de la salida de los convertidores; la geometría 3D es GLB. Instalación única: `pip install ddc-tools\`. Lo comprobado y lo no cubierto figura en el `README.md` junto a los flujos y notebooks. `AI_AGENTS_INSTRUCTIONS/` contiene el contexto con las líneas de comandos actuales.
 
-## Limitaciones
+## Alcance admitido y notas
 
-RVT: integridad geométrica no certificada, sin texturas, IFC4 teselado. IFC: sin IFCXML. DWG: algunos tipos de objeto se notifican como no soportados en lugar de exportarse mal; revise `report.json`. Por ahora solo Windows x64; Linux / macOS — coming soon.
+- **RVT:** las texturas no se exportan; la exportación IFC escribe IFC4 teselado. Los elementos que no pueden representarse constan en el informe de la ejecución.
+- **IFC:** archivos IFC2x3 e IFC4 STEP y `.ifczip`; IFCXML no está soportado. Los registros originales permanecen siempre en `data.jsonl` / `data.sqlite`.
+- **DWG:** dibujos R13–2018. Algunos tipos de objeto (por ejemplo ciertas tablas, multiflechas, sólidos 3D, imágenes) figuran en `report.json` como *no soportados* en lugar de exportarse mal.
+- **Plataformas:** Windows 10/11 x64. **Linux / macOS — coming soon.**
 
 ## Licencia
 

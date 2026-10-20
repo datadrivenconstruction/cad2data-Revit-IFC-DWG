@@ -16,21 +16,32 @@
 
 <p align="center"><img src="docs/images/data-viewer-3d-grouped.png" width="100%" alt="DDC Data Viewer"></p>
 
-## الجديد في أكتوبر 2026
+## الجديد في DDC Converters 2.0
 
-أصبحت المحولات تعتمد على **قارئات صيغ خاصة بشركة DataDrivenConstruction** ‏(RVT: ‏Rust؛ IFC وDWG: ‏Python) ولم تعد تعتمد على أي SDK خارجي لبرامج CAD. أُوقفت برامج الجيل 18.x ‏(`RvtExporter.exe` و`IfcExporter.exe` و`DwgExporter.exe` و`DgnExporter.exe` و`RVT2IFCconverter.exe`) وأزيلت من المستودع، وتُنشر الحزم الجديدة في [صفحة الإصدارات](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases). صيغة DGN غير مدعومة حاليًا. جميع المحولات الجديدة إصدارات تجريبية، ويكتب كل تشغيل تقريرًا بما قُرئ أو تُخطّي أو رُفض.
+إصدار أكتوبر 2026 لخط المنتجات بالكامل: RVT Converter 2.0 وRVT to IFC 2.0 وIFC to Excel 2.0 وDWG to Excel 2.0 وData Viewer 2.0 وExcel Add-in 2.0.
+
+- **أداة واحدة لكل عائلة صيغ.** تحويل `.rvt` / `.rfa` إلى GLB وglTF وOBJ وIFC4 وجداول JSONL / CSV / SQLite؛ و`.ifc` / `.ifczip` إلى Excel وJSONL وSQLite؛ و`.dwg` إلى Excel وCSV وJSONL وDXF وSVG.
+- **ملفات Revit 2019–2027** تُقرأ مباشرة دون برامج Autodesk ودون تراخيص CAD.
+- **تصدير IFC4 من Revit** مع مجموعات الخصائص والكميات والتصنيف والمواد، وبالملفات الشخصية `full` و`coordination` و`geometry`؛ والوحدات ونقطة الأصل والفئات والمراحل عبر سطر الأوامر.
+- **معرّفات العناصر في كل مكان.** تحتفظ كل عقدة هندسية بمعرّف العنصر الأصلي، فتُربط الجداول والنموذج ثلاثي الأبعاد عبر `ElementId`.
+- **تقرير لكل تشغيل.** يسرد `report.json` / `summary.json` بالأعداد ما قُرئ وما تُخطّي.
+- **تطبيقات سطح المكتب وسطر الأوامر** لكل محول، مع رموز خروج مناسبة للمعالجة الدفعية وحالة JSON في سطر واحد للسكربتات.
+- **DDC Data Viewer 2.0:** عارض مجاني للجداول والنموذج ثلاثي الأبعاد مع ربط ثنائي الاتجاه بين الصفوف والعناصر.
+- **دون اتصال ومحمول.** Windows 10/11 x64؛ لا حاجة لتثبيت أي شيء سوى الحزمة (مثبّت أو zip محمول). إصدارات Linux / macOS قريبًا (coming soon).
+
+التنزيل: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (محمولة وجاهزة للتشغيل) و[صفحة الإصدارات](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (المثبّتات والحزم).
 
 ## المحولات
 
 | الحزمة | الإصدار | المدخلات | المخرجات |
 |---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 (مجموعات الخصائص والكميات والتصنيف والمواد) |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
+| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-تعمل جميع الحزم دون اتصال على Windows 10/11 x64 ولا تحتاج إلى برامج Autodesk أو Excel أو Python.
+تحتفظ كل عقدة هندسية يكتبها RVT Converter بمعرّف العنصر الأصلي، فتُربط الجداول والنموذج ثلاثي الأبعاد عبر `ElementId`. تعمل جميع الحزم دون اتصال على Windows 10/11 x64 ولا تحتاج إلى برامج Autodesk أو Excel أو Python. إصدارات Linux / macOS قريبًا (coming soon).
 
 ## لقطات الشاشة
 
@@ -66,11 +77,14 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## سير عمل n8n والدفاتر ووكلاء الذكاء الاصطناعي
 
-نُقلت مسارات n8n ‏(`DDC_n8n_Workflows&Pipelines/`) ودفاتر Jupyter إلى المحولات الجديدة: فهي تستدعي المحولات عبر `ddc convert` / `ddc table` (الأداة المجانية [`ddc-tools/`](ddc-tools/)) التي تبني من مخرجات المحولات الجدول المسطح بالتخطيط القديم (`*_rvt.xlsx`، ورقة `Project_Data`)، واستُبدل DAE بـ GLB. التثبيت لمرة واحدة: `pip install ddc-tools\`. ما جرى التحقق منه وما لا يغطيه النقل مذكور في `README.md` بجوار المسارات والدفاتر. يصف `AI_AGENTS_INSTRUCTIONS/` الأوامر الجديدة.
+تستدعي مسارات n8n ‏(`DDC_n8n_Workflows&Pipelines/`) ودفاتر Jupyter المحولات عبر `ddc convert` / `ddc table` (الأداة المجانية [`ddc-tools/`](ddc-tools/)) التي تبني من مخرجات المحولات الجدول المسطح (`*_rvt.xlsx`، ورقة `Project_Data`)؛ والهندسة ثلاثية الأبعاد بصيغة GLB. التثبيت لمرة واحدة: `pip install ddc-tools\`. ما جرى التحقق منه وما لا يغطيه مذكور في `README.md` بجوار المسارات والدفاتر. يتضمن `AI_AGENTS_INSTRUCTIONS/` السياق مع أوامر سطر الأوامر الحالية.
 
-## القيود
+## النطاق المدعوم وملاحظات
 
-RVT: اكتمال الهندسة غير معتمد، لا تُصدَّر الخامات، وIFC4 بهندسة مثلثية. IFC: لا يدعم IFCXML. DWG: يُبلَّغ عن بعض أنواع الكائنات كغير مدعومة بدلًا من تصديرها بشكل خاطئ — راجع `report.json`. حاليًا Windows x64 فقط؛ Linux / macOS قريبًا (coming soon).
+- **RVT:** لا تُصدَّر الخامات؛ ويكتب تصدير IFC ملف IFC4 بهندسة مثلثية. العناصر التي يتعذر تمثيلها مدرجة في تقرير التشغيل.
+- **IFC:** ملفات IFC2x3 وIFC4 STEP و`.ifczip`؛ ولا يُدعم IFCXML. تبقى السجلات الأصلية دائمًا في `data.jsonl` / `data.sqlite`.
+- **DWG:** رسومات R13–2018. تُدرج بعض أنواع الكائنات (مثل بعض الجداول والخطوط الإرشادية المتعددة والأجسام ثلاثية الأبعاد والصور) في `report.json` على أنها *غير مدعومة* بدلًا من تصديرها بشكل خاطئ.
+- **المنصات:** Windows 10/11 x64. **Linux / macOS قريبًا (coming soon).**
 
 ## الترخيص
 

@@ -72,7 +72,7 @@ echo $?    # 0 = pass, 1 = failing rules, 2 = bad input or rules file
 
 ![Traffic-light summary](docs/check_summary.png)
 
-*Real run on the IFC Duplex sample of this repository, converted by DDC IFC to Excel 0.3.1-preview
+*Real run on the IFC Duplex sample of this repository, converted by DDC IFC to Excel 2.0
 (`examples/rules_ifc.yaml`). The picture is drawn from the cell contents of the generated XLSX
 (`docs/render_xlsx_png.py`), not a screenshot of Excel. The door fire ratings in that model hold the
 placeholder text "Fire Rating", which the rule `IFC-DOOR-FIRE-VALUE` flags.*
@@ -143,9 +143,8 @@ code 2 (written with reported gaps) is accepted, the gaps are in `report.json` /
 
 ## `ddc table`
 
-The current converters do not write the flat per-element sheet the 18.x converters did (`<name>_rvt.xlsx`,
-sheet `Project_Data`). `ddc table` rebuilds it, so spreadsheets, notebooks and n8n steps written for that
-layout keep working.
+The converters write JSONL / CSV / GLB. `ddc table` builds the flat per-element sheet (`<name>_rvt.xlsx`,
+sheet `Project_Data`), so spreadsheets, notebooks and n8n steps that expect that layout work with the converter output.
 
 ```bash
 # RVT: convert with properties (+ IFC for names), then build the table

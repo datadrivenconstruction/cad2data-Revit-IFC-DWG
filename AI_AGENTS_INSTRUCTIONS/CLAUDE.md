@@ -2,7 +2,7 @@
 
 ## About This Repository
 
-You are working with the **CAD2DATA Pipeline** - a suite of tools and automation templates for extracting, converting, and validating construction data from `.rvt`, IFC, and `.dwg` files. The MIT-licensed parts (workflows, scripts, instructions) are open source; the DDC converter binaries are proprietary previews distributed via GitHub Releases.
+You are working with the **CAD2DATA Pipeline** - a suite of tools and automation templates for extracting, converting, and validating construction data from `.rvt`, IFC, and `.dwg` files. The MIT-licensed parts (workflows, scripts, instructions) are open source; the DDC converter binaries are proprietary software distributed  GitHub Releases.
 
 **Key advantage**: The converters have CLI interfaces that you can execute directly (DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel, DDC RVT Converter).
 
@@ -20,11 +20,11 @@ The DDC converters are distributed as release packages (not stored in git):
 <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
 
 Suggested unpack locations: `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`.
-All of them are **previews**: quality is not fully qualified. Always read the report each tool writes and verify results before relying on them.
+Always read the report each tool writes and verify results before relying on them.
 
-### DDC RVT Converter 0.6.8 (and DDC RVT-to-IFC 0.6.8) - `.rvt` / `.rfa` files
+### DDC RVT Converter 2.0 (and DDC RVT-to-IFC 2.0) - `.rvt` / `.rfa` files
 
-Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® 2019-2027. Desktop app `RVT Converter.exe` and CLI `cli\RVTconverter.exe` (same Rust engine; DDC RVT-to-IFC has IFC defaults).
+Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® 2019-2027. Desktop app `RVT Converter.exe` and CLI `cli\RVTconverter.exe` (DDC RVT-to-IFC has IFC defaults).
 
 ```bash
 RVTconverter.exe "C:\Models\Project.rvt" [-o OUTDIR] [--properties] [--ifc] [--gltf] [--obj]
@@ -41,13 +41,13 @@ C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-pr
 
 - Output folder: `<stem>.converted` (never overwrites an existing folder). Always contains `native_graph.glb` (3D model), `summary.json`, `report.json`.
 - `--properties` adds `properties.jsonl` and `property_scopes.jsonl` (element properties, one JSON object per line).
-- `--ifc` adds `native_graph.ifc` (IFC4, **experimental**).
+- `--ifc` adds `native_graph.ifc` (IFC4.
 - Exit codes: `0` ok, `2` written with gaps (or bad arguments), `1` failure. Check `report.json` on exit code 2.
 - The desktop app also writes CSV tables and SQLite.
 
-### DDC IFC to Excel 0.3.1-preview - `.ifc` / `.ifczip` files
+### DDC IFC to Excel 2.0 - `.ifc` / `.ifczip` files
 
-Portable Python app with its own IFC reader (no IfcOpenShell at runtime). Reads IFC2x3 and IFC4 (SPF and IFCZIP).
+Portable app. Reads IFC2x3 and IFC4 (STEP and IFCZIP).
 
 ```bash
 runtime\python.exe sources\ifc-excel\converter.py model.ifc --output OUTDIR
@@ -59,9 +59,9 @@ runtime\python.exe sources\ifc-excel\converter.py "C:\Models\Model.ifc" --output
 
 Output: `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json`.
 
-### DDC CAD drawing (.dwg) to Excel 0.4.1 - `.dwg` files
+### DDC CAD drawing (.dwg) to Excel 2.0 - `.dwg` files
 
-Own `.dwg` decoder (Python-based, no third-party CAD SDK).
+Reads `.dwg` drawings.
 
 ```bash
 dwg2excel.exe drawing.dwg -o OUTDIR [--json] [--no-dxf] [--no-svg] [--no-xlsx] [--language en|ru]
@@ -72,13 +72,13 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 
 Output: one folder per drawing with `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt`. The report states how many records were decoded, refused, or unsupported - always read it before using the data.
 
-### DDC Data Viewer 0.1.1 (free)
+### DDC Data Viewer 2.0 (free)
 
 Desktop viewer for XLSX / CSV / JSONL / Parquet tables with linked GLB / DAE 3D models.
 
 ### Not available
 
-MicroStation DGN conversion is discontinued (no own DGN reader). Linux and macOS builds of the new converters are in preparation; the old Linux converter packages (`ddc-*converter`, `ddc-sdk-*`) are discontinued.
+DGN is not supported. Linux and macOS builds are coming soon.
 
 ### Linux — DDC CWICR Semantic Search
 
@@ -115,7 +115,7 @@ ddc-search --json --limit 10 "floor tiles"
 | **GLB** | 3D model (`native_graph.glb`) | DDC RVT Converter | 3D visualization, web viewers, DDC Data Viewer |
 | **JSONL / SQLite** | Element properties and tables | RVT Converter (`--properties`), IFC to Excel | Data analysis, pandas, databases |
 | **XLSX / CSV** | Tables (elements as rows, properties as columns) | IFC to Excel, .dwg to Excel | Data analysis, pandas, databases |
-| **IFC** | IFC4 (`native_graph.ifc`, experimental) | RVT Converter / RVT-to-IFC (`--ifc`) | Interoperability, BIM software |
+| **IFC** | IFC4 (`native_graph.ifc`) | RVT Converter / RVT-to-IFC (`--ifc`) | Interoperability, BIM software |
 | **DXF / SVG** | Drawing geometry | .dwg to Excel | CAD/vector tooling |
 | **JSON reports** | `report.json`, `summary.json`, `result.json`, `REPORT.txt` | all | Quality control of every conversion |
 | **HTML** | Interactive reports with charts | n8n workflows | Dashboards, sharing results |
@@ -202,7 +202,7 @@ The `n8n_*.json` files are **visual representations of process logic** - use the
 
 1. **Always use CLI** - Direct execution is faster than scripting wrappers
 2. **Check exit codes and reports** - `0` ok, `2` written with gaps, `1` failure; read `report.json` / `REPORT.txt` / `result.json`
-3. **Treat results as preview quality** - verify counts against the source before downstream use
+3. **Verify results** - verify counts against the source before downstream use
 4. **Use `--properties`** for RVT when you need element parameters
 5. **Never overwrite** - the RVT converter writes `<stem>.converted` and never overwrites; choose a fresh `-o` folder for repeated runs
 
@@ -212,7 +212,7 @@ The `n8n_*.json` files are **visual representations of process logic** - use the
 - Don't assume file paths - always verify with user
 - Don't skip validation steps in production workflows
 - Don't hardcode paths - use parameters
-- Don't describe the converters as official, certified, or affiliated with Autodesk; they are independent previews
+- Don't describe the converters as official, certified, or affiliated with Autodesk; they are independent software
 
 ## Resources
 

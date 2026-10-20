@@ -1,7 +1,7 @@
-# DDC CAD drawing (.dwg) to Excel (portable, Windows x64, preview)
+# DDC CAD drawing (.dwg) to Excel 2.0 (portable, Windows x64)
 
-Own `.dwg` decoder. Per drawing writes `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`,
-`REPORT.txt` including counts of decoded / refused / unsupported records. Version: `MANIFEST.json`.
+Reads `.dwg` drawings. Per drawing writes `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`,
+`REPORT.txt` including counts of decoded / skipped / unsupported records. Version: `MANIFEST.json`.
 Licence: `EULA.txt`. Desktop app: `DWG to Excel.exe`.
 
 ## Command line
@@ -14,10 +14,9 @@ cli\dwg2excel.exe a.dwg b.dwg --output "C:\Out" --json --no-svg
 A new sub-folder per drawing is created in the output folder. `--json` prints one JSON line per file.
 See `cli\dwg2excel.exe --help` (`--no-dxf`, `--no-svg`, `--no-xlsx`, `--timeout`, `--memory-limit-mb`).
 
-## Migrating from the retired `DwgExporter.exe`
+## Flat table for scripts
 
-Same idea (file in, tables out) but different arguments and result names; DGN is discontinued.
-The old flat table is rebuilt from the `.jsonl` / `.csv` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert drawing.dwg` runs this converter and then `ddc table`.
+A flat table (one row per entity) can be built from the `.jsonl` / `.csv` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert drawing.dwg` runs this converter and then `ddc table`.
 
 ## Updating
 

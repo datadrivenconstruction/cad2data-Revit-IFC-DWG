@@ -10,7 +10,7 @@ This document gives an overview of the tools in the CAD2DATA repository. The wor
 - CLI interfaces for automation
 - Output to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML)
 
-**Status:** the converters below are previews. Quality is not fully qualified; every tool writes a report (`report.json`, `REPORT.txt`, `result.json`) that you should read before relying on the data.
+Every tool writes a report (`report.json`, `REPORT.txt`, `result.json`) that you should read before relying on the data.
 
 ---
 
@@ -23,13 +23,13 @@ Third-party components are listed in `THIRD_PARTY_NOTICES` inside each release p
 
 | Product | Version | Platform |
 |---------|---------|----------|
-| DDC RVT Converter | 0.6.8 | Windows (desktop app + CLI) |
-| DDC RVT-to-IFC | 0.6.8 | Windows (desktop app, same engine and CLI) |
-| DDC IFC to Excel | 0.3.1-preview | Windows (portable Python app) |
-| DDC CAD drawing (.dwg) to Excel | 0.4.1 | Windows (CLI) |
-| DDC Data Viewer | 0.1.1 (free) | Desktop (Tauri) |
+| DDC RVT Converter | 2.0 | Windows (desktop app + CLI) |
+| DDC RVT-to-IFC | 2.0 | Windows (desktop app, same command line) |
+| DDC IFC to Excel | 2.0 | Windows (portable app) |
+| DDC CAD drawing (.dwg) to Excel | 2.0 | Windows (CLI) |
+| DDC Data Viewer | 2.0 (free) | Desktop |
 
-Linux and macOS builds of the new converters are in preparation. The old Linux converter packages (`ddc-*converter`, `ddc-sdk-*`) are discontinued. MicroStation DGN conversion is discontinued (no own DGN reader).
+Linux and macOS builds are coming soon. DGN is not supported.
 
 ---
 
@@ -47,7 +47,7 @@ Linux and macOS builds of the new converters are in preparation. The old Linux c
 - `native_graph.glb` - 3D model
 - `summary.json`, `report.json` - summary and quality report
 - with `--properties`: `properties.jsonl`, `property_scopes.jsonl`
-- with `--ifc`: `native_graph.ifc` (IFC4, experimental)
+- with `--ifc`: `native_graph.ifc` (IFC4
 - the desktop app also writes CSV tables and SQLite
 
 **CLI Syntax**:
@@ -68,15 +68,15 @@ C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m --ifc-origin project-base-point
 ```
 
-DDC RVT-to-IFC is a desktop app built on the same engine and CLI with IFC export as the default.
+DDC RVT-to-IFC is a desktop app with the same command line and IFC export as the default.
 
 ---
 
 ### DDC IFC to Excel
 
-**Purpose**: Extract data from IFC files (portable Python app with its own IFC reader; no IfcOpenShell at runtime)
+**Purpose**: Extract data from IFC files (portable app)
 
-**Input**: IFC2x3 and IFC4, SPF and IFCZIP
+**Input**: IFC2x3 and IFC4, STEP and IFCZIP
 
 **Output**: `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json`
 
@@ -115,7 +115,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 
 ### DDC Data Viewer
 
-Free desktop viewer (Tauri) that opens XLSX / CSV / JSONL / Parquet tables with linked GLB / DAE 3D models.
+Free desktop viewer that opens XLSX / CSV / JSONL / Parquet tables with linked GLB / DAE 3D models.
 
 ---
 
@@ -234,7 +234,7 @@ The `n8n_*.json` files are **visual representations of process logic** - not the
 
 **Logic**: Generate quantity take-off reports with aggregation and visualization.
 
-**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, Rust, or any language that can call CLI tools and process XLSX/JSON.
+**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, or any language that can call CLI tools and process XLSX/JSON.
 
 ---
 
@@ -264,7 +264,7 @@ Written by DDC IFC to Excel and DDC CAD drawing (.dwg) to Excel (the exact colum
 
 ### IFC
 
-- `native_graph.ifc` from DDC RVT Converter / RVT-to-IFC (`--ifc`): IFC4, experimental
+- `native_graph.ifc` from DDC RVT Converter / RVT-to-IFC (`--ifc`): IFC4
 
 ### DXF / SVG
 

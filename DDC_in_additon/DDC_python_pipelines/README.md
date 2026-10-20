@@ -1,8 +1,8 @@
 # Python notebooks
 
-The notebooks were written for the retired 18.x converters (`<name>_rvt.xlsx`, `.dae`). They are ported to the converters in
+The notebooks work with the converters in
 [`DDC_WINDOWS_Converters/`](../../DDC_WINDOWS_Converters/): a model goes through the converter and then through
-[`ddc table`](../../ddc-tools/README.md#ddc-table), which rebuilds the flat table (sheet `Project_Data`, columns `ID`, `Category`,
+[`ddc table`](../../ddc-tools/README.md#ddc-table), which builds the flat table (sheet `Project_Data`, columns `ID`, `Category`,
 `Type Name`, `Level`, `Length`, `Area`, `Volume`, ...). The analysis cells work on that table.
 
 Every notebook starts with `REPO = Path(os.environ.get("DDC_REPO", r"C:\DDC\cad2data-Revit-IFC-DWG"))`: set it to where you cloned

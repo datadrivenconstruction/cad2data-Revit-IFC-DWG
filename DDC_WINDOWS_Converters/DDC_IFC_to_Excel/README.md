@@ -1,8 +1,8 @@
-# DDC IFC to Excel (portable, Windows x64, preview)
+# DDC IFC to Excel 2.0 (portable, Windows x64)
 
-Own IFC reader (no IfcOpenShell). Reads IFC2x3 / IFC4 (SPF and IFCZIP) and writes `drawing.xlsx`,
+Reads IFC2x3 / IFC4 (STEP and IFCZIP) and writes `drawing.xlsx`,
 `data.jsonl`, `data.sqlite`, `result.json`. IFCXML is not supported. Version: `MANIFEST.json`.
-A Python runtime is bundled in `runtime\`; nothing else has to be installed.
+Everything needed is in the package; nothing else has to be installed.
 Licence: DDC EULA, <https://datadrivenconstruction.io/term-of-use-and-eula/>; third-party notices in `SOURCES.json`.
 
 ## Desktop app
@@ -17,12 +17,10 @@ runtime\python.exe sources\ifc-excel\converter.py "C:\Models\Building.ifc" --out
 
 Writes a sub-folder `<name>-<hash>` into the output folder and prints one JSON line
 (`status`, `folder`, `data`, `errors`). Exit code 0 = converted (with the limits listed in the report).
-This is a Python entry point, not a stable CLI contract; it may change between previews.
 
-## Migrating from the retired `IfcExporter.exe`
+## Flat table for scripts
 
-The call shape differs: `--output` is required and the result is a folder, not `<name>_ifc.xlsx` beside
-the input. DAE is no longer produced. The old flat table (one row per element, sheet `Project_Data`) is rebuilt from `data.jsonl` / `data.sqlite` / `drawing.xlsx` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert model.ifc` runs this converter and then `ddc table`.
+`--output` is required and the result is a folder. A flat table (one row per element, sheet `Project_Data`) is rebuilt from `data.jsonl` / `data.sqlite` / `drawing.xlsx` by `ddc table` (folder `ddc-tools` of this repository); `ddc convert model.ifc` runs this converter and then `ddc table`.
 
 ## Updating
 

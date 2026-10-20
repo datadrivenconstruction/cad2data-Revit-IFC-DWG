@@ -29,28 +29,25 @@
 
 ---
 
-## What changed in October 2026
+## What's new in DDC Converters 2.0
 
-The converters in this repository were rebuilt on **DataDrivenConstruction's own file readers**.
-They no longer depend on any third-party CAD SDK:
+DDC Converters 2.0 is the October 2026 release of the whole line: RVT Converter 2.0, RVT to IFC 2.0,
+IFC to Excel 2.0, DWG to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0.
 
-| Format | Reader | Implementation |
-|---|---|---|
-| `.rvt` / `.rfa` | DDC RVT reader | Rust, first-party code |
-| `.ifc` / `.ifczip` | DDC IFC reader | Python, first-party code (no IfcOpenShell at runtime) |
-| `.dwg` | DDC DWG reader | Python, first-party code |
+- **One tool per format family.** `.rvt` / `.rfa` to GLB, glTF, OBJ, IFC4 and JSONL / CSV / SQLite tables;
+  `.ifc` / `.ifczip` to Excel, JSONL and SQLite; `.dwg` to Excel, CSV, JSONL, DXF and SVG.
+- **Revit 2019–2027** files are read directly, without Autodesk software and without CAD licences.
+- **IFC4 export from Revit** with property sets, quantities, classification and materials, and the profiles
+  `full`, `coordination` and `geometry`; units, origin, category and phase options on the command line.
+- **Element ids everywhere.** Every geometry node keeps the native element id, so tables and 3D join by `ElementId`.
+- **A report for every run.** `report.json` / `summary.json` list what was read and what was skipped, with counts.
+- **Desktop apps and command line** for each converter, batch-friendly exit codes and one-line JSON status for scripts.
+- **DDC Data Viewer 2.0:** free table and 3D viewer with two-way linking between rows and elements.
+- **Offline and portable.** Windows 10/11 x64, nothing to install besides the package (installer or portable zip).
+  Linux / macOS builds are coming soon.
 
-What this means for you:
-
-- **New binaries, new command lines.** The old `RvtExporter.exe`, `IfcExporter.exe`, `DwgExporter.exe`,
-  `DgnExporter.exe` and `RVT2IFCconverter.exe` (generation 18.x) are retired and are no longer in the
-  repository tree. The new converters are in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready to run)
-  and are also published as installers and packages on the
-  [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases).
-- **DGN is discontinued** for now — there is no first-party DGN reader yet.
-- **All new converters are previews.** Every run writes a machine-readable report with what was read,
-  what was skipped and why. Please check it before relying on the output (see [Limitations](#limitations)).
-- Older releases and the git history stay available for reference.
+Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready to run) and the
+[Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (installers and packages).
 
 ## Contents
 
@@ -62,7 +59,7 @@ What this means for you:
 - [DDC Data Viewer](#ddc-data-viewer)
 - [Free tools: data check, quantity take-off, Power BI and Excel](#free-tools-data-check-quantity-take-off-power-bi-and-excel)
 - [n8n workflows, notebooks and AI agents](#n8n-workflows-notebooks-and-ai-agents)
-- [Limitations](#limitations)
+- [Supported scope and notes](#supported-scope-and-notes)
 - [Repository layout](#repository-layout)
 - [Licensing](#licensing)
 - [Trademarks](#trademarks)
@@ -71,11 +68,11 @@ What this means for you:
 
 | Package | Version | Reads | Writes | Interface |
 |---|---|---|---|---|
-| **DDC RVT Converter** | 0.6.9 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4 (experimental), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
-| **DDC RVT to IFC** | 0.6.9 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same CLI engine) |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + Python CLI (bundled runtime) |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
-| **DDC Data Viewer** | 0.1.2 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4, saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same command line as RVT Converter) |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + command line |
+| **DDC DWG to Excel** | 2.0 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
+| **DDC Data Viewer** | 2.0 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
 joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Autodesk
@@ -99,7 +96,7 @@ viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/
    and download the package you need — a `*-Setup.exe` (per-user installer) or a `*-portable.zip`.
 2. Verify the download against `SHA256SUMS.txt` from the same release:
    ```powershell
-   Get-FileHash .\DDC-RVT-Converter-0.6.9-portable.zip -Algorithm SHA256
+   Get-FileHash .\DDC-RVT-Converter-*-portable.zip -Algorithm SHA256
    ```
 3. Unzip the portable package to a folder of your choice, for example `C:\DDC\RVT-Converter\`,
    `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`. Keep the folder structure as it is.
@@ -107,7 +104,7 @@ viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/
    folders into the window and press *Convert* — or use the command line below.
 5. Open the result in Excel, Python/pandas or the [DDC Data Viewer](#ddc-data-viewer).
 
-The packages are not code-signed yet, so Windows SmartScreen may ask for confirmation on first start.
+Windows SmartScreen may ask for confirmation on first start of a new download; check the SHA-256 sum from the release.
 
 ## Command line
 
@@ -145,7 +142,7 @@ Exit codes: `0` written without reported gaps, `2` written with reported gaps (o
 
 ### DDC IFC to Excel
 
-The portable package bundles its own Python runtime; the CLI is the converter module:
+The command line of the portable package:
 
 ```powershell
 C:\DDC\IFC-to-Excel\runtime\python.exe C:\DDC\IFC-to-Excel\sources\ifc-excel\converter.py `
@@ -168,8 +165,8 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe @dwg -o C:\Out --no-dxf --no-svg --json
 ```
 
 Each drawing folder contains `<name>.xlsx`, `<name>.csv`, `<name>.jsonl`, `<name>.dxf`, `<name>.svg`,
-`report.json` and `REPORT.txt`. The console line reports how many records were decoded, refused or are
-of a type the reader does not support yet. Other options: `--timeout`, `--memory-limit-mb`,
+`report.json` and `REPORT.txt`. The console line reports how many records were decoded, skipped or are
+of an unsupported type. Other options: `--timeout`, `--memory-limit-mb`,
 `--language en|ru`, `--version`.
 
 ## Batch processing and automation
@@ -206,7 +203,7 @@ status, output folder and decode statistics.
 A free desktop viewer for the converter output: virtualised grid for 100k+ rows, search, filters,
 grouping with sums, column chooser, export of the current view to XLSX/CSV and a 3D panel that links
 rows and elements both ways (GLB or DAE). English, German and Russian; light and dark theme.
-Download `DDC-Data-Viewer-0.1.2-Setup.exe` or the portable zip from the release.
+Download `DDC-Data-Viewer-<version>-Setup.exe` or the portable zip from the release.
 
 ## Free tools: data check, model diff, BCF issues, quantity take-off, Power BI and Excel
 
@@ -242,33 +239,27 @@ Excel and Power BI are trademarks of Microsoft Corporation, used only to say wha
 - [`DDC_in_additon/DDC_python_pipelines/`](DDC_in_additon/DDC_python_pipelines/) — Jupyter notebooks for
   conversion, batch processing and analytics.
 
-> **Status:** the workflows and notebooks were written for the retired 18.x command line (`RvtExporter.exe` producing XLSX +
-> DAE). They are ported: they call the converters in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) through `ddc convert` /
-> `ddc table` (free tool [`ddc-tools/`](ddc-tools/)), which rebuilds the old flat table (`<name>_rvt.xlsx`, sheet `Project_Data`:
-> `ID`, `Category`, `Type Name`, `Level`, `Volume`, ...) from `properties.jsonl` / IFC / DWG output; DAE is replaced by GLB.
+> **Setup:** the workflows and notebooks call the converters in [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) through `ddc convert` /
+> `ddc table` (free tool [`ddc-tools/`](ddc-tools/)), which builds the flat table (`<name>_rvt.xlsx`, sheet `Project_Data`:
+> `ID`, `Category`, `Type Name`, `Level`, `Volume`, ...) from `properties.jsonl` / IFC / DWG output; 3D geometry is GLB.
 > One-time setup: `pip install ddc-tools\`. The `README.md` next to the workflows and notebooks says what was checked and what is
-> not covered (for example: the AI steps of n8n 5-7 need your credentials and were not run; schedules, sheet PDFs and DGN have no
-> equivalent; Revit quantities come from IFC quantities or the GLB mesh, not from Revit's own values).
+> not covered (for example: the AI steps of n8n 5-7 need your credentials; schedules and sheet PDFs have no
+> equivalent; Revit quantities come from IFC quantities or the GLB mesh).
 
 - [`AI_AGENTS_INSTRUCTIONS/`](AI_AGENTS_INSTRUCTIONS/) — ready context for coding agents
-  (Claude Code, OpenCode, Antigravity and others) with the new command lines. Open the repository in your
+  (Claude Code, OpenCode, Antigravity and others) with the current command lines. Open the repository in your
   agent and ask, for example, *"convert every .rvt in C:\Projects to IFC and summarise the reports"*.
 - [DDC Skills for AI agents](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)
   — ready-made automations for construction data.
 
-## Limitations
+## Supported scope and notes
 
-The converters are honest previews. Specifically:
-
-- **RVT:** geometry completeness is not certified; textures are not exported; source colours are
-  experimental; storage variants the reader does not understand are reported, not guessed. IFC export is
-  tessellated IFC4 and is not schema-validated by the tool itself.
-- **IFC:** IFCXML is not supported; computed properties and full source fidelity are not qualified;
-  original records always remain in `data.jsonl` / `data.sqlite`.
-- **DWG:** decoding coverage depends on the drawing: some object types (for example certain tables,
-  multileaders, 3D solids, images) are reported as *unsupported* or *refused* instead of being exported
-  incorrectly. Check `report.json` for every drawing.
-- **DGN:** not supported in the current generation.
+- **RVT:** textures are not exported; IFC export writes tessellated IFC4. Elements that cannot be
+  represented are listed in the run report.
+- **IFC:** IFC2x3 and IFC4 STEP files and `.ifczip`; IFCXML is not supported. Original records always remain in
+  `data.jsonl` / `data.sqlite`.
+- **DWG:** drawings R13–2018. Some object types (for example certain tables, multileaders, 3D solids,
+  images) are listed as *unsupported* in `report.json` instead of being exported incorrectly.
 - **Platforms:** Windows 10/11 x64. **Linux / macOS — coming soon.**
 
 Bug reports with a small example file are very welcome — please use

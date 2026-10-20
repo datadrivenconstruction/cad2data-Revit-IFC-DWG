@@ -1,4 +1,4 @@
-# DDC Excel add-in 2026.10.0 (preview)
+# DDC Excel add-in 2.0
 
 Excel add-in for Windows. It imports Revit (`.rvt`, `.rfa`), IFC (`.ifc`, `.ifczip`) and DWG (`.dwg`) models into
 Excel as a table with one row per element and works on that table: statistics, parameter checks, dashboards,
@@ -26,14 +26,14 @@ package of this release once, checks its SHA-256 against a value fixed in the ad
 
 | Type | Package | Size |
 |---|---|---|
-| RVT, RFA | DDC RVT Converter 0.6.9 (`RVTconverter.exe --properties`) | 75 MB |
-| IFC, IFCZIP | DDC IFC to Excel 0.3.1 preview | 34 MB |
-| DWG | DDC DWG to Excel 0.4.1 | 22 MB |
+| RVT, RFA | DDC RVT Converter 2.0 (`RVTconverter.exe --properties`) | 75 MB |
+| IFC, IFCZIP | DDC IFC to Excel 2.0 | 34 MB |
+| DWG | DDC DWG to Excel 2.0 | 22 MB |
 
 Offline: put the official portable zip of the release into `%LOCALAPPDATA%\DataDrivenConstruction\Excel\downloads`.
 The converter output (`properties.jsonl`, `native_graph.glb`, `data.jsonl`, reports) stays in a `DDC\import-*` folder
 beside the model. Set the registry value `HKCU\Software\DataDrivenConstruction\Excel\ExportRevitIfc` to `1` to also
-write `native_graph.ifc` (IFC4, experimental) for Revit files.
+write `native_graph.ifc` (IFC4 for Revit files.
 
 ![RVT table](./images/rvt-table.png)
 
@@ -63,5 +63,5 @@ and the uninstaller removes it. Read `SIGNING.txt` in the package, and compare t
 
 Proprietary, under the same terms as the other DDC products: [EULA.txt](../EULA.txt) and
 [LICENSE-PROPRIETARY.txt](../LICENSE-PROPRIETARY.txt) (both are also inside the package).
-The add-in contains no ODA component, no other third-party CAD SDK and no Autodesk file; third-party libraries are listed in
+The add-in contains no Autodesk file; third-party libraries are listed in
 `THIRD_PARTY_NOTICES.txt`. Autodesk and Revit are registered trademarks of Autodesk, Inc.; DataDrivenConstruction is not affiliated with Autodesk, Inc.

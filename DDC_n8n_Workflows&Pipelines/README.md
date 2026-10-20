@@ -1,8 +1,7 @@
 # n8n workflows
 
 Nine workflows (conversion, batch pipeline, validation, AI classification, cost and CO2 estimation, ETL and QTO
-report). They were written for the retired 18.x converters, which wrote `<name>_rvt.xlsx` (sheet `Project_Data`) and
-`<name>_rvt.dae` next to the input. They are ported to the converters in
+report). They use the flat table `<name>_rvt.xlsx` (sheet `Project_Data`) and a 3D model next to the input, produced from the output of the converters in
 [`DDC_WINDOWS_Converters/`](../DDC_WINDOWS_Converters/).
 
 ## How the port works

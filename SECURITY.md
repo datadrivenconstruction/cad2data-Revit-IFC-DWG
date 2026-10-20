@@ -15,7 +15,7 @@ Report vulnerabilities privately to:
 Please include in your report:
 
 - Product name and version
-  (e.g. `RVTconverter.exe` from DDC RVT Converter 0.6.8, git commit
+  (e.g. `RVTconverter.exe` from DDC RVT Converter 2.0, git commit
   hash or release tag)
 - Affected platform (Windows version, Linux distribution, CPU
   architecture, relevant dependencies)
