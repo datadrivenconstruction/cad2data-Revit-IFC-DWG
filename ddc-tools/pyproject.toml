@@ -1,14 +1,36 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ddc-tools"
-version = "0.2.0"
-description = "Free offline tools on top of DDC converter output: data checks, quantity takeoff, model diff, BCF issues, Power BI / Excel kit"
+version = "2.0.0"
+description = "Free offline tools for DDC Converters 2.0 output: data checks, quantity takeoff, model diff, BCF issues, Power BI / Excel kit"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Artem Boiko", email = "info@datadrivenconstruction.io" }]
+keywords = ["bim", "revit", "ifc", "dwg", "excel", "quantity-takeoff", "data-quality", "bcf", "construction", "cli"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Manufacturing",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Office/Business",
+  "Topic :: Utilities",
+]
 dependencies = ["openpyxl>=3.1", "PyYAML>=6.0"]
 
 [project.optional-dependencies]
@@ -16,6 +38,12 @@ test = ["pytest>=7", "lxml>=4.9"]
 
 [project.scripts]
 ddc = "ddc_tools.cli:main"
+
+[project.urls]
+Homepage = "https://cadbimconverter.com"
+Source = "https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/tree/main/ddc-tools"
+Issues = "https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/issues"
+Documentation = "https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/ddc-tools/README.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]
