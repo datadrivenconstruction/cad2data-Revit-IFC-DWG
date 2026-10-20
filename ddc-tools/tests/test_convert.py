@@ -29,7 +29,7 @@ def conv(tmp_path):
 def calls(monkeypatch):
     seen = []
 
-    def fake_run(cmd, capture_output=True, text=True):
+    def fake_run(cmd, capture_output=True, text=True, **kw):
         seen.append(cmd)
         exe = Path(cmd[0]).name.lower()
         if exe == "rvtconverter.exe":
@@ -101,7 +101,7 @@ def test_errors(tmp_path, conv, monkeypatch, tmp_path_factory):
     m = tmp_path / "P.rvt"
     m.write_bytes(b"x")
     monkeypatch.setattr(convert.subprocess, "run",
-                        lambda cmd, capture_output=True, text=True: subprocess.CompletedProcess(cmd, 1, "", "boom"))
+                        lambda cmd, capture_output=True, text=True, **kw: subprocess.CompletedProcess(cmd, 1, "", "boom"))
     with pytest.raises(convert.ConvertError, match="exit 1"):
         convert.convert(str(m), converters=str(conv))
     monkeypatch.delenv("DDC_CONVERTERS", raising=False)

@@ -10,6 +10,7 @@ from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 
 from . import columns as C
+from .paths import fs
 from .loader import is_empty
 from .xlsxutil import FILLS, autosize, new_workbook, style_header, title_cell, write_table
 
@@ -175,7 +176,7 @@ def build_qto(rows: List[Dict[str, Any]], source: str = "", files: Optional[List
             t["valid"][q] += g["valid"][q]
 
     return {
-        "tool": "ddc qto", "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "tool": "ddc qto", "generated": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "source": source, "source_files": files or [], "elements": len(rows),
         "columns_used": {"id": c_id, "category": c_cat, "type": c_typ, "level": c_lvl},
         "quantity_columns": qcols, "notes": list(notes or []),
@@ -254,4 +255,4 @@ def write_xlsx(res: Dict[str, Any], path: str) -> None:
     if not res["warnings"]:
         wsw.cell(2, 1).fill = FILLS["green"]
     autosize(wsw, maxw=90)
-    wb.save(path)
+    wb.save(fs(path))

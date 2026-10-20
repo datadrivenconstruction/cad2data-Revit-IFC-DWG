@@ -13,11 +13,13 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from urllib.parse import quote
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from .loader import LoadError
+from .paths import fs
 
 
 @dataclass
@@ -138,7 +140,7 @@ def iter_ifc_excel_records(path: Path, only: Optional[Iterable[str]] = None) -> 
     want = set(only) if only else None
     ext = f.suffix.lower()
     if ext in (".jsonl", ".ndjson"):
-        with open(f, encoding="utf-8-sig") as fh:
+        with open(fs(f), encoding="utf-8-sig") as fh:
             for line in fh:
                 if not line.strip():
                     continue
@@ -154,7 +156,7 @@ def iter_ifc_excel_records(path: Path, only: Optional[Iterable[str]] = None) -> 
                 else:
                     raise LoadError(f"{f.name}: not an IFC to Excel data.jsonl (no table/record keys)")
     elif ext in (".sqlite", ".sqlite3", ".db"):
-        con = sqlite3.connect(f"file:{f.as_posix()}?mode=ro", uri=True)
+        con = sqlite3.connect("file:" + quote(Path(fs(f)).as_posix(), safe="/:") + "?mode=ro", uri=True)
         try:
             names = [r[0] for r in con.execute("select name from sqlite_master where type='table'")]
             if "records" not in names:

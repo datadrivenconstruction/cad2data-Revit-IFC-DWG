@@ -64,12 +64,20 @@ def to_number(v: Any) -> Optional[float]:
     if isinstance(v, (int, float)):
         return float(v)
     s = str(v).strip().replace(" ", " ")
-    m = re.match(r"^[-+]?\d[\d\s]*([.,]\d+)?([eE][-+]?\d+)?", s)
+    m = re.match(r"^[-+]?\d[\d\s]*(?:[.,]\d+)*(?:[eE][-+]?\d+)?", s)
     if not m:
         return None
     t = m.group(0).replace(" ", "")
     if "," in t and "." in t:
-        t = t.replace(",", "")
+        # both present: the LAST one is the decimal separator ("1,234.5" and "1.234,5" are both 1234.5)
+        if t.rfind(",") > t.rfind("."):
+            t = t.replace(".", "").replace(",", ".")
+        else:
+            t = t.replace(",", "")
+    elif t.count(",") > 1:
+        t = t.replace(",", "")                       # 1,234,567: thousands separators
+    elif t.count(".") > 1:
+        t = t.replace(".", "")                       # 1.234.567: thousands separators
     else:
         t = t.replace(",", ".")
     try:

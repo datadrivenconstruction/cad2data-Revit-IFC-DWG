@@ -4,9 +4,13 @@
   <a href="README.es.md">Español</a> •
   <a href="README.fr.md">Français</a> •
   <a href="README.ru.md">Русский</a> •
+  <a href="README.pt-BR.md">Português (Brasil)</a> •
   <a href="README.zh.md">中文</a> •
+  <a href="README.ja.md">日本語</a> •
   <a href="README.ar.md">العربية</a>
 </p>
+
+<p align="center"><sub>GitHub langsam oder gesperrt? Spiegel: <a href="https://cadbimconverter.com/download/">cadbimconverter.com/download</a> (gleiche Dateien, gleiche SHA-256-Summen).</sub></p>
 
 # cad2data — DDC-Konverter für RVT-, IFC- und DWG-Dateien
 

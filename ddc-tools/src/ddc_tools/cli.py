@@ -7,8 +7,9 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from . import __version__, bcf, check, convert, diff, glbdiff, qto, table
+from . import __version__, bcf, check, classify, convert, diff, glbdiff, qto, table
 from .loader import LoadError, load_ex
+from .paths import ensure_parent, fs
 
 
 def _common(p: argparse.ArgumentParser) -> None:
@@ -51,7 +52,12 @@ def build_parser() -> argparse.ArgumentParser:
                                   ".ifc file, or CAD Drawing to Excel .jsonl/.csv/.xlsx (folder)")
     pt.add_argument("--kind", choices=["rvt", "ifc-excel", "ifc-step", "dwg"], help="force the input kind (default: auto-detect)")
     pt.add_argument("--xlsx", metavar="FILE", help="write the table as XLSX (sheet Project_Data, plus an Info sheet)")
-    pt.add_argument("--csv", metavar="FILE", help="write the table as CSV (UTF-8 with BOM)")
+    pt.add_argument("--csv", metavar="FILE", help="write the table as CSV (UTF-8 with BOM, so Excel shows Cyrillic/CJK/Arabic correctly)")
+    pt.add_argument("--delimiter", default="comma", metavar="D",
+                    help="CSV delimiter: comma (default), semicolon, tab, or auto (semicolon when the system locale uses a decimal comma)")
+    pt.add_argument("--no-bom", action="store_true", help="write the CSV as plain UTF-8 without the byte order mark")
+    pt.add_argument("--unit-headers", action="store_true",
+                    help="add the unit to the quantity headers: 'Length [m]', 'Area [m2]', 'Volume [m3]' (default: plain names, as in the old exports)")
     pt.add_argument("--jsonl", metavar="FILE", help="write the table as JSON lines")
     pt.add_argument("--all", dest="include_all", action="store_true",
                     help="keep rows that are normally left out (RVT: elements without category and mesh; "
@@ -66,6 +72,8 @@ def build_parser() -> argparse.ArgumentParser:
     pv.add_argument("model", help="model file: .rvt, .rfa, .ifc or .dwg")
     pv.add_argument("--xlsx", metavar="FILE", help="table output (default: <model>_rvt.xlsx / _ifc.xlsx / _dwg.xlsx next to the model)")
     pv.add_argument("--csv", metavar="FILE", help="also write the table as CSV")
+    pv.add_argument("--delimiter", default="comma", metavar="D", help="CSV delimiter: comma (default), semicolon, tab, auto")
+    pv.add_argument("--unit-headers", action="store_true", help="add units to quantity headers ('Area [m2]')")
     pv.add_argument("--work", metavar="DIR", help="converter output folder (default: <model>.converted next to the model)")
     pv.add_argument("--converters", metavar="DIR", help="the DDC_WINDOWS_Converters folder (default: $DDC_CONVERTERS, else the one in this repository)")
     pv.add_argument("--force", action="store_true", help="convert again even if a finished output folder exists (the old one is renamed, not deleted)")
@@ -122,15 +130,80 @@ def build_parser() -> argparse.ArgumentParser:
     pbr.add_argument("--xlsx", metavar="FILE", help="write the workbook here")
     pbr.add_argument("--json", dest="json_out", metavar="FILE", help="write the JSON here")
     pbr.add_argument("-q", "--quiet", action="store_true", help="print nothing except errors")
+
+    pc = sub.add_parser("classify", help="classification columns (Uniclass, OmniClass, MasterFormat, DIN 276, GESN/KSR, "
+                                         "GB/T 51269, NL-SfB, CCI): templates, import of your licensed lists, mapping")
+    csub = pc.add_subparsers(dest="classify_cmd", required=True)
+    csub.add_parser("systems", help="list the supported systems and what is known about their licences")
+    pct = csub.add_parser("template", help="write an empty mapping template (CSV) for a system")
+    pct.add_argument("system", help="uniclass2015, omniclass, masterformat, din276, gesn_ksr, gbt51269, nlsfb, cci")
+    pct.add_argument("-o", "--output", metavar="FILE", help="default: <system>_mapping.csv")
+    pci = csub.add_parser("import", help="import a code list you are licensed to use (CSV or XLSX with code and title columns)")
+    pci.add_argument("system")
+    pci.add_argument("file")
+    pci.add_argument("--code-col", metavar="NAME")
+    pci.add_argument("--title-col", metavar="NAME")
+    pci.add_argument("--sheet", metavar="NAME")
+    pca = csub.add_parser("apply", help="add '<System> Code' / '<System> Title' columns to a table using a mapping CSV")
+    pca.add_argument("input", help="table file (.csv/.xlsx/.jsonl from `ddc table`) or a converter output (as for `ddc table`)")
+    pca.add_argument("--system", required=True)
+    pca.add_argument("--mapping", required=True, metavar="FILE", help="mapping CSV/XLSX (see `ddc classify template`)")
+    pca.add_argument("--xlsx", metavar="FILE")
+    pca.add_argument("--csv", metavar="FILE")
+    pca.add_argument("--jsonl", metavar="FILE")
+    pca.add_argument("--delimiter", default="comma", metavar="D", help="CSV delimiter: comma, semicolon, tab, auto")
+    pca.add_argument("--unit-headers", action="store_true")
+    pca.add_argument("-q", "--quiet", action="store_true")
     return ap
+
+
+def _run_classify(a) -> int:
+    cmd = a.classify_cmd
+    if cmd == "systems":
+        for s in classify.SYSTEMS.values():
+            print(f"{s.id}: {s.full_name}")
+            print(f"  owner: {s.owner}")
+            print(f"  licence: {s.license}")
+            print(f"  source: {s.source}")
+        return 0
+    if cmd == "template":
+        out = classify.write_template(a.system, a.output or f"{classify.get_system(a.system).id}_mapping.csv")
+        print(f"template written: {out}")
+        return 0
+    if cmd == "import":
+        dest, n = classify.import_codelist(a.system, a.file, a.code_col, a.title_col, a.sheet)
+        print(f"{n} codes stored in {dest}")
+        return 0
+    p = Path(a.input)
+    if p.is_file() and p.suffix.lower() in (".csv", ".xlsx", ".json", ".jsonl"):
+        rows = load_ex(a.input).rows
+        from .columns import all_columns
+        t = table.Table(all_columns(rows), rows, "table", a.input)
+    else:
+        t = table.build_table(a.input)
+    res = classify.apply_mapping(t.columns, t.rows, a.system, classify.load_mapping(a.mapping),
+                                 classify.load_codelist(a.system))
+    if a.xlsx:
+        table.write_xlsx(t, str(_out(a.xlsx)), unit_headers=a.unit_headers)
+    if a.csv:
+        table.write_csv(t, str(_out(a.csv)), delimiter=a.delimiter, unit_headers=a.unit_headers)
+    if a.jsonl:
+        with open(fs(_out(a.jsonl)), "w", encoding="utf-8", newline=chr(10)) as f:
+            for r in t.rows:
+                f.write(json.dumps({c: r[c] for c in t.columns if r.get(c) is not None}, ensure_ascii=False) + chr(10))
+    if not a.quiet:
+        print(f"{res['system']}: {res['matched']} of {len(t.rows)} rows classified by {res['rules']} rules")
+    for c in res["missing_columns"]:
+        print(f"ddc: warning: mapping column {c!r} not found in the table", file=sys.stderr)
+    for code, n in res["unknown_codes"].items():
+        print(f"ddc: warning: code {code} ({n} rows) is not in the imported {res['system']} list", file=sys.stderr)
+    return 0
 
 
 def _out(path: Optional[str]) -> Optional[Path]:
     if not path:
         return None
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    return p
+    return ensure_parent(path)
 
 
 def _run_check(a) -> int:
@@ -187,11 +260,11 @@ def _run_table(a) -> int:
     t = table.build_table(a.input, kind=a.kind, include_all=a.include_all, qualified=a.qualified,
                           use_ifc=not a.no_ifc, use_glb=not a.no_glb)
     if a.xlsx:
-        table.write_xlsx(t, str(_out(a.xlsx)))
+        table.write_xlsx(t, str(_out(a.xlsx)), unit_headers=a.unit_headers)
     if a.csv:
-        table.write_csv(t, str(_out(a.csv)))
+        table.write_csv(t, str(_out(a.csv)), delimiter=a.delimiter, bom=not a.no_bom, unit_headers=a.unit_headers)
     if a.jsonl:
-        with open(_out(a.jsonl), "w", encoding="utf-8") as f:
+        with open(fs(_out(a.jsonl)), "w", encoding="utf-8", newline=chr(10)) as f:
             for r in t.rows:
                 f.write(json.dumps({c: r[c] for c in t.columns if r.get(c) is not None}, ensure_ascii=False) + chr(10))
     if not a.quiet:
@@ -205,7 +278,7 @@ def _run_table(a) -> int:
 
 
 def _run_convert(a) -> int:
-    res = convert.convert(a.model, work=a.work, xlsx=a.xlsx, csv=a.csv, converters=a.converters, force=a.force,
+    res = convert.convert(a.model, work=a.work, xlsx=a.xlsx, csv=a.csv, converters=a.converters, force=a.force, csv_delimiter=a.delimiter, unit_headers=a.unit_headers,
                           ifc=not a.no_ifc, glb=not a.no_glb, qualified=a.qualified, include_all=a.include_all)
     if a.json_out:
         print(json.dumps(res, ensure_ascii=False))
@@ -283,6 +356,8 @@ def _run_bcf(a) -> int:
 def main(argv: Optional[List[str]] = None) -> int:
     a = build_parser().parse_args(argv)
     try:
+        if a.cmd == "classify":
+            return _run_classify(a)
         if a.cmd == "table":
             return _run_table(a)
         if a.cmd == "convert":
@@ -292,7 +367,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         if a.cmd == "bcf":
             return _run_bcf(a)
         return _run_check(a) if a.cmd == "check" else _run_qto(a)
-    except (LoadError, check.RuleError, bcf.BcfError, glbdiff.GlbError, OSError) as e:
+    except (LoadError, classify.ClassifyError, check.RuleError, bcf.BcfError, glbdiff.GlbError, OSError) as e:
         print(f"ddc: error: {e}", file=sys.stderr)
         return 2
 

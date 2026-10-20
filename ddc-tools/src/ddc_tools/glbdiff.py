@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from .diff import ID_COLUMNS, STATUS_COLORS
+from .paths import fs
 
 _GUID_KEYS = ("global_id", "globalId", "GlobalId", "ifc_guid", "IfcGuid", "guid", "unique_id", "UniqueId")
 _ID_KEYS = ("element_id", "elementId", "ElementId", "id", "step_id", "handle")
@@ -35,7 +36,7 @@ class GlbError(Exception):
 # ------------------------------------------------------------------------------------------- GLB io
 
 def read_glb(path: Path) -> Tuple[Dict[str, Any], bytes]:
-    data = Path(path).read_bytes()
+    data = Path(fs(path)).read_bytes()
     if len(data) < 20 or data[:4] != b"glTF":
         raise GlbError(f"{Path(path).name}: not a GLB file")
     total = struct.unpack("<I", data[8:12])[0]
@@ -61,7 +62,7 @@ def write_glb(path: Path, gltf: Dict[str, Any], blob: bytes) -> None:
     js += b" " * (-len(js) % 4)
     blob = blob + b"\0" * (-len(blob) % 4)
     total = 12 + 8 + len(js) + (8 + len(blob) if blob else 0)
-    with open(path, "wb") as f:
+    with open(fs(path), "wb") as f:
         f.write(struct.pack("<4sII", b"glTF", 2, total))
         f.write(struct.pack("<II", len(js), 0x4E4F534A) + js)
         if blob:
@@ -251,7 +252,7 @@ def colorize(glb_b: Optional[str], glb_a: Optional[str], result: Dict[str, Any],
         "tool": "ddc diff", "legend": {s: "#%02X%02X%02X" % STATUS_COLORS[s] for s in STATUS_COLORS},
         "summary": {k: result["summary"][k] for k in ("added", "removed", "modified", "unchanged")}}
     gltf["asset"]["generator"] = (gltf["asset"].get("generator", "") + " + ddc diff").strip()
-    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    Path(fs(Path(out).parent)).mkdir(parents=True, exist_ok=True)
     write_glb(Path(out), gltf, blob)
     return stats
 

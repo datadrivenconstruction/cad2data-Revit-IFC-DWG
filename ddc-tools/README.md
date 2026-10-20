@@ -395,6 +395,16 @@ or zero for part of a category; repeated element ids; quantity columns without a
 Sums use only elements that have a numeric value. Treat the result as a data summary: check units and
 completeness before it goes into a bill of quantities, and compare against your authoring tool.
 
+## International use and classification
+
+- Paths: Cyrillic, CJK, Arabic, spaces, `&`, `#`, `%`, UNC shares and paths over 260 characters are handled.
+- CSV: UTF-8 with BOM (Excel-ready), `--delimiter comma|semicolon|tab|auto`, `--no-bom`, `--unit-headers`
+  (`Area [m2]`). Numbers are always written with `.` as the decimal point; dates in reports are ISO 8601 with offset.
+- `ddc classify`: Uniclass 2015, OmniClass, MasterFormat, DIN 276, GESN/KSR, GB/T 51269, NL-SfB and CCI columns
+  from a mapping you maintain; code lists are not bundled (licences) but can be imported.
+
+Details: [docs/INTERNATIONAL.md](docs/INTERNATIONAL.md), [docs/CLASSIFICATION.md](docs/CLASSIFICATION.md).
+
 ## Power BI and Excel
 
 Folder `powerbi/` holds Power Query (M) scripts: `RawElements` (reads every `.xlsx`, `.csv` or `.jsonl`

@@ -20,6 +20,7 @@ from typing import Any, Dict, List, Optional
 
 from . import table
 from .loader import LoadError
+from .paths import ensure_parent, fs
 
 RVT_EXT = (".rvt", ".rfa")
 SUFFIX = {"rvt": "_rvt", "ifc": "_ifc", "dwg": "_dwg"}
@@ -96,9 +97,10 @@ def _complete(kind: str, work: Path) -> bool:
 
 def convert(model: str, work: Optional[str] = None, xlsx: Optional[str] = None, csv: Optional[str] = None,
             converters: Optional[str] = None, force: bool = False, ifc: bool = True, glb: bool = True,
-            qualified: bool = False, include_all: bool = False) -> Dict[str, Any]:
+            qualified: bool = False, include_all: bool = False, csv_delimiter: str = ",",
+            unit_headers: bool = False) -> Dict[str, Any]:
     m = Path(model).resolve()
-    if not m.is_file():
+    if not Path(fs(m)).is_file():
         raise ConvertError(f"model file not found: {model}")
     kind = model_kind(m)
     conv = find_converters(converters)
@@ -116,7 +118,7 @@ def convert(model: str, work: Optional[str] = None, xlsx: Optional[str] = None, 
         cmd = command_for(kind, m, w, conv, ifc=ifc)
         if not Path(cmd[0]).exists():
             raise ConvertError(f"converter not found: {cmd[0]}")
-        p = subprocess.run(cmd, capture_output=True, text=True)
+        p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
         result["converter_exit"] = p.returncode
         # RVT converter: 0 written, 2 written with reported gaps, 1 failure. IFC/DWG: 0 = converted.
         if p.returncode not in (0, 2) or not _complete(kind, w):
@@ -125,12 +127,12 @@ def convert(model: str, work: Optional[str] = None, xlsx: Optional[str] = None, 
         result["conversion"] = "done"
     t = table.build_table(str(w), include_all=include_all, qualified=qualified, use_ifc=ifc, use_glb=glb)
     out = Path(xlsx) if xlsx else m.with_name(m.stem + SUFFIX[kind] + ".xlsx")
-    out.parent.mkdir(parents=True, exist_ok=True)
-    table.write_xlsx(t, str(out))
+    ensure_parent(out)
+    table.write_xlsx(t, str(out), unit_headers=unit_headers)
     result["xlsx"] = str(out)
     if csv:
-        Path(csv).parent.mkdir(parents=True, exist_ok=True)
-        table.write_csv(t, csv)
+        ensure_parent(csv)
+        table.write_csv(t, csv, delimiter=csv_delimiter, unit_headers=unit_headers)
         result["csv"] = csv
     result.update({"elements": len(t.rows), "columns": len(t.columns), "table_kind": t.kind})
     return result
