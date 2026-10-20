@@ -14,20 +14,11 @@ Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and suppo
 
 ## Converters: Linux / macOS status
 
-The previous Linux converter packages (`ddc-rvtconverter`, `ddc-dwgconverter`,
-`ddc-ifcconverter`, `ddc-dgnconverter`, `ddc-rvt2ifcconverter`,
-`ddc-collisiondetector`, `ddc-thirdparty` and the `ddc-sdk-*` libraries) were
-based on the previous generation of converters and are **discontinued**. They
-are no longer built or distributed from this folder.
-
-The new first-party converters (DDC RVT Converter, DDC RVT-to-IFC,
-DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel, DDC Data Viewer) are
-currently released for Windows through GitHub Releases:
+DDC Converters 2.0 (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC DWG to Excel, DDC Data Viewer)
+are released for Windows 10/11 x64 through GitHub Releases:
 <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases>
 (see [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).
-**Linux and macOS builds of the new converters are in preparation.** The new
-converters are previews and their quality is not fully qualified yet.
-MicroStation DGN conversion is discontinued.
+**Linux and macOS builds are coming soon.**
 
 ## Available Packages
 

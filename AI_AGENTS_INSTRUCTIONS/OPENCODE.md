@@ -2,12 +2,12 @@
 
 ## Repository Overview
 
-**CAD2DATA Pipeline** - tools and workflow templates for construction data automation, designed to be integrated into any solution via CLI. Workflows and scripts are MIT-licensed; the DDC converters are proprietary previews distributed via GitHub Releases.
+**CAD2DATA Pipeline** - tools and workflow templates for construction data automation, designed to be integrated into any solution via CLI. Workflows and scripts are MIT-licensed; the DDC converters are proprietary software distributed  GitHub Releases.
 
 ## Core Concept
 
 Convert proprietary CAD/BIM files to open formats:
-- `.rvt` -> GLB, JSON/JSONL properties, IFC4 (experimental)
+- `.rvt` -> GLB, JSON/JSONL properties, IFC4
 - IFC -> XLSX, JSONL, SQLite
 - `.dwg` -> XLSX, CSV, JSONL, DXF, SVG
 
@@ -17,13 +17,13 @@ Convert proprietary CAD/BIM files to open formats:
 
 | Tool | Input | Output |
 |------|-------|--------|
-| DDC RVT Converter 0.6.8 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4, experimental) |
-| DDC RVT-to-IFC 0.6.8 | `.rvt`, `.rfa` | Same engine and CLI, IFC defaults |
-| DDC IFC to Excel 0.3.1-preview | IFC2x3 / IFC4 (SPF, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
-| DDC CAD drawing (.dwg) to Excel 0.4.1 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
-| DDC Data Viewer 0.1.1 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
+| DDC RVT Converter 2.0 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4 |
+| DDC RVT-to-IFC 2.0 | `.rvt`, `.rfa` | Same command line, IFC defaults |
+| DDC IFC to Excel 2.0 | IFC2x3 / IFC4 (STEP, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
+| DDC CAD drawing (.dwg) to Excel 2.0 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
+| DDC Data Viewer 2.0 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
 
-All are **previews** (quality not fully qualified): check the reports they write. DGN conversion is discontinued. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
+Check the reports each tool writes. DGN is not supported. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
 
 ## CLI Examples
 
@@ -31,7 +31,7 @@ All are **previews** (quality not fully qualified): check the reports they write
 # .rvt -> GLB + summary/report (+ element properties)
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --properties
 
-# .rvt -> IFC4 (experimental)
+# .rvt -> IFC4
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m
 
 # IFC -> Excel + JSONL + SQLite
@@ -51,7 +51,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 | **XLSX / CSV** | Tables |
 | **JSONL / SQLite** | Properties and tables |
 | **GLB** | 3D model (`native_graph.glb`) |
-| **IFC** | IFC4, experimental |
+| **IFC** | IFC4 |
 | **HTML** | Interactive reports (via n8n workflows) |
 
 ## Philosophy
@@ -74,7 +74,7 @@ The `n8n_*.json` files are **visual representations of process logic** - a found
 | 8 | ETL for LLM preparation |
 | 9 | QTO report generation |
 
-**Implement this logic in:** Python, JavaScript, C#, Go, Rust, or any language that can call CLI and process XLSX/JSON.
+**Implement this logic in:** Python, JavaScript, C#, Go, or any language that can call CLI and process XLSX/JSON.
 
 ## Integration Patterns
 
@@ -108,7 +108,7 @@ execSync('C:\\DDC\\RVT-Converter\\cli\\RVTconverter.exe "model.rvt" -o out --pro
 
 1. Check the exit code and read `report.json` / `REPORT.txt` / `result.json` after every run
 2. Use `--properties` for RVT when element parameters are needed
-3. Treat output as preview quality; validate before downstream processing
+3. Validate before downstream processing
 4. Use n8n workflows for complex automation
 
 ## For Code Generation
@@ -121,4 +121,4 @@ When generating code for this repository:
 
 ---
 
-*Workflows, scripts, and documentation are MIT-licensed. The DDC converter binaries are proprietary previews (see LICENSE-PROPRIETARY).*
+*Workflows, scripts, and documentation are MIT-licensed. The DDC converter binaries are proprietary software (see LICENSE-PROPRIETARY).*

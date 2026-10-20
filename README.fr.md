@@ -14,21 +14,32 @@
 
 <p align="center"><img src="docs/images/data-viewer-3d-grouped.png" width="100%" alt="DDC Data Viewer"></p>
 
-## Nouveautés d'octobre 2026
+## Nouveautés de DDC Converters 2.0
 
-Les convertisseurs reposent désormais sur des **lecteurs de formats propres à DataDrivenConstruction** (RVT : Rust ; IFC et DWG : Python) et ne dépendent plus d'aucun SDK CAO tiers. Les programmes de génération 18.x (`RvtExporter.exe`, `IfcExporter.exe`, `DwgExporter.exe`, `DgnExporter.exe`, `RVT2IFCconverter.exe`) sont retirés du dépôt ; les nouveaux paquets sont publiés sur la [page des releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases). Le DGN n'est plus pris en charge pour l'instant. Tous les nouveaux convertisseurs sont des préversions et produisent un rapport de ce qui a été lu, ignoré ou refusé.
+La version d'octobre 2026 de toute la gamme : RVT Converter 2.0, RVT to IFC 2.0, IFC to Excel 2.0, DWG to Excel 2.0, Data Viewer 2.0 et Excel Add-in 2.0.
+
+- **Un outil par famille de formats.** `.rvt` / `.rfa` vers GLB, glTF, OBJ, IFC4 et tables JSONL / CSV / SQLite ; `.ifc` / `.ifczip` vers Excel, JSONL et SQLite ; `.dwg` vers Excel, CSV, JSONL, DXF et SVG.
+- **Revit 2019–2027** est lu directement, sans logiciel Autodesk ni licence CAO.
+- **Export IFC4 depuis Revit** avec jeux de propriétés, quantités, classification et matériaux, et les profils `full`, `coordination` et `geometry` ; unités, origine, catégories et phases en ligne de commande.
+- **Des identifiants d'élément partout.** Chaque nœud de géométrie conserve l'identifiant natif de l'élément, ce qui permet de relier tableaux et 3D par `ElementId`.
+- **Un rapport par exécution.** `report.json` / `summary.json` indiquent, avec des compteurs, ce qui a été lu et ce qui a été ignoré.
+- **Applications de bureau et ligne de commande** pour chaque convertisseur, codes de retour adaptés au traitement par lots et statut JSON sur une ligne pour les scripts.
+- **DDC Data Viewer 2.0 :** visualiseur gratuit de tableaux et de 3D avec liaison dans les deux sens entre lignes et éléments.
+- **Hors ligne et portable.** Windows 10/11 x64 ; seul le paquet est à installer (installateur ou zip portable). Versions Linux / macOS — coming soon.
+
+Téléchargements : [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portables, prêts à l'emploi) et la [page des releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (installateurs et paquets).
 
 ## Convertisseurs
 
 | Paquet | Version | Lit | Écrit |
 |---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 (jeux de propriétés, quantités, classification, matériaux) |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
+| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-Tous les paquets fonctionnent hors ligne sous Windows 10/11 x64, sans logiciel Autodesk, Excel ni Python.
+Chaque nœud de géométrie écrit par RVT Converter conserve l'identifiant natif de l'élément, ce qui permet de relier tableaux et 3D par `ElementId`. Tous les paquets fonctionnent hors ligne sous Windows 10/11 x64, sans logiciel Autodesk, Excel ni Python. Versions Linux / macOS — coming soon.
 
 ## Captures d'écran
 
@@ -60,11 +71,14 @@ Options, fichiers de sortie et codes de retour : [README anglais](README.md#comm
 
 ## Workflows n8n, notebooks et agents IA
 
-Les workflows n8n (`DDC_n8n_Workflows&Pipelines/`) et les notebooks Jupyter sont portés vers les nouveaux convertisseurs : ils appellent les convertisseurs via `ddc convert` / `ddc table` (outil gratuit [`ddc-tools/`](ddc-tools/)), qui reconstruit à partir de la sortie des convertisseurs le tableau plat de l'ancienne disposition (`*_rvt.xlsx`, feuille `Project_Data`) ; DAE est remplacé par GLB. Installation unique : `pip install ddc-tools\`. Ce qui a été vérifié et ce qui n'est pas couvert figure dans le `README.md` à côté des workflows et des notebooks. `AI_AGENTS_INSTRUCTIONS/` décrit déjà les nouvelles commandes.
+Les workflows n8n (`DDC_n8n_Workflows&Pipelines/`) et les notebooks Jupyter appellent les convertisseurs via `ddc convert` / `ddc table` (outil gratuit [`ddc-tools/`](ddc-tools/)), qui construit le tableau plat (`*_rvt.xlsx`, feuille `Project_Data`) à partir de la sortie des convertisseurs ; la géométrie 3D est au format GLB. Installation unique : `pip install ddc-tools\`. Ce qui a été vérifié et ce qui n'est pas couvert figure dans le `README.md` à côté des workflows et des notebooks. `AI_AGENTS_INSTRUCTIONS/` fournit le contexte avec les lignes de commande actuelles.
 
-## Limites
+## Périmètre pris en charge et remarques
 
-RVT : complétude géométrique non certifiée, pas de textures, IFC4 tessellé. IFC : pas d'IFCXML. DWG : certains types d'objets sont signalés comme non pris en charge plutôt que mal exportés ; consultez `report.json`. Windows x64 uniquement pour l'instant ; Linux / macOS — coming soon.
+- **RVT :** les textures ne sont pas exportées ; l'export IFC écrit de l'IFC4 tessellé. Les éléments qui ne peuvent pas être représentés figurent dans le rapport d'exécution.
+- **IFC :** fichiers IFC2x3 et IFC4 STEP et `.ifczip` ; IFCXML n'est pas pris en charge. Les enregistrements d'origine restent toujours dans `data.jsonl` / `data.sqlite`.
+- **DWG :** dessins R13–2018. Certains types d'objets (par exemple certains tableaux, multilignes de repère, solides 3D, images) sont indiqués dans `report.json` comme *non pris en charge* plutôt que mal exportés.
+- **Plateformes :** Windows 10/11 x64. **Linux / macOS — coming soon.**
 
 ## Licence
 

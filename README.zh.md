@@ -14,21 +14,32 @@
 
 <p align="center"><img src="docs/images/data-viewer-3d-grouped.png" width="100%" alt="DDC Data Viewer"></p>
 
-## 2026 年 10 月更新
+## DDC Converters 2.0 新功能
 
-转换器现已基于 **DataDrivenConstruction 自研的文件读取器**（RVT：Rust；IFC 与 DWG：Python），不再依赖任何第三方 CAD SDK。旧版 18.x 程序（`RvtExporter.exe`、`IfcExporter.exe`、`DwgExporter.exe`、`DgnExporter.exe`、`RVT2IFCconverter.exe`）已停用并从仓库中移除；新软件包发布在 [Releases 页面](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)。暂不支持 DGN。所有新转换器均为预览版，每次运行都会生成报告，说明已读取、跳过或拒绝的内容。
+整个产品线的 2026 年 10 月版本：RVT Converter 2.0、RVT to IFC 2.0、IFC to Excel 2.0、DWG to Excel 2.0、Data Viewer 2.0 和 Excel Add-in 2.0。
+
+- **每类格式一个工具。** `.rvt` / `.rfa` 转为 GLB、glTF、OBJ、IFC4 以及 JSONL / CSV / SQLite 表格；`.ifc` / `.ifczip` 转为 Excel、JSONL 和 SQLite；`.dwg` 转为 Excel、CSV、JSONL、DXF 和 SVG。
+- **Revit 2019–2027** 文件可直接读取，无需 Autodesk 软件，也无需 CAD 许可证。
+- **从 Revit 导出 IFC4**，包含属性集、工程量、分类和材料，提供 `full`、`coordination` 和 `geometry` 三种配置；单位、原点、类别和阶段可通过命令行设置。
+- **处处保留元素 ID。** 每个几何节点都保留原生元素 ID，表格与 3D 可通过 `ElementId` 关联。
+- **每次运行都有报告。** `report.json` / `summary.json` 以计数列出已读取和已跳过的内容。
+- **桌面应用与命令行**，每个转换器均提供，退出码适合批处理，并为脚本输出单行 JSON 状态。
+- **DDC Data Viewer 2.0：** 免费的表格与 3D 查看器，行与元素双向联动。
+- **离线且便携。** Windows 10/11 x64；除软件包（安装程序或便携 zip）外无需安装任何内容。Linux / macOS 版本即将推出（coming soon）。
+
+下载：[`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/)（便携版，开箱即用）以及 [Releases 页面](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（安装程序和软件包）。
 
 ## 转换器
 
 | 软件包 | 版本 | 输入 | 输出 |
 |---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4（属性集、工程量、分类、材料） |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
+| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
-所有软件包均可在 Windows 10/11 x64 上离线运行，无需 Autodesk 软件、Excel 或 Python。
+RVT Converter 写出的每个几何节点都保留原生元素 ID，表格与 3D 可通过 `ElementId` 关联。所有软件包均可在 Windows 10/11 x64 上离线运行，无需 Autodesk 软件、Excel 或 Python。Linux / macOS 版本即将推出（coming soon）。
 
 ## 截图
 
@@ -60,11 +71,14 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## n8n 工作流、Notebook 与 AI 智能体
 
-n8n 工作流（`DDC_n8n_Workflows&Pipelines/`）和 Jupyter Notebook 已迁移到新转换器：它们通过 `ddc convert` / `ddc table`（免费工具 [`ddc-tools/`](ddc-tools/)）调用转换器，并由转换器输出重建旧版布局的平面表格（`*_rvt.xlsx`，工作表 `Project_Data`）；DAE 已替换为 GLB。一次性安装：`pip install ddc-tools\`。已验证的内容和未覆盖的内容见工作流和 Notebook 旁边的 `README.md`。`AI_AGENTS_INSTRUCTIONS/` 已包含新命令。
+n8n 工作流（`DDC_n8n_Workflows&Pipelines/`）和 Jupyter Notebook 通过 `ddc convert` / `ddc table`（免费工具 [`ddc-tools/`](ddc-tools/)）调用转换器，并由转换器输出构建平面表格（`*_rvt.xlsx`，工作表 `Project_Data`）；3D 几何为 GLB。一次性安装：`pip install ddc-tools\`。已验证的内容和未覆盖的内容见工作流和 Notebook 旁边的 `README.md`。`AI_AGENTS_INSTRUCTIONS/` 提供包含当前命令行的上下文。
 
-## 限制
+## 支持范围与说明
 
-RVT：几何完整性未经认证，不导出纹理，IFC4 为三角化几何。IFC：不支持 IFCXML。DWG：部分对象类型会被报告为不支持，而不是错误导出——请查看 `report.json`。目前仅支持 Windows x64；Linux / macOS 即将推出（coming soon）。
+- **RVT：** 不导出纹理；IFC 导出写出三角化（tessellated）的 IFC4。无法表示的元素会列入运行报告。
+- **IFC：** 支持 IFC2x3 和 IFC4 STEP 文件以及 `.ifczip`；不支持 IFCXML。原始记录始终保留在 `data.jsonl` / `data.sqlite` 中。
+- **DWG：** 支持 R13–2018 图纸。部分对象类型（例如某些表格、多重引线、3D 实体、图像）会在 `report.json` 中列为*不支持*，而不是错误导出。
+- **平台：** Windows 10/11 x64。**Linux / macOS 即将推出（coming soon）。**
 
 ## 许可
 

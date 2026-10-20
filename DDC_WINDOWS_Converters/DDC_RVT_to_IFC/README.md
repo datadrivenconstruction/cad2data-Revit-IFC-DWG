@@ -1,7 +1,7 @@
-# DDC RVT to IFC (portable, Windows x64)
+# DDC RVT to IFC 2.0 (portable, Windows x64)
 
-Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and writes IFC export through the desktop app; the CLI is the same engine as in DDC RVT Converter.
-Preview quality: always check `report.json` and `summary.json` next to the result.
+Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® and writes IFC export through the desktop app; the command line is the same as in DDC RVT Converter.
+Each run writes `report.json` and `summary.json` next to the result: they list what was read and what was skipped.
 The exact version is in `MANIFEST.json` in this folder. Licence: `EULA.txt`.
 
 ## Layout
@@ -31,12 +31,9 @@ cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out\Project2" --properties -
 `cli\RVTconverter.exe --help` lists all options (IFC profiles, units, origin, category and phase filters).
 Exit codes: 0 written, 2 written with reported gaps or invalid arguments, 1 failure.
 
-## Migrating from the retired 18.x `RvtExporter.exe`
+## Flat table for scripts
 
-- Same call shape: `converter "model.rvt"`. Point your script to `cli\RVTconverter.exe`.
-- Different output: a folder `<name>.converted` (GLB, JSON, optional `properties.jsonl`) instead of
-  `<name>_rvt.xlsx` + `<name>_rvt.dae`. The old positional output arguments and `bbox` / `complete` /
-  `sheets` style switches do not exist. The old flat table is rebuilt by `ddc convert` / `ddc table` (folder `ddc-tools` of this repository); the 3D model is the GLB.
+The output is a folder `<name>.converted` (GLB, JSON, optional `properties.jsonl`). A flat table (`<name>_rvt.xlsx`, sheet `Project_Data`) is built by `ddc convert` / `ddc table` (folder `ddc-tools` of this repository); the 3D model is the GLB.
 
 ## Updating
 

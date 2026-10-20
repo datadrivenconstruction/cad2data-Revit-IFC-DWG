@@ -2,7 +2,7 @@
 
 ## What Is This Repository?
 
-**CAD2DATA Pipeline** - toolkit and workflow templates for converting and extracting data from construction files (`.rvt`, IFC, `.dwg`) to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML). Workflows and scripts are MIT-licensed; the DDC converters are proprietary previews distributed via GitHub Releases.
+**CAD2DATA Pipeline** - toolkit and workflow templates for converting and extracting data from construction files (`.rvt`, IFC, `.dwg`) to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML). Workflows and scripts are MIT-licensed; the DDC converters are proprietary software distributed  GitHub Releases.
 
 ## Key Value
 
@@ -15,13 +15,13 @@
 
 | Tool | Input | Output |
 |------|-------|--------|
-| DDC RVT Converter 0.6.8 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4, experimental) |
-| DDC RVT-to-IFC 0.6.8 | `.rvt`, `.rfa` | Same engine and CLI, IFC defaults |
-| DDC IFC to Excel 0.3.1-preview | IFC2x3 / IFC4 (SPF, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
-| DDC CAD drawing (.dwg) to Excel 0.4.1 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
-| DDC Data Viewer 0.1.1 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
+| DDC RVT Converter 2.0 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4 |
+| DDC RVT-to-IFC 2.0 | `.rvt`, `.rfa` | Same command line, IFC defaults |
+| DDC IFC to Excel 2.0 | IFC2x3 / IFC4 (STEP, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
+| DDC CAD drawing (.dwg) to Excel 2.0 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
+| DDC Data Viewer 2.0 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
 
-All are **previews** (quality not fully qualified): check the reports they write. DGN conversion is discontinued. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
+Check the reports each tool writes. DGN is not supported. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
 
 ## CLI Syntax
 
@@ -29,7 +29,7 @@ All are **previews** (quality not fully qualified): check the reports they write
 # .rvt -> GLB + summary/report (+ element properties)
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --properties
 
-# .rvt -> IFC4 (experimental)
+# .rvt -> IFC4
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m
 
 # IFC -> Excel + JSONL + SQLite
@@ -49,7 +49,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 | **XLSX / CSV** | Tables | BigQuery, pandas, databases |
 | **JSONL / SQLite** | Properties and tables | pandas, databases |
 | **GLB** | 3D model (`native_graph.glb`) | 3D viewers, web visualization |
-| **IFC** | IFC4, experimental | Interoperability, BIM tools |
+| **IFC** | IFC4 | Interoperability, BIM tools |
 | **HTML** | Interactive reports (n8n) | Dashboards, sharing |
 
 ## Google Cloud Integration Examples
@@ -150,7 +150,7 @@ See `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` - explains data-driven approach to const
 
 1. Check exit codes (RVT: 0 ok, 2 written with gaps, 1 failure) and read `report.json` / `REPORT.txt` / `result.json`
 2. Use `--properties` for RVT when element parameters are needed
-3. Treat all converter output as preview quality and verify before downstream use
+3. Verify converter output and read its report before downstream use
 4. Stream large files to Cloud Storage
 5. Use BigQuery for analytics, Vertex AI for classification tasks
 

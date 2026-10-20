@@ -6,7 +6,7 @@ This folder contains instructions for AI coding assistants (Claude Code, Opencod
 
 ## Purpose
 
-The MIT-licensed parts of this repository (workflows, scripts, instructions) are **open source**; the DDC converter binaries are proprietary previews distributed through GitHub Releases. The repository is designed to be:
+The MIT-licensed parts of this repository (workflows, scripts, instructions) are **open source**; the DDC converter binaries are proprietary software distributed  GitHub Releases. The repository is designed to be:
 - Freely integrated into any solution
 - Extended and customized by AI assistants
 - Used as building blocks for construction automation workflows
@@ -45,17 +45,17 @@ The converters themselves are distributed through GitHub Releases:
 
 ## Supported Input/Output Formats
 
-### Converters (previews - quality not fully qualified)
+### Converters (DDC Converters 2.0)
 
 | Tool | Input | Output |
 |------|-------|--------|
-| DDC RVT Converter 0.6.8 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4, experimental) |
-| DDC RVT-to-IFC 0.6.8 | `.rvt`, `.rfa` | Same engine and CLI, IFC defaults |
-| DDC IFC to Excel 0.3.1-preview | IFC2x3 / IFC4 (SPF, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
-| DDC CAD drawing (.dwg) to Excel 0.4.1 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
-| DDC Data Viewer 0.1.1 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
+| DDC RVT Converter 2.0 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4 |
+| DDC RVT-to-IFC 2.0 | `.rvt`, `.rfa` | Same command line, IFC defaults |
+| DDC IFC to Excel 2.0 | IFC2x3 / IFC4 (STEP, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
+| DDC CAD drawing (.dwg) to Excel 2.0 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |
+| DDC Data Viewer 2.0 (free) | XLSX / CSV / JSONL / Parquet (+ GLB / DAE) | Viewer |
 
-All are **previews** (quality not fully qualified): check the reports they write. DGN conversion is discontinued. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
+Check the reports each tool writes. DGN is not supported. Download: <https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases> (suggested folders `C:\DDC\RVT-Converter\`, `C:\DDC\IFC-to-Excel\`, `C:\DDC\DWG-to-Excel\`).
 
 ### Output Formats
 | Format | Description | Produced By |
@@ -63,7 +63,7 @@ All are **previews** (quality not fully qualified): check the reports they write
 | **GLB** | 3D model (`native_graph.glb`) | DDC RVT Converter |
 | **XLSX / CSV** | Tables | DDC IFC to Excel, DDC CAD drawing (.dwg) to Excel |
 | **JSONL / SQLite** | Properties and tables | DDC RVT Converter (`--properties`), DDC IFC to Excel |
-| **IFC** | IFC4, experimental | DDC RVT Converter / RVT-to-IFC (`--ifc`) |
+| **IFC** | IFC4 | DDC RVT Converter / RVT-to-IFC (`--ifc`) |
 | **DXF / SVG** | Drawing geometry | DDC CAD drawing (.dwg) to Excel |
 | **HTML** | Interactive reports with charts | n8n workflows |
 
@@ -93,7 +93,7 @@ When working with this repository:
 # .rvt -> GLB + summary/report (+ element properties)
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" -o "C:\Out" --properties
 
-# .rvt -> IFC4 (experimental)
+# .rvt -> IFC4
 C:\DDC\RVT-Converter\cli\RVTconverter.exe "C:\Models\Project.rvt" --ifc --ifc-profile coordination --ifc-units m
 
 # IFC -> Excel + JSONL + SQLite
@@ -106,7 +106,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 # RVT exit codes: 0 ok, 2 written with gaps / bad args, 1 failure
 ```
 
-Linux and macOS builds of the new converters are in preparation; the old Linux converter packages (`ddc-*converter`, `ddc-sdk-*`) are discontinued. DGN conversion is discontinued.
+Linux and macOS builds are coming soon. DGN is not supported.
 
 ### Linux — DDC CWICR Semantic Search
 
@@ -157,7 +157,7 @@ The `n8n_*.json` files are **visual representations of process logic** - not the
 8. **ETL for LLM** - Data preparation for AI tasks
 9. **QTO Reports** - Quantity take-off report generation
 
-**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, Rust, or any language that can call CLI tools and process XLSX/JSON.
+**The logic shown in n8n can be reproduced in:** Python, JavaScript/Node.js, C#, Go, or any language that can call CLI tools and process XLSX/JSON.
 
 ## License
 

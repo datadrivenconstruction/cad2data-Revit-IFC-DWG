@@ -14,19 +14,30 @@
 
 <p align="center"><img src="docs/images/data-viewer-3d-grouped.png" width="100%" alt="DDC Data Viewer"></p>
 
-## Что изменилось в октябре 2026
+## Что нового в DDC Converters 2.0
 
-Конвертеры переведены на **собственные читатели форматов DataDrivenConstruction** (RVT — Rust, IFC и DWG — Python) и больше не зависят от сторонних CAD-SDK. Старые программы поколения 18.x (`RvtExporter.exe`, `IfcExporter.exe`, `DwgExporter.exe`, `DgnExporter.exe`, `RVT2IFCconverter.exe`) сняты с поддержки и убраны из репозитория; новые пакеты публикуются на [странице релизов](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases). DGN пока не поддерживается. Все новые конвертеры — предварительные версии: каждый запуск пишет отчёт о том, что прочитано, пропущено или отклонено.
+Октябрьский релиз 2026 года для всей линейки: RVT Converter 2.0, RVT to IFC 2.0, IFC to Excel 2.0, DWG to Excel 2.0, Data Viewer 2.0 и Excel Add-in 2.0.
+
+- **Один инструмент на семейство форматов.** `.rvt` / `.rfa` в GLB, glTF, OBJ, IFC4 и таблицы JSONL / CSV / SQLite; `.ifc` / `.ifczip` в Excel, JSONL и SQLite; `.dwg` в Excel, CSV, JSONL, DXF и SVG.
+- **Файлы Revit 2019–2027** читаются напрямую, без ПО Autodesk и без CAD-лицензий.
+- **Экспорт IFC4 из Revit** с наборами свойств, количествами, классификацией и материалами, профили `full`, `coordination` и `geometry`; единицы, начало координат, категории и стадии задаются в командной строке.
+- **Идентификаторы элементов везде.** Каждый геометрический узел хранит исходный ElementId, поэтому таблицы и 3D связываются по `ElementId`.
+- **Отчёт для каждого запуска.** `report.json` / `summary.json` с числами показывают, что прочитано и что пропущено.
+- **Приложения и командная строка** для каждого конвертера, коды возврата для пакетной обработки и однострочный JSON-статус для скриптов.
+- **DDC Data Viewer 2.0:** бесплатный просмотрщик таблиц и 3D с двусторонней связью строк и элементов.
+- **Офлайн и портативно.** Windows 10/11 x64; кроме пакета (установщик или portable zip) ничего ставить не нужно. Сборки для Linux / macOS — coming soon.
+
+Загрузки: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, готовы к запуску) и [страница релизов](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (установщики и пакеты).
 
 ## Конвертеры
 
 | Пакет | Версия | Читает | Пишет |
 |---|---|---|---|
-| **DDC RVT Converter** | 0.6.8 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV |
-| **DDC RVT to IFC** | 0.6.8 | `.rvt`, `.rfa` | IFC4 |
-| **DDC IFC to Excel** | 0.3.1 preview | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 0.4.1 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
-| **DDC Data Viewer** | 0.1.2 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
+| **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 (наборы свойств, количества, классификация, материалы) |
+| **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
+| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
 Все пакеты работают офлайн в Windows 10/11 x64 и не требуют ПО Autodesk, Excel или Python. Каждый геометрический узел RVT Converter хранит исходный ElementId, поэтому таблицы и 3D связываются напрямую.
 
@@ -60,11 +71,14 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Drawings\Plan.dwg" -o "C:\Out"
 
 ## n8n-сценарии, ноутбуки и ИИ-агенты
 
-n8n-сценарии (`DDC_n8n_Workflows&Pipelines/`) и Jupyter-ноутбуки перенесены на новые конвертеры: они вызывают конвертеры через `ddc convert` / `ddc table` (бесплатный инструмент [`ddc-tools/`](ddc-tools/)), который собирает из выхода конвертеров плоскую таблицу в старой раскладке (`*_rvt.xlsx`, лист `Project_Data`); DAE заменён на GLB. Разовая установка: `pip install ddc-tools\`. Что проверено и что не покрыто, написано в `README.md` рядом со сценариями и ноутбуками. В `AI_AGENTS_INSTRUCTIONS/` уже описаны новые команды.
+n8n-сценарии (`DDC_n8n_Workflows&Pipelines/`) и Jupyter-ноутбуки вызывают конвертеры через `ddc convert` / `ddc table` (бесплатный инструмент [`ddc-tools/`](ddc-tools/)), который собирает из выхода конвертеров плоскую таблицу (`*_rvt.xlsx`, лист `Project_Data`); 3D-геометрия — GLB. Разовая установка: `pip install ddc-tools\`. Что проверено и что не покрыто, написано в `README.md` рядом со сценариями и ноутбуками. В `AI_AGENTS_INSTRUCTIONS/` собран контекст с актуальными командами.
 
-## Ограничения
+## Поддерживаемый объём и примечания
 
-RVT: полнота геометрии не сертифицирована, текстуры не экспортируются, IFC4 — тесселированный. IFC: IFCXML не поддерживается. DWG: часть типов объектов помечается как неподдерживаемые вместо неверного экспорта — проверяйте `report.json`. Пока только Windows x64; Linux / macOS — coming soon.
+- **RVT:** текстуры не экспортируются; экспорт IFC пишет тесселированный IFC4. Элементы, которые нельзя представить, перечислены в отчёте запуска.
+- **IFC:** файлы IFC2x3 и IFC4 STEP и `.ifczip`; IFCXML не поддерживается. Исходные записи всегда остаются в `data.jsonl` / `data.sqlite`.
+- **DWG:** чертежи R13–2018. Часть типов объектов (например, некоторые таблицы, мультивыноски, 3D-тела, изображения) помечается в `report.json` как *неподдерживаемые* вместо неверного экспорта.
+- **Платформы:** Windows 10/11 x64. **Linux / macOS — coming soon.**
 
 ## Лицензия
 
