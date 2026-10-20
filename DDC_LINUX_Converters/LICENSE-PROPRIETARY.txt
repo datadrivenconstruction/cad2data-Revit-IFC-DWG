@@ -1,5 +1,5 @@
 DataDrivenConstruction Proprietary Software License
-Version 1.0 - Effective 2026-04
+Version 1.1 - Effective 2026-10-20
 
 Copyright (c) 2022-2026 Artem Boiko / DataDrivenConstruction.io
 Licensor operates as a registered small business (Kleingewerbe /
@@ -20,7 +20,6 @@ and, where present, in the directories listed below
     command-line tools)
   - DDC IFC to Excel
   - DDC CAD drawing (.dwg) to Excel
-  - DDC Data Viewer
   - all accompanying executables and shared libraries
 
   - DDC_WINDOWS_Converters/ - including (without limitation):
@@ -37,18 +36,36 @@ and, where present, in the directories listed below
 ================================================================
 
 2.1 Subject to Licensee's acceptance of and continued compliance
-    with this License and with the DataDrivenConstruction Terms
-    of Use and End-User License Agreement ("EULA") available at
-    https://datadrivenconstruction.io/term-of-use-and-eula/,
+    with the DataDrivenConstruction End-User License Agreement
+    ("EULA", file EULA.md in the repository root and EULA.txt in
+    each converter folder; the EULA prevails in case of conflict),
     Licensor grants Licensee a personal, non-exclusive,
-    non-transferable, revocable, royalty-free license to
-    download, install, and use the Binary Software for internal
-    evaluation and lawful personal or professional use.
+    non-transferable, non-sublicensable, revocable, royalty-free
+    license to download, install, and use the Binary Software for
+    NON-COMMERCIAL USE only.
 
-2.2 Commercial use in a revenue-generating capacity, use in a
-    software-as-a-service offering, or redistribution to third
-    parties requires a separate commercial license from Licensor.
-    Contact: info@datadrivenconstruction.io.
+2.2 COMMERCIAL USE requires a separate commercial license from
+    Licensor, available on request: info@datadrivenconstruction.io.
+    "Commercial use" means any use of the Binary Software (a) by
+    or on behalf of a business, company, self-employed
+    professional, public authority or other organisation,
+    including use by its employees or contractors; (b) in paid
+    work or services, including processing files for clients;
+    (c) in a project that generates or is intended to generate
+    revenue; or (d) as part of, or to deliver, a product,
+    service, pipeline or software-as-a-service offering made
+    available to others. Redistribution to third parties is also
+    covered by Section 3(f).
+
+2.3 "Non-commercial use" means personal learning and hobby use,
+    academic research, teaching and study by students and
+    instructors, and evaluation by non-profit organisations, in
+    each case without payment, revenue or business purpose.
+
+2.4 The DDC Data Viewer is licensed under its own LICENSE.txt. The
+    MIT-licensed parts of this repository (including ddc-tools)
+    are not Binary Software; the MIT license does not extend to
+    the Binary Software.
 
 ================================================================
 3. RESTRICTIONS
@@ -134,8 +151,9 @@ UNAFFECTED WHERE APPLICABLE.
 7.2 For slight negligence (leichte Fahrlässigkeit) in breach of
     cardinal contractual obligations (wesentliche
     Vertragspflichten), Licensor's liability is limited to
-    damages typical and foreseeable for contracts of this type
-    and capped at EUR 1,000 per claim.
+    damages typical and foreseeable for contracts of this type.
+    For the free non-commercial edition, liability for slight
+    negligence is excluded (see EULA Section 10).
 
 7.3 Any further liability for slight negligence is excluded.
 
