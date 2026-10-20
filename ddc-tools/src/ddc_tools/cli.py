@@ -48,7 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     pt = sub.add_parser("table", help="flat element table (old *_rvt.xlsx layout) from RVT / IFC / DWG converter output")
     pt.add_argument("input", help="RVT <name>.converted folder (or properties.jsonl), IFC to Excel folder/file, "
-                                  ".ifc file, or DWG to Excel .jsonl/.csv/.xlsx (folder)")
+                                  ".ifc file, or CAD Drawing to Excel .jsonl/.csv/.xlsx (folder)")
     pt.add_argument("--kind", choices=["rvt", "ifc-excel", "ifc-step", "dwg"], help="force the input kind (default: auto-detect)")
     pt.add_argument("--xlsx", metavar="FILE", help="write the table as XLSX (sheet Project_Data, plus an Info sheet)")
     pt.add_argument("--csv", metavar="FILE", help="write the table as CSV (UTF-8 with BOM)")

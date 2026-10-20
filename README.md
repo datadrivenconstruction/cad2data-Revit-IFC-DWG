@@ -32,7 +32,7 @@
 ## What's new in DDC Converters 2.0
 
 DDC Converters 2.0 is the October 2026 release of the whole line: RVT Converter 2.0, RVT to IFC 2.0,
-IFC to Excel 2.0, DWG to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0.
+IFC to Excel 2.0, CAD Drawing to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0.
 
 - **One tool per format family.** `.rvt` / `.rfa` to GLB, glTF, OBJ, IFC4 and JSONL / CSV / SQLite tables;
   `.ifc` / `.ifczip` to Excel, JSONL and SQLite; `.dwg` to Excel, CSV, JSONL, DXF and SVG.
@@ -71,7 +71,7 @@ Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready
 | **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4, element table (`elements.xlsx`, `elements.csv`: category, family, type, level, area, volume, length, parameters), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
 | **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same command line as RVT Converter) |
 | **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + command line |
-| **DDC DWG to Excel** | 2.0 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
+| **DDC CAD Drawing to Excel** | 2.0 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
 | **DDC Data Viewer** | 2.0 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
@@ -153,7 +153,7 @@ The command prints one JSON line (`"status": "CONVERTED"`, `"CONVERTED_WITH_LIMI
 and creates a new sub-folder with `drawing.xlsx`, `data.jsonl`, `data.sqlite` and `result.json`.
 `.ifczip` files are accepted directly.
 
-### DDC DWG to Excel — `dwg2excel.exe`
+### DDC CAD Drawing to Excel — `dwg2excel.exe`
 
 ```powershell
 # one or more drawings; a new sub-folder per drawing
@@ -275,7 +275,7 @@ confidential models.
 | `DDC_n8n_Workflows&Pipelines/` | n8n workflow JSON files |
 | `DDC_in_additon/` | notebooks, presentations, images |
 | `AI_AGENTS_INSTRUCTIONS/` | instructions for AI coding agents |
-| `DDC_WINDOWS_Converters/` | portable Windows converters (RVT, RVT-to-IFC, IFC to Excel, DWG to Excel, Data Viewer), licence texts and the Excel → Revit add-in documentation; installers are on the Releases page |
+| `DDC_WINDOWS_Converters/` | portable Windows converters (RVT, RVT-to-IFC, IFC to Excel, CAD Drawing to Excel, Data Viewer), licence texts and the Excel → Revit add-in documentation; installers are on the Releases page |
 | `DDC_LINUX_Converters/` | CWICR data packages, Qdrant packaging and telemetry dashboard |
 | `Sample_Projects/` | open IFC sample files |
 

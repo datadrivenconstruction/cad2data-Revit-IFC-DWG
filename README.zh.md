@@ -16,7 +16,7 @@
 
 ## DDC Converters 2.0 新功能
 
-整个产品线的 2026 年 10 月版本：RVT Converter 2.0、RVT to IFC 2.0、IFC to Excel 2.0、DWG to Excel 2.0、Data Viewer 2.0 和 Excel Add-in 2.0。
+整个产品线的 2026 年 10 月版本：RVT Converter 2.0、RVT to IFC 2.0、IFC to Excel 2.0、CAD Drawing to Excel 2.0、Data Viewer 2.0 和 Excel Add-in 2.0。
 
 - **每类格式一个工具。** `.rvt` / `.rfa` 转为 GLB、glTF、OBJ、IFC4 以及 JSONL / CSV / SQLite 表格；`.ifc` / `.ifczip` 转为 Excel、JSONL 和 SQLite；`.dwg` 转为 Excel、CSV、JSONL、DXF 和 SVG。
 - **Revit 2019–2027** 文件可直接读取，无需 Autodesk 软件，也无需 CAD 许可证。
@@ -36,7 +36,7 @@
 | **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
 | **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4（属性集、工程量、分类、材料） |
 | **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC CAD Drawing to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
 | **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
 RVT Converter 写出的每个几何节点都保留原生元素 ID，表格与 3D 可通过 `ElementId` 关联。所有软件包均可在 Windows 10/11 x64 上离线运行，无需 Autodesk 软件、Excel 或 Python。Linux / macOS 版本即将推出（coming soon）。

@@ -28,7 +28,7 @@ package of this release once, checks its SHA-256 against a value fixed in the ad
 |---|---|---|
 | RVT, RFA | DDC RVT Converter 2.0 (`RVTconverter.exe --properties`) | 75 MB |
 | IFC, IFCZIP | DDC IFC to Excel 2.0 | 34 MB |
-| DWG | DDC DWG to Excel 2.0 | 22 MB |
+| DWG | DDC CAD Drawing to Excel 2.0 | 22 MB |
 
 Offline: put the official portable zip of the release into `%LOCALAPPDATA%\DataDrivenConstruction\Excel\downloads`.
 The converter output (`properties.jsonl`, `native_graph.glb`, `data.jsonl`, reports) stays in a `DDC\import-*` folder
@@ -48,7 +48,7 @@ The 3D view of the RVT geometry (GLB) opens from **Project Geometry**:
   names are not in the RVT table (they need the IFC export).
 - **IFC**: one row per product: ID, GlobalId, Category, IfcClass, Family, Type Name, Name, Level, Length ... Volume with the
   quantity source, property sets. No geometry; quantities are the values stored in the file.
-- **DWG**: one row per drawing record as written by DWG to Excel (`handle` is `ID`); the coverage columns say what was decoded.
+- **DWG**: one row per drawing record as written by CAD Drawing to Excel (`handle` is `ID`); the coverage columns say what was decoded.
 
 The columns follow `ddc table` of [ddc-tools](../../ddc-tools/). Excel limits apply: 1,048,575 rows and 16,384 columns per sheet.
 DGN is not supported.
