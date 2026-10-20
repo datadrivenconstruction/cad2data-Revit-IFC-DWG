@@ -10,6 +10,13 @@
 > [EULA.txt](./EULA.txt) in this folder, and [NOTICE](../NOTICE)
 > at the repository root, for the full terms.
 
+> **Licence: free for non-commercial use only.** Commercial use of the DDC converters requires a licence on
+> request: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Commercial use means use by or
+> for a business or organisation, in paid work or services (including processing files for clients), in
+> revenue-generating projects, or inside a product, service or SaaS offered to others. Personal learning,
+> research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../EULA.md) and
+> [LICENSE-PROPRIETARY](../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence.
+
 ## Converters in this folder
 
 Each sub-folder is a ready-to-run **portable** build for Windows 10/11 x64 (unpack nothing, just use it).

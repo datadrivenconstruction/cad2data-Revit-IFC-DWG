@@ -12,6 +12,13 @@ Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and suppo
 > The build / installation scripts and Markdown documentation in this folder are
 > MIT-licensed under the [root LICENSE](../LICENSE).
 
+> **Licence: free for non-commercial use only.** Commercial use of the DDC converters requires a licence on
+> request: [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Commercial use means use by or
+> for a business or organisation, in paid work or services (including processing files for clients), in
+> revenue-generating projects, or inside a product, service or SaaS offered to others. Personal learning,
+> research, teaching and non-profit evaluation are non-commercial. Terms: [EULA](../EULA.md) and
+> [LICENSE-PROPRIETARY](../LICENSE-PROPRIETARY). The MIT-licensed `ddc-tools` and the documentation are a separate, open-source licence.
+
 ## Converters: Linux / macOS status
 
 DDC Converters 2.0 (DDC RVT Converter, DDC RVT to IFC, DDC IFC to Excel, DDC CAD Drawing to Excel, DDC Data Viewer)
@@ -188,4 +195,4 @@ sudo apt install ddc-cwicr-en  # Install at least one language
 
 ## License
 
-MIT — see [LICENSE](../LICENSE)
+Documentation and scripts: MIT, see [LICENSE](../LICENSE). DDC binaries: proprietary, free for non-commercial use only; commercial use requires a licence on request (info@datadrivenconstruction.io), see [EULA](../EULA.md).

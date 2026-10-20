@@ -13,8 +13,11 @@ XLSX, CSV, JSONL, SQLite or JSON). Your data stays on your machine: no upload, n
 | `ddc qto` | Quantity summary by category, type and level (count, length, area, volume, whichever the export has) with warnings about gaps. |
 | Power BI and Excel kit | Power Query (M) scripts and an Excel workbook that read a whole export folder. No Python needed. |
 
-Python 3.9+, dependencies: `openpyxl` and `PyYAML` (both permissive licences). MIT licence, see the
+Python 3.9+, dependencies: `openpyxl` and `PyYAML` (both permissive licences). MIT licence (open source, commercial use allowed), see the
 [repository licence](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/LICENSE) for the scope.
+The MIT licence covers `ddc-tools` only. The DDC converters it calls are proprietary: free for non-commercial use only,
+commercial use requires a licence on request (info@datadrivenconstruction.io), see the
+[EULA](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/EULA.md).
 
 ## Install
 
