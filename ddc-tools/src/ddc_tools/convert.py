@@ -4,7 +4,7 @@ It only calls the converters' own command lines:
 
 * ``.rvt`` / ``.rfa``: ``DDC_RVT_Converter\\cli\\RVTconverter.exe MODEL -o WORK --properties --ifc``
 * ``.ifc``:           ``DDC_IFC_to_Excel\\runtime\\python.exe sources\\ifc-excel\\converter.py MODEL --output WORK``
-* ``.dwg``:           ``DDC_DWG_to_Excel\\cli\\dwg2excel.exe MODEL --output WORK --json --no-svg --no-dxf --no-xlsx``
+* ``.dwg``:           ``DDC_CAD_Drawing_to_Excel\\cli\\dwg2excel.exe MODEL --output WORK --json --no-svg --no-dxf --no-xlsx``
 
 and then ``ddc table`` on the result, written next to the model as ``<name>_rvt.xlsx`` / ``_ifc.xlsx`` /
 ``_dwg.xlsx`` (the names of the retired 18.x converters).
@@ -53,7 +53,7 @@ def find_converters(explicit: Optional[str] = None) -> Path:
     cwd = Path.cwd().resolve()
     cands += [d / "DDC_WINDOWS_Converters" for d in [cwd, *cwd.parents]]
     for c in cands:
-        if c.is_dir() and any((c / d).exists() for d in ("DDC_RVT_Converter", "DDC_IFC_to_Excel", "DDC_DWG_to_Excel")):
+        if c.is_dir() and any((c / d).exists() for d in ("DDC_RVT_Converter", "DDC_IFC_to_Excel", "DDC_CAD_Drawing_to_Excel")):
             return c
     raise ConvertError("converters folder not found: pass --converters PATH or set DDC_CONVERTERS to the "
                        "DDC_WINDOWS_Converters folder of this repository")
@@ -70,7 +70,7 @@ def command_for(kind: str, model: Path, work: Path, conv: Path, ifc: bool = True
         d = conv / "DDC_IFC_to_Excel"
         return [str(d / "runtime" / "python.exe"), str(d / "sources" / "ifc-excel" / "converter.py"),
                 str(model), "--output", str(work)]
-    exe = conv / "DDC_DWG_to_Excel" / "cli" / "dwg2excel.exe"
+    exe = conv / "DDC_CAD_Drawing_to_Excel" / "cli" / "dwg2excel.exe"
     return [str(exe), str(model), "--output", str(work), "--json", "--no-svg", "--no-dxf", "--no-xlsx"]
 
 

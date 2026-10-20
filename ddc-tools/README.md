@@ -48,7 +48,7 @@ Helper files such as `geometry_index.jsonl` or `*manifest*` are skipped.
   numeric category ids instead of names (`Category` shows the id), no level or type columns, and no
   calculated quantities, so `ddc qto` gives counts and whatever stored values exist, with warnings.
   Values are in the model's internal units.
-* **DWG to Excel** tables are plain sheets, CSV or JSONL and are read as they are.
+* **CAD Drawing to Excel** tables are plain sheets, CSV or JSONL and are read as they are.
 
 Columns of other tables are found by common names, case-insensitive:
 
@@ -129,7 +129,7 @@ One command from model file to table. It calls the converters' own command lines
 |---|---|
 | `.rvt`, `.rfa` | `DDC_RVT_Converter\cli\RVTconverter.exe MODEL -o WORK --properties --ifc` |
 | `.ifc` | `DDC_IFC_to_Excel\runtime\python.exe sources\ifc-excel\converter.py MODEL --output WORK` |
-| `.dwg` | `DDC_DWG_to_Excel\cli\dwg2excel.exe MODEL --output WORK --json --no-svg --no-dxf --no-xlsx` |
+| `.dwg` | `DDC_CAD_Drawing_to_Excel\cli\dwg2excel.exe MODEL --output WORK --json --no-svg --no-dxf --no-xlsx` |
 
 ```bash
 ddc convert "C:\Models\Project.rvt"                 # -> C:\Models\Project_rvt.xlsx (+ Project.converted\)
@@ -229,7 +229,7 @@ short list of certain ids and otherwise from the category name.
 ## `ddc diff`
 
 What changed between two issues of a model? Both sides are read with the same adapters as `ddc table`
-(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, DWG to Excel table), so A and B can be
+(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, CAD Drawing to Excel table), so A and B can be
 folders or files in any supported format.
 
 ```bash
@@ -285,7 +285,7 @@ short list of certain ids and otherwise from the category name.
 ## `ddc diff`
 
 What changed between two issues of a model? Both sides are read with the same adapters as `ddc table`
-(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, DWG to Excel table), so A and B can be
+(RVT `properties.jsonl` folder, DDC IFC to Excel output or a plain `.ifc`, CAD Drawing to Excel table), so A and B can be
 folders or files in any supported format.
 
 ```bash

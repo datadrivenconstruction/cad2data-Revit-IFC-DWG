@@ -632,10 +632,10 @@ def dwg_rows(path: Path, include_all: bool = False) -> Table:
         files.sort(key=lambda x: (pref[x.suffix.lower()], x.name))
         files = files[:1] if files else []
     if not files:
-        raise TableError(f"{path}: no DWG to Excel table (.jsonl/.csv/.xlsx) found")
+        raise TableError(f"{path}: no CAD Drawing to Excel table (.jsonl/.csv/.xlsx) found")
     raw = read_file(files[0])
     if not raw or "handle" not in raw[0]:
-        raise TableError(f"{files[0].name}: not a DWG to Excel table (no 'handle' column)")
+        raise TableError(f"{files[0].name}: not a CAD Drawing to Excel table (no 'handle' column)")
     rows: List[Dict[str, Any]] = []
     for r in raw:
         t = r.get("type_name")

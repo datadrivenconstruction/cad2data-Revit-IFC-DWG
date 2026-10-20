@@ -18,7 +18,7 @@ def conv(tmp_path):
     for rel in ("DDC_RVT_Converter/cli/RVTconverter.exe",
                 "DDC_IFC_to_Excel/runtime/python.exe",
                 "DDC_IFC_to_Excel/sources/ifc-excel/converter.py",
-                "DDC_DWG_to_Excel/cli/dwg2excel.exe"):
+                "DDC_CAD_Drawing_to_Excel/cli/dwg2excel.exe"):
         f = c / rel
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text("stub")

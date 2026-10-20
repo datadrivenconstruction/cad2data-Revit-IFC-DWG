@@ -18,7 +18,7 @@
 
 ## الجديد في DDC Converters 2.0
 
-إصدار أكتوبر 2026 لخط المنتجات بالكامل: RVT Converter 2.0 وRVT to IFC 2.0 وIFC to Excel 2.0 وDWG to Excel 2.0 وData Viewer 2.0 وExcel Add-in 2.0.
+إصدار أكتوبر 2026 لخط المنتجات بالكامل: RVT Converter 2.0 وRVT to IFC 2.0 وIFC to Excel 2.0 وCAD Drawing to Excel 2.0 وData Viewer 2.0 وExcel Add-in 2.0.
 
 - **أداة واحدة لكل عائلة صيغ.** تحويل `.rvt` / `.rfa` إلى GLB وglTF وOBJ وIFC4 وجداول JSONL / CSV / SQLite؛ و`.ifc` / `.ifczip` إلى Excel وJSONL وSQLite؛ و`.dwg` إلى Excel وCSV وJSONL وDXF وSVG.
 - **ملفات Revit 2019–2027** تُقرأ مباشرة دون برامج Autodesk ودون تراخيص CAD.
@@ -38,7 +38,7 @@
 | **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` (Autodesk® Revit® 2019–2027) | GLB, glTF, OBJ, IFC4, JSONL / CSV / SQLite |
 | **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 (مجموعات الخصائص والكميات والتصنيف والمواد) |
 | **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4, `.ifczip` | XLSX, JSONL, SQLite |
-| **DDC DWG to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
+| **DDC CAD Drawing to Excel** | 2.0 | `.dwg` (R13–2018) | XLSX, CSV, JSONL, DXF, SVG |
 | **DDC Data Viewer** | 2.0 | XLSX, CSV, JSONL, Parquet + GLB / DAE | XLSX, CSV |
 
 تحتفظ كل عقدة هندسية يكتبها RVT Converter بمعرّف العنصر الأصلي، فتُربط الجداول والنموذج ثلاثي الأبعاد عبر `ElementId`. تعمل جميع الحزم دون اتصال على Windows 10/11 x64 ولا تحتاج إلى برامج Autodesk أو Excel أو Python. إصدارات Linux / macOS قريبًا (coming soon).
