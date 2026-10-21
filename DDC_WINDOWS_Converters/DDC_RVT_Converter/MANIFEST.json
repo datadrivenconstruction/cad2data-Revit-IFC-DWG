@@ -1,20 +1,30 @@
 {
     "dotnet_sdk":  "8.0.206",
-    "version":  "2.0.0",
+    "version":  "2.0.1",
     "dotnet_runtime":  "8.0.31",
-    "engine_sha256":  "a3a883610b9cd8c0354b062475be86abbfc3e56469df6fc6594de7978afa59ec",
-    "engine_commit":  "aa20b7e93a4509cae6a656cf1b340bedab5d26aa",
+    "engine_sha256":  "abe46a3c22cb3b6decf77242ad5b0f1f2bef060fb137bbf8867b97b234fa6ba3",
+    "engine_commit":  "53bcc026a6c81b5450f425325606b3067b4f0b39",
     "schema":  "rvt_desktop_distribution/1",
-    "created_utc":  "2026-10-20T08:14:23.8205994Z",
+    "created_utc":  "2026-10-21T06:20:53.3214097Z",
     "runtime_deployment":  "embedded and app-local",
     "product_name":  "RVT Converter",
     "runtime_sha256":  "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc",
     "platform":  "win-x64",
     "files":  [
                   {
+                      "path":  "cli/RVT2IFCconverter.exe",
+                      "sha256":  "6b33d3080772bfa31b938b2fba3b2a0b20709ca71574d954f5f1b1087b03943b",
+                      "bytes":  1481728
+                  },
+                  {
                       "path":  "cli/RVTconverter.exe",
-                      "sha256":  "a3a883610b9cd8c0354b062475be86abbfc3e56469df6fc6594de7978afa59ec",
-                      "bytes":  13699072
+                      "sha256":  "abe46a3c22cb3b6decf77242ad5b0f1f2bef060fb137bbf8867b97b234fa6ba3",
+                      "bytes":  13713408
+                  },
+                  {
+                      "path":  "cli/RvtExporter.exe",
+                      "sha256":  "6b33d3080772bfa31b938b2fba3b2a0b20709ca71574d954f5f1b1087b03943b",
+                      "bytes":  1481728
                   },
                   {
                       "path":  "cli/vcruntime140.dll",
@@ -23,8 +33,8 @@
                   },
                   {
                       "path":  "Community/community.html",
-                      "sha256":  "b44bcb5124cabaa944d1296601d27b55e3ee11c92e275a9cc75e5775405a1649",
-                      "bytes":  3445
+                      "sha256":  "798551b026834b7538cc51f808f633d5042b60f7e686b277d08d20aab7493c00",
+                      "bytes":  3503
                   },
                   {
                       "path":  "licenses/DOTNET-LICENSE.txt",
@@ -38,8 +48,8 @@
                   },
                   {
                       "path":  "licenses/EULA.txt",
-                      "sha256":  "d30658ba583a2a08f4588291bdb4389571b3606086d6ae2e75d174f0b8210536",
-                      "bytes":  38897
+                      "sha256":  "058f6b88c4ce76c9e13bedbee6ff3bee94c0d269d9457b6ff20767185756d37c",
+                      "bytes":  13921
                   },
                   {
                       "path":  "licenses/FLUENT-UI-SYSTEM-ICONS-LICENSE.txt",
@@ -73,17 +83,17 @@
                   },
                   {
                       "path":  "README.html",
-                      "sha256":  "b1eddb998a1f0043644b0b78689c1ec359844eb95b89697e7569cc565a9085dd",
-                      "bytes":  780239
+                      "sha256":  "c1112b79af47c2af2ffbf08e7f2cb5e6915d41c42d406aea2128acc096b34014",
+                      "bytes":  810534
                   },
                   {
                       "path":  "RVT Converter.exe",
-                      "sha256":  "50c91d643afe4082727b4cb0d58e613c42aba523604b43c7e2a7582844d0e5ea",
-                      "bytes":  78510072
+                      "sha256":  "bd6b9f465d82e977986cea23afff3ab2a0535a3187d0ea5f50b43c31a7dc0423",
+                      "bytes":  78512344
                   }
               ],
     "product":  "rvt-converter",
     "languages":  20,
-    "source_commit":  "3b9976dcdfd53eac6575f158f9001a49a13ae5b9",
+    "source_commit":  "6a4bed6c5c8d196267d179c7788a8ac7ce0b2b5e",
     "quality":  "geometry completeness is reported for every run in report.json"
 }
