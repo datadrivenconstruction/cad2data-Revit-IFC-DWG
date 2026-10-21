@@ -47,8 +47,9 @@ For every model, the app creates a folder next to it (for example `Family House.
 5. **Open the result.** When the status says *Written*, click **Open output** in the status bar, or right-click the file
    and choose **Open folder**.
 
-   ![Finished conversion with the result folder name](../../docs/images/rvt-to-ifc-done.png)
-   *Done: the IFC file, the spreadsheet and the 3D model are in the folder shown under Result.*
+   ![Finished conversion of two models](../../docs/images/rvt-to-ifc-done.png)
+   _Done: each model has its own result folder. **With gaps** means the file was written and the report lists a few
+   elements worth a look — click **What to check** to see them._
 
 ## Look at the result
 
@@ -90,6 +91,9 @@ cli\RVTconverter.exe "C:\Projects\House\Family House.rvt" --ifc --ifc-units mm -
 **Is it free?** Yes, for non-commercial use: learning, research, teaching and personal projects.
 Using it in paid work, for clients, or inside a company product needs a commercial licence —
 write to [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io). Full terms: [EULA](../../EULA.md).
+
+![About window with version and licence](../../docs/images/rvt-to-ifc-about.png)
+*Help → About shows the version and the licence.*
 
 **Which Windows?** Windows 10 or 11, 64-bit. The portable version runs from any folder, even a USB stick.
 
