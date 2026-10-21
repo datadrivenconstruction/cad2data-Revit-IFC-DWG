@@ -45,3 +45,4 @@ DDC_Converters_Linux_Packages/dist/
 *.tmp
 *.log
 *.bak
+.WebView2/
