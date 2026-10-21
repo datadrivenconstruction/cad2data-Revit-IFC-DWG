@@ -26,3 +26,9 @@ rvt_export/legal/BRANCH_EDITS_FOR_OTHER_AGENTS.md (Support prompt, Registration 
 ## Open owner decisions
 EULA 5.1 ad page vs no ads; Data Viewer licence model; vcruntime/VSTO redistribution; code signing; site PR #25 deploy (/api/app/subscribe, APP_KEYS);
 G2/Capterra profiles; feedback retention 12 months; back up _secrets/ddc-license-signing.key.
+
+## Exact resume commands (from agents, 2026-10-21)
+- DWG: cd "C:/Users/Artem/Desktop/CC Projects/DDC Converters/sources/dwg-excel/tools" && "C:/tmp/dwg/nuitka-venv/Scripts/python.exe" build_release.py --out C:/tmp/dwg/out200c --work C:/tmp/dwg/nb200c
+  (venv missing -> python -m venv C:/tmp/dwg/nuitka-venv; pip install nuitka==4.3 zstandard ordered-set). Last run died with a Nuitka error after the process kill; if it repeats, read the head of C:/.uiw/work/dwgui/build200.log.
+  Then: python C:/.uiw/work/dwgui/verify_exe.py <out>/app <shots>; packaging/build_installers.py dwg-excel --app <out>/app --version 2.0.0; tests/test_packaging.py with DDC_PACKAGE_DIR=<out>/app.
+- IFC: branch drop-pip (b6103d5, 812001a) pushed, NOT merged: rerun full suite, then PR + squash merge.
