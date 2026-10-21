@@ -78,7 +78,7 @@ Desktop viewer for XLSX / CSV / JSONL / Parquet tables with linked GLB / DAE 3D 
 
 ### Not available
 
-DGN is not supported. Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `ifc2excel`, `dwg2excel` and the Data Viewer are in the v2026.10.0 release; see `DDC_LINUX_Converters/README.md`.
+DGN is not supported. Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `ifc2excel`, `dwg2excel` and the Data Viewer are in the v2026.10.1 release; see `DDC_LINUX_Converters/README.md`.
 
 ### Linux — DDC CWICR Semantic Search
 
