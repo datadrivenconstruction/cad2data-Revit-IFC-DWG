@@ -1,20 +1,25 @@
 {
     "dotnet_sdk":  "8.0.206",
-    "version":  "2.0.0",
+    "version":  "2.0.1",
     "dotnet_runtime":  "8.0.31",
-    "engine_sha256":  "a3a883610b9cd8c0354b062475be86abbfc3e56469df6fc6594de7978afa59ec",
-    "engine_commit":  "aa20b7e93a4509cae6a656cf1b340bedab5d26aa",
+    "engine_sha256":  "abe46a3c22cb3b6decf77242ad5b0f1f2bef060fb137bbf8867b97b234fa6ba3",
+    "engine_commit":  "53bcc026a6c81b5450f425325606b3067b4f0b39",
     "schema":  "rvt_desktop_distribution/1",
-    "created_utc":  "2026-10-20T08:22:42.5938070Z",
+    "created_utc":  "2026-10-21T06:21:44.6288508Z",
     "runtime_deployment":  "embedded and app-local",
-    "product_name":  "Revit to IFC",
+    "product_name":  "DDC RVT to IFC",
     "runtime_sha256":  "69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc",
     "platform":  "win-x64",
     "files":  [
                   {
+                      "path":  "cli/RVT2IFCconverter.exe",
+                      "sha256":  "6b33d3080772bfa31b938b2fba3b2a0b20709ca71574d954f5f1b1087b03943b",
+                      "bytes":  1481728
+                  },
+                  {
                       "path":  "cli/RVTconverter.exe",
-                      "sha256":  "a3a883610b9cd8c0354b062475be86abbfc3e56469df6fc6594de7978afa59ec",
-                      "bytes":  13699072
+                      "sha256":  "abe46a3c22cb3b6decf77242ad5b0f1f2bef060fb137bbf8867b97b234fa6ba3",
+                      "bytes":  13713408
                   },
                   {
                       "path":  "cli/vcruntime140.dll",
@@ -23,8 +28,8 @@
                   },
                   {
                       "path":  "Community/community.html",
-                      "sha256":  "b44bcb5124cabaa944d1296601d27b55e3ee11c92e275a9cc75e5775405a1649",
-                      "bytes":  3445
+                      "sha256":  "798551b026834b7538cc51f808f633d5042b60f7e686b277d08d20aab7493c00",
+                      "bytes":  3503
                   },
                   {
                       "path":  "licenses/DOTNET-LICENSE.txt",
@@ -38,8 +43,8 @@
                   },
                   {
                       "path":  "licenses/EULA.txt",
-                      "sha256":  "d30658ba583a2a08f4588291bdb4389571b3606086d6ae2e75d174f0b8210536",
-                      "bytes":  38897
+                      "sha256":  "058f6b88c4ce76c9e13bedbee6ff3bee94c0d269d9457b6ff20767185756d37c",
+                      "bytes":  13921
                   },
                   {
                       "path":  "licenses/FLUENT-UI-SYSTEM-ICONS-LICENSE.txt",
@@ -73,17 +78,17 @@
                   },
                   {
                       "path":  "README.html",
-                      "sha256":  "b3c75003531e0304e60a0206dfb35feb9ede0052734696ec14c2f475513295f6",
-                      "bytes":  777520
+                      "sha256":  "144f1fb39754517c6c315d18806f585d9ed836c5826566d1ff684746514b9a75",
+                      "bytes":  807895
                   },
                   {
                       "path":  "Revit to IFC.exe",
-                      "sha256":  "962b29150948db24cd3651f0b715ab98bab8b17438daf6f18705b6a6c82aac21",
-                      "bytes":  78523778
+                      "sha256":  "8988ca9566819da47dc2a020fcf355e85e7c2974777000732bc573f58b39dba5",
+                      "bytes":  78526171
                   }
               ],
     "product":  "revit-to-ifc",
     "languages":  20,
-    "source_commit":  "3b9976dcdfd53eac6575f158f9001a49a13ae5b9",
+    "source_commit":  "6a4bed6c5c8d196267d179c7788a8ac7ce0b2b5e",
     "quality":  "geometry completeness is reported for every run in report.json"
 }
