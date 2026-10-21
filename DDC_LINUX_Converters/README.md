@@ -22,12 +22,12 @@ Linux (.deb) packages for DataDrivenConstruction CWICR semantic search and suppo
 ## Converters: Linux and macOS (x64, arm64)
 
 DDC Converters 2.0 for Linux (x64, arm64) and macOS (Apple Silicon arm64, Intel x64) are published as binaries in
-[GitHub Releases, v2026.10.0](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.0)
+[GitHub Releases, v2026.10.1](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.1)
 (Windows builds: [DDC_WINDOWS_Converters](../DDC_WINDOWS_Converters/README.md)).
 
 | Product | Version | Linux / macOS file |
 |---|---|---|
-| DDC RVT Converter (command line `rvt-decode`) | 2.0.0 | `rvt-decode-2.0.0-<platform>.tar.gz` |
+| DDC RVT Converter (command line `rvt-decode`) | 2.0.1 | `rvt-decode-2.0.1-<platform>.tar.gz` |
 | DDC IFC to Excel (`ifc2excel`) | 2.0.1 | `ifc2excel-2.0.1-<platform>.tar.gz` |
 | DDC CAD Drawing to Excel (`dwg2excel`) | 2.0.0 | `dwg2excel-2.0.0-<platform>.tar.gz` |
 | DDC Data Viewer | 2.0.0 | `ddc-data-viewer-2.0.0-<platform>.AppImage` / `.deb` (Linux), `.dmg` / `.app.tar.gz` (macOS) |
@@ -47,6 +47,27 @@ tar xzf ifc2excel-2.0.1-linux-x64.tar.gz
   cosign (`SHA256SUMS-linux-macos.txt.cosign.bundle`); build provenance is attested by the public workflow in
   [ddc-release-builds](https://github.com/datadrivenconstruction/ddc-release-builds).
 - Licence: free for non-commercial use only, see the notice above and the EULA included in each package.
+
+### Open-source components, sources and replacing libraries
+
+- The Linux **AppImage** of the Data Viewer bundles shared libraries of Ubuntu 22.04 (GTK, GLib, WebKitGTK and others),
+  many under the GNU LGPL, unchanged. Inside the AppImage: `usr/share/doc/ddc-data-viewer/THIRD_PARTY_NOTICES-linux.txt`
+  (every library with package, version, licence and SHA-256), the full licence texts in
+  `usr/share/doc/ddc-data-viewer/licenses/` (GPL-2, GPL-3, LGPL-2, LGPL-2.1, LGPL-3, MPL-2.0, Apache-2.0, BSD ...) and the
+  copyright file of each package in `usr/share/doc/<package>/copyright`. The list is also a release asset
+  (`THIRD_PARTY_NOTICES-linux-<arch>.txt`).
+- The **corresponding source code** of exactly the bundled versions is a release asset:
+  `ddc-data-viewer-2.0.0-linux-<arch>-third-party-sources.tar.xz` (see `SOURCE-OFFER-linux-<arch>.txt`; valid for at least
+  three years, contact info@datadrivenconstruction.io).
+- **Using your own library version:** `./ddc-data-viewer-2.0.0-linux-x64.AppImage --appimage-extract`, copy your build of the
+  library over the file of the same name in `squashfs-root/usr/lib/`, then run `squashfs-root/AppRun` (or put your
+  libraries first with `LD_LIBRARY_PATH`). The libraries are loaded dynamically and can be replaced by any compatible
+  version.
+- `libjbig0` (GPL-2+, no linking exception) is **not bundled**; it stays a system library.
+- `.deb`: `/usr/share/doc/ddc-data-viewer/THIRD_PARTY_NOTICES.txt`; macOS app: `Contents/Resources/licenses/THIRD_PARTY_NOTICES.txt`.
+- Command-line archives: `licenses/` holds the licence texts of the bundled Python runtime parts (OpenSSL, libffi, mpdecimal,
+  HACL*) and, on Linux, the copyright file of each shared library taken from the distribution. `rvt-decode` ships
+  `EULA.txt`, `NOTICE.txt`, `THIRD_PARTY_CRATES.txt` and `licenses/THIRD-PARTY-NOTICES.txt`.
 
 ## Available Packages
 

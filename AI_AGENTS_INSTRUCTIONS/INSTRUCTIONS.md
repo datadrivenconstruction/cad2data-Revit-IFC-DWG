@@ -106,7 +106,7 @@ C:\DDC\DWG-to-Excel\cli\dwg2excel.exe "C:\Projects\Plan.dwg" -o "C:\Out" --json
 # RVT exit codes: 0 ok, 2 written with gaps / bad args, 1 failure
 ```
 
-Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `ifc2excel`, `dwg2excel` and the Data Viewer are in the v2026.10.0 release; see `DDC_LINUX_Converters/README.md`. DGN is not supported.
+Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `ifc2excel`, `dwg2excel` and the Data Viewer are in the v2026.10.1 release; see `DDC_LINUX_Converters/README.md`. DGN is not supported.
 
 ### Linux — DDC CWICR Semantic Search
 
