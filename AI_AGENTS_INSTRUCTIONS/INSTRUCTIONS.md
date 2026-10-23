@@ -20,7 +20,7 @@ This repository follows the **Data-Driven Construction** approach as described i
 
 1. **Data as Foundation**: Construction data is the new oil - extract, transform, and utilize it effectively
 2. **Open Formats**: Convert proprietary CAD/BIM to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML)
-3. **No Vendor Lock-in**: Works offline; no Autodesk licence is required on the conversion machine and no cloud API is used
+3. **No Vendor Lock-in**: Works offline; no Revit licence is required on the conversion machine and no cloud API is used
 4. **Automation First**: Every repetitive task should be automated
 5. **AI-Ready Pipelines**: Design workflows that can be enhanced by AI assistants
 
@@ -30,7 +30,7 @@ This repository follows the **Data-Driven Construction** approach as described i
 cad2data-Revit-IFC-DWG/
 ├── AI_AGENTS_INSTRUCTIONS/              # Instructions for AI assistants
 ├── DDC_WINDOWS_Converters/              # Windows folder (converters now via GitHub Releases)
-│   └── DDC_Update_Revit_from_Excel/    # Add-in for Autodesk® Revit® (Excel to Revit sync)
+│   └── DDC_Update_Revit_from_Excel/    # Add-in for Revit (Excel to Revit sync)
 ├── DDC_LINUX_Converters/                # CWICR search packages (.deb), Qdrant, dashboard, worker
 │   ├── ddc-qdrant/                     # Qdrant vector DB package
 │   ├── ddc-cwicr-cli/                  # Semantic search CLI
@@ -49,7 +49,7 @@ The converters themselves are distributed through GitHub Releases:
 
 | Tool | Input | Output |
 |------|-------|--------|
-| DDC RVT Converter 2.0 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4 |
+| DDC RVT Converter 2.0 (`cli\RVTconverter.exe`) | `.rvt`, `.rfa` saved by Revit 2016–2027 | `<stem>.converted/`: `native_graph.glb`, `summary.json`, `report.json`; with `--properties` also `properties.jsonl`, `property_scopes.jsonl`; with `--ifc` also `native_graph.ifc` (IFC4 |
 | DDC RVT-to-IFC 2.0 | `.rvt`, `.rfa` | Same command line, IFC defaults |
 | DDC IFC to Excel 2.0 | IFC2x3 / IFC4 (STEP, IFCZIP) | `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json` |
 | DDC CAD drawing (.dwg) to Excel 2.0 (`cli\dwg2excel.exe`) | `.dwg` | `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt` |

@@ -15,7 +15,7 @@ For every model, the app creates a folder next to it (for example `Family House.
 |---|---|---|
 | `elements.xlsx` | A spreadsheet of every element: category, family, type, level, length, area, volume and parameters | Excel, LibreOffice, Power BI, Python |
 | 3D model (`.glb`) | A lightweight 3D model; each part keeps the element id of the row in the spreadsheet | DDC Data Viewer, Windows 3D Viewer, any web viewer |
-| IFC file (`.ifc`), when *Export IFC4* is on | The model in the open IFC format for other BIM programs | Solibri, BIMcollab, Navisworks, Archicad, BlenderBIM and others |
+| IFC file (`.ifc`), when *Export IFC4* is on | The model in the open IFC format for other BIM programs | any IFC-capable BIM viewer or tool |
 | Properties (`.jsonl`), when *Element properties* is on | All saved parameters of every element, for scripts and databases | Python, n8n, any JSON tool |
 
 ## Supported Revit versions
@@ -42,11 +42,11 @@ For every model, the app creates a folder next to it (for example `Family House.
 
 5. **Open the result** in Excel, or open `elements.xlsx` in the free DDC Data Viewer to see the table and the 3D model together.
 
-   ![Element table of a family house with the 3D model next to it](../../docs/images/rvt-results-table.png)
-   *The element table of a two-storey house: 189 elements by category, family, type and level, with totals on the right.*
+   ![Element table of a curtain-wall model with the 3D model next to it](../../docs/images/rvt-results-table.png)
+   *The element table of a curtain-wall model: 152 elements with category, family, type, level and dimensions; totals per category on the right.*
 
-   ![Windows filtered in the table and highlighted in the 3D model](../../docs/images/rvt-results-3d.png)
-   *Filter the table — here by Windows — and the matching elements light up in 3D.*
+   ![Curtain panels filtered in the table and highlighted in the 3D model](../../docs/images/rvt-results-3d.png)
+   *Filter the table — here by Curtain Panels — and the matching elements light up in 3D.*
 
 ## Command line
 
@@ -65,9 +65,9 @@ cli\RVTconverter.exe "C:\Projects\House\Family House.rvt" -o "C:\Projects\House\
 
 ## Frequently asked questions
 
-**Do I need Revit or an Autodesk account?** No. The app reads the files itself.
+**Do I need Revit or an account?** No. The app reads the files itself.
 
-**Which Revit versions are supported?** Files saved in Revit 2019 to 2027.
+**Which Revit versions are supported?** Files saved in Revit 2016 to 2027 (older files from 2013 may open, best effort).
 
 **Is it free?** Yes, for non-commercial use: learning, research, teaching and personal projects.
 Using it in paid work, for clients, or inside a company product needs a commercial licence —
@@ -92,6 +92,4 @@ and replace the contents of the folder. Keep the whole folder together: the app 
 
 ---
 
-<sub>Screenshots: the house model is `home1.rvt` (MIT licence); *Openings Study* is `revit-openings_v22.rvt` from McNeel's
-Rhino.Inside.Revit samples (MIT licence). Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with,
-endorsed by or certified by Autodesk. File-format names (RVT, RFA, IFC) identify file formats only.</sub>
+<sub>Screenshots: the models are the open samples `revit-openings_v22.rvt`, `Revit_IFC5_Einhoven.rvt`, `revit-elements_v20.rvt` and `revit-curtainwall-byprofile_v21.rvt` (MIT licence). See Trademarks in the main README.</sub>

@@ -429,7 +429,5 @@ Regenerate the synthetic sample with `python examples/make_sample.py examples/da
 
 ## Notes
 
-Excel and Power BI are trademarks of Microsoft Corporation. Autodesk, Revit and AutoCAD are
-trademarks of Autodesk, Inc.; IFC, BCF and buildingSMART are trademarks of buildingSMART International.
-Format names are used only to say which files are read. These tools are independent software and are
+Trademarks: see the main README. Format names are used only to say which files are read. These tools are independent software and are
 not affiliated with, endorsed by or certified by those companies. See [../TRADEMARK.md](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/blob/main/TRADEMARK.md).

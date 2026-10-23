@@ -24,7 +24,7 @@ Always read the report each tool writes and verify results before relying on the
 
 ### DDC RVT Converter 2.0 (and DDC RVT-to-IFC 2.0) - `.rvt` / `.rfa` files
 
-Reads `.rvt` / `.rfa` files saved by Autodesk® Revit® 2019-2027. Desktop app `RVT Converter.exe` and CLI `cli\RVTconverter.exe` (DDC RVT-to-IFC has IFC defaults).
+Reads `.rvt` / `.rfa` files saved by Revit 2016–2027. Desktop app `RVT Converter.exe` and CLI `cli\RVTconverter.exe` (DDC RVT-to-IFC has IFC defaults).
 
 ```bash
 RVTconverter.exe "C:\Models\Project.rvt" [-o OUTDIR] [--properties] [--ifc] [--gltf] [--obj]
@@ -212,7 +212,7 @@ The `n8n_*.json` files are **visual representations of process logic** - use the
 - Don't assume file paths - always verify with user
 - Don't skip validation steps in production workflows
 - Don't hardcode paths - use parameters
-- Don't describe the converters as official, certified, or affiliated with Autodesk; they are independent software
+- Describe the converters as independent software, not as official or certified by any file-format vendor
 
 ## Resources
 

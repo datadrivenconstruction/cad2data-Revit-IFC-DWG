@@ -3,8 +3,7 @@
   <a href="README.de.md">Deutsch</a> •
   <a href="README.es.md">Español</a> •
   <a href="README.fr.md">Français</a> •
-  <a href="README.ru.md">Русский</a> •
-  <a href="README.pt-BR.md">Português (Brasil)</a> •
+    <a href="README.pt-BR.md">Português (Brasil)</a> •
   <a href="README.zh.md">中文</a> •
   <a href="README.ja.md">日本語</a> •
   <a href="README.ar.md">العربية</a>
@@ -37,10 +36,11 @@
 
 DDC Converters 2.0 is the October 2026 release of the whole line: RVT Converter 2.0, RVT to IFC 2.0,
 IFC to Excel 2.0, CAD Drawing to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0.
+The current RVT Converter and RVT to IFC build is [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2).
 
 - **One tool per format family.** `.rvt` / `.rfa` to GLB, glTF, OBJ, IFC4 and JSONL / CSV / SQLite tables;
   `.ifc` / `.ifczip` to Excel, JSONL and SQLite; `.dwg` to Excel, CSV, JSONL, DXF and SVG.
-- **Revit 2019–2027** files are read directly, without Autodesk software and without CAD licences.
+- **Revit 2016–2027** files are read directly, with no Revit installation needed.
 - **IFC4 export from Revit** with property sets, quantities, classification and materials, and the profiles
   `full`, `coordination` and `geometry`; units, origin, category and phase options on the command line.
 - **Element ids everywhere.** Every geometry node keeps the native element id, so tables and 3D join by `ElementId`.
@@ -61,7 +61,7 @@ Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready
 - [Command line](#command-line)
 - [Batch processing and automation](#batch-processing-and-automation)
 - [DDC Data Viewer](#ddc-data-viewer)
-- [Free tools: data check, quantity take-off, Power BI and Excel](#free-tools-data-check-quantity-take-off-power-bi-and-excel)
+- [Free tools: data check, model diff, BCF issues, quantity take-off, Power BI and Excel](#free-tools-data-check-model-diff-bcf-issues-quantity-take-off-power-bi-and-excel)
 - [n8n workflows, notebooks and AI agents](#n8n-workflows-notebooks-and-ai-agents)
 - [Supported scope and notes](#supported-scope-and-notes)
 - [Repository layout](#repository-layout)
@@ -72,31 +72,33 @@ Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready
 
 | Package | Version | Reads | Writes | Interface |
 |---|---|---|---|---|
-| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved by Autodesk® Revit® 2019–2027 | GLB (default), glTF, OBJ, IFC4, element table (`elements.xlsx`, `elements.csv`: category, family, type, level, area, volume, length, parameters), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved by Revit 2016–2027 | GLB (default), glTF, OBJ, IFC4, element table (`elements.xlsx`, `elements.csv`: category, family, type, level, area, volume, length, parameters), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
 | **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same command line as RVT Converter) |
 | **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + command line |
 | **DDC CAD Drawing to Excel** | 2.0 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
 | **DDC Data Viewer** | 2.0 | `.xlsx`, `.csv`, `.jsonl`, `.parquet` tables + `.glb` / `.dae` geometry | filtered views to XLSX / CSV | Desktop app (free) |
 
 Every geometry node written by the RVT Converter keeps the native element id, so tables and 3D can be
-joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Autodesk
-software, no Excel and no Python installation. Linux and macOS command-line builds are in the [v2026.10.1 release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.1).
+joined by `ElementId`. All packages run fully offline on Windows 10/11 x64 and need no Excel
+and no Python installation. Linux and macOS command-line builds are in the [v2026.10.1 release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2026.10.1).
 
 ## Screenshots
 
-All screenshots below come from real runs of the packages in the current release. They use the
-viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/`](Sample_Projects/).
+All screenshots below come from real runs of the packages in the current release. They use open
+Revit sample models (MIT licence), the viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/`](Sample_Projects/).
 
 | | |
 |---|---|
+| ![RVT Converter 2.0.2: finished conversion of three Revit models](docs/images/rvt-converter-done.png) | ![RVT to IFC 2.0.2: IFC options panel](docs/images/rvt-to-ifc-options.png) |
+| **DDC RVT Converter** — three Revit models converted; the result folder is listed per file. | **DDC RVT to IFC** — length unit, coordinate origin and the other IFC settings in *More options*. |
 | ![Data Viewer: 3D selection linked to table rows](docs/images/data-viewer-3d-selection.png) | ![IFC to Excel output in the Data Viewer, grouped by IFC class](docs/images/ifc-to-excel-table.png) |
 | **DDC Data Viewer** — a filter on *Structural Columns* highlights the linked elements in 3D; the summary panel sums area, volume and length. | **DDC IFC to Excel** — `drawing.xlsx` of the open Duplex IFC sample, grouped by IFC class (333 objects, 23 classes). |
-| ![Command line runs of RVTconverter and IFC to Excel](docs/images/cli-rvt-ifc.png) | ![Data Viewer in dark theme with Russian interface](docs/images/data-viewer-dark-ru.png) |
-| **Command line** — `RVTconverter.exe` writes GLB + IFC4 with a status line and report; IFC to Excel prints a JSON status (output abridged). | **Dark theme and localisation** — the viewer ships in English, German and Russian. |
+| ![Command line run of RVTconverter](docs/images/cli-rvt-ifc.png) | ![Data Viewer in dark theme](docs/images/data-viewer-dark.png) |
+| **Command line** — `RVTconverter.exe` writes GLB, IFC4, the element table and reports, and prints a status summary. | **Dark theme** — the Data Viewer in the dark theme, with the interface language switch at the top right. |
 
 ## Quick start
 
-1. Open the [latest release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest)
+1. Open the [2.0.2 release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2) (RVT Converter, RVT to IFC) or the [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (other packages)
    and download the package you need — a `*-Setup.exe` (per-user installer) or a `*-portable.zip`.
 2. Verify the download against `SHA256SUMS.txt` from the same release:
    ```powershell
@@ -251,7 +253,7 @@ Excel and Power BI are trademarks of Microsoft Corporation, used only to say wha
 > equivalent; Revit quantities come from IFC quantities or the GLB mesh).
 
 - [`AI_AGENTS_INSTRUCTIONS/`](AI_AGENTS_INSTRUCTIONS/) — ready context for coding agents
-  (Claude Code, OpenCode, Antigravity and others) with the current command lines. Open the repository in your
+  (AI coding agents) with the current command lines. Open the repository in your
   agent and ask, for example, *"convert every .rvt in C:\Projects to IFC and summarise the reports"*.
 - [DDC Skills for AI agents](https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction)
   — ready-made automations for construction data.
@@ -323,13 +325,4 @@ If these tools are useful to you, please star the repository to get notified abo
 
 ## Trademarks
 
-Autodesk®, Revit®, AutoCAD®, and Navisworks® are registered trademarks or trademarks of Autodesk, Inc.,
-and/or its subsidiaries and/or affiliates in the USA and/or other countries. MicroStation® is a registered
-trademark of Bentley Systems, Incorporated. IFC and buildingSMART® are trademarks of buildingSMART
-International Ltd. All other trademarks belong to their respective owners. File-format names (RVT, RFA,
-DWG, DXF, DGN) are used only to identify file formats.
-
-DataDrivenConstruction is not affiliated with, endorsed by, sponsored by, or certified by Autodesk, Inc.
-or Bentley Systems, Incorporated. DDC products are independent software developed for interoperability.
-They do not contain or use Autodesk software, SDKs (including the Revit API or RealDWG), or Autodesk
-source code.
+Autodesk and Revit are trademarks of Autodesk, Inc. DataDrivenConstruction is independent software and is not affiliated with or endorsed by Autodesk, Inc. RVT, RFA, DWG, DXF and IFC are file-format names used only to say which files are read.

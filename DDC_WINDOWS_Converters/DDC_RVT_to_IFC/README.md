@@ -1,10 +1,10 @@
 # DDC RVT to IFC 2.0 for Windows
 
-Turn Revit models into IFC files that any BIM tool can open — without Revit and without an Autodesk licence.
+Turn Revit models into IFC files that any BIM tool can open — without Revit and without any licence.
 Made for architects, engineers, BIM coordinators and estimators who receive `.rvt` files and need to share,
 check or count what is inside them.
 
-![DDC RVT to IFC with two Revit models ready to convert](../../docs/images/rvt-to-ifc-main.png)
+![DDC RVT to IFC with three Revit models ready to convert](../../docs/images/rvt-to-ifc-main.png)
 *Two Revit models added to the list and ready to convert.*
 
 ## What you get
@@ -13,7 +13,7 @@ For every model, the app creates a folder next to it (for example `Family House.
 
 | File | What it is | Open it with |
 |---|---|---|
-| IFC file (`.ifc`) | The whole model in the open IFC4 format, with properties, quantities, materials and classification | Any BIM viewer or tool: Solibri, BIMcollab, Navisworks, Archicad, BlenderBIM, Tekla and others |
+| IFC file (`.ifc`) | The whole model in the open IFC4 format, with properties, quantities, materials and classification | Any BIM viewer or tool: any IFC-capable BIM viewer or tool |
 | `elements.xlsx` | A spreadsheet of every element: category, family, type, level, length, area, volume and parameters | Excel, LibreOffice, Power BI, Python |
 | `model.glb` | A lightweight 3D model | DDC Data Viewer, Windows 3D Viewer, any web viewer |
 | `conversion-report.html` | A short report: what was converted and what needs a look | Any web browser |
@@ -47,7 +47,7 @@ For every model, the app creates a folder next to it (for example `Family House.
 5. **Open the result.** When the status says *Written*, click **Open output** in the status bar, or right-click the file
    and choose **Open folder**.
 
-   ![Finished conversion of two models](../../docs/images/rvt-to-ifc-done.png)
+   ![Finished conversion of three models](../../docs/images/rvt-to-ifc-done.png)
    _Done: each model has its own result folder. **With gaps** means the file was written and the report lists a few
    elements worth a look — click **What to check** to see them._
 
@@ -56,11 +56,11 @@ For every model, the app creates a folder next to it (for example `Family House.
 Open `elements.xlsx` in Excel — or in the free [DDC Data Viewer](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases),
 which shows the table and the 3D model side by side.
 
-![Element table of a family house with the 3D model next to it](../../docs/images/rvt-results-table.png)
-*The element table of a two-storey house: 189 elements with category, family, type, level and dimensions; totals per category on the right.*
+![Element table of a curtain-wall model with the 3D model next to it](../../docs/images/rvt-results-table.png)
+*The element table of a curtain-wall model: 152 elements with category, family, type, level and dimensions; totals per category on the right.*
 
-![Windows filtered in the table and highlighted in the 3D model](../../docs/images/rvt-results-3d.png)
-*Filter the table by Windows and they light up in 3D; click a row to find that element in the model.*
+![Curtain panels filtered in the table and highlighted in the 3D model](../../docs/images/rvt-results-3d.png)
+*Filter the table by Curtain Panels and they light up in 3D; click a row to find that element in the model.*
 
 The app also has a dark theme (**More options → Interface**):
 
@@ -84,9 +84,9 @@ cli\RVTconverter.exe "C:\Projects\House\Family House.rvt" --ifc --ifc-units mm -
 
 ## Frequently asked questions
 
-**Do I need Revit or an Autodesk account?** No. The app reads the files itself.
+**Do I need Revit or an account?** No. The app reads the files itself.
 
-**Which Revit versions are supported?** Files saved in Revit 2019 to 2027.
+**Which Revit versions are supported?** Files saved in Revit 2016 to 2027 (older files from 2013 may open, best effort).
 
 **Is it free?** Yes, for non-commercial use: learning, research, teaching and personal projects.
 Using it in paid work, for clients, or inside a company product needs a commercial licence —
@@ -115,6 +115,4 @@ and replace the contents of the folder.
 
 ---
 
-<sub>Screenshots: the house model is `home1.rvt` (MIT licence); *Openings Study* is `revit-openings_v22.rvt` from McNeel's
-Rhino.Inside.Revit samples (MIT licence). Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with,
-endorsed by or certified by Autodesk. File-format names (RVT, RFA, IFC) identify file formats only.</sub>
+<sub>Screenshots: the models are the open samples `revit-openings_v22.rvt`, `Revit_IFC5_Einhoven.rvt`, `revit-elements_v20.rvt` and `revit-curtainwall-byprofile_v21.rvt` (MIT licence). See Trademarks in the main README.</sub>

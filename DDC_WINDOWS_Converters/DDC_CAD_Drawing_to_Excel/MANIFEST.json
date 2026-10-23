@@ -162,11 +162,6 @@
       "sha256": "3d03957ffabdffaa5b0eabdf5f0309b9b5436528fc1c9c6fa7245f1f9605c52c"
     },
     {
-      "path": "licenses/PRIVACY.ru.txt",
-      "bytes": 4610,
-      "sha256": "dbb433fa900b569d7a77796c8e71ed23573b5d0156ef31bdf4e8700062b4ca13"
-    },
-    {
       "path": "licenses/PYTHON-LICENSE.txt",
       "bytes": 33861,
       "sha256": "62bec384df47b0328307db41455ff6ea2559e5546b394ac69148561b21703120"

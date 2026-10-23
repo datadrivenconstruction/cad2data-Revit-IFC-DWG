@@ -1,4 +1,4 @@
-# DataDrivenConstruction End-User Licence Agreement (EULA)
+﻿# DataDrivenConstruction End-User Licence Agreement (EULA)
 
 Version 1.0, effective 2026-10-20. This English version is the binding version. Translations are
 provided for convenience; if they differ, the English version prevails.

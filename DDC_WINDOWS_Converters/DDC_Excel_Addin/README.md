@@ -63,5 +63,4 @@ and the uninstaller removes it. Read `SIGNING.txt` in the package, and compare t
 
 Proprietary, under the same terms as the other DDC products. Free for non-commercial use only; commercial use requires a licence on request (info@datadrivenconstruction.io). Terms: [EULA.txt](../EULA.txt) and
 [LICENSE-PROPRIETARY.txt](../LICENSE-PROPRIETARY.txt) (both are also inside the package).
-The add-in contains no Autodesk file; third-party libraries are listed in
-`THIRD_PARTY_NOTICES.txt`. Autodesk and Revit are registered trademarks of Autodesk, Inc.; DataDrivenConstruction is not affiliated with Autodesk, Inc.
+Third-party libraries are listed in `THIRD_PARTY_NOTICES.txt`. See Trademarks in the main README.

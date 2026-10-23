@@ -5,7 +5,7 @@
 This document gives an overview of the tools in the CAD2DATA repository. The workflows, scripts, and documentation are MIT-licensed. The DDC converter binaries are proprietary software (see LICENSE-PROPRIETARY) distributed through GitHub Releases.
 
 **Key features:**
-- No Autodesk or CAD licence is required on the conversion machine
+- No Revit or CAD licence is required on the conversion machine
 - Offline processing
 - CLI interfaces for automation
 - Output to open formats (XLSX, CSV, JSONL, SQLite, GLB, IFC, HTML)
@@ -39,9 +39,9 @@ Linux (x64, arm64) and macOS (arm64, x64) command-line builds of `rvt-decode`, `
 
 **Executables**: desktop app `RVT Converter.exe`, CLI `cli\RVTconverter.exe`
 
-**Purpose**: Extract geometry and data from files created in Autodesk® Revit®
+**Purpose**: Extract geometry and data from files created in Revit
 
-**Input**: `.rvt`, `.rfa` saved by Autodesk® Revit® 2019-2027
+**Input**: `.rvt`, `.rfa` saved by Revit 2016–2027
 
 **Output** (folder `<stem>.converted`, never overwrites an existing folder):
 - `native_graph.glb` - 3D model
@@ -171,7 +171,7 @@ ddc-search --list
 
 **Location**: `DDC_WINDOWS_Converters/DDC_Update_Revit_from_Excel/`
 
-**Purpose**: An add-in for Autodesk® Revit® that syncs data from Excel back to the model. Its MSI installers were removed from git for legal reasons and are distributed separately.
+**Purpose**: An add-in for Revit that syncs data from Excel back to the model. Its MSI installers were removed from git for legal reasons and are distributed separately.
 
 **Workflow**: Revit -> Excel -> Transform -> Excel -> Revit
 

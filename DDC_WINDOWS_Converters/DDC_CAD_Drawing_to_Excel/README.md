@@ -30,4 +30,4 @@ A flat table (one row per entity) can be built from the `.jsonl` / `.csv` by `dd
 Replace the folder contents (keep this `README.md`) with the new portable zip.
 Releases: [https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)
 
-Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with, endorsed by or certified by Autodesk. File-format names (RVT, RFA, DWG, DXF) identify file formats only.
+See Trademarks in the main README.

@@ -15,11 +15,6 @@
       "sha256": "7b69700fcd50bdfd77065e3b0bd1d50aa53ab29062cd7ae3977a9ac6509210f5"
     },
     {
-      "path": "README.ru.txt",
-      "bytes": 5220,
-      "sha256": "b79eff61549adae585d0e7bf04eacbdcb056fa5093373ae06ac63ec1ed117d0e"
-    },
-    {
       "path": "runtime/__install__.json",
       "bytes": 3531,
       "sha256": "33e7e4ddc39ae5fe21a000f00a0ec15a6c281851ef5e326287be34c4179ea2e0"

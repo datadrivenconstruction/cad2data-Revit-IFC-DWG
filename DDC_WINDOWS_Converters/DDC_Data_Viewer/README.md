@@ -9,4 +9,4 @@ Licence: `LICENSE.txt`. Version: file name in the [Releases](https://github.com/
 
 Replace the folder contents (keep this `README.md`) with the new portable zip.
 
-Autodesk® and Revit® are trademarks of Autodesk, Inc. DDC is not affiliated with, endorsed by or certified by Autodesk. File-format names (RVT, RFA, DWG, DXF) identify file formats only.
+See Trademarks in the main README.

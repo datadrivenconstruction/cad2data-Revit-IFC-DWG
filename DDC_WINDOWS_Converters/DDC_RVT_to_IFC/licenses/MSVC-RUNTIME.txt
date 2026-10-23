@@ -4,9 +4,10 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 This distribution includes the unmodified, Microsoft-signed vcruntime140.dll
 from Visual Studio 2022 VC/Redist/MSVC/14.36.32532/x64/Microsoft.VC143.CRT.
 SHA-256: 69320f278d90efaaeb67e2a1b55e5b0543883125834c812c8d9c39676e0494fc
-The file is supplied solely to run RVT Converter. It is not licensed under the
-application's Apache-2.0 license. Microsoft's applicable license terms govern
-the redistributable code. This notice does not grant separate redistribution rights.
+The file is supplied solely to run RVT Converter. It is redistributed unmodified
+under the Visual Studio 2022 Distributable Code terms and is not covered by the
+application's DDC EULA. Microsoft's applicable license terms govern the
+redistributable code. This notice does not grant separate redistribution rights.
 
 Redistribution and app-local deployment documentation:
 https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files?view=msvc-170
