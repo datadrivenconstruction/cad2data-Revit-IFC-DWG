@@ -4053,7 +4053,6 @@ https://bigdataconstruction.com/lobbyist-wars-and-the-development-of-bim-part-2-
 18. PePy, "Python Packages Download Stats", https://www.pepy.tech/projects/pandas (дата обращения: 5 февраля 2024 г.).
 19. Роман Орак, "Как обработать DataFrame с миллионами строк за секунды", URL: https://towardsdatascience.com/how-to-process-a-dataframe-with-millions-of-rows-in-seconds (дата обращения: 5 февраля 2024 г.).
 20. Çağlar Uslu, "What is Kaggle?", URL: https://www.datacamp.com/blog/what-is-kaggle (дата обращения: 5 февраля 2024 г.).
-21. Open Design Alliance, "Members: Основатели и корпоративные члены", URL: https://www.opendesign.com/member-showcase (дата обращения: 5 февраля 2024 г.).
 22. G Hammond, 'Embodied Carbon - The Inventory of Carbon and Energy (ICE)', URL: https://greenbuildingencyclopaedia.uk/wp-content/uploads/2014/07/Full-BSRIA-ICE-guide.pdf (доступ получен 5 февраля 2024 г.).
 23. GitHub DataDrivenConstruction, "CO2_calculating the embodied carbon", URL:
 https://github.com/datadrivenconstruction/CO2_calculating-the-embodied-carbon (accessed February 5, 2024).

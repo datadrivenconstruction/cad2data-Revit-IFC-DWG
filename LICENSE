@@ -46,8 +46,8 @@ must not use the binary executables.
 
 Per-converter LICENSE files located inside each converter
 sub-directory (e.g. DDC_WINDOWS_Converters/DDC_CONVERTER_REVIT/LICENSE)
-contain third-party component attributions (including Open Design
-Alliance, Qt, and other upstream notices) which apply to the
+contain third-party component attributions (including Qt and other
+upstream open-source notices) which apply to the
 binaries in addition to the Proprietary Software License.
 
 ================================================================
