@@ -1,0 +1,10 @@
+{
+  "name": "Fire-rated doors",
+  "description": "Doors that carry a fire rating, as a flat list.",
+  "filters": [
+    {"column": "CategoryEn", "in": ["Doors"]},
+    {"column": "Fire Rating", "notnull": true}
+  ],
+  "columns": ["ElementId", "Mark", "Type Name", "Level", {"column": "Fire Rating", "as": "Rating"}],
+  "sort": ["Level", "Type Name"]
+}
