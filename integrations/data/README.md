@@ -96,3 +96,14 @@ no .hyper or .tds is generated).
 localized categories, old-version column sets, mixed types, orphan detection).
 `tools/validate_truth.py` compares template totals with Revit truth dumps; `tools/run_matrix.py` runs bench,
 all templates and the BI check over converted files.
+
+## Measured results (converter 2.0.5, 9 models, 2020-2025 saves)
+
+`results/benchmark_matrix.jsonl` (bench, templates, BI check per model) and `results/truth_validation.json`.
+Read of the `Elements` sheet, pandas xlsx (openpyxl) vs Parquet: 8.5x to 67x faster with pandas, 10.8x to 58x with
+DuckDB; a grouped sum 5.7x to 64x faster from a DuckDB table; Parquet is 0.6x to 3x smaller than the xlsx (small
+sheets compress less). The 133 MB Golden Nugget save has 5,933 rows x 995 columns: 18.0 s to 0.28 s (65x).
+Revit truth (castle_rock, architecture01, rac2023): per-element Length 100 % within 1 %, Volume 92.6 to 100 %,
+host-category (walls, floors, ceilings, roofs) volume totals within 0.01 %; gross `Area` differs from the Revit
+net `HOST_AREA_COMPUTED` on 25 to 65 % of elements (see `NetArea`, 71 to 100 % within 1 %).
+BI star schema: 0 orphan keys, 0 duplicate keys and no rows lost by joins on all 9 models, CSV and Parquet.
