@@ -16,8 +16,11 @@ import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .cloud import ConverterError, fetch, is_remote, upload_dir
+
 DEFAULT_VERSION = "2.0.5"
 RELEASE_URL = "https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v{v}/{name}"
+DOWNLOAD_TIMEOUT = 120
 EXE_NAMES = ("RVTconverter.exe", "RVTconverter", "rvt-decode")
 # glb is always written by the converter
 FORMAT_FLAGS = {
@@ -25,10 +28,6 @@ FORMAT_FLAGS = {
     "sqlite": "--sqlite", "properties": "--properties", "all": "--all",
 }
 OUTPUT_SUFFIXES = (".xlsx", ".glb", ".gltf", ".ifc", ".obj", ".csv", ".sqlite", ".jsonl")
-
-
-class ConverterError(RuntimeError):
-    pass
 
 
 def cache_dir() -> Path:
@@ -66,41 +65,76 @@ def _asset(version: str) -> str:
     raise ConverterError("No converter build for this platform (Windows x64 and Linux x86-64 only).")
 
 
+def _fetch(url: str, timeout: float = DOWNLOAD_TIMEOUT) -> urllib.request.addinfourl:
+    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "ddc-converter"}), timeout=timeout)
+
+
 def download_cli(version: str = DEFAULT_VERSION, dest: Path | None = None) -> Path:
-    """Download the release package, verify SHA256SUMS.txt, unpack into the cache."""
+    """Download the release package, verify SHA256SUMS.txt, unpack into the cache.
+
+    DDC_RELEASE_URL (a template with {v} and {name}) overrides the download location.
+    """
     name = _asset(version)
     dest = Path(dest) if dest else cache_dir() / version
+    base = os.environ.get("DDC_RELEASE_URL") or RELEASE_URL
     tmp = Path(tempfile.mkdtemp(prefix="ddc-dl-"))
     try:
         archive = tmp / name
-        urllib.request.urlretrieve(RELEASE_URL.format(v=version, name=name), archive)
-        sums = urllib.request.urlopen(RELEASE_URL.format(v=version, name="SHA256SUMS.txt")).read().decode()
-        want = next((ln.split()[0] for ln in sums.splitlines() if ln.strip().endswith(name)), None)
+        h = hashlib.sha256()
+        try:
+            with _fetch(base.format(v=version, name=name)) as r, open(archive, "wb") as f:
+                for chunk in iter(lambda: r.read(1 << 20), b""):
+                    f.write(chunk)
+                    h.update(chunk)
+            with _fetch(base.format(v=version, name="SHA256SUMS.txt")) as r:
+                sums = r.read().decode("utf-8", "replace")
+        except OSError as e:
+            raise ConverterError(f"download failed: {e}") from e
+        want = None
+        for ln in sums.splitlines():
+            parts = ln.split()
+            if len(parts) >= 2 and parts[-1].lstrip("*") == name:
+                want = parts[0]
+                break
         if not want:
             raise ConverterError(f"{name} is not listed in SHA256SUMS.txt")
-        h = hashlib.sha256()
-        with open(archive, "rb") as f:
-            for chunk in iter(lambda: f.read(1 << 20), b""):
-                h.update(chunk)
         if h.hexdigest().lower() != want.lower():
             raise ConverterError(f"checksum mismatch for {name}")
-        dest.mkdir(parents=True, exist_ok=True)
-        if name.endswith(".zip"):
-            with zipfile.ZipFile(archive) as z:
-                z.extractall(dest)
-        else:
-            with tarfile.open(archive) as t:
-                if hasattr(tarfile, "data_filter"):
-                    t.extractall(dest, filter="data")
-                else:
-                    t.extractall(dest)
+        stage = tmp / "unpacked"
+        stage.mkdir()
+        try:
+            if name.endswith(".zip"):
+                with zipfile.ZipFile(archive) as z:
+                    z.extractall(stage)
+            else:
+                with tarfile.open(archive) as t:
+                    if hasattr(tarfile, "data_filter"):
+                        t.extractall(stage, filter="data")
+                    else:
+                        t.extractall(stage)
+        except (zipfile.BadZipFile, tarfile.TarError) as e:
+            raise ConverterError(f"unreadable package {name}: {e}") from e
+        if _find_exe(stage) is None:
+            raise ConverterError("converter executable not found in the downloaded package")
+        # publish atomically so a failed or concurrent download never leaves a half-unpacked cache
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if _find_exe(dest) is None:  # a concurrent download may already have installed a working copy
+            if dest.exists():
+                shutil.rmtree(dest, ignore_errors=True)
+            try:
+                os.replace(stage, dest)
+            except OSError:
+                if _find_exe(dest) is None:
+                    raise
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     exe = _find_exe(dest)
     if exe is None:
         raise ConverterError("converter executable not found in the downloaded package")
     if sys.platform != "win32":
-        exe.chmod(exe.stat().st_mode | stat.S_IXUSR)
+        for p in dest.rglob("*"):
+            if p.is_file() and p.name in EXE_NAMES:
+                p.chmod(p.stat().st_mode | stat.S_IXUSR)
     return exe
 
 
@@ -122,6 +156,7 @@ class Result:
     summary: dict = field(default_factory=dict)
     files: dict = field(default_factory=dict)
     log: str = ""
+    uploaded: list = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -134,7 +169,7 @@ class Result:
     def to_dict(self) -> dict:
         return {"ok": self.ok, "exit_code": self.exit_code, "status": self.status,
                 "input": str(self.input), "output_dir": str(self.output_dir),
-                "files": {k: str(v) for k, v in self.files.items()}}
+                "files": {k: str(v) for k, v in self.files.items()}, "uploaded": list(self.uploaded)}
 
 
 def _unique(p: Path) -> Path:
@@ -146,13 +181,26 @@ def _unique(p: Path) -> Path:
 
 
 def convert(path, formats=("xlsx", "glb"), out=None, cli=None, timeout: float | None = None,
-            extra_args=()) -> Result:
-    """Convert one .rvt/.rfa into a new folder (default <name>.converted beside the input)."""
+            extra_args=(), upload: str | None = None) -> Result:
+    """Convert one .rvt/.rfa into a new folder (default <name>.converted beside the input).
+
+    path may be an s3://, gs://, az:// or https:// URL (including OneDrive, SharePoint and Google Drive
+    share links); it is downloaded to a temp folder and the result goes to ./<name>.converted unless out
+    is given. upload: s3://, gs:// or az:// prefix that receives the output folder.
+    """
+    if is_remote(str(path)):
+        tmp = Path(tempfile.mkdtemp(prefix="ddc-src-"))
+        try:
+            local = fetch(str(path), tmp)
+            dest = out if out else Path.cwd() / (local.stem + ".converted")
+            return convert(local, formats, dest, cli, timeout, extra_args, upload)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
     src = Path(path).resolve()
     if not src.is_file():
         raise ConverterError(f"input not found: {src}")
     exe = Path(cli) if cli else ensure_cli()
-    out_dir = _unique(Path(out)) if out else _unique(src.with_name(src.stem + ".converted"))
+    out_dir = _unique(Path(out).resolve()) if out else _unique(src.with_name(src.stem + ".converted"))
     args = [str(exe), str(src), "--out", str(out_dir)]
     for f in formats:
         f = f.strip().lower().lstrip(".")
@@ -167,17 +215,26 @@ def convert(path, formats=("xlsx", "glb"), out=None, cli=None, timeout: float | 
                            timeout=timeout)
     except subprocess.TimeoutExpired as e:
         raise ConverterError(f"conversion timed out after {timeout}s") from e
+    except OSError as e:
+        raise ConverterError(f"cannot run converter {exe}: {e}") from e
     summary = {}
     sj = out_dir / "summary.json"
     if sj.exists():
-        summary = json.loads(sj.read_text(encoding="utf-8"))
+        try:
+            summary = json.loads(sj.read_text(encoding="utf-8"))
+        except ValueError:
+            summary = {}
     files = {}
     if out_dir.exists():
         for f in sorted(out_dir.iterdir()):
             if f.suffix.lower() in OUTPUT_SUFFIXES:
                 files.setdefault(f.suffix.lower().lstrip("."), f)
     status = summary.get("status") or ("" if p.returncode in (0, 2) else "FAILED")
-    return Result(src, out_dir, p.returncode, status, summary, files, (p.stdout or "") + (p.stderr or ""))
+    res = Result(src, out_dir, p.returncode, status, summary, files, (p.stdout or "") + (p.stderr or ""))
+    if upload and res.ok:
+        target = upload.rstrip("/") + "/" + out_dir.name
+        res.uploaded = upload_dir(out_dir, target)
+    return res
 
 
 def read_elements(xlsx, category: str | None = None, limit: int | None = None) -> list[dict]:

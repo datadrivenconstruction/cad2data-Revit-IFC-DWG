@@ -31,3 +31,7 @@ Add to the assistant MCP settings (for example `claude_desktop_config.json` or `
 }
 ```
 `env` is optional. Then ask: "Convert C:\models\House.rvt to xlsx and list the first 20 walls."
+
+`convert_rvt` also takes an `s3://`, `gs://`, `az://` or share-link `path` (set `out` to choose where the result goes)
+and an optional `upload` prefix; see `../python/README.md` for the SDK extras and credentials.
+Tests start the server over stdio with the real MCP client: `python -m pytest tests/test_mcp.py` in `integrations/`.

@@ -13,6 +13,11 @@ dependencies = []
 
 [project.optional-dependencies]
 pandas = ["pandas>=1.5", "openpyxl>=3.1"]
+s3 = ["boto3>=1.28"]
+gcs = ["google-cloud-storage>=2.10"]
+azure = ["azure-storage-blob>=12.19"]
+cloud = ["boto3>=1.28", "google-cloud-storage>=2.10", "azure-storage-blob>=12.19"]
+test = ["pytest>=7", "pytest-timeout", "moto[s3,server]>=5", "mcp>=1.2"]
 
 [project.scripts]
 ddc-convert = "ddc_converter.__main__:main"

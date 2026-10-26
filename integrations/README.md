@@ -14,5 +14,9 @@ The integrations only call the released converter; they do not change it. This f
 No-code: the existing `DDC_n8n_Workflows&Pipelines` folder covers n8n; the batch script and the Docker
 image work as an "execute command" step in other automation tools.
 
+Cloud storage (S3, Google Cloud Storage, Azure Blob, OneDrive / SharePoint / Google Drive links) works as input
+and output in the Python package, the MCP server and the batch script. Tests live in `tests/`; the CI workflow is
+`.github/workflows/integrations-tests.yml` (Windows and Ubuntu).
+
 Tested on Windows 10/11 x64 (portable package) and Ubuntu 22.04 (Linux x86-64 package) with the 2.0.5 release.
 The Docker image and the GitHub Action were written against the same Linux package but not run in Docker.

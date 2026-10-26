@@ -14,3 +14,17 @@ python ddc_batch.py IN_DIR OUT_DIR --formats xlsx --recursive --watch  # keep wa
 
 Formats: `glb` (always), `xlsx`, `csv`, `ifc`, `gltf`, `obj`, `sqlite`, `properties`, `all`.
 The converter also has a native `--input-dir DIR --recursive --json-log` mode; this script adds skip-if-done and watching.
+
+## Cloud input and output
+
+`IN` may be an `s3://`, `gs://` or `az://` prefix (all `.rvt`/`.rfa` below it) or a single https / share link.
+Objects are synced into `OUT_DIR/.ddc_staging/` and only re-downloaded when size, ETag or date change, so `--watch`
+works on a bucket. `--upload s3://bucket/results/` copies each `<name>.converted` folder after it succeeds.
+SDK install and credentials: see `../python/README.md`.
+
+## Behavior notes
+
+- `--jobs N` converts N models in parallel. One instance per output folder: a second one exits with code 3.
+- A model is converted into a work folder and swapped in only on success, so re-conversion never leaves `-2` copies.
+- A failed model is not retried every `--interval`; it is retried when the file changes or the script restarts.
+- Nested files flatten to `sub__name.converted`; a short hash is added if two files would share a name.
