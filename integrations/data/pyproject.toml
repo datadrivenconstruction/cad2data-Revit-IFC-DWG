@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ddc-data"
+version = "0.1.0"
+description = "Parquet/DuckDB export, report templates and BI star schema from the DDC converter xlsx output."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = ["pyarrow>=14", "duckdb>=1.0", "openpyxl>=3.1", "pandas>=1.5", "pyyaml>=6"]
+
+[project.optional-dependencies]
+converter = ["ddc-converter"]
+test = ["pytest"]
+
+[project.scripts]
+ddc-data = "ddc_data.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

@@ -1,0 +1,21 @@
+# Two sections in one report; the top-level filter applies to both.
+name: Floors and ceilings
+description: Floor and ceiling areas per level, and the ten largest types.
+filters:
+  - {column: CategoryEn, in: [Floors, Ceilings]}
+sections:
+  - title: Area per level
+    group_by: [Category, Level]
+    aggregates:
+      - {fn: count, as: Count}
+      - {column: Area, fn: sum, as: Area}
+    convert: {Area: ft2}
+    sort: [Category, Level]
+  - title: Largest types
+    group_by: [Category, Type Name]
+    aggregates:
+      - {column: Area, fn: sum, as: Area}
+    having:
+      - {column: Area, gt: 0}
+    sort: [-Area]
+    limit: 10
