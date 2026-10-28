@@ -28,7 +28,7 @@ Current release: DDC Converters 2.0.2 ([v2.0.2](https://github.com/datadrivencon
 |---|---|---|---|---|
 | DDC RVT Converter | 2.0 | [`DDC_RVT_Converter/`](./DDC_RVT_Converter/) | [Setup](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2.0.2/DDC-RVT-Converter-2.0.2-Setup.exe) / [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2.0.2/DDC-RVT-Converter-2.0.2-portable.zip) | Reads `.rvt` / `.rfa` files saved by Revit 2016–2027. Writes GLB, JSON summary/report, optional property tables and IFC4. Desktop app `RVT Converter.exe` and CLI `cli\RVTconverter.exe`. |
 | DDC RVT-to-IFC | 2.0 | [`DDC_RVT_to_IFC/`](./DDC_RVT_to_IFC/) | [Setup](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2.0.2/DDC-RVT-to-IFC-2.0.2-Setup.exe) / [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2.0.2/DDC-RVT-to-IFC-2.0.2-portable.zip) | Same command line as DDC RVT Converter; the desktop app exports IFC by default, with property sets, quantities, classification and materials. |
-| DDC IFC to Excel | 2.0 | [`DDC_IFC_to_Excel/`](./DDC_IFC_to_Excel/) | [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-IFC-to-Excel-0.3.1-preview-portable.zip) (portable package) | Reads IFC2x3 / IFC4 (STEP and IFCZIP). Writes `drawing.xlsx`, `data.jsonl`, `data.sqlite`, `result.json`. |
+| DDC IFC to Excel | 2.0.0 | [`DDC_IFC_to_Excel/`](./DDC_IFC_to_Excel/) | [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-IFC-to-Excel-2.0.0-portable.zip) (portable package) | Reads IFC2x3 / IFC4 (STEP and IFCZIP). Writes `Name.xlsx` and `result.json`. |
 | DDC CAD drawing (.dwg) to Excel | 2.0 | [`DDC_CAD_Drawing_to_Excel/`](./DDC_CAD_Drawing_to_Excel/) | [Setup](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-DWG-to-Excel-0.4.1-Setup.exe) / [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-DWG-to-Excel-0.4.1-portable.zip) | Reads `.dwg` drawings. Writes `.xlsx`, `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json`, `REPORT.txt`. |
 | DDC Data Viewer | 2.0 | [`DDC_Data_Viewer/`](./DDC_Data_Viewer/) | [Setup](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-Data-Viewer-0.1.2-Setup.exe) / [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-Data-Viewer-0.1.2-portable.zip) | Free desktop viewer for XLSX / CSV / JSONL / Parquet tables with linked GLB / DAE 3D models. |
 | DDC Excel add-in | 2.0 | [`DDC_Excel_Addin/`](./DDC_Excel_Addin/) | [zip](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v2026.10.0/DDC-Excel-AddIn-2026.10.0-unsigned.zip) | Excel add-in: imports RVT, IFC and DWG as tables through the converters above (downloaded on first use, SHA-256 checked). Documentation only in this folder. |
@@ -45,8 +45,8 @@ Each tool writes a report (`report.json` / `REPORT.txt` / `result.json`) with wh
 :: Revit file -> GLB + JSON in "Project.converted" beside the input
 DDC_RVT_Converter\cli\RVTconverter.exe "C:\Models\Project.rvt"
 
-:: IFC file -> Excel / JSONL / SQLite
-DDC_IFC_to_Excel\runtime\python.exe DDC_IFC_to_Excel\sources\ifc-excel\converter.py "C:\Models\Building.ifc" --output "C:\Out"
+:: IFC file -> Excel (unzip the release package into DDC_IFC_to_Excel first)
+"DDC_IFC_to_ExcelIFC to Excel.exe" "C:ModelsBuilding.ifc" --output "C:Out"
 
 :: DWG file -> Excel / CSV / DXF / SVG
 DDC_CAD_Drawing_to_Excel\cli\dwg2excel.exe "C:\Drawings\plan.dwg" --output "C:\Out"
