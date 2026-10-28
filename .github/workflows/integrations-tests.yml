@@ -1,0 +1,53 @@
+name: integrations-tests
+
+on:
+  push:
+    paths: ["integrations/**", ".github/workflows/integrations-tests.yml"]
+  pull_request:
+    paths: ["integrations/**", ".github/workflows/integrations-tests.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-22.04]
+        python: ["3.10", "3.12"]
+    defaults:
+      run:
+        shell: bash
+        working-directory: integrations
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e "python[test]"
+
+      - name: Download the released converter (checksum verified)
+        run: |
+          exe=$(python -c "from ddc_converter import download_cli; print(download_cli())")
+          echo "DDC_CLI=$exe" >> "$GITHUB_ENV"
+
+      - name: Run tests
+        # Real-model tests skip themselves unless DDC_TEST_MODELS points at a folder with house.rvt and
+        # KeyWest.rvt; everything else (stub converter, local S3 mock, local HTTP server, MCP stdio) runs.
+        run: python -m pytest -p no:cacheprovider --junitxml=test-results.xml
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.os }}-py${{ matrix.python }}
+          path: integrations/test-results.xml
