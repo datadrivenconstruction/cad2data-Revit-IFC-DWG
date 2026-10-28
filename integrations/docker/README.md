@@ -8,7 +8,7 @@ docker run --rm -v "$PWD:/data" ddc-rvt-converter /data/House.rvt --xlsx --gltf 
 docker run --rm -v "$PWD:/data" ddc-rvt-converter --input-dir /data/models --recursive --out /data/out --xlsx --json-log
 ```
 The build downloads the Linux x86-64 release package (glibc 2.35+, so Ubuntu 22.04 or newer) and checks it against the release `SHA256SUMS.txt`.
-`--build-arg DDC_VERSION=2.0.5` selects the release. `--out` must name a folder that does not exist yet.
+`--build-arg DDC_VERSION=2.0.6` selects the release. `--out` must name a folder that does not exist yet.
 
 ## GitHub Action
 
@@ -20,7 +20,7 @@ The build downloads the Linux x86-64 release package (glibc 2.35+, so Ubuntu 22.
     input: models            # folder with .rvt/.rfa
     output: converted        # new folder, one <model>.converted per model
     formats: "--xlsx --gltf --ifc"
-    version: "2.0.5"
+    version: "2.0.6"
 - uses: actions/upload-artifact@v4
   with: { name: converted, path: converted }
 ```

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from .cloud import ConverterError, fetch, is_remote, upload_dir
 
-DEFAULT_VERSION = "2.0.5"
+DEFAULT_VERSION = "2.0.6"
 RELEASE_URL = "https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v{v}/{name}"
 DOWNLOAD_TIMEOUT = 120
 EXE_NAMES = ("RVTconverter.exe", "RVTconverter", "rvt-decode")

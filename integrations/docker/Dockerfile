@@ -3,7 +3,7 @@
 #   docker run --rm -v "$PWD:/data" ddc-rvt-converter /data/model.rvt --xlsx --gltf --out /data/out
 FROM ubuntu:22.04
 
-ARG DDC_VERSION=2.0.5
+ARG DDC_VERSION=2.0.6
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl \
