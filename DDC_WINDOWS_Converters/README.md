@@ -46,7 +46,7 @@ Each tool writes a report (`report.json` / `REPORT.txt` / `result.json`) with wh
 DDC_RVT_Converter\cli\RVTconverter.exe "C:\Models\Project.rvt"
 
 :: IFC file -> Excel (unzip the release package into DDC_IFC_to_Excel first)
-"DDC_IFC_to_ExcelIFC to Excel.exe" "C:ModelsBuilding.ifc" --output "C:Out"
+"DDC_IFC_to_Excel\IFC to Excel.exe" "C:\Models\Building.ifc" --output "C:\Out"
 
 :: DWG file -> Excel / CSV / DXF / SVG
 DDC_CAD_Drawing_to_Excel\cli\dwg2excel.exe "C:\Drawings\plan.dwg" --output "C:\Out"
