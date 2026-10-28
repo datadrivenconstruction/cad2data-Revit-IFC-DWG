@@ -19,6 +19,8 @@ RME = r"C:\DDC\DATA\Sample\DiffVer Revit\2023 rmeadvancedsampleproject.rvt"
 
 
 def have_cli():
+    if os.name != "nt":  # the real-data fixtures use fixed Windows paths
+        return False
     try:
         cli_path()
         return True
