@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ddc-qa"
+version = "0.1.0"
+description = "Model diff and rule checking on DDC RVT converter outputs (xlsx + GLB)"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["numpy>=1.24", "openpyxl>=3.1", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+validate = ["lxml>=5.0"]
+test = ["pytest>=7", "lxml>=5.0"]
+
+[project.scripts]
+ddc-qa = "ddc_qa.cli:main"
+
+[tool.setuptools]
+packages = ["ddc_qa"]
+
+[tool.setuptools.package-data]
+ddc_qa = ["rules/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["real: needs the DDC CLI and local sample models"]

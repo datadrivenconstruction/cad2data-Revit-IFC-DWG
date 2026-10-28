@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ids xmlns="http://standards.buildingsmart.org/IDS" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://standards.buildingsmart.org/IDS http://standards.buildingsmart.org/IDS/1.0/ids.xsd">
+  <info>
+    <title>Doors and windows handover</title>
+    <version>1.0</version>
+  </info>
+  <specifications>
+    <specification name="Doors carry a Mark and a type name" ifcVersion="IFC4">
+      <applicability minOccurs="0" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCDOOR</simpleValue></name></entity>
+      </applicability>
+      <requirements>
+        <property dataType="IFCIDENTIFIER" cardinality="required">
+          <propertySet><simpleValue>Pset_DoorCommon</simpleValue></propertySet>
+          <baseName><simpleValue>Mark</simpleValue></baseName>
+        </property>
+        <attribute cardinality="required">
+          <name><simpleValue>Name</simpleValue></name>
+        </attribute>
+      </requirements>
+    </specification>
+    <specification name="Windows have a plausible width" ifcVersion="IFC4">
+      <applicability minOccurs="0" maxOccurs="unbounded">
+        <entity><name><simpleValue>IFCWINDOW</simpleValue></name></entity>
+      </applicability>
+      <requirements>
+        <property dataType="IFCLENGTHMEASURE" cardinality="required">
+          <propertySet><simpleValue>Qto_WindowBaseQuantities</simpleValue></propertySet>
+          <baseName><simpleValue>Width</simpleValue></baseName>
+          <value><xs:restriction base="xs:double"><xs:minInclusive value="0.3"/><xs:maxInclusive value="4"/></xs:restriction></value>
+        </property>
+      </requirements>
+    </specification>
+  </specifications>
+</ids>

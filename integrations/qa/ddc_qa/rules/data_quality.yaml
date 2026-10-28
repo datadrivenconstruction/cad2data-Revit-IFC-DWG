@@ -1,0 +1,38 @@
+name: data_quality
+description: Generic data quality checks for the element table
+rules:
+  - id: DQ-001
+    title: Element without level
+    type: no_level
+    exclude_categories: [Levels, Grids, Reference Planes, Survey Point, Project Base Point, Project Information, Center Line, Scope Boxes, Sheets, Views, Cameras, Lines, Materials]
+    severity: warning
+  - id: DQ-002
+    title: Family or type name missing
+    type: required_params
+    exclude_categories: [Levels, Grids, Reference Planes, Survey Point, Project Base Point, Project Information]
+    params: [Family, Type Name]
+    severity: warning
+  - id: DQ-003
+    title: Duplicate Mark within a category
+    type: duplicate
+    param: Mark
+    scope: category
+    severity: error
+  - id: DQ-004
+    title: Names with leading, trailing or doubled spaces
+    type: naming
+    param: Type Name
+    pattern: '\S+(?: \S+)*'
+    severity: info
+  - id: DQ-005
+    title: Negative or zero volume on solids
+    type: range
+    param: Volume (m³)
+    min: 0.0
+    severity: warning
+  - id: DQ-006
+    title: Mark format (letters, digits, dash, dot, underscore)
+    type: regex
+    param: Mark
+    pattern: '[A-Za-z0-9._\-]+'
+    severity: info
