@@ -30,25 +30,28 @@ from .ifcmodel import Model, SKIP_BY_DEFAULT
 from .loader import LoadError, is_empty, read_file
 from .paths import fs
 
+# Converter identity set: DDC_Identity from 2.0.6, Revit_Identity before.
+IDENTITY_SETS = ("DDC_Identity", "Revit_Identity")
+
 # --------------------------------------------------------------------------- column contract
 
 # (column, meaning, RVT source, IFC source, DWG source). The documented mapping (README / docs/TABLE.md)
 # is checked against this list by the tests.
 COLUMN_MAP: List[Tuple[str, str, str, str, str]] = [
     ("ID", "Row key, the same value type as the old exports", "ElementId", "STEP id (or Revit ElementId in a Revit IFC)", "handle"),
-    ("ElementId", "Revit element id", "ElementId", "Revit_Identity.ElementId if present", ""),
+    ("ElementId", "Revit element id", "ElementId", "DDC_Identity.ElementId if present", ""),
     ("GlobalId", "Global unique id", "IFC GlobalId when native_graph.ifc is present", "IfcRoot.GlobalId", ""),
     ("Category", "Old-style category code", "OST_ code from the category id (OST_Walls)", "IFC class (IfcWall) or the Revit category in a Revit IFC", "entity type (LINE, INSERT, ...)"),
-    ("Category Name", "Readable category", "Revit_Identity.CategoryName", "Revit category if present, else the IFC class without Ifc", "entity type"),
+    ("Category Name", "Readable category", "DDC_Identity.CategoryName", "Revit category if present, else the IFC class without Ifc", "entity type"),
     ("IfcClass", "IFC entity class", "from native_graph.ifc", "IfcRoot class", ""),
-    ("Revit Class", "Revit element class", "root object class (SWall, FamilyInstance)", "Revit_Identity.Class", ""),
-    ("Family", "Family name", "Revit_Identity.FamilyName", "Revit_Identity.FamilyName, else first part of 'Family:Type:Id' names", ""),
-    ("Type Name", "Type name", "Revit_Identity.TypeName", "type object name, else Revit_Identity.TypeName, else middle part of 'Family:Type:Id'", "block name for INSERT"),
+    ("Revit Class", "Revit element class", "root object class (SWall, FamilyInstance)", "DDC_Identity.Class", ""),
+    ("Family", "Family name", "DDC_Identity.FamilyName", "DDC_Identity.FamilyName, else first part of 'Family:Type:Id' names", ""),
+    ("Type Name", "Type name", "DDC_Identity.TypeName", "type object name, else DDC_Identity.TypeName, else middle part of 'Family:Type:Id'", "block name for INSERT"),
     ("Type", "Same as Type Name (the old exports had both columns)", "Type Name", "Type Name", "Type Name"),
     ("Family and Type", "Family: Type", "Family and Type names joined", "same", ""),
-    ("Type Id", "Type element id", "root object type reference", "Revit_Identity.TypeId", ""),
+    ("Type Id", "Type element id", "root object type reference", "DDC_Identity.TypeId", ""),
     ("Name", "Element name", "first name-like stored text", "IfcRoot.Name", "text of TEXT/MTEXT"),
-    ("Level", "Level / storey / layout", "associated level name", "Revit_Identity.LevelName, else the containing IfcBuildingStorey", "owner block (Model_Space, Paper_Space)"),
+    ("Level", "Level / storey / layout", "associated level name", "DDC_Identity.LevelName, else the containing IfcBuildingStorey", "owner block (Model_Space, Paper_Space)"),
     ("Material", "Material names joined by '; '", "", "IfcRelAssociatesMaterial", ""),
     ("Length", "Length", "", "see Quantity rules", "LINE, ARC, CIRCLE, ELLIPSE, polyline length"),
     ("Width", "Width", "", "see Quantity rules", ""),
@@ -225,7 +228,7 @@ def ifc_rows(m: Model, include_all: bool = False, qualified: bool = False) -> Li
         props = own + tprops
         quants = list(m.quants.get(oid, [])) + (list(m.quants.get(tid, [])) if tid else [])
         row: Dict[str, Any] = {}
-        ident = {p.name: p.value for p in own if p.set_name == "Revit_Identity"}
+        ident = {p.name: p.value for p in own if p.set_name in IDENTITY_SETS}
         revit = bool(ident)
         row["ID"] = ident.get("ElementId") if revit and ident.get("ElementId") is not None else _intish(oid)
         if revit:
@@ -278,7 +281,7 @@ def ifc_rows(m: Model, include_all: bool = False, qualified: bool = False) -> Li
         # parameters: instance sets first, then type sets, one column per name
         skip_names = set(IDENTITY_MAP) if revit else set()
         for p in own:
-            if p.set_name == "Revit_Identity" and p.name in skip_names:
+            if p.set_name in IDENTITY_SETS and p.name in skip_names:
                 continue
             if f"{p.set_name}.{p.name}" in consumed:
                 continue

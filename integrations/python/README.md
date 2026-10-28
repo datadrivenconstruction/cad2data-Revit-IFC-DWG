@@ -17,7 +17,7 @@ df = ddc.to_pandas(r, category="Walls")                          # needs pandas 
 ```
 
 Finding the CLI, in order: `DDC_CLI` (file or folder), `RVTconverter` / `rvt-decode` on `PATH`,
-`~/.ddc-converter/<version>/` (override with `DDC_HOME`). If none is found, `convert()` downloads the 2.0.5
+`~/.ddc-converter/<version>/` (override with `DDC_HOME`). If none is found, `convert()` downloads the 2.0.6
 release package for your platform from GitHub and verifies it against the release `SHA256SUMS.txt`.
 Call `ddc.download_cli()` to do it explicitly, or `ddc-convert --download` from a shell.
 
