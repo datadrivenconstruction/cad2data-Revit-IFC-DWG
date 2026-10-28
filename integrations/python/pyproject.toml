@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ddc-converter"
+version = "0.1.0"
+description = "Python wrapper for the DDC RVT converter command line: convert Revit files to XLSX, glTF/GLB, IFC and read the element table."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+pandas = ["pandas>=1.5", "openpyxl>=3.1"]
+s3 = ["boto3>=1.28"]
+gcs = ["google-cloud-storage>=2.10"]
+azure = ["azure-storage-blob>=12.19"]
+cloud = ["boto3>=1.28", "google-cloud-storage>=2.10", "azure-storage-blob>=12.19"]
+test = ["pytest>=7", "pytest-timeout", "moto[s3,server]>=5", "mcp>=1.2"]
+
+[project.scripts]
+ddc-convert = "ddc_converter.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,42 @@
+name: mep
+description: MEP coordination checks (clashes between systems and with the building)
+rules:
+  - id: MEP-001
+    title: Pipe intersects conduit
+    type: clash
+    a: [Pipes, Pipe Fittings]
+    b: [Conduits, Conduit Fittings]
+    tolerance: 0.005
+    severity: error
+  - id: MEP-002
+    title: Duct intersects pipe
+    type: clash
+    a: [Ducts, Duct Fittings]
+    b: [Pipes, Pipe Fittings]
+    tolerance: 0.005
+    severity: error
+  - id: MEP-003
+    title: Pipe passes through wall (check sleeve or opening)
+    type: clash
+    a: [Pipes]
+    b: [Walls]
+    tolerance: 0.01
+    severity: warning
+  - id: MEP-004
+    title: Conduit passes through wall (check sleeve or opening)
+    type: clash
+    a: [Conduits]
+    b: [Walls]
+    tolerance: 0.01
+    severity: warning
+  - id: MEP-005
+    title: MEP elements must have a level
+    type: no_level
+    category: [Pipes, Pipe Fittings, Conduits, Conduit Fittings, Ducts, Duct Fittings, Mechanical Equipment, Electrical Equipment, Lighting Fixtures]
+    severity: warning
+  - id: MEP-006
+    title: Equipment needs a Mark
+    type: required_params
+    category: [Mechanical Equipment, Electrical Equipment, Electrical Fixtures, Lighting Fixtures]
+    params: [Mark]
+    severity: info

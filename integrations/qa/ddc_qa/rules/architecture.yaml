@@ -1,0 +1,59 @@
+name: architecture
+description: Architectural model checks (doors, windows, walls, hosts)
+rules:
+  - id: ARC-001
+    title: Doors and windows need a Mark
+    type: required_params
+    category: [Doors, Windows]
+    params: [Mark]
+    severity: warning
+  - id: ARC-002
+    title: Door and window Mark must be unique
+    type: duplicate
+    category: [Doors, Windows]
+    param: Mark
+    scope: category
+    severity: error
+  - id: ARC-003
+    title: Wall thickness within 50 mm .. 600 mm
+    type: range
+    category: Walls
+    param: Width (m)
+    min: 0.05
+    max: 0.6
+    severity: warning
+  - id: ARC-004
+    title: Door width within 700 mm .. 2500 mm
+    type: range
+    category: Doors
+    param: Width (m)
+    min: 0.7
+    max: 2.5
+    severity: warning
+  - id: ARC-005
+    title: Door height within 1900 mm .. 3000 mm
+    type: range
+    category: Doors
+    param: Height (m)
+    min: 1.9
+    max: 3.0
+    severity: info
+  - id: ARC-006
+    title: Type names contain no leading, trailing or doubled spaces
+    type: naming
+    category: [Walls, Doors, Windows, Floors, Ceilings, Roofs]
+    param: Type Name
+    pattern: '\S+(?: \S+)*'
+    severity: info
+  - id: ARC-007
+    title: Placed building elements must have a level
+    type: no_level
+    category: [Walls, Doors, Windows, Floors, Ceilings, Roofs, Stairs, Columns, Structural Columns, Structural Framing]
+    severity: warning
+  - id: ARC-008
+    title: Wall intersects structural column or framing
+    type: clash
+    a: [Walls]
+    b: [Structural Columns, Structural Framing]
+    tolerance: 0.01
+    severity: error

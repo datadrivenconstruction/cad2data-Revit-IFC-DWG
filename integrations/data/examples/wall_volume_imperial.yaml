@@ -1,0 +1,13 @@
+# Walls with a volume, grouped by level and type, converted to imperial units.
+name: Wall volume by level and type
+description: Wall count, length and volume per level and type; length in ft, volume in ft3.
+filters:
+  - {column: CategoryEn, in: [Walls]}
+  - {column: Volume, gt: 0}
+group_by: [Level, Type Name]
+aggregates:
+  - {fn: count, as: Walls}
+  - {column: Length, fn: sum, as: Length}
+  - {column: Volume, fn: sum, as: Volume}
+convert: {Volume: ft3, Length: ft}
+sort: [Level, -Volume]

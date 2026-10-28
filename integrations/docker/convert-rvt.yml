@@ -1,0 +1,28 @@
+# Example workflow: convert Revit models in CI. Copy to .github/workflows/convert-rvt.yml
+name: Convert Revit models
+on:
+  push:
+    paths: ["models/**.rvt"]
+  workflow_dispatch:
+
+jobs:
+  convert:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Option A: composite action from this repository (integrations/docker/action.yml)
+      - uses: datadrivenconstruction/cad2data-Revit-IFC-DWG/integrations/docker@main
+        with:
+          input: models
+          output: converted
+          formats: "--xlsx --gltf --ifc"
+          version: "2.0.5"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: converted
+          path: converted
+
+      # Option B: the container image built from integrations/docker/Dockerfile
+      # - run: docker run --rm -v "$PWD:/data" ddc-rvt-converter --input-dir /data/models --out /data/converted --xlsx

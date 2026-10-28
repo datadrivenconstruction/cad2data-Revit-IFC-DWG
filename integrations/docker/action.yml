@@ -1,0 +1,42 @@
+name: DDC RVT converter
+description: Convert Revit .rvt/.rfa files in a folder to XLSX, glTF/GLB, IFC with the DDC command line (Linux runners).
+inputs:
+  input:
+    description: Folder with .rvt/.rfa files
+    required: true
+  output:
+    description: Folder that receives one <model>.converted folder per model
+    default: converted
+  formats:
+    description: Extra converter flags, for example "--xlsx --gltf --ifc"
+    default: "--xlsx"
+  version:
+    description: Converter release version
+    default: "2.0.5"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        V: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        base="https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/download/v${V}"
+        pkg="DDC-RVT-Converter-${V}-linux-x64.tar.gz"
+        d="${RUNNER_TEMP}/ddc"; mkdir -p "$d"
+        curl -fsSL -o "$d/$pkg" "$base/$pkg"
+        curl -fsSL -o "$d/SHA256SUMS.txt" "$base/SHA256SUMS.txt"
+        (cd "$d" && grep " \*\?${pkg}\$" SHA256SUMS.txt | sha256sum -c -)
+        tar -xzf "$d/$pkg" -C "$d"
+    - shell: bash
+      env:
+        IN: ${{ inputs.input }}
+        OUT: ${{ inputs.output }}
+        FLAGS: ${{ inputs.formats }}
+      run: |
+        set -uo pipefail
+        # shellcheck disable=SC2086
+        "${RUNNER_TEMP}/ddc/rvt-decode-linux-x64/rvt-decode" --input-dir "$IN" --recursive --out "$OUT" $FLAGS --json-log | tee "${OUT}.ndjson"
+        rc=${PIPESTATUS[0]}
+        # exit code 2 = written with reported gaps; only real failures fail the job
+        [ "$rc" -le 2 ] || exit "$rc"

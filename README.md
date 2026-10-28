@@ -238,6 +238,17 @@ ddc diff Model_v1.converted Model_v2.converted --xlsx changes.xlsx --glb diff.gl
 
 Excel and Power BI are trademarks of Microsoft Corporation, used only to say what the files work with.
 
+## Integrations
+
+The `integrations/` folder has small tools built around the converter command line. Each subfolder has its own README with install steps and examples.
+
+- [`integrations/mcp`](integrations/mcp): an MCP server, so an AI assistant can convert a Revit file and query the element table.
+- [`integrations/python`](integrations/python): the `ddc-converter` package, a wrapper for calling the converter from Python (finds or downloads the release package).
+- [`integrations/batch`](integrations/batch): convert a whole folder in one run, or keep watching it for new files.
+- [`integrations/docker`](integrations/docker): a Linux Docker image, a GitHub Action and a CI workflow example.
+- [`integrations/data`](integrations/data): `ddc-data`, which turns the xlsx output into Parquet/DuckDB, report templates and a BI star schema for Power BI.
+- [`integrations/qa`](integrations/qa): `ddc-qa`, data checks and a diff between two versions of the same model.
+
 ## n8n workflows, notebooks and AI agents
 
 - [`DDC_n8n_Workflows&Pipelines/`](DDC_n8n_Workflows&Pipelines/) — nine n8n workflows (conversion,

@@ -1,0 +1,290 @@
+[
+ {
+  "model": "castle_rock",
+  "elements_ours": 1112,
+  "elements_truth": 17064,
+  "quantities": {
+   "Length": {
+    "truth_elements": 4661,
+    "matched": 77,
+    "within_1pct": 77,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 374.446,
+    "ours_total_same_ids": 374.446,
+    "total_diff_pct": -0.0,
+    "template_total_all_elements": 448.701,
+    "hosts_matched": 77,
+    "hosts_within_1pct": 77,
+    "hosts_total_diff_pct": -0.0
+   },
+   "Area": {
+    "truth_elements": 948,
+    "matched": 854,
+    "within_1pct": 370,
+    "within_1pct_of_matched": 43.33,
+    "truth_total": 2441.313,
+    "ours_total_same_ids": 2657.351,
+    "total_diff_pct": 8.849,
+    "template_total_all_elements": 2792.608,
+    "hosts_matched": 599,
+    "hosts_within_1pct": 205,
+    "hosts_total_diff_pct": 10.007
+   },
+   "NetArea": {
+    "truth_elements": 948,
+    "matched": 28,
+    "within_1pct": 20,
+    "within_1pct_of_matched": 71.43,
+    "truth_total": 662.833,
+    "ours_total_same_ids": 662.462,
+    "total_diff_pct": -0.056,
+    "template_total_all_elements": 0.0,
+    "hosts_matched": 8,
+    "hosts_within_1pct": 8,
+    "hosts_total_diff_pct": -0.0
+   },
+   "Volume": {
+    "truth_elements": 900,
+    "matched": 785,
+    "within_1pct": 727,
+    "within_1pct_of_matched": 92.61,
+    "truth_total": 517.865,
+    "ours_total_same_ids": 520.972,
+    "total_diff_pct": 0.6,
+    "template_total_all_elements": 808.705,
+    "hosts_matched": 571,
+    "hosts_within_1pct": 530,
+    "hosts_total_diff_pct": -0.003
+   }
+  },
+  "worst_categories": [
+   {
+    "rel_diff": 1.037509235149777,
+    "category": "Generic Models",
+    "quantity": "Volume",
+    "truth": 3.28,
+    "ours": 6.68
+   },
+   {
+    "rel_diff": 0.9721309859218944,
+    "category": "Lighting Fixtures",
+    "quantity": "Volume",
+    "truth": 0.31,
+    "ours": 0.01
+   },
+   {
+    "rel_diff": 0.6142763999471138,
+    "category": "Structural Foundations",
+    "quantity": "Area",
+    "truth": 25.66,
+    "ours": 41.42
+   },
+   {
+    "rel_diff": 0.4945248286093296,
+    "category": "Generic Models",
+    "quantity": "Area",
+    "truth": 33.35,
+    "ours": 49.85
+   },
+   {
+    "rel_diff": 0.4546253248236057,
+    "category": "Lighting Fixtures",
+    "quantity": "Area",
+    "truth": 12.52,
+    "ours": 6.83
+   }
+  ]
+ },
+ {
+  "model": "architecture01",
+  "elements_ours": 1768,
+  "elements_truth": 7943,
+  "quantities": {
+   "Length": {
+    "truth_elements": 1233,
+    "matched": 149,
+    "within_1pct": 149,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 471.654,
+    "ours_total_same_ids": 471.654,
+    "total_diff_pct": -0.0,
+    "template_total_all_elements": 471.654,
+    "hosts_matched": 149,
+    "hosts_within_1pct": 149,
+    "hosts_total_diff_pct": -0.0
+   },
+   "Area": {
+    "truth_elements": 981,
+    "matched": 626,
+    "within_1pct": 470,
+    "within_1pct_of_matched": 75.08,
+    "truth_total": 11140.439,
+    "ours_total_same_ids": 11105.882,
+    "total_diff_pct": -0.31,
+    "template_total_all_elements": 11118.383,
+    "hosts_matched": 159,
+    "hosts_within_1pct": 159,
+    "hosts_total_diff_pct": -0.0
+   },
+   "NetArea": {
+    "truth_elements": 981,
+    "matched": 8,
+    "within_1pct": 8,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 4372.044,
+    "ours_total_same_ids": 4372.044,
+    "total_diff_pct": 0.0,
+    "template_total_all_elements": 0.0,
+    "hosts_matched": 8,
+    "hosts_within_1pct": 8,
+    "hosts_total_diff_pct": 0.0
+   },
+   "Volume": {
+    "truth_elements": 1142,
+    "matched": 441,
+    "within_1pct": 441,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 2221.807,
+    "ours_total_same_ids": 2221.807,
+    "total_diff_pct": -0.0,
+    "template_total_all_elements": 2223.136,
+    "hosts_matched": 148,
+    "hosts_within_1pct": 148,
+    "hosts_total_diff_pct": -0.0
+   }
+  },
+  "worst_categories": [
+   {
+    "rel_diff": 0.483887148993756,
+    "category": "Generic Models",
+    "quantity": "Area",
+    "truth": 132.64,
+    "ours": 68.46
+   },
+   {
+    "rel_diff": 0.04118106449058402,
+    "category": "Doors",
+    "quantity": "Area",
+    "truth": 719.52,
+    "ours": 749.15
+   },
+   {
+    "rel_diff": 2.5457799070422542e-05,
+    "category": "Generic Models",
+    "quantity": "Volume",
+    "truth": 1.25,
+    "ours": 1.25
+   },
+   {
+    "rel_diff": 5.241299039736413e-07,
+    "category": "Walls",
+    "quantity": "Volume",
+    "truth": 608.17,
+    "ours": 608.17
+   },
+   {
+    "rel_diff": 5.017061455544046e-07,
+    "category": "Walls",
+    "quantity": "Area",
+    "truth": 5490.71,
+    "ours": 5490.71
+   }
+  ]
+ },
+ {
+  "model": "rac2023",
+  "elements_ours": 668,
+  "elements_truth": 5504,
+  "quantities": {
+   "Area": {
+    "truth_elements": 485,
+    "matched": 407,
+    "within_1pct": 295,
+    "within_1pct_of_matched": 72.48,
+    "truth_total": 6810.256,
+    "ours_total_same_ids": 3055.031,
+    "total_diff_pct": -55.141,
+    "template_total_all_elements": 3251.392,
+    "hosts_matched": 59,
+    "hosts_within_1pct": 55,
+    "hosts_total_diff_pct": 0.738
+   },
+   "NetArea": {
+    "truth_elements": 485,
+    "matched": 49,
+    "within_1pct": 49,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 1124.712,
+    "ours_total_same_ids": 1124.712,
+    "total_diff_pct": 0.0,
+    "template_total_all_elements": 0.0,
+    "hosts_matched": 8,
+    "hosts_within_1pct": 8,
+    "hosts_total_diff_pct": 0.0
+   },
+   "Volume": {
+    "truth_elements": 435,
+    "matched": 319,
+    "within_1pct": 301,
+    "within_1pct_of_matched": 94.36,
+    "truth_total": 590.203,
+    "ours_total_same_ids": 590.133,
+    "total_diff_pct": -0.012,
+    "template_total_all_elements": 1285.793,
+    "hosts_matched": 55,
+    "hosts_within_1pct": 55,
+    "hosts_total_diff_pct": 0.0
+   },
+   "Length": {
+    "truth_elements": 439,
+    "matched": 56,
+    "within_1pct": 56,
+    "within_1pct_of_matched": 100.0,
+    "truth_total": 393.211,
+    "ours_total_same_ids": 393.211,
+    "total_diff_pct": -0.0,
+    "template_total_all_elements": 393.211,
+    "hosts_matched": 56,
+    "hosts_within_1pct": 56,
+    "hosts_total_diff_pct": -0.0
+   }
+  },
+  "worst_categories": [
+   {
+    "rel_diff": 7.9516335682255,
+    "category": "Furniture Systems",
+    "quantity": "Area",
+    "truth": 1.5,
+    "ours": 13.41
+   },
+   {
+    "rel_diff": 2.271201212708955,
+    "category": "Electrical Equipment",
+    "quantity": "Area",
+    "truth": 24.95,
+    "ours": 81.62
+   },
+   {
+    "rel_diff": 0.998161066767026,
+    "category": "Lighting Fixtures",
+    "quantity": "Area",
+    "truth": 3894.39,
+    "ours": 7.16
+   },
+   {
+    "rel_diff": 0.27282021413116037,
+    "category": "Structural Foundations",
+    "quantity": "Area",
+    "truth": 128.13,
+    "ours": 163.09
+   },
+   {
+    "rel_diff": 0.20862122048836468,
+    "category": "Mass",
+    "quantity": "Area",
+    "truth": 70.08,
+    "ours": 84.7
+   }
+  ]
+ }
+]
