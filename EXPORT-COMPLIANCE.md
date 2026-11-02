@@ -1,6 +1,6 @@
 # Export Compliance
 
-**Version 1.0 — Effective April 2026**
+**Version 1.1 — Updated November 2026**
 
 This document describes how DataDrivenConstruction handles
 export-control obligations for the binary converters
@@ -37,11 +37,11 @@ Downloading, installing, or re-exporting the binaries is
 prohibited to:
 
 - **Jurisdictions under comprehensive U.S. sanctions** (OFAC):
-  Cuba, Iran, North Korea, Syria, and the Crimea / Donetsk /
-  Luhansk regions of Ukraine.
+  Cuba, Iran, North Korea, and the Crimea / Donetsk / Luhansk
+  regions of Ukraine.
 - **Jurisdictions under comprehensive EU restrictive measures**
   administered by Council Regulations - currently Russia,
-  Belarus, Iran, North Korea, Syria, and the non-government-
+  Belarus, Iran, North Korea, and the non-government-
   controlled regions of Ukraine (the scope evolves; see
   <https://finance.ec.europa.eu/eu-sanctions-map>).
 - **Sanctioned persons and entities** on the OFAC Specially
@@ -51,6 +51,18 @@ prohibited to:
 - **Military end-uses and military end-users** where prohibited
   by EAR § 744.21 or by EU Council Regulation 2021/821
   Art. 4(1)(b).
+
+Syria is not listed above as a comprehensively sanctioned
+jurisdiction. U.S. Executive Order 14312 ended the Syria sanctions
+program on 1 July 2025 and OFAC removed the Syrian Sanctions
+Regulations in August 2025; the EU lifted its economic sanctions
+on Syria in May 2025. Targeted measures remain, including U.S. and
+EU listings of specific persons, the EU arms embargo, and the U.S.
+EAR end-use and end-user controls (15 CFR Part 744); these are
+covered by the persons and military end-use items above. For EAR99
+items, U.S. License Exception SPP (15 CFR § 740.5) applies to
+Syria. Rules in this area change; check the current OFAC, BIS and
+EU Council publications.
 
 ## 3. Exporter-of-record and screening
 
