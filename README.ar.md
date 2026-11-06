@@ -95,7 +95,7 @@ Revit النموذجية المفتوحة (ترخيص MIT)، والمبنى ال
 
 | | |
 |---|---|
-| ![RVT Converter 2.0.2: تحويل منتهٍ لنموذجين من Revit](docs/images/rvt-converter-done.png) | ![RVT to IFC 2.0.2: لوحة خيارات IFC](docs/images/rvt-to-ifc-options.png) |
+| ![RVT Converter 2.0.12: تحويل منتهٍ لنموذجين من Revit](docs/images/2.0.12/rvt-converter-done.png) | ![RVT to IFC 2.0.12: لوحة خيارات IFC](docs/images/2.0.12/rvt-to-ifc-options.png) |
 | **DDC RVT Converter** — تحويل نموذجين من Revit؛ ويُعرض مجلد النتيجة لكل ملف. | **DDC RVT to IFC** — وحدة الطول ونقطة أصل الإحداثيات وبقية إعدادات IFC ضمن *More options*. |
 | ![Data Viewer: تحديد ثلاثي الأبعاد مرتبط بصفوف الجدول](docs/images/data-viewer-3d-selection.png) | ![مخرجات IFC to Excel في Data Viewer، مجمّعة حسب فئة IFC](docs/images/ifc-to-excel-table.png) |
 | **DDC Data Viewer** — يؤدي المرشّح على *Structural Columns* إلى إبراز العناصر المرتبطة في العرض ثلاثي الأبعاد؛ وتجمع لوحة الملخص المساحة والحجم والطول. | **DDC IFC to Excel** — ملف `drawing.xlsx` لعيّنة Duplex IFC المفتوحة، مجمّعًا حسب فئة IFC (333 كائنًا و23 فئة). |

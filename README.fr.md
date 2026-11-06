@@ -93,7 +93,7 @@ modèles Revit d'exemple ouverts (licence MIT), le bâtiment d'exemple synthéti
 
 | | |
 |---|---|
-| ![RVT Converter 2.0.2 : conversion terminée de deux modèles Revit](docs/images/rvt-converter-done.png) | ![RVT to IFC 2.0.2 : panneau des options IFC](docs/images/rvt-to-ifc-options.png) |
+| ![RVT Converter 2.0.12 : conversion terminée de deux modèles Revit](docs/images/2.0.12/rvt-converter-done.png) | ![RVT to IFC 2.0.12 : panneau des options IFC](docs/images/2.0.12/rvt-to-ifc-options.png) |
 | **DDC RVT Converter** — deux modèles Revit convertis ; le dossier de résultat est indiqué pour chaque fichier. | **DDC RVT to IFC** — unité de longueur, origine des coordonnées et autres réglages IFC dans *More options*. |
 | ![Data Viewer : sélection 3D liée aux lignes du tableau](docs/images/data-viewer-3d-selection.png) | ![Sortie d'IFC to Excel dans le Data Viewer, regroupée par classe IFC](docs/images/ifc-to-excel-table.png) |
 | **DDC Data Viewer** — un filtre sur *Structural Columns* met en évidence les éléments liés en 3D ; le panneau de synthèse totalise surface, volume et longueur. | **DDC IFC to Excel** — `drawing.xlsx` de l'exemple IFC ouvert Duplex, regroupé par classe IFC (333 objets, 23 classes). |

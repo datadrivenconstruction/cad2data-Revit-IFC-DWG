@@ -4,8 +4,8 @@ Open the data inside Revit models without Revit: get a spreadsheet of every elem
 if you need it, an IFC file. Made for estimators, BIM managers, analysts and anyone who receives `.rvt` files
 and wants to count, check or reuse what is inside them.
 
-![DDC RVT Converter with a Revit model ready to convert](../../docs/images/rvt-converter-main.png)
-*A Revit model in the list; the buttons at the bottom choose what to write: properties, IFC4, glTF, OBJ.*
+![DDC RVT Converter 2.0.12 with two sample models ready to convert](../../docs/images/2.0.12/rvt-converter-loaded.png)
+*Two sample models in the list; the Export panel on the right chooses what to write: properties, IFC4, glTF, OBJ.*
 
 ## What you get
 
@@ -17,6 +17,16 @@ For every model, the app creates a folder next to it (for example `Family House.
 | 3D model (`.glb`) | A lightweight 3D model; each part keeps the element id of the row in the spreadsheet | DDC Data Viewer, Windows 3D Viewer, any web viewer |
 | IFC file (`.ifc`), when *Export IFC4* is on | The model in the open IFC format for other BIM programs | any IFC-capable BIM viewer or tool |
 | Properties (`.jsonl`), when *Element properties* is on | All saved parameters of every element, for scripts and databases | Python, n8n, any JSON tool |
+
+## More screenshots
+
+![Write back to RVT window](../../docs/images/2.0.12/rvt-converter-writeback.png)
+*Write back to RVT (beta): pick the edited `elements.xlsx`, the source model and a new output model; the source is never changed.*
+
+| | |
+|---|---|
+| ![RVT Converter in German](../../docs/images/2.0.12/rvt-converter-de.png) | ![RVT Converter in Russian](../../docs/images/2.0.12/rvt-converter-ru.png) |
+| German interface | Russian interface |
 
 ## Supported Revit versions
 
@@ -37,8 +47,11 @@ For every model, the app creates a folder next to it (for example `Family House.
    glTF and OBJ are there if your 3D tool needs them.
 4. **Press Convert** and wait until the status says *Written*.
 
-   ![Finished conversion with the result folder name](../../docs/images/rvt-converter-done.png)
-   *Done: the result folder is shown under Result; **Open output** in the status bar opens it.*
+   ![Finished conversion with the result folder name](../../docs/images/2.0.12/rvt-converter-done.png)
+   *Done: each row has a status dot and a Report link; the side panel shows the summary with Open folder, Report, Log and Open IFC; **Open output** in the status bar opens the result folder.*
+
+   ![Result panel and More options after a conversion](../../docs/images/2.0.12/rvt-converter-options.png)
+   *More options: category presets and further output settings under the Export panel.*
 
 5. **Open the result** in Excel, or open `elements.xlsx` in the free DDC Data Viewer to see the table and the 3D model together.
 

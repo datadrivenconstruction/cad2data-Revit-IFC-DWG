@@ -93,7 +93,7 @@ Revit 示例模型（MIT 许可证）、查看器自带的合成示例建筑，�
 
 | | |
 |---|---|
-| ![RVT Converter 2.0.2：两个 Revit 模型转换完成](docs/images/rvt-converter-done.png) | ![RVT to IFC 2.0.2：IFC 选项面板](docs/images/rvt-to-ifc-options.png) |
+| ![RVT Converter 2.0.12：两个 Revit 模型转换完成](docs/images/2.0.12/rvt-converter-done.png) | ![RVT to IFC 2.0.12：IFC 选项面板](docs/images/2.0.12/rvt-to-ifc-options.png) |
 | **DDC RVT Converter** — 两个 Revit 模型已转换；结果文件夹按文件列出。 | **DDC RVT to IFC** — 长度单位、坐标原点及其他 IFC 设置位于*更多选项*中。 |
 | ![Data Viewer：3D 选择与表格行联动](docs/images/data-viewer-3d-selection.png) | ![Data Viewer 中按 IFC 类分组的 IFC to Excel 输出](docs/images/ifc-to-excel-table.png) |
 | **DDC Data Viewer** — 对*结构柱*的筛选会在 3D 中高亮显示关联元素；汇总面板对面积、体积和长度求和。 | **DDC IFC to Excel** — 开放 Duplex IFC 示例的 `drawing.xlsx`，按 IFC 类分组（333 个对象，23 个类）。 |
