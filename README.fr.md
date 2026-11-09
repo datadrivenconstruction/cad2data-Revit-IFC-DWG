@@ -91,14 +91,14 @@ ni installation de Python. Les versions en ligne de commande pour Linux et macOS
 ## Captures d'écran
 
 Toutes les captures d'écran ci-dessous proviennent d'exécutions réelles des paquets de la release actuelle. Elles utilisent des
-modèles Revit d'exemple ouverts (licence MIT), le bâtiment d'exemple synthétique du visualiseur et l'exemple IFC ouvert de [`Sample_Projects/`](Sample_Projects/).
+modèles Revit d'exemple ouverts (licence MIT) et le bâtiment d'exemple synthétique du visualiseur.
 
 | | |
 |---|---|
 | ![RVT Converter 2.0.12 : conversion terminée de deux modèles Revit](docs/images/2.0.12/rvt-converter-done.png) | ![RVT to IFC 2.0.12 : panneau des options IFC](docs/images/2.0.12/rvt-to-ifc-options.png) |
 | **DDC RVT Converter** — deux modèles Revit convertis ; le dossier de résultat est indiqué pour chaque fichier. | **DDC RVT to IFC** — unité de longueur, origine des coordonnées et autres réglages IFC dans *More options*. |
-| ![Data Viewer : sélection 3D liée aux lignes du tableau](docs/images/data-viewer-3d-selection.png) | ![Sortie d'IFC to Excel dans le Data Viewer, regroupée par classe IFC](docs/images/ifc-to-excel-table.png) |
-| **DDC Data Viewer** — un filtre sur *Structural Columns* met en évidence les éléments liés en 3D ; le panneau de synthèse totalise surface, volume et longueur. | **DDC IFC to Excel** — `drawing.xlsx` de l'exemple IFC ouvert Duplex, regroupé par classe IFC (333 objets, 23 classes). |
+| ![Data Viewer : sélection 3D liée aux lignes du tableau](docs/images/data-viewer-3d-selection.png) | ![Data Viewer : bâtiment d'exemple regroupé par catégorie et niveau](docs/images/data-viewer-3d-grouped.png) |
+| **DDC Data Viewer** — un filtre sur *Structural Columns* met en évidence les éléments liés en 3D ; le panneau de synthèse totalise surface, volume et longueur. | **DDC Data Viewer** — le bâtiment d'exemple synthétique regroupé par catégorie et niveau, avec les sommes par colonne et la vue 3D liée. |
 | ![Exécution en ligne de commande de RVTconverter](docs/images/cli-rvt-ifc.png) | ![Data Viewer en thème sombre](docs/images/data-viewer-dark.png) |
 | **Ligne de commande** — `RVTconverter.exe` écrit le GLB, l'IFC4, la table des éléments et les rapports, puis affiche un résumé de statut. | **Thème sombre** — le Data Viewer en thème sombre, avec le sélecteur de langue de l'interface en haut à droite. |
 
@@ -297,7 +297,6 @@ de modèles confidentiels.
 | `AI_AGENTS_INSTRUCTIONS/` | instructions pour les agents IA de programmation |
 | `DDC_WINDOWS_Converters/` | convertisseurs Windows portables (RVT, RVT-to-IFC, IFC to Excel, CAD Drawing to Excel, Data Viewer), textes de licence et documentation du complément Excel → Revit ; les installateurs sont sur la page des Releases |
 | `DDC_LINUX_Converters/` | paquets de données CWICR, packaging Qdrant et tableau de bord de télémétrie |
-| `Sample_Projects/` | fichiers IFC d'exemple ouverts |
 
 <a id="licensing"></a>
 ## Licences

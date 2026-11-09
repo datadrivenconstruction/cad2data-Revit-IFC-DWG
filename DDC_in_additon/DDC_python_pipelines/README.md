@@ -20,8 +20,8 @@ environment variables `DDC_RVT`, `DDC_MODEL`, `DDC_BATCH` and `DDC_OUT` override
 | 6 Quick QTO for all files in a folder | Ported. Converts the models to CSV tables, then grouped sums per `Type Name` with element ids. |
 | 7 Batch processing, JPEG and PDF | Ported. Converts a folder, then pie / bar charts and a PDF report per table. |
 
-Run on 2026-10-19 with `jupyter nbconvert --execute`: notebooks 3 and 4 on the open IFC sample (`Sample_Projects`), notebooks 1, 2, 5, 6, 7
-on a folder that held that IFC sample and a small Revit sample; all cells ran without errors. The committed notebooks have their
+Run on 2026-10-19 with `jupyter nbconvert --execute`: notebooks 3 and 4 on an IFC model, notebooks 1, 2, 5, 6, 7
+on a folder that held that IFC model and a small Revit sample; all cells ran without errors. The committed notebooks have their
 outputs cleared. Differences to the old results: `Volume` / `Area` of Revit elements come from the converter's IFC quantities or the
 GLB mesh, not from Revit's own values; the old `.dae` is replaced by the GLB; DGN is not supported.
 

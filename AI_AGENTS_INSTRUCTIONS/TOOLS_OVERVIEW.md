@@ -323,7 +323,6 @@ C:\DDC\RVT-Converter\cli\RVTconverter.exe "{{ $json.filePath }}" -o "C:\Out" --p
 
 - **Book**: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` (in AI_AGENTS_INSTRUCTIONS folder)
 - **PDF Guide**: `GuideBook_DataDrivenConstruction_Book_2ndEdition_ArtemBoiko_2025_en-US.pdf`
-- **Sample Data**: `Sample_Projects/` folder
 
 ---
 

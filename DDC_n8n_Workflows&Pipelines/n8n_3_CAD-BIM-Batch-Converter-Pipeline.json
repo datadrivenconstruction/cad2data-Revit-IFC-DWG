@@ -152,13 +152,13 @@
             {
               "id": "source-folder",
               "name": "source_folder",
-              "value": "C:\\DDC\\Models\\Sample_Projects",
+              "value": "C:\\DDC\\Models\\Input",
               "type": "string"
             },
             {
               "id": "output-folder",
               "name": "output_folder",
-              "value": "C:\\DDC\\Models\\Sample_Projects",
+              "value": "C:\\DDC\\Models\\Input",
               "type": "string"
             },
             {

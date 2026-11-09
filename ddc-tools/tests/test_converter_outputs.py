@@ -10,7 +10,7 @@ from ddc_tools.cli import main
 from ddc_tools.loader import load_ex
 
 FIX = Path(__file__).parent / "fixtures"
-IFC = FIX / "ifc_duplex_excerpt"
+IFC = FIX / "ifc_excerpt"
 RVT = FIX / "rvt_properties"
 ROOT = Path(__file__).resolve().parents[1]
 

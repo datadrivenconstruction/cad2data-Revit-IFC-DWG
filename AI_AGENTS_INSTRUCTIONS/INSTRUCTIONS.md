@@ -36,8 +36,7 @@ cad2data-Revit-IFC-DWG/
 │   ├── ddc-cwicr-cli/                  # Semantic search CLI
 │   └── ddc-cwicr-data/                 # Language data packages (9 languages)
 ├── DDC_n8n_Workflows&Pipelines/         # n8n automation workflows (9 workflows)
-├── DDC_in_additon/                      # Additional utilities
-└── Sample_Projects/                     # Test data
+└── DDC_in_additon/                      # Additional utilities
 ```
 
 The converters themselves are distributed through GitHub Releases:

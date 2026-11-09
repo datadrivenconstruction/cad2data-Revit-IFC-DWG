@@ -1,6 +1,6 @@
 """Make "version 2" of the committed IFC excerpt, a realistic edit of the real converter output.
 
-    python make_ifc_excerpt_v2.py ifc_duplex_excerpt ifc_duplex_excerpt_v2
+    python make_ifc_excerpt_v2.py ifc_excerpt ifc_excerpt_v2
 
 Only data.jsonl is written. Every record that is not touched stays byte-for-byte as the converter wrote
 it; the edits are what a designer does between two issues of a model:

@@ -118,7 +118,7 @@ def test_ifc_excel_all_three_formats_give_the_same_table(tmp_path, ifc_table, fm
 
 
 def test_converter_subfolder_is_found(tmp_path):
-    sub = tmp_path / "Duplex-440646b4da26"
+    sub = tmp_path / "Model-440646b4da26"
     shutil.copytree(DATA / "ifc_excel", sub)
     assert len(table.build_table(str(tmp_path)).rows) == 10
 
