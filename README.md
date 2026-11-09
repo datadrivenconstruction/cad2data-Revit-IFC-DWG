@@ -1,3 +1,5 @@
+> **Not affiliated with Autodesk.** Autodesk, AutoCAD, DWG and Revit are trademarks of Autodesk, Inc.; IFC and buildingSMART are trademarks of buildingSMART International Ltd.; Microsoft, Excel and Power BI are trademarks of Microsoft Corporation. DataDrivenConstruction is independent software, not affiliated with, endorsed or certified by these companies. RVT, RFA, DWG, DXF and IFC are file-format names used only to say which files are read. See [TRADEMARK.md](TRADEMARK.md).
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •
@@ -36,11 +38,11 @@
 
 DDC Converters 2.0 is the October 2026 release of the whole line: RVT Converter 2.0, RVT to IFC 2.0,
 IFC to Excel 2.0, CAD Drawing to Excel 2.0, Data Viewer 2.0 and Excel Add-in 2.0.
-The current RVT Converter and RVT to IFC build is [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2).
+The current RVT Converter and RVT to IFC build is on the [latest release page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest).
 
 - **One tool per format family.** `.rvt` / `.rfa` to GLB, glTF, OBJ, IFC4 and JSONL / CSV / SQLite tables;
   `.ifc` / `.ifczip` to Excel, JSONL and SQLite; `.dwg` to Excel, CSV, JSONL, DXF and SVG.
-- **Revit 2016–2027** files are read directly, with no Revit installation needed.
+- Files saved with **Revit 2016–2027** (validated on 2019–2027) are read directly, with no Revit installation needed.
 - **IFC4 export from Revit** with property sets, quantities, classification and materials, and the profiles
   `full`, `coordination` and `geometry`; units, origin, category and phase options on the command line.
 - **Element ids everywhere.** Every geometry node keeps the native element id, so tables and 3D join by `ElementId`.
@@ -66,13 +68,12 @@ Downloads: [`DDC_WINDOWS_Converters/`](DDC_WINDOWS_Converters/) (portable, ready
 - [Supported scope and notes](#supported-scope-and-notes)
 - [Repository layout](#repository-layout)
 - [Licensing](#licensing)
-- [Trademarks](#trademarks)
 
 ## Converters
 
 | Package | Version | Reads | Writes | Interface |
 |---|---|---|---|---|
-| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved by Revit 2016–2027 | GLB (default), glTF, OBJ, IFC4, element table (`elements.xlsx`, `elements.csv`: category, family, type, level, area, volume, length, parameters), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
+| **DDC RVT Converter** | 2.0 | `.rvt`, `.rfa` saved with Revit 2016–2027 (validated on 2019–2027) | GLB (default), glTF, OBJ, IFC4, element table (`elements.xlsx`, `elements.csv`: category, family, type, level, area, volume, length, parameters), saved properties as JSONL; the desktop app also writes CSV tables and SQLite | Desktop app + `RVTconverter.exe` CLI |
 | **DDC RVT to IFC** | 2.0 | `.rvt`, `.rfa` | IFC4 with property sets, quantities, classification, materials; profiles `full`, `coordination`, `geometry` | Desktop app (same command line as RVT Converter) |
 | **DDC IFC to Excel** | 2.0 | IFC2x3 / IFC4 STEP files, `.ifczip` | `drawing.xlsx` (objects, properties, quantities), `data.jsonl`, `data.sqlite`, `result.json` | Desktop app + command line |
 | **DDC CAD Drawing to Excel** | 2.0 | `.dwg` drawings, R13–2018 format versions | `.xlsx` (Entities, Summary, Layers, Blocks), `.csv`, `.jsonl`, `.dxf`, `.svg`, `report.json` | Desktop app + `dwg2excel.exe` CLI |
@@ -98,7 +99,7 @@ Revit sample models (MIT licence), the viewer's synthetic sample building and th
 
 ## Quick start
 
-1. Open the [2.0.2 release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2) (RVT Converter, RVT to IFC) or the [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (other packages)
+1. Open the [latest release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest) (RVT Converter, RVT to IFC) or the [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (other packages)
    and download the package you need — a `*-Setup.exe` (per-user installer) or a `*-portable.zip`.
 2. Verify the download against `SHA256SUMS.txt` from the same release:
    ```powershell
@@ -333,7 +334,3 @@ Contact [info@datadrivenconstruction.io](mailto:info@datadrivenconstruction.io) 
 </p>
 
 If these tools are useful to you, please star the repository to get notified about new releases.
-
-## Trademarks
-
-Autodesk and Revit are trademarks of Autodesk, Inc. DataDrivenConstruction is independent software and is not affiliated with or endorsed by Autodesk, Inc. RVT, RFA, DWG, DXF and IFC are file-format names used only to say which files are read.

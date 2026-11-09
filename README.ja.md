@@ -37,7 +37,7 @@
 
 DDC Converters 2.0 は、製品ライン全体の 2026 年 10 月リリースです。RVT Converter 2.0、RVT to IFC 2.0、
 IFC to Excel 2.0、CAD Drawing to Excel 2.0、Data Viewer 2.0、Excel Add-in 2.0 が含まれます。
-現在の RVT Converter と RVT to IFC のビルドは [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2) です。
+現在の RVT Converter と RVT to IFC のビルドは [latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest) です。
 
 - **形式ファミリーごとに 1 つのツール。** `.rvt` / `.rfa` から GLB、glTF、OBJ、IFC4 と JSONL / CSV / SQLite テーブルへ。
   `.ifc` / `.ifczip` から Excel、JSONL、SQLite へ。`.dwg` から Excel、CSV、JSONL、DXF、SVG へ。
@@ -103,7 +103,7 @@ Revit サンプルモデル（MIT ライセンス）、ビューアー用の合�
 <a id="quick-start"></a>
 ## クイックスタート
 
-1. [2.0.2 リリース](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2)（RVT Converter、RVT to IFC）または [Releases ページ](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（その他のパッケージ）を開き、
+1. [latest リリース](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest)（RVT Converter、RVT to IFC）または [Releases ページ](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（その他のパッケージ）を開き、
    必要なパッケージをダウンロードします。`*-Setup.exe`（ユーザー単位のインストーラー）または `*-portable.zip` です。
 2. 同じリリースの `SHA256SUMS.txt` でダウンロードを検証します。
    ```powershell

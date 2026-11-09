@@ -15,7 +15,7 @@ or not registered in any particular jurisdiction:
 - **cad2data**
 - **RvtExporter**, **RVT2IFCconverter**, **IfcExporter**,
   **DwgExporter**, **DgnExporter**
-- **DDC Community Revit converter**
+- **DDC RVT Converter**
 - Associated logos, stylised wordmarks, and colour-and-layout
   presentations that originate on
   <https://datadrivenconstruction.io>

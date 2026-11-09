@@ -22,7 +22,7 @@
 Each sub-folder is a ready-to-run **portable** build for Windows 10/11 x64 (unpack nothing, just use it).
 Installers (`Setup.exe`) and zip packages of every version are on the
 [Releases page](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases).
-Current release: DDC Converters 2.0.2 ([v2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2)).
+Current release: see the [latest release](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest).
 
 | Product | Version | Folder (portable) | Installer / zip in the release | What it does |
 |---|---|---|---|---|
