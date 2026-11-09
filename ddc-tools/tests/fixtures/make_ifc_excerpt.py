@@ -3,8 +3,7 @@ drawing.xlsx) while keeping the records byte-for-byte as the converter wrote the
 
     python make_ifc_excerpt.py <output folder of IFC to Excel> <target folder>
 
-The committed excerpt comes from Sample_Projects/Ifc2x3_Duplex_Architecture.ifc of this repository,
-converted with DDC IFC to Excel 0.3.1-preview (release v2026.10.0).
+The excerpts used by the tests are not shipped in this repository; build your own from an IFC you may use.
 """
 import json
 import sqlite3

@@ -80,7 +80,7 @@ cli\RVTconverter.exe "C:\Projects\House\Family House.rvt" -o "C:\Projects\House\
 
 **Do I need Revit or an account?** No. The app reads the files itself.
 
-**Which Revit versions are supported?** Files saved in Revit 2016 to 2027 (older files from 2013 may open, best effort).
+**Which Revit versions are supported?** Files saved with Revit 2016 to 2027 (validated on 2019 to 2027).
 
 **Is it free?** Yes, for non-commercial use: learning, research, teaching and personal projects.
 Using it in paid work, for clients, or inside a company product needs a commercial licence —

@@ -79,3 +79,54 @@ def bcf_validator(tmp_path_factory):
         return errors, seen
 
     return validate
+
+
+# ---------------------------------------------------------------------------- optional IFC fixtures
+# The IFC-derived fixtures (ifc_excel, ifc_duplex_excerpt*) are not shipped in the public tree; tests that
+# need them are skipped when the folders are absent. Drop your own IFC to Excel output into them to run.
+_OPTIONAL = {
+    "ifc_excel": Path(__file__).parent / "data" / "ifc_excel",
+    "ifc_duplex_excerpt": Path(__file__).parent / "fixtures" / "ifc_duplex_excerpt",
+}
+
+
+def pytest_collection_modifyitems(config, items):
+    import re
+    missing = [k for k, p in _OPTIONAL.items() if not p.exists()]
+    if not missing:
+        return
+    skip = pytest.mark.skip(reason="IFC-derived fixture not shipped: " + ", ".join(missing))
+    cache = {}
+
+    def tainted_defs(path):
+        # top-level blocks of a test module; a block is tainted when it names a missing fixture folder
+        # (directly or through a module constant / helper that does)
+        if path in cache:
+            return cache[path]
+        text = Path(path).read_text(encoding="utf-8")
+        blocks = re.split(r"(?m)(?<!\)\n)^(?=def |@pytest|[A-Za-z_]\w* = |[A-Za-z_]\w*, \w+ = )", text)
+        named = {}
+        for b in blocks:
+            m = re.search(r"(?m)^(?:def (\w+)|(\w+)(?:, (\w+))? = )", b)
+            if m:
+                for n in m.groups():
+                    if n:
+                        named[n] = b
+        bad = {n for n, b in named.items() if any(k in b for k in missing)}
+        changed = True
+        while changed:
+            changed = False
+            for n, b in named.items():
+                if n not in bad and any(re.search(r"(?<![\w\"'])" + re.escape(x) + r"(?![\w\"'])", b) for x in bad):
+                    bad.add(n)
+                    changed = True
+        cache[path] = bad
+        return bad
+
+    for item in items:
+        bad = tainted_defs(item.path)
+        names = {item.function.__name__}
+        for defs in item._fixtureinfo.name2fixturedefs.values():
+            names |= {d.func.__name__ for d in defs}
+        if names & bad:
+            item.add_marker(skip)

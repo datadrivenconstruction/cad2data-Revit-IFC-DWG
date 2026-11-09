@@ -1,3 +1,5 @@
+> **Non affilié à Autodesk.** Autodesk, AutoCAD, DWG et Revit sont des marques d'Autodesk, Inc. ; IFC et buildingSMART sont des marques de buildingSMART International Ltd. ; Microsoft, Excel et Power BI sont des marques de Microsoft Corporation. DataDrivenConstruction est un logiciel indépendant, non affilié, non approuvé et non certifié par ces sociétés. RVT, RFA, DWG, DXF et IFC sont des noms de formats de fichiers utilisés uniquement pour indiquer les fichiers lus. Voir [TRADEMARK.md](TRADEMARK.md).
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •
@@ -37,7 +39,7 @@
 
 DDC Converters 2.0 est la version d'octobre 2026 de toute la gamme : RVT Converter 2.0, RVT to IFC 2.0,
 IFC to Excel 2.0, CAD Drawing to Excel 2.0, Data Viewer 2.0 et Excel Add-in 2.0.
-La version actuelle de RVT Converter et RVT to IFC est la [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2).
+La version actuelle de RVT Converter et RVT to IFC est la [latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest).
 
 - **Un outil par famille de formats.** `.rvt` / `.rfa` vers GLB, glTF, OBJ, IFC4 et tables JSONL / CSV / SQLite ;
   `.ifc` / `.ifczip` vers Excel, JSONL et SQLite ; `.dwg` vers Excel, CSV, JSONL, DXF et SVG.
@@ -103,7 +105,7 @@ modèles Revit d'exemple ouverts (licence MIT), le bâtiment d'exemple synthéti
 <a id="quick-start"></a>
 ## Démarrage rapide
 
-1. Ouvrez la [release 2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2) (RVT Converter, RVT to IFC) ou la [page des releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (autres paquets)
+1. Ouvrez la [release latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest) (RVT Converter, RVT to IFC) ou la [page des releases](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (autres paquets)
    et téléchargez le paquet dont vous avez besoin — un `*-Setup.exe` (installateur par utilisateur) ou un `*-portable.zip`.
 2. Vérifiez le téléchargement avec `SHA256SUMS.txt` de la même release :
    ```powershell

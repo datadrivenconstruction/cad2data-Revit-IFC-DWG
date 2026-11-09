@@ -1,3 +1,5 @@
+> **غير تابع لشركة Autodesk.** Autodesk وAutoCAD وDWG وRevit علامات تجارية لشركة Autodesk, Inc.؛ وIFC وbuildingSMART علامتان تجاريتان لشركة buildingSMART International Ltd.؛ وMicrosoft وExcel وPower BI علامات تجارية لشركة Microsoft Corporation. DataDrivenConstruction برمجيات مستقلة وغير تابعة لهذه الشركات ولم تعتمدها أو تصادق عليها. RVT وRFA وDWG وDXF وIFC أسماء صيغ ملفات تُستخدم فقط لبيان الملفات المقروءة. انظر [TRADEMARK.md](TRADEMARK.md).
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •
@@ -39,7 +41,7 @@
 
 DDC Converters 2.0 هو إصدار أكتوبر 2026 لخط المنتجات بالكامل: RVT Converter 2.0 وRVT to IFC 2.0
 وIFC to Excel 2.0 وCAD Drawing to Excel 2.0 وData Viewer 2.0 وExcel Add-in 2.0.
-البنية الحالية لـ RVT Converter وRVT to IFC هي [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2).
+البنية الحالية لـ RVT Converter وRVT to IFC هي [latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest).
 
 - **أداة واحدة لكل عائلة صيغ.** تحويل `.rvt` / `.rfa` إلى GLB وglTF وOBJ وIFC4 وجداول JSONL / CSV / SQLite؛
   و`.ifc` / `.ifczip` إلى Excel وJSONL وSQLite؛ و`.dwg` إلى Excel وCSV وJSONL وDXF وSVG.
@@ -105,7 +107,7 @@ Revit النموذجية المفتوحة (ترخيص MIT)، والمبنى ال
 <a id="quick-start"></a>
 ## البدء السريع
 
-1. افتح [إصدار 2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2) (RVT Converter وRVT to IFC) أو [صفحة الإصدارات](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (الحزم الأخرى)
+1. افتح [إصدار latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest) (RVT Converter وRVT to IFC) أو [صفحة الإصدارات](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases) (الحزم الأخرى)
    ونزّل الحزمة التي تحتاجها — ملف `*-Setup.exe` (مثبّت لكل مستخدم) أو `*-portable.zip`.
 2. تحقق من التنزيل باستخدام `SHA256SUMS.txt` من الإصدار نفسه:
    ```powershell

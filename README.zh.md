@@ -1,3 +1,5 @@
+> **与 Autodesk 无关联。** Autodesk、AutoCAD、DWG 和 Revit 是 Autodesk, Inc. 的商标；IFC 和 buildingSMART 是 buildingSMART International Ltd. 的商标；Microsoft、Excel 和 Power BI 是 Microsoft Corporation 的商标。DataDrivenConstruction 是独立软件，与上述公司无关联，也未获其认可或认证。RVT、RFA、DWG、DXF 和 IFC 是文件格式名称，仅用于说明可读取哪些文件。参见 [TRADEMARK.md](TRADEMARK.md)。
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •
@@ -37,7 +39,7 @@
 
 DDC Converters 2.0 是整个产品线 2026 年 10 月的版本：RVT Converter 2.0、RVT to IFC 2.0、
 IFC to Excel 2.0、CAD Drawing to Excel 2.0、Data Viewer 2.0 和 Excel Add-in 2.0。
-当前的 RVT Converter 和 RVT to IFC 构建版本为 [2.0.2](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2)。
+当前的 RVT Converter 和 RVT to IFC 构建版本为 [latest](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest)。
 
 - **每类格式一个工具。** `.rvt` / `.rfa` 转为 GLB、glTF、OBJ、IFC4 以及 JSONL / CSV / SQLite 表格；
   `.ifc` / `.ifczip` 转为 Excel、JSONL 和 SQLite；`.dwg` 转为 Excel、CSV、JSONL、DXF 和 SVG。
@@ -103,7 +105,7 @@ Revit 示例模型（MIT 许可证）、查看器自带的合成示例建筑，�
 <a id="quick-start"></a>
 ## 快速开始
 
-1. 打开 [2.0.2 版本](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/tag/v2.0.2)（RVT Converter、RVT to IFC）或 [Releases 页面](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（其他软件包），
+1. 打开 [latest 版本](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases/latest)（RVT Converter、RVT to IFC）或 [Releases 页面](https://github.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/releases)（其他软件包），
    下载所需的软件包 — `*-Setup.exe`（按用户安装的安装程序）或 `*-portable.zip`。
 2. 使用同一版本中的 `SHA256SUMS.txt` 校验下载文件：
    ```powershell
