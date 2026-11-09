@@ -6,4 +6,4 @@ Third-party sample models are **not** redistributed in this repository.
 To test the converters with other RVT or DWG sample models, download them directly from their publisher
 under the publisher's own terms and place them in this folder locally.
 
-The former Duplex sample (`Ifc2x3_Duplex_Architecture.ifc`) was moved to `_archive/Sample_Projects/` because no source and licence could be stated for it. Use your own IFC file or a model you may redistribute.
+A former IFC sample was removed from this repository because no source and licence could be stated for it. Use your own IFC file or a model you may redistribute.

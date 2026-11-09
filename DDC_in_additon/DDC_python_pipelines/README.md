@@ -14,7 +14,7 @@ environment variables `DDC_RVT`, `DDC_MODEL`, `DDC_BATCH` and `DDC_OUT` override
 |---|---|
 | 1 Conversion of a single Revit project | Ported. Runs `RVTconverter.exe --properties --ifc`, builds `<name>_rvt.xlsx`, sums `Volume` by `Type Name`. |
 | 2 Batch conversion Revit / IFC | Ported. Converts every `.rvt` and `.ifc` of a folder to `<path>\converted\<name>_rvt|_ifc` and writes the tables `<name>_rvt.xlsx` / `_ifc.xlsx`. |
-| 3 Example of data processing | Ported. Input: `.ifc` file (the former bundled Duplex sample was archived; use your own IFC), `.rvt` or `.dwg`. Categories work for both `OST_` codes and IFC classes. |
+| 3 Example of data processing | Ported. Input: `.ifc` file (no sample is bundled; use your own IFC), `.rvt` or `.dwg`. Categories work for both `OST_` codes and IFC classes. |
 | 4 Dataframe from Revit / IFC | Ported, same input as 3. |
 | 5 Batch processing, charts | Ported. Convert a folder, then a bar chart per table. |
 | 6 Quick QTO for all files in a folder | Ported. Converts the models to CSV tables, then grouped sums per `Type Name` with element ids. |

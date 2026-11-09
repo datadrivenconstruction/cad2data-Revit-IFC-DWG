@@ -1,3 +1,5 @@
+> **غير تابع لشركة Autodesk.** Autodesk وAutoCAD وDWG وRevit علامات تجارية لشركة Autodesk, Inc.؛ وIFC وbuildingSMART علامتان تجاريتان لشركة buildingSMART International Ltd.؛ وMicrosoft وExcel وPower BI علامات تجارية لشركة Microsoft Corporation. DataDrivenConstruction برمجيات مستقلة وغير تابعة لهذه الشركات ولم تعتمدها أو تصادق عليها. RVT وRFA وDWG وDXF وIFC أسماء صيغ ملفات تُستخدم فقط لبيان الملفات المقروءة. انظر [TRADEMARK.md](TRADEMARK.md).
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •

@@ -76,7 +76,7 @@ echo $?    # 0 = pass, 1 = failing rules, 2 = bad input or rules file
 
 ![Traffic-light summary](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/check_summary.png)
 
-*Real run on the IFC Duplex sample of this repository, converted by DDC IFC to Excel 2.0
+*Real run on the sample IFC model, converted by DDC IFC to Excel 2.0
 (`examples/rules_ifc.yaml`). The picture is drawn from the cell contents of the generated XLSX
 (`docs/render_xlsx_png.py`), not a screenshot of Excel. The door fire ratings in that model hold the
 placeholder text "Fire Rating", which the rule `IFC-DOOR-FIRE-VALUE` flags.*
@@ -236,7 +236,7 @@ What changed between two issues of a model? Both sides are read with the same ad
 folders or files in any supported format.
 
 ```bash
-ddc diff Duplex_v1 Duplex_v2 --xlsx changes.xlsx --json changes.json
+ddc diff model_v1 model_v2 --xlsx changes.xlsx --json changes.json
 ddc diff R24 R24_v2 --glb diff.glb --bcf issues.bcf        # RVT outputs with native_graph.glb
 ddc diff A B --fail-on removed,modified                    # CI: exit code 1 only for these statuses
 ```
@@ -292,7 +292,7 @@ What changed between two issues of a model? Both sides are read with the same ad
 folders or files in any supported format.
 
 ```bash
-ddc diff Duplex_v1 Duplex_v2 --xlsx changes.xlsx --json changes.json
+ddc diff model_v1 model_v2 --xlsx changes.xlsx --json changes.json
 ddc diff R24 R24_v2 --glb diff.glb --bcf issues.bcf        # RVT outputs with native_graph.glb
 ddc diff A B --fail-on removed,modified                    # CI: exit code 1 only for these statuses
 ```
@@ -376,13 +376,13 @@ network is missing.
 ```bash
 ddc qto export_folder --xlsx qto.xlsx
 ddc qto model.xlsx --category "Wall*" --quantities Area,Volume --json qto.json
-# IFC to Excel output of the Duplex sample, walls, slabs and coverings only
-ddc qto Duplex.converted --category "IfcWall*" --category IfcSlab --category IfcCovering     --quantities "PSet_Revit_Dimensions.Length,PSet_Revit_Dimensions.Area,PSet_Revit_Dimensions.Volume" --xlsx qto.xlsx
+# IFC to Excel output of a sample model, walls, slabs and coverings only
+ddc qto model.converted --category "IfcWall*" --category IfcSlab --category IfcCovering     --quantities "PSet_Revit_Dimensions.Length,PSet_Revit_Dimensions.Area,PSet_Revit_Dimensions.Volume" --xlsx qto.xlsx
 ```
 
 ![QTO by type](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/qto_by_type.png)
 
-*Same run, walls, slabs and coverings of the Duplex model; quantities as stored in the IFC.*
+*Same run, walls, slabs and coverings of the sample model; quantities as stored in the IFC.*
 
 Workbook sheets: `Read me`, `By Category`, `By Type`, `By Level`, `Detail` (category + type + level),
 `Warnings`. Every table has filters, a frozen header and a `SUBTOTAL` total row that follows the filter.

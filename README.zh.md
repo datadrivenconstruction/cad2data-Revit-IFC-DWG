@@ -1,3 +1,5 @@
+> **与 Autodesk 无关联。** Autodesk、AutoCAD、DWG 和 Revit 是 Autodesk, Inc. 的商标；IFC 和 buildingSMART 是 buildingSMART International Ltd. 的商标；Microsoft、Excel 和 Power BI 是 Microsoft Corporation 的商标。DataDrivenConstruction 是独立软件，与上述公司无关联，也未获其认可或认证。RVT、RFA、DWG、DXF 和 IFC 是文件格式名称，仅用于说明可读取哪些文件。参见 [TRADEMARK.md](TRADEMARK.md)。
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •

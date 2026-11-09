@@ -1,3 +1,5 @@
+> **Autodesk とは提携していません。** Autodesk、AutoCAD、DWG、Revit は Autodesk, Inc. の商標です。IFC と buildingSMART は buildingSMART International Ltd. の商標です。Microsoft、Excel、Power BI は Microsoft Corporation の商標です。DataDrivenConstruction は独立したソフトウェアであり、これらの企業と提携しておらず、承認・認定も受けていません。RVT、RFA、DWG、DXF、IFC は読み取り対象のファイルを示すためだけに使うファイル形式名です。[TRADEMARK.md](TRADEMARK.md) を参照してください。
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •

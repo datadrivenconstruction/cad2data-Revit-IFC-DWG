@@ -2,7 +2,7 @@
 
 Trimmed real converter output, a handful of elements each:
 
-* `ifc_excel/data.jsonl` - DDC IFC to Excel 0.3.1-preview run on `Sample_Projects/Ifc2x3_Duplex_Architecture.ifc`
+* `ifc_excel/data.jsonl` (not shipped; tests skip without it) - DDC IFC to Excel 0.3.1-preview run on an IFC sample
   (open sample): 19 objects with their property sets, types, storeys and materials.
 * `rvt_converted/properties.jsonl`, `native_graph.ifc` - synthetic. The layout is that of RVT Converter 0.6.8 output
   (`--properties --ifc`), but every id, name, GUID and number is invented (two walls, a wall type, a level, one phase).

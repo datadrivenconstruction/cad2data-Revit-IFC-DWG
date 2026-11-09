@@ -1,3 +1,5 @@
+> **Nicht mit Autodesk verbunden.** Autodesk, AutoCAD, DWG und Revit sind Marken von Autodesk, Inc.; IFC und buildingSMART sind Marken von buildingSMART International Ltd.; Microsoft, Excel und Power BI sind Marken der Microsoft Corporation. DataDrivenConstruction ist unabhängige Software und steht in keiner Verbindung zu diesen Unternehmen, wird von ihnen weder unterstützt noch zertifiziert. RVT, RFA, DWG, DXF und IFC sind Dateiformat-Namen, die nur angeben, welche Dateien gelesen werden. Siehe [TRADEMARK.md](TRADEMARK.md).
+
 <p align="center">
   <a href="README.md">English</a> •
   <a href="README.de.md">Deutsch</a> •
