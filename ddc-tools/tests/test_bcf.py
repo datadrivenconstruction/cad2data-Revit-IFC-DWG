@@ -11,7 +11,7 @@ from ddc_tools import bcf, cli, diff
 
 FIX = Path(__file__).parent / "fixtures"
 ROOT = Path(__file__).resolve().parents[1]
-A, B = FIX / "ifc_duplex_excerpt", FIX / "ifc_duplex_excerpt_v2"
+A, B = FIX / "ifc_excerpt", FIX / "ifc_excerpt_v2"
 IFC_RULES = ROOT / "examples" / "rules_ifc.yaml"
 
 
@@ -57,13 +57,13 @@ def test_diff_export_is_valid_bcf(diff_json, tmp_path, bcf_validator, version, p
 def test_options_stay_valid(diff_json, tmp_path, bcf_validator, version):
     out = tmp_path / "o.bcf"
     rc = cli.main(["bcf", "export", str(diff_json), "-o", str(out), "--only", "added", "--camera", "10,-10,8,-1,1,-0.5",
-                   "--author", "me@example.org", "--model-name", "Duplex_v2.ifc", "--max-components", "1",
+                   "--author", "me@example.org", "--model-name", "model_v2.ifc", "--max-components", "1",
                    "--version", version])
     assert rc == 0
     assert bcf_validator(out, version)[0] == []
     res = bcf.read_bcf(str(out))
     assert sorted(t["title"] for t in res["topics"]) == ["Added: IfcDoor (1)", "Added: IfcWallStandardCase (1)"]
-    assert all(t["author"] == "me@example.org" and t["files"] == ["Duplex_v2.ifc"] for t in res["topics"])
+    assert all(t["author"] == "me@example.org" and t["files"] == ["model_v2.ifc"] for t in res["topics"])
     assert all(v["camera"] == "perspective" for t in res["topics"] for v in t["viewpoints"])
 
 

@@ -13,8 +13,8 @@ from _glbutil import write_cubes
 
 FIX = Path(__file__).parent / "fixtures"
 DATA = Path(__file__).parent / "data"
-A = FIX / "ifc_duplex_excerpt"
-B = FIX / "ifc_duplex_excerpt_v2"
+A = FIX / "ifc_excerpt"
+B = FIX / "ifc_excerpt_v2"
 
 WALL = "2O2Fr$t4X7Zf8NOew3FNld"          # modified: re-measured, FireRating added, now external
 WINDOW = "1hOSvn6df7F8_7GcBWlRBU"        # modified: renamed

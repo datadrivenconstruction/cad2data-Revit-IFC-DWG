@@ -218,7 +218,6 @@ The `n8n_*.json` files are **visual representations of process logic** - use the
 
 - Book: `DATA_DRIVEN_CONSTRUCTION_BOOK.txt` (in this folder)
 - n8n Workflows: `n8n_*.json` (in repository root)
-- Sample Data: `Sample_Projects/` folder
 - DDC CWICR Database: 55,719 work items for cost estimation
 
 ---

@@ -10,7 +10,6 @@ Before opening a pull request, please read this short guide.
 - n8n workflow JSON files
 - AI agent instruction files under `AI_AGENTS_INSTRUCTIONS/`
 - Python utility scripts
-- Sample project files under `Sample_Projects/`
 - Additional assets under `DDC_in_additon/`
 - Documentation (README files in any language, other `*.md`)
 

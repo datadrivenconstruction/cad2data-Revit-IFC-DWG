@@ -82,11 +82,11 @@ def bcf_validator(tmp_path_factory):
 
 
 # ---------------------------------------------------------------------------- optional IFC fixtures
-# The IFC-derived fixtures (ifc_excel, ifc_duplex_excerpt*) are not shipped in the public tree; tests that
+# The IFC-derived fixtures (ifc_excel, ifc_excerpt*) are not shipped in the public tree; tests that
 # need them are skipped when the folders are absent. Drop your own IFC to Excel output into them to run.
 _OPTIONAL = {
     "ifc_excel": Path(__file__).parent / "data" / "ifc_excel",
-    "ifc_duplex_excerpt": Path(__file__).parent / "fixtures" / "ifc_duplex_excerpt",
+    "ifc_excerpt": Path(__file__).parent / "fixtures" / "ifc_excerpt",
 }
 
 

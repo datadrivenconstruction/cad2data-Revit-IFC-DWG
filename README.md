@@ -86,14 +86,14 @@ and no Python installation. Linux and macOS command-line builds are in the [v202
 ## Screenshots
 
 All screenshots below come from real runs of the packages in the current release. They use open
-Revit sample models (MIT licence), the viewer's synthetic sample building and the open IFC sample in [`Sample_Projects/`](Sample_Projects/).
+Revit sample models (MIT licence) and the viewer's synthetic sample building.
 
 | | |
 |---|---|
 | ![RVT Converter 2.0.12: two sample models converted, result panel and IFC options open](docs/images/2.0.12/rvt-converter-done.png) | ![RVT to IFC 2.0.12: IFC options panel](docs/images/2.0.12/rvt-to-ifc-options.png) |
 | **DDC RVT Converter** — two sample models converted; the result folder is listed per file, the side panel shows the summary and IFC options. | **DDC RVT to IFC** — length unit, coordinate origin and the other IFC settings in *More options*. |
-| ![Data Viewer: 3D selection linked to table rows](docs/images/data-viewer-3d-selection.png) | ![IFC to Excel output in the Data Viewer, grouped by IFC class](docs/images/ifc-to-excel-table.png) |
-| **DDC Data Viewer** — a filter on *Structural Columns* highlights the linked elements in 3D; the summary panel sums area, volume and length. | **DDC IFC to Excel** — `drawing.xlsx` of an IFC sample, grouped by IFC class (333 objects, 23 classes). |
+| ![Data Viewer: 3D selection linked to table rows](docs/images/data-viewer-3d-selection.png) | ![Data Viewer: sample building grouped by category and level](docs/images/data-viewer-3d-grouped.png) |
+| **DDC Data Viewer** — a filter on *Structural Columns* highlights the linked elements in 3D; the summary panel sums area, volume and length. | **DDC Data Viewer** — the synthetic sample building grouped by category and level, with column sums and the linked 3D view. |
 | ![Command line run of RVTconverter](docs/images/cli-rvt-ifc.png) | ![Data Viewer in dark theme](docs/images/data-viewer-dark.png) |
 | **Command line** — `RVTconverter.exe` writes GLB, IFC4, the element table and reports, and prints a status summary. | **Dark theme** — the Data Viewer in the dark theme, with the interface language switch at the top right. |
 
@@ -295,7 +295,6 @@ confidential models.
 | `AI_AGENTS_INSTRUCTIONS/` | instructions for AI coding agents |
 | `DDC_WINDOWS_Converters/` | portable Windows converters (RVT, RVT-to-IFC, IFC to Excel, CAD Drawing to Excel, Data Viewer), licence texts and the Excel → Revit add-in documentation; installers are on the Releases page |
 | `DDC_LINUX_Converters/` | CWICR data packages, Qdrant packaging and telemetry dashboard |
-| `Sample_Projects/` | open IFC sample files |
 
 ## Licensing
 

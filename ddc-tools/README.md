@@ -74,13 +74,6 @@ ddc check export_folder --rules examples/rules_basic.yaml --xlsx report.xlsx --j
 echo $?    # 0 = pass, 1 = failing rules, 2 = bad input or rules file
 ```
 
-![Traffic-light summary](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/check_summary.png)
-
-*Real run on the sample IFC model, converted by DDC IFC to Excel 2.0
-(`examples/rules_ifc.yaml`). The picture is drawn from the cell contents of the generated XLSX
-(`docs/render_xlsx_png.py`), not a screenshot of Excel. The door fire ratings in that model hold the
-placeholder text "Fire Rating", which the rule `IFC-DOOR-FIRE-VALUE` flags.*
-
 Rules file (YAML):
 
 ```yaml
@@ -257,10 +250,6 @@ GlobalIds) are not counted as changes; a warning says how many differ.
 (category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
 `--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
 
-![Summary sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_summary.png)
-
-![Changelog sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_changelog.png)
-
 The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
 `Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
 elements are left out unless `--include-unchanged`.
@@ -313,10 +302,6 @@ GlobalIds) are not counted as changes; a warning says how many differ.
 (category, type, name, level, material, layer) and `property` (everything else). Numbers are equal within
 `--tolerance` (relative, default 1e-6); `--ignore GLOB` skips columns.
 
-![Summary sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_summary.png)
-
-![Changelog sheet](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/diff_changelog.png)
-
 The XLSX has sheets `Summary`, `Changelog` (one row per change, status colours), `Elements`, `By category` and
 `Quantities` (totals per category in A and B). The JSON holds the same data plus the key diagnostics; unchanged
 elements are left out unless `--include-unchanged`.
@@ -365,8 +350,6 @@ ddc bcf read check.bcf --xlsx bcf_summary.xlsx                              # an
 * `ddc bcf read` writes `Summary`, `Topics`, `Comments` and `Components` sheets (and `--json`). Files with a
   DOCTYPE or entity declaration are refused.
 
-![BCF topics](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/bcf_topics.png)
-
 The buildingSMART XSD files are licensed CC BY-ND 4.0, not a permissive licence, so they are not part of this
 repository; the tests download them on demand (set `DDC_BCF_XSD_DIR` to reuse a folder) and skip when `lxml` or the
 network is missing.
@@ -379,10 +362,6 @@ ddc qto model.xlsx --category "Wall*" --quantities Area,Volume --json qto.json
 # IFC to Excel output of a sample model, walls, slabs and coverings only
 ddc qto model.converted --category "IfcWall*" --category IfcSlab --category IfcCovering     --quantities "PSet_Revit_Dimensions.Length,PSet_Revit_Dimensions.Area,PSet_Revit_Dimensions.Volume" --xlsx qto.xlsx
 ```
-
-![QTO by type](https://raw.githubusercontent.com/datadrivenconstruction/cad2data-Revit-IFC-DWG/main/ddc-tools/docs/qto_by_type.png)
-
-*Same run, walls, slabs and coverings of the sample model; quantities as stored in the IFC.*
 
 Workbook sheets: `Read me`, `By Category`, `By Type`, `By Level`, `Detail` (category + type + level),
 `Warnings`. Every table has filters, a frozen header and a `SUBTOTAL` total row that follows the filter.
